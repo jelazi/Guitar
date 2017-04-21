@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+    <LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+
+        android:orientation="horizontal"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@drawable/fingerboard"
+    >
+
+
+
+        <ImageButton
+            android:id="@+id/imageButton6"
+            android:layout_width="0dip"
+            android:layout_height="fill_parent"
+            android:layout_weight="16"
+            android:background="@null"
+             />
+
+        <ImageButton
+            android:id="@+id/imageButton5"
+            android:layout_width="0dip"
+            android:layout_height="fill_parent"
+            android:layout_weight="16"
+            android:background="@null"
+             />
+
+        <ImageButton
+            android:id="@+id/imageButton4"
+            android:layout_width="0dip"
+            android:layout_height="fill_parent"
+            android:layout_weight="16"
+            android:background="@null"
+             />
+
+        <ImageButton
+            android:id="@+id/imageButton3"
+            android:layout_width="0dip"
+            android:layout_height="fill_parent"
+            android:layout_weight="16"
+            android:background="@null"
+             />
+
+        <ImageButton
+            android:id="@+id/imageButton2"
+            android:layout_width="0dip"
+            android:layout_height="fill_parent"
+            android:layout_weight="16"
+            android:background="@null"
+             />
+
+        <ImageButton
+            android:id="@+id/imageButton"
+            android:layout_width="0dip"
+            android:layout_height="fill_parent"
+            android:layout_weight="16"
+            android:background="@null"
+             />
+    </LinearLayout>
+
+

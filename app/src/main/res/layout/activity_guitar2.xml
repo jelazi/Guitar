@@ -168,35 +168,35 @@
                 android:orientation="vertical">
 
                 <ImageButton
-                    android:id="@+id/imageButton60"
+                    android:id="@+id/imageButton10"
                     android:layout_width="fill_parent"
                     android:layout_height="0dip"
                     android:layout_weight="20"
                     android:background="@null" />
 
                 <ImageButton
-                    android:id="@+id/imageButton61"
+                    android:id="@+id/imageButton11"
                     android:layout_width="fill_parent"
                     android:layout_height="0dip"
                     android:layout_weight="20"
                     android:background="@null" />
 
                 <ImageButton
-                    android:id="@+id/imageButton62"
+                    android:id="@+id/imageButton12"
                     android:layout_width="fill_parent"
                     android:layout_height="0dip"
                     android:layout_weight="20"
                     android:background="@null" />
 
                 <ImageButton
-                    android:id="@+id/imageButton63"
+                    android:id="@+id/imageButton13"
                     android:layout_width="fill_parent"
                     android:layout_height="0dip"
                     android:layout_weight="20"
                     android:background="@null" />
 
                 <ImageButton
-                    android:id="@+id/imageButton64"
+                    android:id="@+id/imageButton14"
                     android:layout_width="fill_parent"
                     android:layout_height="0dip"
                     android:layout_weight="20"
@@ -205,135 +205,6 @@
 
             <LinearLayout
                 android:id="@+id/LinearLayout5"
-                android:layout_width="0dip"
-                android:layout_height="fill_parent"
-                android:layout_weight="16"
-                android:orientation="vertical">
-
-                <ImageButton
-                    android:id="@+id/imageButton50"
-                    android:layout_width="fill_parent"
-                    android:layout_height="0dip"
-                    android:layout_weight="20"
-                    android:background="@null" />
-
-                <ImageButton
-                    android:id="@+id/imageButton51"
-                    android:layout_width="fill_parent"
-                    android:layout_height="0dip"
-                    android:layout_weight="20"
-                    android:background="@null" />
-
-                <ImageButton
-                    android:id="@+id/imageButton52"
-                    android:layout_width="fill_parent"
-                    android:layout_height="0dip"
-                    android:layout_weight="20"
-                    android:background="@null" />
-
-                <ImageButton
-                    android:id="@+id/imageButton53"
-                    android:layout_width="fill_parent"
-                    android:layout_height="0dip"
-                    android:layout_weight="20"
-                    android:background="@null" />
-
-                <ImageButton
-                    android:id="@+id/imageButton54"
-                    android:layout_width="fill_parent"
-                    android:layout_height="0dip"
-                    android:layout_weight="20"
-                    android:background="@null" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/LinearLayout4"
-                android:layout_width="0dip"
-                android:layout_height="fill_parent"
-                android:layout_weight="16"
-                android:orientation="vertical">
-
-                <ImageButton
-                    android:id="@+id/imageButton40"
-                    android:layout_width="fill_parent"
-                    android:layout_height="0dip"
-                    android:layout_weight="20"
-                    android:background="@null" />
-
-                <ImageButton
-                    android:id="@+id/imageButton41"
-                    android:layout_width="fill_parent"
-                    android:layout_height="0dip"
-                    android:layout_weight="20"
-                    android:background="@null" />
-
-                <ImageButton
-                    android:id="@+id/imageButton42"
-                    android:layout_width="fill_parent"
-                    android:layout_height="0dip"
-                    android:layout_weight="20"
-                    android:background="@null" />
-
-                <ImageButton
-                    android:id="@+id/imageButton43"
-                    android:layout_width="fill_parent"
-                    android:layout_height="0dip"
-                    android:layout_weight="20"
-                    android:background="@null" />
-
-                <ImageButton
-                    android:id="@+id/imageButton44"
-                    android:layout_width="fill_parent"
-                    android:layout_height="0dip"
-                    android:layout_weight="20"
-                    android:background="@null" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/LinearLayout3"
-                android:layout_width="0dip"
-                android:layout_height="fill_parent"
-                android:layout_weight="16"
-                android:orientation="vertical">
-
-                <ImageButton
-                    android:id="@+id/imageButton30"
-                    android:layout_width="fill_parent"
-                    android:layout_height="0dip"
-                    android:layout_weight="20"
-                    android:background="@null" />
-
-                <ImageButton
-                    android:id="@+id/imageButton31"
-                    android:layout_width="fill_parent"
-                    android:layout_height="0dip"
-                    android:layout_weight="20"
-                    android:background="@null" />
-
-                <ImageButton
-                    android:id="@+id/imageButton32"
-                    android:layout_width="fill_parent"
-                    android:layout_height="0dip"
-                    android:layout_weight="20"
-                    android:background="@null" />
-
-                <ImageButton
-                    android:id="@+id/imageButton33"
-                    android:layout_width="fill_parent"
-                    android:layout_height="0dip"
-                    android:layout_weight="20"
-                    android:background="@null" />
-
-                <ImageButton
-                    android:id="@+id/imageButton34"
-                    android:layout_width="fill_parent"
-                    android:layout_height="0dip"
-                    android:layout_weight="20"
-                    android:background="@null" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/LinearLayout2"
                 android:layout_width="0dip"
                 android:layout_height="fill_parent"
                 android:layout_weight="16"
@@ -376,6 +247,135 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/LinearLayout4"
+                android:layout_width="0dip"
+                android:layout_height="fill_parent"
+                android:layout_weight="16"
+                android:orientation="vertical">
+
+                <ImageButton
+                    android:id="@+id/imageButton30"
+                    android:layout_width="fill_parent"
+                    android:layout_height="0dip"
+                    android:layout_weight="20"
+                    android:background="@null" />
+
+                <ImageButton
+                    android:id="@+id/imageButton31"
+                    android:layout_width="fill_parent"
+                    android:layout_height="0dip"
+                    android:layout_weight="20"
+                    android:background="@null" />
+
+                <ImageButton
+                    android:id="@+id/imageButton32"
+                    android:layout_width="fill_parent"
+                    android:layout_height="0dip"
+                    android:layout_weight="20"
+                    android:background="@null" />
+
+                <ImageButton
+                    android:id="@+id/imageButton33"
+                    android:layout_width="fill_parent"
+                    android:layout_height="0dip"
+                    android:layout_weight="20"
+                    android:background="@null" />
+
+                <ImageButton
+                    android:id="@+id/imageButton34"
+                    android:layout_width="fill_parent"
+                    android:layout_height="0dip"
+                    android:layout_weight="20"
+                    android:background="@null" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/LinearLayout3"
+                android:layout_width="0dip"
+                android:layout_height="fill_parent"
+                android:layout_weight="16"
+                android:orientation="vertical">
+
+                <ImageButton
+                    android:id="@+id/imageButton40"
+                    android:layout_width="fill_parent"
+                    android:layout_height="0dip"
+                    android:layout_weight="20"
+                    android:background="@null" />
+
+                <ImageButton
+                    android:id="@+id/imageButton41"
+                    android:layout_width="fill_parent"
+                    android:layout_height="0dip"
+                    android:layout_weight="20"
+                    android:background="@null" />
+
+                <ImageButton
+                    android:id="@+id/imageButton42"
+                    android:layout_width="fill_parent"
+                    android:layout_height="0dip"
+                    android:layout_weight="20"
+                    android:background="@null" />
+
+                <ImageButton
+                    android:id="@+id/imageButton43"
+                    android:layout_width="fill_parent"
+                    android:layout_height="0dip"
+                    android:layout_weight="20"
+                    android:background="@null" />
+
+                <ImageButton
+                    android:id="@+id/imageButton44"
+                    android:layout_width="fill_parent"
+                    android:layout_height="0dip"
+                    android:layout_weight="20"
+                    android:background="@null" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/LinearLayout2"
+                android:layout_width="0dip"
+                android:layout_height="fill_parent"
+                android:layout_weight="16"
+                android:orientation="vertical">
+
+                <ImageButton
+                    android:id="@+id/imageButton50"
+                    android:layout_width="fill_parent"
+                    android:layout_height="0dip"
+                    android:layout_weight="20"
+                    android:background="@null" />
+
+                <ImageButton
+                    android:id="@+id/imageButton51"
+                    android:layout_width="fill_parent"
+                    android:layout_height="0dip"
+                    android:layout_weight="20"
+                    android:background="@null" />
+
+                <ImageButton
+                    android:id="@+id/imageButton52"
+                    android:layout_width="fill_parent"
+                    android:layout_height="0dip"
+                    android:layout_weight="20"
+                    android:background="@null" />
+
+                <ImageButton
+                    android:id="@+id/imageButton53"
+                    android:layout_width="fill_parent"
+                    android:layout_height="0dip"
+                    android:layout_weight="20"
+                    android:background="@null" />
+
+                <ImageButton
+                    android:id="@+id/imageButton54"
+                    android:layout_width="fill_parent"
+                    android:layout_height="0dip"
+                    android:layout_weight="20"
+                    android:background="@null" />
+            </LinearLayout>
+
+            <LinearLayout
                 android:id="@+id/LinearLayout1"
                 android:layout_width="0dip"
                 android:layout_height="fill_parent"
@@ -385,35 +385,35 @@
                 >
 
                 <ImageButton
-                    android:id="@+id/imageButton10"
+                    android:id="@+id/imageButton60"
                     android:layout_width="fill_parent"
                     android:layout_height="0dip"
                     android:layout_weight="20"
                     android:background="@null" />
 
                 <ImageButton
-                    android:id="@+id/imageButton11"
+                    android:id="@+id/imageButton61"
                     android:layout_width="fill_parent"
                     android:layout_height="0dip"
                     android:layout_weight="20"
                     android:background="@null" />
 
                 <ImageButton
-                    android:id="@+id/imageButton12"
+                    android:id="@+id/imageButton62"
                     android:layout_width="fill_parent"
                     android:layout_height="0dip"
                     android:layout_weight="20"
                     android:background="@null" />
 
                 <ImageButton
-                    android:id="@+id/imageButton13"
+                    android:id="@+id/imageButton63"
                     android:layout_width="fill_parent"
                     android:layout_height="0dip"
                     android:layout_weight="20"
                     android:background="@null" />
 
                 <ImageButton
-                    android:id="@+id/imageButton14"
+                    android:id="@+id/imageButton64"
                     android:layout_width="fill_parent"
                     android:layout_height="0dip"
                     android:layout_weight="20"

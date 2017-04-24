@@ -1,67 +1,315 @@
 package lubin.guitar;
 
+import android.widget.Switch;
+
 /**
  * Created by Lubin on 23.4.2017.
  * Rozpeti tonu
  */
 
-public class Tones {
 
-    private float string14 = 1.443f;
-    private float string13 = 1.361f;
-    private float string12 = 1.285f;
-    private float string11 = 1.212f;
-    private float string10 = 1.145f;
-    private float string24 = 1.081f;
-    private float string23 = 1.020f;
-    private float string22 = 0.963f;
-    private float string21 = 0.908f;
-    private float string20 = 0.858f;
-    private float string34 = 0.858f;
-    private float string33 = 0.809f;
-    private float string32 = 0.764f;
-    private float string31 = 0.721f;
-    private float string30 = 0.680f;
-    private float string44 = 0.643f;
-    private float string43 = 0.607f;
-    private float string42 = 0.573f;
-    private float string41 = 0.541f;
-    private float string40 = 0.510f;
-    private float string54 = 0.482f;
-    private float string53 = 0.454f;
-    private float string52 = 0.429f;
-    private float string51 = 0.405f;
-    private float string50 = 0.382f;
-    private float string64 = 0.361f;
-    private float string63 = 0.340f;
-    private float string62 = 0.321f;
-    private float string61 = 0.303f;
-    private float string60 = 0.286f;
 
-    private float Gis4 = string14;
-    private float G4 = string13;
-    private float Fis4 = string12;
-    private float F4 = string11;
-    private float E4 = string10;
-    private float Dis4 = string24;
-    private float D4 = string23;
-    private float Cis4 = string22;
-    private float C4 = string21;
-    private float B3 = string20;
-    private float B32 = string34;
-    private float Ais3 = string33;
-    private float A3 = string32;
-    private float Gis3 = string31;
-    private float G3 = string30;
-    private float Fis3 = string44;
-    private float F3 = string43;
-    private float E3 = string42;
-    private float Dis3 = string41;
-    private float D3 = string40;
-    private float Cis3 = string54;
-    private float C3 = string53;
-    private float B2 = string52;
-    private float Ais2 = string51;
+final class Tones {
+
+    final float string64 = 1.443f;
+    final float string63 = 1.361f;
+    final float string62 = 1.285f;
+    final float string61 = 1.212f;
+    final float string60 = 1.145f;
+    final float string54 = 1.081f;
+    final float string53 = 1.020f;
+    final float string52 = 0.963f;
+    final float string51 = 0.908f;
+    final float string50 = 0.858f;
+    final float string44 = 0.858f;
+    final float string43 = 0.809f;
+    final float string42 = 0.764f;
+    final float string41 = 0.721f;
+    final float string40 = 0.680f;
+    final float string34 = 0.643f;
+    final float string33 = 0.607f;
+    final float string32 = 0.573f;
+    final float string31 = 0.541f;
+    final float string30 = 0.510f;
+    final float string24 = 0.482f;
+    final float string23 = 0.454f;
+    final float string22 = 0.429f;
+    final float string21 = 0.405f;
+    final float string20 = 0.382f;
+    final float string14 = 0.361f;
+    final float string13 = 0.340f;
+    final float string12 = 0.321f;
+    final float string11 = 0.303f;
+    final float string10 = 0.286f;
+
+    final float Gis4 = string64;
+    final float G4 = string63;
+    final float Fis4 = string62;
+    final float F4 = string61;
+    final float E4 = string60;
+    final float Dis4 = string54;
+    final float D4 = string53;
+    final float Cis4 = string52;
+    final float C4 = string51;
+    final float B3 = string50;
+    final float B32 = string44;
+    final float Ais3 = string43;
+    final float A3 = string42;
+    final float Gis3 = string41;
+    final float G3 = string40;
+    final float Fis3 = string34;
+    final float F3 = string33;
+    final float E3 = string32;
+    final float Dis3 = string31;
+    final float D3 = string30;
+    final float Cis3 = string24;
+    final float C3 = string23;
+    final float B2 = string22;
+    final float Ais2 = string21;
+    final float A2 = string20;
+    final float Gis2 = string14;
+    final float G2 = string13;
+    final float Fis2 = string12;
+    final float F2 = string11;
+    final float E2 = string10;
+    final float silent = 0;
+
+
+
+
+
+    public float[] getAkord(String akord){
+        float[] akordString = new float[6];
+
+        switch (akord){
+            case "Cdur":{
+                akordString[0] = G2;
+                akordString[1] = C3;
+                akordString[2] = E3;
+                akordString[3] = G3;
+                akordString[4] = C4;
+                akordString[5] = E4;
+                break;
+
+            }
+
+            case "Ddur":{
+                akordString[0] = silent;
+                akordString[1] = silent;
+                akordString[2] = D3;
+                akordString[3] = A3;
+                akordString[4] = D4;
+                akordString[5] = Fis4;
+                break;
+
+            }
+
+
+            case "Edur":{
+                akordString[0] = E2;
+                akordString[1] = B2;
+                akordString[2] = E3;
+                akordString[3] = Gis3;
+                akordString[4] = B3;
+                akordString[5] = E4;
+                break;
+
+            }
+
+
+            case "Fdur":{
+                akordString[0] = F2;
+                akordString[1] = C3;
+                akordString[2] = F3;
+                akordString[3] = A3;
+                akordString[4] = C4;
+                akordString[5] = F4;
+                break;
+
+            }
+
+
+            case "Gdur":{
+                akordString[0] = G2;
+                akordString[1] = B2;
+                akordString[2] = D3;
+                akordString[3] = G3;
+                akordString[4] = B3;
+                akordString[5] = G4;
+                break;
+
+            }
+
+
+            case "Adur":{
+                akordString[0] = silent;
+                akordString[1] = A2;
+                akordString[2] = E3;
+                akordString[3] = A3;
+                akordString[4] = Cis4;
+                akordString[5] = E4;
+                break;
+
+            }
+
+
+            case "Bdur":{
+                akordString[0] = silent;
+                akordString[1] = Ais2;
+                akordString[2] = F3;
+                akordString[3] = Ais3;
+                akordString[4] = D4;
+                akordString[5] = F4;
+                break;
+
+            }
+
+
+            case "Cmi":{
+                akordString[0] = E2;
+                akordString[1] = A2;
+                akordString[2] = D3;
+                akordString[3] = G3;
+                akordString[4] = B3;
+                akordString[5] = E4;
+                break;
+
+            }
+
+
+
+            default:{
+                akordString[0] = E2;
+                akordString[1] = A2;
+                akordString[2] = D3;
+                akordString[3] = G3;
+                akordString[4] = B3;
+                akordString[5] = E4;
+                break;
+            }
+        }
+        return akordString;
+    }
+
+    public float getString14() {
+        return string14;
+    }
+
+    public float getString13() {
+        return string13;
+    }
+
+    public float getString12() {
+        return string12;
+    }
+
+    public float getString11() {
+        return string11;
+    }
+
+    public float getString10() {
+        return string10;
+    }
+
+    public float getString24() {
+        return string24;
+    }
+
+    public float getString23() {
+        return string23;
+    }
+
+    public float getString22() {
+        return string22;
+    }
+
+    public float getString21() {
+        return string21;
+    }
+
+    public float getString20() {
+        return string20;
+    }
+
+    public float getString34() {
+        return string34;
+    }
+
+    public float getString33() {
+        return string33;
+    }
+
+    public float getString32() {
+        return string32;
+    }
+
+    public float getString31() {
+        return string31;
+    }
+
+    public float getString30() {
+        return string30;
+    }
+
+    public float getString44() {
+        return string44;
+    }
+
+    public float getString43() {
+        return string43;
+    }
+
+    public float getString42() {
+        return string42;
+    }
+
+    public float getString41() {
+        return string41;
+    }
+
+    public float getString40() {
+        return string40;
+    }
+
+    public float getString54() {
+        return string54;
+    }
+
+    public float getString53() {
+        return string53;
+    }
+
+    public float getString52() {
+        return string52;
+    }
+
+    public float getString51() {
+        return string51;
+    }
+
+    public float getString50() {
+        return string50;
+    }
+
+    public float getString64() {
+        return string64;
+    }
+
+    public float getString63() {
+        return string63;
+    }
+
+    public float getString62() {
+        return string62;
+    }
+
+    public float getString61() {
+        return string61;
+    }
+
+    public float getString60() {
+        return string60;
+    }
 
     public float getGis4() {
         return Gis4;
@@ -183,251 +431,11 @@ public class Tones {
         return E2;
     }
 
-    private float A2 = string50;
-    private float Gis2 = string64;
-    private float G2 = string63;
-    private float Fis2 = string62;
-    private float F2 = string61;
-    private float E2 = string60;
-
-
-    public float getString14() {
-        return string14;
-    }
-
-    public void setString14(float string14) {
-        this.string14 = string14;
-    }
-
-    public float getString13() {
-        return string13;
-    }
-
-    public void setString13(float string13) {
-        this.string13 = string13;
-    }
-
-    public float getString12() {
-        return string12;
-    }
-
-    public void setString12(float string12) {
-        this.string12 = string12;
-    }
-
-    public float getString11() {
-        return string11;
-    }
-
-    public void setString11(float string11) {
-        this.string11 = string11;
-    }
-
-    public float getString10() {
-        return string10;
-    }
-
-    public void setString10(float string10) {
-        this.string10 = string10;
-    }
-
-    public float getString24() {
-        return string24;
-    }
-
-    public void setString24(float string24) {
-        this.string24 = string24;
-    }
-
-    public float getString23() {
-        return string23;
-    }
-
-    public void setString23(float string23) {
-        this.string23 = string23;
-    }
-
-    public float getString22() {
-        return string22;
-    }
-
-    public void setString22(float string22) {
-        this.string22 = string22;
-    }
-
-    public float getString21() {
-        return string21;
-    }
-
-    public void setString21(float string21) {
-        this.string21 = string21;
-    }
-
-    public float getString20() {
-        return string20;
-    }
-
-    public void setString20(float string20) {
-        this.string20 = string20;
-    }
-
-    public float getString34() {
-        return string34;
-    }
-
-    public void setString34(float string34) {
-        this.string34 = string34;
-    }
-
-    public float getString33() {
-        return string33;
-    }
-
-    public void setString33(float string33) {
-        this.string33 = string33;
-    }
-
-    public float getString32() {
-        return string32;
-    }
-
-    public void setString32(float string32) {
-        this.string32 = string32;
-    }
-
-    public float getString31() {
-        return string31;
-    }
-
-    public void setString31(float string31) {
-        this.string31 = string31;
-    }
-
-    public float getString30() {
-        return string30;
-    }
-
-    public void setString30(float string30) {
-        this.string30 = string30;
-    }
-
-    public float getString44() {
-        return string44;
-    }
-
-    public void setString44(float string44) {
-        this.string44 = string44;
-    }
-
-    public float getString43() {
-        return string43;
-    }
-
-    public void setString43(float string43) {
-        this.string43 = string43;
-    }
-
-    public float getString42() {
-        return string42;
-    }
-
-    public void setString42(float string42) {
-        this.string42 = string42;
-    }
-
-    public float getString41() {
-        return string41;
-    }
-
-    public void setString41(float string41) {
-        this.string41 = string41;
-    }
-
-    public float getString40() {
-        return string40;
-    }
-
-    public void setString40(float string40) {
-        this.string40 = string40;
-    }
-
-    public float getString54() {
-        return string54;
-    }
-
-    public void setString54(float string54) {
-        this.string54 = string54;
-    }
-
-    public float getString53() {
-        return string53;
-    }
-
-    public void setString53(float string53) {
-        this.string53 = string53;
-    }
-
-    public float getString52() {
-        return string52;
-    }
-
-    public void setString52(float string52) {
-        this.string52 = string52;
-    }
-
-    public float getString51() {
-        return string51;
-    }
-
-    public void setString51(float string51) {
-        this.string51 = string51;
-    }
-
-    public float getString50() {
-        return string50;
-    }
-
-    public void setString50(float string50) {
-        this.string50 = string50;
-    }
-
-    public float getString64() {
-        return string64;
-    }
-
-    public void setString64(float string64) {
-        this.string64 = string64;
-    }
-
-    public float getString63() {
-        return string63;
-    }
-
-    public void setString63(float string63) {
-        this.string63 = string63;
-    }
-
-    public float getString62() {
-        return string62;
-    }
-
-    public void setString62(float string62) {
-        this.string62 = string62;
-    }
-
-    public float getString61() {
-        return string61;
-    }
-
-    public void setString61(float string61) {
-        this.string61 = string61;
-    }
-
-    public float getString60() {
-        return string60;
-    }
-
-    public void setString60(float string60) {
-        this.string60 = string60;
+    public float getSilent() {
+        return silent;
     }
 }
+
+
+
+

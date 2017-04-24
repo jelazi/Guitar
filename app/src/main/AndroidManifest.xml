@@ -16,8 +16,16 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="lubin.guitar.Guitar"></activity>
-        <activity android:name="lubin.guitar.Guitar2"></activity>
+        <activity
+            android:name="lubin.guitar.Guitar"
+            android:screenOrientation="portrait">
+
+        </activity>
+        <activity
+            android:name="lubin.guitar.Guitar2"
+            android:screenOrientation="portrait">
+
+        </activity>
     </application>
 
 </manifest>

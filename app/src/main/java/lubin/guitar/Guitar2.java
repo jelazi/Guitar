@@ -63,12 +63,12 @@ public class Guitar2 extends Activity {
     private GestureDetector gestureDetector;
     Tones tones = new Tones();
 
-    ImageView Estring;
-    ImageView Astring;
-    ImageView Dstring;
-    ImageView Gstring;
-    ImageView Bstring;
     ImageView E2string;
+    ImageView Bstring;
+    ImageView Gstring;
+    ImageView Dstring;
+    ImageView Astring;
+    ImageView Estring;
 
 
 
@@ -229,188 +229,188 @@ public class Guitar2 extends Activity {
                     switch (v.getId()){
                         case R.id.imageButton14:{
                             normal_playback_rate = tones.getString14();
-                            Shaking(E2string);
+                            Shaking(Estring);
                             Touching(string14);
 
                             break;
                         }
                         case R.id.imageButton13:{
                             normal_playback_rate = tones.getString13();
-                            Shaking(E2string);
+                            Shaking(Estring);
                             Touching(string13);
                             break;
                         }
                         case R.id.imageButton12:{
                             normal_playback_rate = tones.getString12();
-                            Shaking(E2string);
+                            Shaking(Estring);
                             Touching(string12);
                             break;
                         }
                         case R.id.imageButton11:{
                             normal_playback_rate = tones.getString11();
-                            Shaking(E2string);
+                            Shaking(Estring);
                             Touching(string11);
                             break;
                         }
                         case R.id.imageButton10:{
                             normal_playback_rate = tones.getString10();
-                            Shaking(E2string);
+                            Shaking(Estring);
                             Touching(string10);
                             break;
                         }
                         case R.id.imageButton24:{
                             normal_playback_rate = tones.getString24();
-                            Shaking(Bstring);
+                            Shaking(Astring);
                             Touching(string24);
                             break;
                         }
                         case R.id.imageButton23:{
                             normal_playback_rate = tones.getString23();
-                            Shaking(Bstring);
+                            Shaking(Astring);
                             Touching(string23);
                             break;
                         }
                         case R.id.imageButton22:{
                             normal_playback_rate = tones.getString22();
-                            Shaking(Bstring);
+                            Shaking(Astring);
                             Touching(string22);
                             break;
                         }
                         case R.id.imageButton21:{
                             normal_playback_rate = tones.getString21();
-                            Shaking(Bstring);
+                            Shaking(Astring);
                             Touching(string21);
                             break;
                         }
                         case R.id.imageButton20:{
                             normal_playback_rate = tones.getString20();
-                            Shaking(Bstring);
+                            Shaking(Astring);
                             Touching(string20);
                             break;
                         }
                         case R.id.imageButton34:{
                             normal_playback_rate = tones.getString34();
-                            Shaking(Gstring);
+                            Shaking(Dstring);
                             Touching(string34);
                             break;
                         }
                         case R.id.imageButton33:{
                             normal_playback_rate = tones.getString33();
-                            Shaking(Gstring);
+                            Shaking(Dstring);
                             Touching(string33);
                             break;
                         }
                         case R.id.imageButton32:{
                             normal_playback_rate = tones.getString32();
-                            Shaking(Gstring);
+                            Shaking(Dstring);
                             Touching(string32);
                             break;
                         }
                         case R.id.imageButton31:{
                             normal_playback_rate = tones.getString31();
-                            Shaking(Gstring);
+                            Shaking(Dstring);
                             Touching(string31);
                             break;
                         }
                         case R.id.imageButton30:{
                             normal_playback_rate = tones.getString30();
-                            Shaking(Gstring);
+                            Shaking(Dstring);
                             Touching(string30);
                             break;
                         }
                         case R.id.imageButton44:{
                             normal_playback_rate = tones.getString44();
-                            Shaking(Dstring);
+                            Shaking(Gstring);
                             Touching(string44);
                             break;
                         }
                         case R.id.imageButton43:{
                             normal_playback_rate = tones.getString43();
-                            Shaking(Dstring);
+                            Shaking(Gstring);
                             Touching(string43);
                             break;
                         }
                         case R.id.imageButton42:{
                             normal_playback_rate = tones.getString42();
-                            Shaking(Dstring);
+                            Shaking(Gstring);
                             Touching(string42);
                             break;
                         }
                         case R.id.imageButton41:{
                             normal_playback_rate = tones.getString41();
-                            Shaking(Dstring);
+                            Shaking(Gstring);
                             Touching(string41);
                             break;
                         }
                         case R.id.imageButton40:{
                             normal_playback_rate = tones.getString40();
-                            Shaking(Dstring);
+                            Shaking(Gstring);
                             Touching(string40);
                             break;
                         }
                         case R.id.imageButton54:{
                             normal_playback_rate = tones.getString54();
-                            Shaking(Astring);
+                            Shaking(Bstring);
                             Touching(string54);
                             break;
                         }
                         case R.id.imageButton53:{
                             normal_playback_rate = tones.getString53();
-                            Shaking(Astring);
+                            Shaking(Bstring);
                             Touching(string53);
                             break;
                         }
                         case R.id.imageButton52:{
                             normal_playback_rate = tones.getString52();
-                            Shaking(Astring);
+                            Shaking(Bstring);
                             Touching(string52);
                             break;
                         }
                         case R.id.imageButton51:{
                             normal_playback_rate = tones.getString51();
-                            Shaking(Astring);
+                            Shaking(Bstring);
                             Touching(string51);
                             break;
                         }
                         case R.id.imageButton50:{
                             normal_playback_rate = tones.getString50();
-                            Shaking(Astring);
+                            Shaking(Bstring);
                             Touching(string50);
                             break;
                         }
                         case R.id.imageButton64:{
                             normal_playback_rate = tones.getString64();
-                            Shaking(Estring);
+                            Shaking(E2string);
                             Touching(string64);
                             break;
                         }
                         case R.id.imageButton63:{
                             normal_playback_rate = tones.getString63();
-                            Shaking(Estring);
+                            Shaking(E2string);
                             Touching(string63);
                             break;
                         }
                         case R.id.imageButton62:{
                             normal_playback_rate = tones.getString62();
-                            Shaking(Estring);
+                            Shaking(E2string);
                             Touching(string62);
                             break;
                         }
                         case R.id.imageButton61:{
                             normal_playback_rate = tones.getString61();
-                            Shaking(Estring);
+                            Shaking(E2string);
                             Touching(string61);
                             break;
                         }
                         case R.id.imageButton60:{
                             normal_playback_rate = tones.getString60();
-                            Shaking(Estring);
+                            Shaking(E2string);
                             Touching(string60);
                             break;
                         }
                         default:{
                             normal_playback_rate = tones.getString10();
-                            Shaking(Estring);
+                            Shaking(E2string);
                             Touching(string10);
                             break;
                         }

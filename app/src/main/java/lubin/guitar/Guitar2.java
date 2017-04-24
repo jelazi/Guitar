@@ -73,6 +73,7 @@ public class Guitar2 extends Activity {
 
 
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -149,6 +150,10 @@ public class Guitar2 extends Activity {
 
 
 
+        //Estring.setColorFilter(0x80ff0000); zmena barvy
+
+
+
 
 
 
@@ -221,169 +226,192 @@ public class Guitar2 extends Activity {
                     int no_loop = 0;
 
 
-
-
-
-
-
-
-
-
-
                     switch (v.getId()){
                         case R.id.imageButton14:{
                             normal_playback_rate = tones.getString14();
                             Shaking(E2string);
+                            Touching(string14);
+
                             break;
                         }
                         case R.id.imageButton13:{
                             normal_playback_rate = tones.getString13();
                             Shaking(E2string);
+                            Touching(string13);
                             break;
                         }
                         case R.id.imageButton12:{
                             normal_playback_rate = tones.getString12();
                             Shaking(E2string);
+                            Touching(string12);
                             break;
                         }
                         case R.id.imageButton11:{
                             normal_playback_rate = tones.getString11();
                             Shaking(E2string);
+                            Touching(string11);
                             break;
                         }
                         case R.id.imageButton10:{
                             normal_playback_rate = tones.getString10();
                             Shaking(E2string);
+                            Touching(string10);
                             break;
                         }
                         case R.id.imageButton24:{
                             normal_playback_rate = tones.getString24();
                             Shaking(Bstring);
+                            Touching(string24);
                             break;
                         }
                         case R.id.imageButton23:{
                             normal_playback_rate = tones.getString23();
                             Shaking(Bstring);
+                            Touching(string23);
                             break;
                         }
                         case R.id.imageButton22:{
                             normal_playback_rate = tones.getString22();
                             Shaking(Bstring);
+                            Touching(string22);
                             break;
                         }
                         case R.id.imageButton21:{
                             normal_playback_rate = tones.getString21();
                             Shaking(Bstring);
+                            Touching(string21);
                             break;
                         }
                         case R.id.imageButton20:{
                             normal_playback_rate = tones.getString20();
                             Shaking(Bstring);
+                            Touching(string20);
                             break;
                         }
                         case R.id.imageButton34:{
                             normal_playback_rate = tones.getString34();
                             Shaking(Gstring);
+                            Touching(string34);
                             break;
                         }
                         case R.id.imageButton33:{
                             normal_playback_rate = tones.getString33();
                             Shaking(Gstring);
+                            Touching(string33);
                             break;
                         }
                         case R.id.imageButton32:{
                             normal_playback_rate = tones.getString32();
                             Shaking(Gstring);
+                            Touching(string32);
                             break;
                         }
                         case R.id.imageButton31:{
                             normal_playback_rate = tones.getString31();
                             Shaking(Gstring);
+                            Touching(string31);
                             break;
                         }
                         case R.id.imageButton30:{
                             normal_playback_rate = tones.getString30();
                             Shaking(Gstring);
+                            Touching(string30);
                             break;
                         }
                         case R.id.imageButton44:{
                             normal_playback_rate = tones.getString44();
                             Shaking(Dstring);
+                            Touching(string44);
                             break;
                         }
                         case R.id.imageButton43:{
                             normal_playback_rate = tones.getString43();
                             Shaking(Dstring);
+                            Touching(string43);
                             break;
                         }
                         case R.id.imageButton42:{
                             normal_playback_rate = tones.getString42();
                             Shaking(Dstring);
+                            Touching(string42);
                             break;
                         }
                         case R.id.imageButton41:{
                             normal_playback_rate = tones.getString41();
                             Shaking(Dstring);
+                            Touching(string41);
                             break;
                         }
                         case R.id.imageButton40:{
                             normal_playback_rate = tones.getString40();
                             Shaking(Dstring);
+                            Touching(string40);
                             break;
                         }
                         case R.id.imageButton54:{
                             normal_playback_rate = tones.getString54();
                             Shaking(Astring);
+                            Touching(string54);
                             break;
                         }
                         case R.id.imageButton53:{
                             normal_playback_rate = tones.getString53();
                             Shaking(Astring);
+                            Touching(string53);
                             break;
                         }
                         case R.id.imageButton52:{
                             normal_playback_rate = tones.getString52();
                             Shaking(Astring);
+                            Touching(string52);
                             break;
                         }
                         case R.id.imageButton51:{
                             normal_playback_rate = tones.getString51();
                             Shaking(Astring);
+                            Touching(string51);
                             break;
                         }
                         case R.id.imageButton50:{
                             normal_playback_rate = tones.getString50();
                             Shaking(Astring);
+                            Touching(string50);
                             break;
                         }
                         case R.id.imageButton64:{
                             normal_playback_rate = tones.getString64();
                             Shaking(Estring);
+                            Touching(string64);
                             break;
                         }
                         case R.id.imageButton63:{
                             normal_playback_rate = tones.getString63();
                             Shaking(Estring);
+                            Touching(string63);
                             break;
                         }
                         case R.id.imageButton62:{
                             normal_playback_rate = tones.getString62();
                             Shaking(Estring);
+                            Touching(string62);
                             break;
                         }
                         case R.id.imageButton61:{
                             normal_playback_rate = tones.getString61();
                             Shaking(Estring);
+                            Touching(string61);
                             break;
                         }
                         case R.id.imageButton60:{
                             normal_playback_rate = tones.getString60();
                             Shaking(Estring);
+                            Touching(string60);
                             break;
                         }
                         default:{
                             normal_playback_rate = tones.getString10();
                             Shaking(Estring);
+                            Touching(string10);
                             break;
                         }
                     }
@@ -401,6 +429,34 @@ public class Guitar2 extends Activity {
 
                 android.view.animation.Animation animation= AnimationUtils.loadAnimation(getApplicationContext(), R.anim.shake);
                 string.startAnimation(animation);
+            }
+
+            private void Touching(final ImageButton imgButton){
+
+
+                android.view.animation.Animation animation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.blink);
+                imgButton.startAnimation(animation);
+                animation.setAnimationListener(new Animation.AnimationListener()
+                {
+
+                    @Override
+                    public void onAnimationStart(Animation animation) {
+                        imgButton.setBackgroundResource(R.drawable.touch);
+                    }
+
+                    @Override
+                    public void onAnimationRepeat(Animation animation) { }
+
+                    @Override
+                    public void onAnimationEnd(Animation animation)
+                    {
+                        imgButton.setBackgroundResource(0);
+
+                    }
+                });
+
+
+
             }
 
 

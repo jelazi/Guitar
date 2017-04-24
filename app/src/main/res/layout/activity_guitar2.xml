@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
 
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:background="@null"
@@ -102,54 +102,50 @@
             android:id="@+id/LayoutStrings"
             android:layout_width="fill_parent"
             android:layout_height="match_parent"
-
             android:orientation="horizontal">
 
 
             <ImageView
                 android:id="@+id/Estring"
                 android:layout_width="0dip"
-                android:layout_height="match_parent"
-                android:layout_weight="20"
-                android:src="@drawable/string2"
-
-                />
-
+                android:layout_height="fill_parent"
+                android:layout_weight="19"
+                android:src="@drawable/string1" />
 
             <ImageView
                 android:id="@+id/Astring"
                 android:layout_width="0dip"
                 android:layout_height="fill_parent"
-                android:layout_weight="20"
+                android:layout_weight="23"
                 android:src="@drawable/string2" />
 
             <ImageView
                 android:id="@+id/Dstring"
-                android:layout_width="0dip"
+                android:layout_width="10dip"
                 android:layout_height="fill_parent"
-                android:layout_weight="20"
-                android:src="@drawable/string2" />
+                android:layout_weight="14"
+                android:src="@drawable/string3"  />
 
             <ImageView
                 android:id="@+id/Gstring"
                 android:layout_width="0dip"
                 android:layout_height="fill_parent"
-                android:layout_weight="20"
-                android:src="@drawable/string2" />
+                android:layout_weight="23"
+                android:src="@drawable/string4" />
 
             <ImageView
                 android:id="@+id/Bstring"
                 android:layout_width="0dip"
                 android:layout_height="fill_parent"
-                android:layout_weight="20"
-                android:src="@drawable/string2" />
+                android:layout_weight="19"
+                android:src="@drawable/string5" />
 
             <ImageView
                 android:id="@+id/E2string"
                 android:layout_width="0dip"
                 android:layout_height="fill_parent"
-                android:layout_weight="20"
-                android:src="@drawable/string2" />
+                android:layout_weight="22"
+                android:src="@drawable/string6" />
 
 
         </LinearLayout>

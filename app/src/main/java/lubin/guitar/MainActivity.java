@@ -7,7 +7,8 @@ import android.media.AudioManager;
         import android.media.SoundPool;
         import android.media.SoundPool.OnLoadCompleteListener;
         import android.os.Bundle;
-        import android.view.View;
+import android.os.Handler;
+import android.view.View;
         import android.view.View.OnClickListener;
         import android.widget.Button;
 import android.widget.EditText;
@@ -18,11 +19,17 @@ import android.support.v7.app.AppCompatActivity;
 import lubin.guitar.R;
 
 
+
+
+
+
+
 public class MainActivity extends AppCompatActivity {
 
     Button btnPlay; //hraci tlacitko
     Button btnChange; // tlacitko meni nastroje
     Button btnGuitar; //tlacitko presun na kytaru
+    Button btnGuitar2;
     SoundPool soundPool; //zvuk
     AudioManager audioManager;
     EditText editText;
@@ -30,6 +37,9 @@ public class MainActivity extends AppCompatActivity {
     TextView textView;
     float normal_playback_rate;
     int numberInstrument = 0; //cislo nastroje
+
+
+
 
 
 
@@ -46,6 +56,8 @@ public class MainActivity extends AppCompatActivity {
         btnGuitar = (Button)findViewById(R.id.guitar);
         btnGuitar.setOnClickListener(changeGuitar);
         editText = (EditText)findViewById(R.id.editText);
+        btnGuitar2 = (Button)findViewById(R.id.guitar2);
+        btnGuitar2.setOnClickListener(changeGuitar2);
 
 
 
@@ -78,6 +90,15 @@ public class MainActivity extends AppCompatActivity {
         }
     };
 
+    OnClickListener changeGuitar2 = new OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            Intent i = new Intent(MainActivity.this, Guitar2.class);
+            startActivity(i);
+
+        }
+    };
+
 
 
     OnLoadCompleteListener soundPoolOnLoadCompleteListener =
@@ -102,29 +123,26 @@ public class MainActivity extends AppCompatActivity {
 
                 @Override
                 public void onClick(View v) {
-                    float vol = audioManager.getStreamVolume(
-                            AudioManager.STREAM_MUSIC);
-                    float maxVol = audioManager.getStreamMaxVolume(
-                            AudioManager.STREAM_MUSIC);
-                    float leftVolume = vol/maxVol;
-                    float rightVolume = vol/maxVol;
-                    int priority = 1;
-                    int no_loop = 0;
-                    float highString =  0.5f;
-                    try{
-                    highString = Float.valueOf(editText.getText().toString());
-                    }
-                    catch ( Exception e){
+                    for (float i = 1; i < 2; i=i+0.1f) {
+                        float vol = audioManager.getStreamVolume(
+                                AudioManager.STREAM_MUSIC);
+                        float maxVol = audioManager.getStreamMaxVolume(
+                                AudioManager.STREAM_MUSIC);
+                        final float leftVolume = vol / maxVol;
+                        final float rightVolume = vol / maxVol;
+                        final int priority = 1;
+                        final int no_loop = 0;
+                        float highString = 0.5f;
+                        try {
+                            highString = Float.valueOf(editText.getText().toString());
+                        } catch (Exception e) {
 
-                    }
+                        }
 
-                    if (highString > 0f && highString < 2.1f){
-                        normal_playback_rate = highString;
+                        if (highString > 0f && highString < 2.1f) {
+                            normal_playback_rate = highString;
 
-                    }
-
-
-
+                        }
 
 
                         soundPool.play(soundId,
@@ -135,9 +153,9 @@ public class MainActivity extends AppCompatActivity {
                                 normal_playback_rate);
 
 
-                    textView.setText(Float.toString(normal_playback_rate));
+                        textView.setText(Float.toString(normal_playback_rate));
 
-
+                    }
 
                 }
             };

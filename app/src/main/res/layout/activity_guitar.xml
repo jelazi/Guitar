@@ -10,22 +10,19 @@
     >
 
 
-
         <ImageButton
             android:id="@+id/imageButton6"
             android:layout_width="0dip"
             android:layout_height="fill_parent"
             android:layout_weight="16"
-            android:background="@null"
-             />
+            android:background="@null" />
 
         <ImageButton
             android:id="@+id/imageButton5"
             android:layout_width="0dip"
             android:layout_height="fill_parent"
             android:layout_weight="16"
-            android:background="@null"
-             />
+            android:background="@null" />
 
         <ImageButton
             android:id="@+id/imageButton4"
@@ -35,15 +32,14 @@
             android:background="@null"
              />
 
-        <ImageButton
-            android:id="@+id/imageButton3"
-            android:layout_width="0dip"
-            android:layout_height="fill_parent"
-            android:layout_weight="16"
-            android:background="@null"
-             />
+    <ImageButton
+        android:id="@+id/imageButton3"
+        android:layout_width="0dip"
+        android:layout_height="fill_parent"
+        android:layout_weight="16"
+        android:background="@null" />
 
-        <ImageButton
+    <ImageButton
             android:id="@+id/imageButton2"
             android:layout_width="0dip"
             android:layout_height="fill_parent"

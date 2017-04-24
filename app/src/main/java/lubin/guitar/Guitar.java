@@ -32,6 +32,7 @@ public class Guitar extends Activity {
     TextView textView;
     float normal_playback_rate;
     int numberInstrument = 0; //cislo nastroje
+    Tones tones = new Tones();
 
 
 
@@ -107,33 +108,35 @@ public class Guitar extends Activity {
                     float rightVolume = vol/maxVol;
                     int priority = 1;
                     int no_loop = 0;
+
+
                     switch (v.getId()){
                         case R.id.imageButton:{
-                            normal_playback_rate = 1.214f;
+                            normal_playback_rate = tones.getString10();
                             break;
                         }
                         case R.id.imageButton2:{
-                            normal_playback_rate = 0.908f;
+                            normal_playback_rate = tones.getString20();
                             break;
                         }
                         case R.id.imageButton3:{
-                            normal_playback_rate = 0.721f;
+                            normal_playback_rate = tones.getString30();
                             break;
                         }
                         case R.id.imageButton4:{
-                            normal_playback_rate = 0.542f;
+                            normal_playback_rate = tones.getString40();
                             break;
                         }
                         case R.id.imageButton5:{
-                            normal_playback_rate = 0.405f;
+                            normal_playback_rate = tones.getString50();
                             break;
                         }
                         case R.id.imageButton6:{
-                            normal_playback_rate = 0.303f;
+                            normal_playback_rate = tones.getString60();
                             break;
                         }
                         default:{
-                            normal_playback_rate = 1.214f;
+                            normal_playback_rate = tones.getString10();
                             break;
                         }
                     }

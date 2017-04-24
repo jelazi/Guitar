@@ -1,4 +1,4 @@
-package lubin.androidsouindpool;
+package lubin.Guitar;
 
 import org.junit.Test;
 

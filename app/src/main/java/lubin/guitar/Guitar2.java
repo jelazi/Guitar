@@ -231,7 +231,6 @@ public class Guitar2 extends Activity {
                             normal_playback_rate = tones.getString14();
                             Shaking(Estring);
                             Touching(string14);
-
                             break;
                         }
                         case R.id.imageButton13:{
@@ -481,4 +480,191 @@ public class Guitar2 extends Activity {
 
 
     };
+
+    public GuitarTone getToneFromTouch (int imageButtonId){
+        GuitarTone guitarTone = new GuitarTone(string10, tones.getString10(), (ImageView)findViewById(R.id.Estring));
+
+        if (imageButtonId == string14.getId()) {
+            guitarTone.setStringValue(tones.getString10());
+            guitarTone.setStringImage((ImageView)findViewById(R.id.Estring));
+            guitarTone.setStringTouch(string14);
+            return guitarTone;
+        }
+        if (imageButtonId == string13.getId()) {
+            guitarTone.setStringValue(tones.getString10());
+            guitarTone.setStringImage((ImageView)findViewById(R.id.Estring));
+            guitarTone.setStringTouch(string13);
+            return guitarTone;
+        }
+        if (imageButtonId == string12.getId()) {
+            guitarTone.setStringValue(tones.getString10());
+            guitarTone.setStringImage((ImageView)findViewById(R.id.Estring));
+            guitarTone.setStringTouch(string12);
+            return guitarTone;
+        }
+        if (imageButtonId == string11.getId()) {
+            guitarTone.setStringValue(tones.getString10());
+            guitarTone.setStringImage((ImageView)findViewById(R.id.Estring));
+            guitarTone.setStringTouch(string11);
+            return guitarTone;
+        }
+        if (imageButtonId == string10.getId()) {
+            guitarTone.setStringValue(tones.getString10());
+            guitarTone.setStringImage((ImageView)findViewById(R.id.Estring));
+            guitarTone.setStringTouch(string10);
+            return guitarTone;
+        }
+        if (imageButtonId == string24.getId()) {
+            guitarTone.setStringValue(tones.getString20());
+            guitarTone.setStringImage((ImageView)findViewById(R.id.Astring));
+            guitarTone.setStringTouch(string24);
+            return guitarTone;
+        }
+        if (imageButtonId == string23.getId()) {
+            guitarTone.setStringValue(tones.getString20());
+            guitarTone.setStringImage((ImageView)findViewById(R.id.Astring));
+            guitarTone.setStringTouch(string23);
+            return guitarTone;
+        }
+        if (imageButtonId == string22.getId()) {
+            guitarTone.setStringValue(tones.getString20());
+            guitarTone.setStringImage((ImageView)findViewById(R.id.Astring));
+            guitarTone.setStringTouch(string22);
+            return guitarTone;
+        }
+        if (imageButtonId == string21.getId()) {
+            guitarTone.setStringValue(tones.getString20());
+            guitarTone.setStringImage((ImageView)findViewById(R.id.Astring));
+            guitarTone.setStringTouch(string21);
+            return guitarTone;
+        }
+        if (imageButtonId == string20.getId()) {
+            guitarTone.setStringValue(tones.getString20());
+            guitarTone.setStringImage((ImageView)findViewById(R.id.Astring));
+            guitarTone.setStringTouch(string20);
+            return guitarTone;
+        }
+        if (imageButtonId == string34.getId()) {
+            guitarTone.setStringValue(tones.getString30());
+            guitarTone.setStringImage((ImageView)findViewById(R.id.Dstring));
+            guitarTone.setStringTouch(string34);
+            return guitarTone;
+        }
+        if (imageButtonId == string33.getId()) {
+            guitarTone.setStringValue(tones.getString30());
+            guitarTone.setStringImage((ImageView)findViewById(R.id.Dstring));
+            guitarTone.setStringTouch(string33);
+            return guitarTone;
+        }
+        if (imageButtonId == string32.getId()) {
+            guitarTone.setStringValue(tones.getString30());
+            guitarTone.setStringImage((ImageView)findViewById(R.id.Dstring));
+            guitarTone.setStringTouch(string32);
+            return guitarTone;
+        }
+        if (imageButtonId == string31.getId()) {
+            guitarTone.setStringValue(tones.getString30());
+            guitarTone.setStringImage((ImageView)findViewById(R.id.Dstring));
+            guitarTone.setStringTouch(string31);
+            return guitarTone;
+        }
+        if (imageButtonId == string30.getId()) {
+            guitarTone.setStringValue(tones.getString30());
+            guitarTone.setStringImage((ImageView)findViewById(R.id.Dstring));
+            guitarTone.setStringTouch(string30);
+            return guitarTone;
+        }
+        if (imageButtonId == string44.getId()) {
+            guitarTone.setStringValue(tones.getString40());
+            guitarTone.setStringImage((ImageView)findViewById(R.id.Gstring));
+            guitarTone.setStringTouch(string44);
+            return guitarTone;
+        }
+        if (imageButtonId == string43.getId()) {
+            guitarTone.setStringValue(tones.getString40());
+            guitarTone.setStringImage((ImageView)findViewById(R.id.Gstring));
+            guitarTone.setStringTouch(string43);
+            return guitarTone;
+        }
+        if (imageButtonId == string42.getId()) {
+            guitarTone.setStringValue(tones.getString40());
+            guitarTone.setStringImage((ImageView)findViewById(R.id.Gstring));
+            guitarTone.setStringTouch(string42);
+            return guitarTone;
+        }
+        if (imageButtonId == string41.getId()) {
+            guitarTone.setStringValue(tones.getString40());
+            guitarTone.setStringImage((ImageView)findViewById(R.id.Gstring));
+            guitarTone.setStringTouch(string41);
+            return guitarTone;
+        }
+        if (imageButtonId == string40.getId()) {
+            guitarTone.setStringValue(tones.getString40());
+            guitarTone.setStringImage((ImageView)findViewById(R.id.Gstring));
+            guitarTone.setStringTouch(string40);
+            return guitarTone;
+        }
+        if (imageButtonId == string54.getId()) {
+            guitarTone.setStringValue(tones.getString50());
+            guitarTone.setStringImage((ImageView)findViewById(R.id.Bstring));
+            guitarTone.setStringTouch(string54);
+            return guitarTone;
+        }
+        if (imageButtonId == string53.getId()) {
+            guitarTone.setStringValue(tones.getString50());
+            guitarTone.setStringImage((ImageView)findViewById(R.id.Bstring));
+            guitarTone.setStringTouch(string53);
+            return guitarTone;
+        }
+        if (imageButtonId == string52.getId()) {
+            guitarTone.setStringValue(tones.getString50());
+            guitarTone.setStringImage((ImageView)findViewById(R.id.Bstring));
+            guitarTone.setStringTouch(string52);
+            return guitarTone;
+        }
+        if (imageButtonId == string51.getId()) {
+            guitarTone.setStringValue(tones.getString50());
+            guitarTone.setStringImage((ImageView)findViewById(R.id.Bstring));
+            guitarTone.setStringTouch(string51);
+            return guitarTone;
+        }
+        if (imageButtonId == string50.getId()) {
+            guitarTone.setStringValue(tones.getString50());
+            guitarTone.setStringImage((ImageView)findViewById(R.id.Bstring));
+            guitarTone.setStringTouch(string50);
+            return guitarTone;
+        }
+        if (imageButtonId == string64.getId()) {
+            guitarTone.setStringValue(tones.getString60());
+            guitarTone.setStringImage((ImageView)findViewById(R.id.E2string));
+            guitarTone.setStringTouch(string64);
+            return guitarTone;
+        }
+        if (imageButtonId == string63.getId()) {
+            guitarTone.setStringValue(tones.getString60());
+            guitarTone.setStringImage((ImageView)findViewById(R.id.E2string));
+            guitarTone.setStringTouch(string63);
+            return guitarTone;
+        }
+        if (imageButtonId == string62.getId()) {
+            guitarTone.setStringValue(tones.getString60());
+            guitarTone.setStringImage((ImageView)findViewById(R.id.E2string));
+            guitarTone.setStringTouch(string62);
+            return guitarTone;
+        }
+        if (imageButtonId == string61.getId()) {
+            guitarTone.setStringValue(tones.getString60());
+            guitarTone.setStringImage((ImageView)findViewById(R.id.E2string));
+            guitarTone.setStringTouch(string61);
+            return guitarTone;
+        }
+        if (imageButtonId == string60.getId()) {
+            guitarTone.setStringValue(tones.getString60());
+            guitarTone.setStringImage((ImageView)findViewById(R.id.E2string));
+            guitarTone.setStringTouch(string60);
+            return guitarTone;
+        }
+
+        return guitarTone;
+    }
 }

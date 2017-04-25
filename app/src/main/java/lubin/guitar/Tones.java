@@ -90,9 +90,7 @@ final class Tones {
                 akordString[4] = C4;
                 akordString[5] = E4;
                 break;
-
             }
-
             case "Ddur":{
                 akordString[0] = silent;
                 akordString[1] = silent;
@@ -101,10 +99,7 @@ final class Tones {
                 akordString[4] = D4;
                 akordString[5] = Fis4;
                 break;
-
             }
-
-
             case "Edur":{
                 akordString[0] = E2;
                 akordString[1] = B2;
@@ -115,8 +110,6 @@ final class Tones {
                 break;
 
             }
-
-
             case "Fdur":{
                 akordString[0] = F2;
                 akordString[1] = C3;
@@ -125,10 +118,7 @@ final class Tones {
                 akordString[4] = C4;
                 akordString[5] = F4;
                 break;
-
             }
-
-
             case "Gdur":{
                 akordString[0] = G2;
                 akordString[1] = B2;
@@ -139,8 +129,6 @@ final class Tones {
                 break;
 
             }
-
-
             case "Adur":{
                 akordString[0] = silent;
                 akordString[1] = A2;
@@ -149,10 +137,7 @@ final class Tones {
                 akordString[4] = Cis4;
                 akordString[5] = E4;
                 break;
-
             }
-
-
             case "Bdur":{
                 akordString[0] = silent;
                 akordString[1] = Ais2;
@@ -161,10 +146,7 @@ final class Tones {
                 akordString[4] = D4;
                 akordString[5] = F4;
                 break;
-
             }
-
-
             case "Cmi":{
                 akordString[0] = E2;
                 akordString[1] = A2;
@@ -173,11 +155,7 @@ final class Tones {
                 akordString[4] = B3;
                 akordString[5] = E4;
                 break;
-
             }
-
-
-
             default:{
                 akordString[0] = E2;
                 akordString[1] = A2;
@@ -190,6 +168,10 @@ final class Tones {
         }
         return akordString;
     }
+
+
+
+
 
     public float getString14() {
         return string14;

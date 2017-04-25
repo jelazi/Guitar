@@ -4,14 +4,14 @@ package lubin.guitar;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 
-public class GuitarString {
+public class GuitarTone {
 
     ImageButton stringTouch;
     float stringValue;
     ImageView stringImage;
 
 
-    public GuitarString(ImageButton stringTouch, float stringValue, ImageView stringImage) {
+    public GuitarTone(ImageButton stringTouch, float stringValue, ImageView stringImage) {
         this.stringTouch = stringTouch;
         this.stringValue = stringValue;
         this.stringImage = stringImage;

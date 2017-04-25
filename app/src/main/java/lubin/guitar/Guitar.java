@@ -2,10 +2,17 @@ package lubin.guitar;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Canvas;
+import android.graphics.ColorFilter;
+import android.graphics.drawable.Drawable;
 import android.media.AudioManager;
+import android.media.Image;
 import android.media.SoundPool;
 import android.media.SoundPool.OnLoadCompleteListener;
 import android.os.Bundle;
+import android.support.annotation.IntRange;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
@@ -67,18 +74,14 @@ public class Guitar extends Activity {
     private GestureDetector gestureDetector;
     Tones tones = new Tones();
 
-    GuitarString Estring;
-    GuitarString Astring;
-    GuitarString Dstring;
-    GuitarString Gstring;
-    GuitarString Bstring;
-    GuitarString E2string;
+    GuitarTone Estring;
+    GuitarTone Astring;
+    GuitarTone Dstring;
+    GuitarTone Gstring;
+    GuitarTone Bstring;
+    GuitarTone E2string;
     int akordNumber;
     String[] akords = {"Cdur", "Ddur", "Edur", "Fdur", "Gdur", "Adur", "Bdur", "Cmi"};
-
-
-
-
 
 
 
@@ -116,36 +119,37 @@ public class Guitar extends Activity {
         string62 = (ImageButton)findViewById(R.id.imageButton62);
         string61 = (ImageButton)findViewById(R.id.imageButton61);
         string60 = (ImageButton)findViewById(R.id.imageButton60);
-        string14.setOnClickListener(stringPlayOnClickListener);
-        string13.setOnClickListener(stringPlayOnClickListener);
-        string12.setOnClickListener(stringPlayOnClickListener);
-        string11.setOnClickListener(stringPlayOnClickListener);
-        string10.setOnClickListener(stringPlayOnClickListener);
-        string24.setOnClickListener(stringPlayOnClickListener);
-        string23.setOnClickListener(stringPlayOnClickListener);
-        string22.setOnClickListener(stringPlayOnClickListener);
-        string21.setOnClickListener(stringPlayOnClickListener);
-        string20.setOnClickListener(stringPlayOnClickListener);
-        string34.setOnClickListener(stringPlayOnClickListener);
-        string33.setOnClickListener(stringPlayOnClickListener);
-        string32.setOnClickListener(stringPlayOnClickListener);
-        string31.setOnClickListener(stringPlayOnClickListener);
-        string30.setOnClickListener(stringPlayOnClickListener);
-        string44.setOnClickListener(stringPlayOnClickListener);
-        string43.setOnClickListener(stringPlayOnClickListener);
-        string42.setOnClickListener(stringPlayOnClickListener);
-        string41.setOnClickListener(stringPlayOnClickListener);
-        string40.setOnClickListener(stringPlayOnClickListener);
-        string54.setOnClickListener(stringPlayOnClickListener);
-        string53.setOnClickListener(stringPlayOnClickListener);
-        string52.setOnClickListener(stringPlayOnClickListener);
-        string51.setOnClickListener(stringPlayOnClickListener);
-        string50.setOnClickListener(stringPlayOnClickListener);
-        string64.setOnClickListener(stringPlayOnClickListener);
-        string63.setOnClickListener(stringPlayOnClickListener);
-        string62.setOnClickListener(stringPlayOnClickListener);
-        string61.setOnClickListener(stringPlayOnClickListener);
-        string60.setOnClickListener(stringPlayOnClickListener);
+        string14.setOnTouchListener(stringPlayOnTouchListener);
+        string13.setOnTouchListener(stringPlayOnTouchListener);
+        string12.setOnTouchListener(stringPlayOnTouchListener);
+        string11.setOnTouchListener(stringPlayOnTouchListener);
+        string10.setOnTouchListener(stringPlayOnTouchListener);
+        string24.setOnTouchListener(stringPlayOnTouchListener);
+        string23.setOnTouchListener(stringPlayOnTouchListener);
+        string22.setOnTouchListener(stringPlayOnTouchListener);
+        string21.setOnTouchListener(stringPlayOnTouchListener);
+        string20.setOnTouchListener(stringPlayOnTouchListener);
+        string34.setOnTouchListener(stringPlayOnTouchListener);
+        string33.setOnTouchListener(stringPlayOnTouchListener);
+        string32.setOnTouchListener(stringPlayOnTouchListener);
+        string31.setOnTouchListener(stringPlayOnTouchListener);
+        string30.setOnTouchListener(stringPlayOnTouchListener);
+        string44.setOnTouchListener(stringPlayOnTouchListener);
+        string43.setOnTouchListener(stringPlayOnTouchListener);
+        string42.setOnTouchListener(stringPlayOnTouchListener);
+        string41.setOnTouchListener(stringPlayOnTouchListener);
+        string40.setOnTouchListener(stringPlayOnTouchListener);
+        string54.setOnTouchListener(stringPlayOnTouchListener);
+        string53.setOnTouchListener(stringPlayOnTouchListener);
+        string52.setOnTouchListener(stringPlayOnTouchListener);
+        string51.setOnTouchListener(stringPlayOnTouchListener);
+        string50.setOnTouchListener(stringPlayOnTouchListener);
+        string64.setOnTouchListener(stringPlayOnTouchListener);
+        string63.setOnTouchListener(stringPlayOnTouchListener);
+        string62.setOnTouchListener(stringPlayOnTouchListener);
+        string61.setOnTouchListener(stringPlayOnTouchListener);
+        string60.setOnTouchListener(stringPlayOnTouchListener);
+
 
         changeInstrument = (Button)findViewById(R.id.changeInstrument);
         changeInstrument.setOnClickListener(btnChangeOnClickListener);
@@ -153,12 +157,12 @@ public class Guitar extends Activity {
         changeAkord.setOnClickListener(btnChangeAkord);
 
 
-        E2string = new GuitarString((ImageButton)findViewById(R.id.imageButton60),tones.getString60(),(ImageView)findViewById(R.id.E2string));
-        Bstring = new GuitarString((ImageButton)findViewById(R.id.imageButton50),tones.getString50(),(ImageView)findViewById(R.id.Bstring));
-        Gstring = new GuitarString((ImageButton)findViewById(R.id.imageButton40),tones.getString40(),(ImageView)findViewById(R.id.Gstring));
-        Dstring = new GuitarString((ImageButton)findViewById(R.id.imageButton30),tones.getString30(),(ImageView)findViewById(R.id.Dstring));
-        Astring = new GuitarString((ImageButton)findViewById(R.id.imageButton20),tones.getString20(),(ImageView)findViewById(R.id.Astring));
-        Estring = new GuitarString((ImageButton)findViewById(R.id.imageButton10),tones.getString10(),(ImageView)findViewById(R.id.Estring));
+        E2string = new GuitarTone((ImageButton)findViewById(R.id.imageButton60),tones.getString60(),(ImageView)findViewById(R.id.E2string));
+        Bstring = new GuitarTone((ImageButton)findViewById(R.id.imageButton50),tones.getString50(),(ImageView)findViewById(R.id.Bstring));
+        Gstring = new GuitarTone((ImageButton)findViewById(R.id.imageButton40),tones.getString40(),(ImageView)findViewById(R.id.Gstring));
+        Dstring = new GuitarTone((ImageButton)findViewById(R.id.imageButton30),tones.getString30(),(ImageView)findViewById(R.id.Dstring));
+        Astring = new GuitarTone((ImageButton)findViewById(R.id.imageButton20),tones.getString20(),(ImageView)findViewById(R.id.Astring));
+        Estring = new GuitarTone((ImageButton)findViewById(R.id.imageButton10),tones.getString10(),(ImageView)findViewById(R.id.Estring));
 
         //Estring.setColorFilter(0x80ff0000); zmena barvy
 
@@ -182,6 +186,9 @@ public class Guitar extends Activity {
         normal_playback_rate = 0.5f;
         numberInstrument = 1;
         akordNumber = 0;
+        GuitarTone pokus = new GuitarTone((ImageButton)findViewById(R.id.imageButton60),tones.getString60(),(ImageView)findViewById(R.id.E2string));
+        playTone(pokus);
+
 
     }
 
@@ -211,224 +218,146 @@ public class Guitar extends Activity {
             };
 
 
+
+
+
+
+
     OnClickListener stringPlayOnClickListener =
             new OnClickListener(){
 
                 @Override
                 public void onClick(View v ) {
-                    float vol = audioManager.getStreamVolume(
-                            AudioManager.STREAM_MUSIC);
-                    float maxVol = audioManager.getStreamMaxVolume(
-                            AudioManager.STREAM_MUSIC);
-                    float leftVolume = vol / maxVol;
-                    float rightVolume = vol / maxVol;
-                    int priority = 1;
-                    int no_loop = 0;
-
-
-
-
-                        switch (v.getId()) {
-                            case R.id.imageButton14: {
-                                normal_playback_rate = Estring.getStringValue();
-                                Shaking(Estring.getStringImage());
-                                Touching(Estring.getStringTouch());
-
-                                break;
-                            }
-                            case R.id.imageButton13: {
-                                normal_playback_rate = Estring.getStringValue();
-                                Shaking(Estring.getStringImage());
-                                Touching(Estring.getStringTouch());
-                                break;
-                            }
-                            case R.id.imageButton12: {
-                                normal_playback_rate = Estring.getStringValue();
-                                Shaking(Estring.getStringImage());
-                                Touching(Estring.getStringTouch());
-                                break;
-                            }
-                            case R.id.imageButton11: {
-                                normal_playback_rate = Estring.getStringValue();
-                                Shaking(Estring.getStringImage());
-                                Touching(Estring.getStringTouch());
-                                break;
-                            }
-                            case R.id.imageButton10: {
-                                normal_playback_rate = Estring.getStringValue();
-                                Shaking(Estring.getStringImage());
-                                Touching(Estring.getStringTouch());
-                                break;
-                            }
-                            case R.id.imageButton24: {
-                                normal_playback_rate = Astring.getStringValue();
-                                Shaking(Astring.getStringImage());
-                                Touching(Astring.getStringTouch());
-                                break;
-                            }
-                            case R.id.imageButton23: {
-                                normal_playback_rate = Astring.getStringValue();
-                                Shaking(Astring.getStringImage());
-                                Touching(Astring.getStringTouch());
-                                break;
-                            }
-                            case R.id.imageButton22: {
-                                normal_playback_rate = Astring.getStringValue();
-                                Shaking(Astring.getStringImage());
-                                Touching(Astring.getStringTouch());
-                                break;
-                            }
-                            case R.id.imageButton21: {
-                                normal_playback_rate = Astring.getStringValue();
-                                Shaking(Astring.getStringImage());
-                                Touching(Astring.getStringTouch());
-                                break;
-                            }
-                            case R.id.imageButton20: {
-                                normal_playback_rate = Astring.getStringValue();
-                                Shaking(Astring.getStringImage());
-                                Touching(Astring.getStringTouch());
-                                break;
-                            }
-                            case R.id.imageButton34: {
-                                normal_playback_rate = Dstring.getStringValue();
-                                Shaking(Dstring.getStringImage());
-                                Touching(Dstring.getStringTouch());
-                                break;
-                            }
-                            case R.id.imageButton33: {
-                                normal_playback_rate = Dstring.getStringValue();
-                                Shaking(Dstring.getStringImage());
-                                Touching(Dstring.getStringTouch());
-                                break;
-                            }
-                            case R.id.imageButton32: {
-                                normal_playback_rate = Dstring.getStringValue();
-                                Shaking(Dstring.getStringImage());
-                                Touching(Dstring.getStringTouch());
-                                break;
-                            }
-                            case R.id.imageButton31: {
-                                normal_playback_rate = Dstring.getStringValue();
-                                Shaking(Dstring.getStringImage());
-                                Touching(Dstring.getStringTouch());
-                                break;
-                            }
-                            case R.id.imageButton30: {
-                                normal_playback_rate = Dstring.getStringValue();
-                                Shaking(Dstring.getStringImage());
-                                Touching(Dstring.getStringTouch());
-                                break;
-                            }
-                            case R.id.imageButton44: {
-                                normal_playback_rate = Gstring.getStringValue();
-                                Shaking(Gstring.getStringImage());
-                                Touching(Gstring.getStringTouch());
-                                break;
-                            }
-                            case R.id.imageButton43: {
-                                normal_playback_rate = Gstring.getStringValue();
-                                Shaking(Gstring.getStringImage());
-                                Touching(Gstring.getStringTouch());
-                                break;
-                            }
-                            case R.id.imageButton42: {
-                                normal_playback_rate = Gstring.getStringValue();
-                                Shaking(Gstring.getStringImage());
-                                Touching(Gstring.getStringTouch());
-                                break;
-                            }
-                            case R.id.imageButton41: {
-                                normal_playback_rate = Gstring.getStringValue();
-                                Shaking(Gstring.getStringImage());
-                                Touching(Gstring.getStringTouch());
-                                break;
-                            }
-                            case R.id.imageButton40: {
-                                normal_playback_rate = Gstring.getStringValue();
-                                Shaking(Gstring.getStringImage());
-                                Touching(Gstring.getStringTouch());
-                                break;
-                            }
-                            case R.id.imageButton54: {
-                                normal_playback_rate = Bstring.getStringValue();
-                                Shaking(Bstring.getStringImage());
-                                Touching(Bstring.getStringTouch());
-                                break;
-                            }
-                            case R.id.imageButton53: {
-                                normal_playback_rate = Bstring.getStringValue();
-                                Shaking(Bstring.getStringImage());
-                                Touching(Bstring.getStringTouch());
-                                break;
-                            }
-                            case R.id.imageButton52: {
-                                normal_playback_rate = Bstring.getStringValue();
-                                Shaking(Bstring.getStringImage());
-                                Touching(Bstring.getStringTouch());
-                                break;
-                            }
-                            case R.id.imageButton51: {
-                                normal_playback_rate = Bstring.getStringValue();
-                                Shaking(Bstring.getStringImage());
-                                Touching(Bstring.getStringTouch());
-                                break;
-                            }
-                            case R.id.imageButton50: {
-                                normal_playback_rate = Bstring.getStringValue();
-                                Shaking(Bstring.getStringImage());
-                                Touching(Bstring.getStringTouch());
-                                break;
-                            }
-                            case R.id.imageButton64: {
-                                normal_playback_rate = E2string.getStringValue();
-                                Shaking(E2string.getStringImage());
-                                Touching(E2string.getStringTouch());
-                                break;
-                            }
-                            case R.id.imageButton63: {
-                                normal_playback_rate = E2string.getStringValue();
-                                Shaking(E2string.getStringImage());
-                                Touching(E2string.getStringTouch());
-                                break;
-                            }
-                            case R.id.imageButton62: {
-                                normal_playback_rate = E2string.getStringValue();
-                                Shaking(E2string.getStringImage());
-                                Touching(E2string.getStringTouch());
-                                break;
-                            }
-                            case R.id.imageButton61: {
-                                normal_playback_rate = E2string.getStringValue();
-                                Shaking(E2string.getStringImage());
-                                Touching(E2string.getStringTouch());
-                                break;
-                            }
-                            case R.id.imageButton60: {
-                                normal_playback_rate = E2string.getStringValue();
-                                Shaking(E2string.getStringImage());
-                                Touching(E2string.getStringTouch());
-                                break;
-                            }
-                            default: {
-                                normal_playback_rate = Estring.getStringValue();
-                                Shaking(E2string.getStringImage());
-                                Touching(E2string.getStringTouch());
-                                break;
-                            }
-                        }
-
-                        soundPool.play(soundId,
-                                leftVolume,
-                                rightVolume,
-                                priority,
-                                no_loop,
-                                normal_playback_rate);
+                    playTone(getToneFromTouch(v.getId()));
 
                 }
+            };
+
+   // final GestureDetector gdt = new GestureDetector(new GestureListener());
+
+
+
+            View.OnTouchListener stringPlayOnTouchListener = new View.OnTouchListener() {
+                @Override
+                public boolean onTouch(View view, MotionEvent motionEvent) {
+
+
+
+
+                    boolean play = true;
+
+                    switch (motionEvent.getAction()) {
+                        case MotionEvent.ACTION_DOWN: {
+                            if (play) {
+                                playTone(getToneFromTouch(view.getId()));
+                                play = false;
+                            }
+                            break;
+                        }
+                        case MotionEvent.ACTION_UP: {
+                            play = true;
+                            break;
+                        }
+                        case MotionEvent.ACTION_MOVE: {
+                            play = false;
+                            break;
+                        }
+                    }
+
+                   // gdt.onTouchEvent(motionEvent);
+                    return true;
+                }
+
 
             };
 
+
+            private void playTone(GuitarTone guitarTone){
+                float vol = audioManager.getStreamVolume(
+                        AudioManager.STREAM_MUSIC);
+                float maxVol = audioManager.getStreamMaxVolume(
+                        AudioManager.STREAM_MUSIC);
+                float leftVolume = vol / maxVol;
+                float rightVolume = vol / maxVol;
+                int priority = 1;
+                int no_loop = 0;
+
+
+                normal_playback_rate = guitarTone.getStringValue();
+                Shaking(guitarTone.getStringImage());
+                Touching(guitarTone.getStringTouch());
+
+
+                soundPool.play(soundId,
+                        leftVolume,
+                        rightVolume,
+                        priority,
+                        no_loop,
+                        normal_playback_rate);
+
+            }
+
+
+
+
+
+    private void showAkordOnBoard(){
+        if (Estring.getStringTouch().isEnabled()) {
+        Estring.getStringTouch().setBackgroundResource(R.drawable.touch);
+        Estring.getStringTouch().setColorFilter(0x80002233);
+        }
+
+        if (Astring.getStringTouch().isEnabled()) {
+            Astring.getStringTouch().setBackgroundResource(R.drawable.touch);
+            Astring.getStringTouch().setColorFilter(0x80112233);
+        }
+
+        if (Dstring.getStringTouch().isEnabled()) {
+                Dstring.getStringTouch().setBackgroundResource(R.drawable.touch);
+                Dstring.getStringTouch().setColorFilter(0x80112233);
+        }
+
+        if (Gstring.getStringTouch().isEnabled()) {
+            Gstring.getStringTouch().setBackgroundResource(R.drawable.touch);
+            Gstring.getStringTouch().setColorFilter(0x80112233);
+        }
+
+        if (Bstring.getStringTouch().isEnabled()) {
+            Bstring.getStringTouch().setBackgroundResource(R.drawable.touch);
+            Bstring.getStringTouch().setColorFilter(0x80112233);
+        }
+        if (E2string.getStringTouch().isEnabled()) {
+            E2string.getStringTouch().setBackgroundResource(R.drawable.touch);
+            E2string.getStringTouch().setColorFilter(0x80112233);
+        }
+
+
+    }
+
+
+    private void eraseAkordOnBoard(){
+        if (Estring.getStringTouch().isEnabled()) {
+            Estring.getStringTouch().setBackgroundResource(0);
+        }
+        if (Astring.getStringTouch().isEnabled()) {
+            Astring.getStringTouch().setBackgroundResource(0);
+        }
+        if (Dstring.getStringTouch().isEnabled()) {
+            Dstring.getStringTouch().setBackgroundResource(0);
+        }
+        if (Gstring.getStringTouch().isEnabled()) {
+            Gstring.getStringTouch().setBackgroundResource(0);
+        }
+        if (Bstring.getStringTouch().isEnabled()) {
+            Bstring.getStringTouch().setBackgroundResource(0);
+        }
+        if (E2string.getStringTouch().isEnabled()) {
+            E2string.getStringTouch().setBackgroundResource(0);
+        }
+
+
+
+    }
 
 
 
@@ -444,9 +373,14 @@ public class Guitar extends Activity {
         imgButton.startAnimation(animation);
         animation.setAnimationListener(new Animation.AnimationListener()
         {
+            boolean isBackground = false;
+
 
             @Override
             public void onAnimationStart(Animation animation) {
+               // if (imgButton == R.drawable.touch){
+                //        isBackground = true;
+                //}
                 imgButton.setBackgroundResource(R.drawable.touch);
             }
 
@@ -456,7 +390,13 @@ public class Guitar extends Activity {
             @Override
             public void onAnimationEnd(Animation animation)
             {
-                imgButton.setBackgroundResource(0);
+                //if (isBackground){
+
+                //}
+                //else{
+                    imgButton.setBackgroundResource(0);
+              //  }
+
 
             }
         });
@@ -468,17 +408,16 @@ public class Guitar extends Activity {
         @Override
         public void onClick(View view) {
 
-
             float[] guitarStringValue = new float[6];
-            GuitarString[] guitarString = new GuitarString[6];
+            GuitarTone[] guitarTone = new GuitarTone[6];
+            eraseAkordOnBoard();
 
-            guitarString[0] = Estring;
-            guitarString[1] = Astring;
-            guitarString[2] = Dstring;
-            guitarString[3] = Gstring;
-            guitarString[4] = Bstring;
-            guitarString[5] = E2string;
-
+            guitarTone[0] = Estring;
+            guitarTone[1] = Astring;
+            guitarTone[2] = Dstring;
+            guitarTone[3] = Gstring;
+            guitarTone[4] = Bstring;
+            guitarTone[5] = E2string;
             guitarStringValue = tones.getAkord(akords[akordNumber]);
             if (akordNumber < 7) {
                 akordNumber++;
@@ -487,20 +426,16 @@ public class Guitar extends Activity {
             {
                 akordNumber = 0;
             }
-
             for (int i = 0; i <=5; i++){
-                guitarString[i].setStringValue(guitarStringValue[i]);
+                guitarTone[i].setStringValue(guitarStringValue[i]);
             }
-
-            guitarString = FillStringsValue(guitarString);
-
+            guitarTone = FillStringsValue(guitarTone);
             if (Estring.getStringValue() == 0){
                 string10.setEnabled(false);
                 string11.setEnabled(false);
                 string12.setEnabled(false);
                 string13.setEnabled(false);
                 string14.setEnabled(false);
-
         }
         else{
                 string10.setEnabled(true);
@@ -515,7 +450,6 @@ public class Guitar extends Activity {
                 string22.setEnabled(false);
                 string23.setEnabled(false);
                 string24.setEnabled(false);
-
             }
             else{
                 string20.setEnabled(true);
@@ -530,7 +464,6 @@ public class Guitar extends Activity {
                 string32.setEnabled(false);
                 string33.setEnabled(false);
                 string34.setEnabled(false);
-
             }
             else{
                 string30.setEnabled(true);
@@ -560,7 +493,6 @@ public class Guitar extends Activity {
                 string52.setEnabled(false);
                 string53.setEnabled(false);
                 string54.setEnabled(false);
-
             }
             else{
                 string50.setEnabled(true);
@@ -575,7 +507,6 @@ public class Guitar extends Activity {
                 string62.setEnabled(false);
                 string63.setEnabled(false);
                 string64.setEnabled(false);
-
             }
             else{
                 string60.setEnabled(true);
@@ -584,9 +515,7 @@ public class Guitar extends Activity {
                 string63.setEnabled(true);
                 string64.setEnabled(true);
             }
-
-
-
+            showAkordOnBoard();
             }
     };
 
@@ -611,11 +540,9 @@ public class Guitar extends Activity {
 
 
 
-    public GuitarString[] FillStringsValue(GuitarString[] oldStrings) {
-        GuitarString[] newStrings = new GuitarString[6];
+    public GuitarTone[] FillStringsValue(GuitarTone[] oldStrings) {
+        GuitarTone[] newStrings = new GuitarTone[6];
         newStrings = oldStrings;
-
-
 
         for (int i = 0; i <= 5; i++) {
             if (oldStrings[i].getStringValue() == tones.string14) {
@@ -742,14 +669,134 @@ public class Guitar extends Activity {
                 newStrings[i].setStringImage(null);
                 newStrings[i].setStringTouch(null);
             }
-
-
         }
-
-
         return newStrings;
-
     }
 
+    public GuitarTone getToneFromTouch (int imageButtonId){
+        GuitarTone guitarTone = new GuitarTone(string10, tones.getString10(), (ImageView)findViewById(R.id.Estring));
 
+        if (imageButtonId == string14.getId()) {
+            guitarTone = Estring;
+            return guitarTone;
+        }
+        if (imageButtonId == string13.getId()) {
+            guitarTone = Estring;
+            return guitarTone;
+        }
+        if (imageButtonId == string12.getId()) {
+            guitarTone = Estring;
+            return guitarTone;
+        }
+        if (imageButtonId == string11.getId()) {
+            guitarTone = Estring;
+            return guitarTone;
+        }
+        if (imageButtonId == string10.getId()) {
+            guitarTone = Estring;
+            return guitarTone;
+        }
+        if (imageButtonId == string24.getId()) {
+            guitarTone = Astring;
+            return guitarTone;
+        }
+        if (imageButtonId == string23.getId()) {
+            guitarTone = Astring;
+            return guitarTone;
+        }
+        if (imageButtonId == string22.getId()) {
+            guitarTone = Astring;
+            return guitarTone;
+        }
+        if (imageButtonId == string21.getId()) {
+            guitarTone = Astring;
+            return guitarTone;
+        }
+        if (imageButtonId == string20.getId()) {
+            guitarTone = Astring;
+            return guitarTone;
+        }
+        if (imageButtonId == string34.getId()) {
+            guitarTone = Dstring;
+            return guitarTone;
+        }
+        if (imageButtonId == string33.getId()) {
+            guitarTone = Dstring;
+            return guitarTone;
+        }
+        if (imageButtonId == string32.getId()) {
+            guitarTone = Dstring;
+            return guitarTone;
+        }
+        if (imageButtonId == string31.getId()) {
+            guitarTone = Dstring;
+            return guitarTone;
+        }
+        if (imageButtonId == string30.getId()) {
+            guitarTone = Gstring;
+            return guitarTone;
+        }
+        if (imageButtonId == string44.getId()) {
+            guitarTone = Gstring;
+            return guitarTone;
+        }
+        if (imageButtonId == string43.getId()) {
+            guitarTone = Gstring;
+            return guitarTone;
+        }
+        if (imageButtonId == string42.getId()) {
+            guitarTone = Gstring;
+            return guitarTone;
+        }
+        if (imageButtonId == string41.getId()) {
+            guitarTone = Gstring;
+            return guitarTone;
+        }
+        if (imageButtonId == string40.getId()) {
+            guitarTone = Gstring;
+            return guitarTone;
+        }
+        if (imageButtonId == string54.getId()) {
+            guitarTone = Bstring;
+            return guitarTone;
+        }
+        if (imageButtonId == string53.getId()) {
+            guitarTone = Bstring;
+            return guitarTone;
+        }
+        if (imageButtonId == string52.getId()) {
+            guitarTone = Bstring;
+            return guitarTone;
+        }
+        if (imageButtonId == string51.getId()) {
+            guitarTone = Bstring;
+            return guitarTone;
+        }
+        if (imageButtonId == string50.getId()) {
+            guitarTone = Bstring;
+            return guitarTone;
+        }
+        if (imageButtonId == string64.getId()) {
+            guitarTone = E2string;
+            return guitarTone;
+        }
+        if (imageButtonId == string63.getId()) {
+            guitarTone = E2string;
+            return guitarTone;
+        }
+        if (imageButtonId == string62.getId()) {
+            guitarTone = E2string;
+            return guitarTone;
+        }
+        if (imageButtonId == string61.getId()) {
+            guitarTone = E2string;
+            return guitarTone;
+        }
+        if (imageButtonId == string60.getId()) {
+            guitarTone = E2string;
+            return guitarTone;
+        }
+
+        return guitarTone;
+    }
 }

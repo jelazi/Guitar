@@ -150,7 +150,7 @@ public class Guitar2 extends Activity {
 
 
 
-        //Estring.setColorFilter(0x80ff0000); zmena barvy
+        //Etone.setColorFilter(0x80ff0000); zmena barvy
 
 
 

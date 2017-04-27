@@ -24,7 +24,7 @@ import java.util.ArrayList;
 
 
 
-public class Guitar extends Activity {
+public class PlayAcord extends Activity {
 
     ImageButton string14;
     ImageButton string13;
@@ -229,7 +229,7 @@ public class Guitar extends Activity {
 
             soundPool.release();
 
-            Intent i = new Intent(Guitar.this, SettingsActivity.class);
+            Intent i = new Intent(PlayAcord.this, SettingsActivity.class);
             startActivity(i);
 
         }
@@ -249,7 +249,7 @@ public class Guitar extends Activity {
                     if(status==0){
                         //string11.setEnabled(true);
                     }else{
-                        Toast.makeText(Guitar.this,
+                        Toast.makeText(PlayAcord.this,
                                 "SoundPool.load() fail",
                                 Toast.LENGTH_LONG).show();
                     }
@@ -273,167 +273,167 @@ public class Guitar extends Activity {
 
 
 
-            View.OnTouchListener stringPlayOnTouchListener = new View.OnTouchListener() {
-                @Override
-                public boolean onTouch(View view, MotionEvent motionEvent) {
+    View.OnTouchListener stringPlayOnTouchListener = new View.OnTouchListener() {
+        @Override
+        public boolean onTouch(View view, MotionEvent motionEvent) {
 
 
 
 
-                    boolean play = true;
+            boolean play = true;
 
-                    switch (motionEvent.getAction()) {
-                        case MotionEvent.ACTION_DOWN: {
-                            if (play) {
-                                playTone(getToneFromTouch(view.getId()), 0);
-                                play = false;
-                                moneyValue ++;
-                                money.setText(Integer.toString(moneyValue));
-                            }
-                            break;
-                        }
-                        case MotionEvent.ACTION_UP: {
-                            play = true;
-                            break;
-                        }
-                        case MotionEvent.ACTION_MOVE: {
-                            play = false;
-                            break;
-                        }
+            switch (motionEvent.getAction()) {
+                case MotionEvent.ACTION_DOWN: {
+                    if (play) {
+                        playTone(getToneFromTouch(view.getId()), 0);
+                        play = false;
+                        moneyValue ++;
+                        money.setText(Integer.toString(moneyValue));
                     }
-
-                   // gdt.onTouchEvent(motionEvent);
-                    return true;
+                    break;
                 }
+                case MotionEvent.ACTION_UP: {
+                    play = true;
+                    break;
+                }
+                case MotionEvent.ACTION_MOVE: {
+                    play = false;
+                    break;
+                }
+            }
+
+            // gdt.onTouchEvent(motionEvent);
+            return true;
+        }
 
 
-            };
+    };
 
-// zahrani skladby
+    // zahrani skladby
     OnClickListener previewSong = new OnClickListener() {
-    @Override
-    public void onClick(View view) {
+        @Override
+        public void onClick(View view) {
 
 
-previewSong();
+            previewSong();
 
-};
+        };
 
 
-public void previewSong(){
+        public void previewSong(){
 
-    skladba = Songs.getSong2();
+            skladba = Songs.getSong2();
 
-    pokus = createMusicFromTones(skladba);
-    if (isPlaying){
+            pokus = createMusicFromTones(skladba);
+            if (isPlaying){
 
-        soundPool.release();
-        isPlaying = false;
-        Intent i = new Intent(Guitar.this, Guitar.class);
-        startActivity(i);
-        previewSong();
+                soundPool.release();
+                isPlaying = false;
+                Intent i = new Intent(PlayAcord.this, Guitar.class);
+                startActivity(i);
+                previewSong();
+
+
+
+            }
+
+            isPlaying = true;
+            btnplayMusic.setText("Zastav hudbu");
+
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    int delay = 1000;
+                    for (int i = 0; i <= skladba.size() - 1; i++) {
+                        if (!(skladba.get(i).nameTone.equals("silent"))) //neni to pomlka?
+                        {
+                            playTone(pokus.get(i), delay);
+                        }
+
+                        if (i == skladba.size() - 1){
+                            new Handler().postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+                                    btnplayMusic.setText("Pusť hudbu");
+                                    isPlaying = false;
+                                }
+                            }, delay + 1000);
+
+
+
+
+                        }
+
+
+                        delay = delay + skladba.get(i).lenghtTone;
+
+                    }
+                }
+            }, 1000);
+
+
+        }
+    };
+
+
+
+    // zahrani tonu s volitelnym zpozdenim
+    public void playTone(GuitarTone guitarTone, int delay){
+        final GuitarTone gtr = guitarTone;
+
+        new Handler().postDelayed(new Runnable() {
+
+            @Override
+            public void run() {
+                float vol = audioManager.getStreamVolume(
+                        AudioManager.STREAM_MUSIC);
+                float maxVol = audioManager.getStreamMaxVolume(
+                        AudioManager.STREAM_MUSIC);
+                float leftVolume = vol / maxVol;
+                float rightVolume = vol / maxVol;
+                int priority = 1;
+                int no_loop = 0;
+
+
+                normal_playback_rate = gtr.getStringValue();
+                Shaking(gtr.getStringImage());
+                Touching(gtr.getStringTouch());
+
+
+                soundPool.play(soundId,
+                        leftVolume,
+                        rightVolume,
+                        priority,
+                        no_loop,
+                        normal_playback_rate);
+
+
+            }
+        }, delay);
 
 
 
     }
 
-    isPlaying = true;
-    btnplayMusic.setText("Zastav hudbu");
-
-    new Handler().postDelayed(new Runnable() {
-        @Override
-        public void run() {
-            int delay = 1000;
-            for (int i = 0; i <= skladba.size() - 1; i++) {
-                if (!(skladba.get(i).nameTone.equals("silent"))) //neni to pomlka?
-                {
-                    playTone(pokus.get(i), delay);
-                }
-
-                if (i == skladba.size() - 1){
-                    new Handler().postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            btnplayMusic.setText("Pusť hudbu");
-                            isPlaying = false;
-                        }
-                    }, delay + 1000);
+    ///vytvori skladbu
+    public ArrayList<GuitarTone> createMusicFromTones(ArrayList<Tone> musicTone){
+        int length = musicTone.size();
+        ArrayList<GuitarTone> music = new ArrayList<>();
+        for (int i = 0; i <=length-1;i++){
 
 
+            music.add(getToneFromName(musicTone.get(i).nameTone));
 
-
-                }
-
-
-                delay = delay + skladba.get(i).lenghtTone;
-
-            }
         }
-    }, 1000);
+        return music;
 
+    }
 
-}
-};
-
-
-
-// zahrani tonu s volitelnym zpozdenim
-            public void playTone(GuitarTone guitarTone, int delay){
-                final GuitarTone gtr = guitarTone;
-
-                new Handler().postDelayed(new Runnable() {
-
-                    @Override
-                    public void run() {
-                        float vol = audioManager.getStreamVolume(
-                                AudioManager.STREAM_MUSIC);
-                        float maxVol = audioManager.getStreamMaxVolume(
-                                AudioManager.STREAM_MUSIC);
-                        float leftVolume = vol / maxVol;
-                        float rightVolume = vol / maxVol;
-                        int priority = 1;
-                        int no_loop = 0;
-
-
-                        normal_playback_rate = gtr.getStringValue();
-                        Shaking(gtr.getStringImage());
-                        Touching(gtr.getStringTouch());
-
-
-                      soundPool.play(soundId,
-                                leftVolume,
-                                rightVolume,
-                                priority,
-                                no_loop,
-                                normal_playback_rate);
-
-
-                    }
-                }, delay);
-
-
-
-            }
-
-            ///vytvori skladbu
-            public ArrayList<GuitarTone> createMusicFromTones(ArrayList<Tone> musicTone){
-                int length = musicTone.size();
-                ArrayList<GuitarTone> music = new ArrayList<>();
-                for (int i = 0; i <=length-1;i++){
-
-
-                 music.add(getToneFromName(musicTone.get(i).nameTone));
-
-                }
-                return music;
-
-            }
-
-// oznaci struny dle akordu
+    // oznaci struny dle akordu
     private void showAkordOnBoard(){
         if (Etone.getStringTouch().isEnabled()) {
-        Etone.getStringTouch().setBackgroundResource(R.drawable.touch);
-        Etone.getStringTouch().setColorFilter(0x80002233);
+            Etone.getStringTouch().setBackgroundResource(R.drawable.touch);
+            Etone.getStringTouch().setColorFilter(0x80002233);
         }
 
         if (Atone.getStringTouch().isEnabled()) {
@@ -442,8 +442,8 @@ public void previewSong(){
         }
 
         if (Dtone.getStringTouch().isEnabled()) {
-                Dtone.getStringTouch().setBackgroundResource(R.drawable.touch);
-                Dtone.getStringTouch().setColorFilter(0x80112233);
+            Dtone.getStringTouch().setBackgroundResource(R.drawable.touch);
+            Dtone.getStringTouch().setColorFilter(0x80112233);
         }
 
         if (Gtone.getStringTouch().isEnabled()) {
@@ -463,7 +463,7 @@ public void previewSong(){
 
     }
 
-// vymaze oznaceni strun akordu
+    // vymaze oznaceni strun akordu
     private void eraseAkordOnBoard(){
         if (Etone.getStringTouch().isEnabled()) {
             Etone.getStringTouch().setBackgroundResource(0);
@@ -489,7 +489,7 @@ public void previewSong(){
     }
 
 
-//animace vibrace struny
+    //animace vibrace struny
     private void Shaking(ImageView string){
 
         android.view.animation.Animation animation= AnimationUtils.loadAnimation(getApplicationContext(), R.anim.shake);
@@ -508,7 +508,7 @@ public void previewSong(){
 
             @Override
             public void onAnimationStart(Animation animation) {
-               // if (imgButton == R.drawable.touch){
+                // if (imgButton == R.drawable.touch){
                 //        isBackground = true;
                 //}
                 imgButton.setBackgroundResource(R.drawable.touch);
@@ -524,8 +524,8 @@ public void previewSong(){
 
                 //}
                 //else{
-                    imgButton.setBackgroundResource(0);
-              //  }
+                imgButton.setBackgroundResource(0);
+                //  }
 
 
             }
@@ -566,8 +566,8 @@ public void previewSong(){
                 string12.setEnabled(false);
                 string13.setEnabled(false);
                 string14.setEnabled(false);
-        }
-        else{
+            }
+            else{
                 string10.setEnabled(true);
                 string11.setEnabled(true);
                 string12.setEnabled(true);
@@ -646,7 +646,7 @@ public void previewSong(){
                 string64.setEnabled(true);
             }
             showAkordOnBoard();
-            }
+        }
     };
 
     OnClickListener btnChangeOnClickListener = new OnClickListener() { //zmena nastroje

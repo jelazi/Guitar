@@ -8,7 +8,6 @@ import android.media.SoundPool;
 import android.media.SoundPool.OnLoadCompleteListener;
 import android.os.Bundle;
 import android.os.Handler;
-
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
@@ -20,11 +19,11 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import java.util.ArrayList;
 
 
-
-public class Guitar extends Activity {
+public class TrySong extends Activity {
 
     ImageButton string14;
     ImageButton string13;
@@ -67,7 +66,7 @@ public class Guitar extends Activity {
 
 
     Button changeInstrument;
-    Button changeAkord;
+
     Button setting;
     Button btnplayMusic;
 
@@ -106,7 +105,7 @@ public class Guitar extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_guitar);
+        setContentView(R.layout.activity_try_song);
         string14 = (ImageButton) findViewById(R.id.imageButton14);
         string13 = (ImageButton) findViewById(R.id.imageButton13);
         string12 = (ImageButton) findViewById(R.id.imageButton12);
@@ -177,8 +176,6 @@ public class Guitar extends Activity {
 
         changeInstrument = (Button) findViewById(R.id.changeInstrument);
         changeInstrument.setOnClickListener(btnChangeOnClickListener);
-        changeAkord = (Button) findViewById(R.id.changeAkord);
-        changeAkord.setOnClickListener(btnChangeAkord);
         setting = (Button) findViewById(R.id.btnTrySong);
         setting.setOnClickListener(getSetting);
         btnplayMusic = (Button)findViewById(R.id.playMusic);
@@ -229,7 +226,7 @@ public class Guitar extends Activity {
 
             soundPool.release();
 
-            Intent i = new Intent(Guitar.this, SettingsActivity.class);
+            Intent i = new Intent(TrySong.this, SettingsActivity.class);
             startActivity(i);
 
         }
@@ -249,7 +246,7 @@ public class Guitar extends Activity {
                     if(status==0){
                         //string11.setEnabled(true);
                     }else{
-                        Toast.makeText(Guitar.this,
+                        Toast.makeText(TrySong.this,
                                 "SoundPool.load() fail",
                                 Toast.LENGTH_LONG).show();
                     }
@@ -329,7 +326,7 @@ public void previewSong(){
 
         soundPool.release();
         isPlaying = false;
-        Intent i = new Intent(Guitar.this, Guitar.class);
+        Intent i = new Intent(TrySong.this, TrySong.class);
         startActivity(i);
         previewSong();
 
@@ -492,14 +489,14 @@ public void previewSong(){
 //animace vibrace struny
     private void Shaking(ImageView string){
 
-        android.view.animation.Animation animation= AnimationUtils.loadAnimation(getApplicationContext(), R.anim.shake);
+        Animation animation= AnimationUtils.loadAnimation(getApplicationContext(), R.anim.shake);
         string.startAnimation(animation);
     }
 
     //animace dotyku
     private void Touching(final ImageButton imgButton){
 
-        android.view.animation.Animation animation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.blink);
+        Animation animation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.blink);
         imgButton.startAnimation(animation);
         animation.setAnimationListener(new Animation.AnimationListener()
         {

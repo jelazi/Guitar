@@ -30,6 +30,9 @@ public class MainActivity extends AppCompatActivity {
     Button btnChange; // tlacitko meni nastroje
     Button btnGuitar; //tlacitko presun na kytaru
     Button btnGuitar2;
+    Button trySong;
+    Button previewSong;
+    Button choiceAccount;
     SoundPool soundPool; //zvuk
     AudioManager audioManager;
     EditText editText;
@@ -58,7 +61,12 @@ public class MainActivity extends AppCompatActivity {
         editText = (EditText)findViewById(R.id.editText);
         btnGuitar2 = (Button)findViewById(R.id.guitar2);
         btnGuitar2.setOnClickListener(changeGuitar2);
-
+        trySong = (Button)findViewById(R.id.trySong);
+        trySong.setOnClickListener(btnTrySong);
+        previewSong = (Button)findViewById(R.id.previewSong);
+        previewSong.setOnClickListener(btnPreviewSong);
+        choiceAccount = (Button)findViewById(R.id.choiceAccount);
+        choiceAccount.setOnClickListener(btnChoiceAccount);
 
 
         audioManager = (AudioManager)getSystemService(Context.AUDIO_SERVICE);
@@ -79,12 +87,46 @@ public class MainActivity extends AppCompatActivity {
 
         normal_playback_rate = 0.5f;
         numberInstrument = 1;
+
+//        Intent i = new Intent(MainActivity.this, ChoiceAccount.class);
+//        startActivity(i);
+
+
     }
 
     OnClickListener changeGuitar = new OnClickListener() {
         @Override
         public void onClick(View view) {
             Intent i = new Intent(MainActivity.this, Guitar.class);
+            startActivity(i);
+
+        }
+    };
+
+    OnClickListener btnChoiceAccount = new OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            Intent i = new Intent(MainActivity.this, ChoiceAccount.class);
+            startActivity(i);
+
+        }
+    };
+
+
+    OnClickListener btnTrySong = new OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            Intent i = new Intent(MainActivity.this, TrySong.class);
+            startActivity(i);
+
+        }
+    };
+
+
+    OnClickListener btnPreviewSong = new OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            Intent i = new Intent(MainActivity.this, PreviewSong.class);
             startActivity(i);
 
         }

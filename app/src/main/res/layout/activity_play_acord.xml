@@ -21,28 +21,22 @@
             android:layout_width="0dip"
             android:layout_height="match_parent"
             android:layout_weight="20"
-            android:text="Změň zvuk kytary" />
+            android:text="Změň zvuk" />
 
         <Button
             android:id="@+id/changeAkord"
             android:layout_width="0dip"
             android:layout_height="match_parent"
             android:layout_weight="20"
-            android:text="Change Akord" />
+            android:text="Změň akord" />
 
         <Button
             android:id="@+id/btnTrySong"
             android:layout_width="0dip"
             android:layout_height="match_parent"
             android:layout_weight="20"
-            android:text="Nastavení kytary" />
+            android:text="Nastavení" />
 
-        <Button
-            android:id="@+id/playMusic"
-            android:layout_width="0dip"
-            android:layout_height="match_parent"
-            android:layout_weight="20"
-            android:text="Přehraj skladbu" />
 
 
     </LinearLayout>
@@ -55,6 +49,7 @@
         android:layout_weight="10"
         android:background="@null"
         android:orientation="horizontal">
+
 
         <TextView
             android:id="@+id/nameClient"
@@ -96,7 +91,6 @@
             android:src="@drawable/guitarist"
             android:layout_weight="10"
             />
-
 
     </LinearLayout>
 

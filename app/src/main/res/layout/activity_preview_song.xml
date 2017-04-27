@@ -20,29 +20,25 @@
             android:id="@+id/changeInstrument"
             android:layout_width="0dip"
             android:layout_height="match_parent"
-            android:layout_weight="20"
-            android:text="Změň zvuk kytary" />
+            android:layout_weight="33"
+            android:text="Změň zvuk" />
 
-        <Button
-            android:id="@+id/changeAkord"
-            android:layout_width="0dip"
-            android:layout_height="match_parent"
-            android:layout_weight="20"
-            android:text="Change Akord" />
 
-        <Button
-            android:id="@+id/btnTrySong"
-            android:layout_width="0dip"
-            android:layout_height="match_parent"
-            android:layout_weight="20"
-            android:text="Nastavení kytary" />
 
         <Button
             android:id="@+id/playMusic"
             android:layout_width="0dip"
             android:layout_height="match_parent"
-            android:layout_weight="20"
-            android:text="Přehraj skladbu" />
+            android:layout_weight="33"
+            android:text="Přehraj" />
+
+
+        <Button
+        android:id="@+id/btnTrySong"
+        android:layout_width="0dip"
+        android:layout_height="match_parent"
+        android:layout_weight="33"
+        android:text="Nastavení" />
 
 
     </LinearLayout>
@@ -56,38 +52,19 @@
         android:background="@null"
         android:orientation="horizontal">
 
+
         <TextView
             android:id="@+id/nameClient"
             android:layout_width="0dip"
             android:layout_height="match_parent"
-            android:layout_weight="20"
+            android:layout_weight="90"
             android:textSize="35dp"
             android:textColor="#ff0080"
-            android:text="Karlík"
+            android:text="Pro Elišku"
 
             />
 
-        <TextView
-            android:id="@+id/textMoney"
-            android:layout_width="0dip"
-            android:layout_height="match_parent"
-            android:layout_weight="20"
-            android:textSize="25dp"
-            android:textColor="#e4941b"
-            android:text="Peníze"
-            android:textAlignment="center"
 
-            />
-        <TextView
-            android:id="@+id/valueMoney"
-            android:layout_width="0dip"
-            android:layout_height="match_parent"
-            android:layout_weight="20"
-            android:textSize="25dp"
-            android:textColor="#e4941b"
-            android:text="250"
-
-            />
 
         <ImageView
 
@@ -96,6 +73,8 @@
             android:src="@drawable/guitarist"
             android:layout_weight="10"
             />
+
+
 
 
     </LinearLayout>

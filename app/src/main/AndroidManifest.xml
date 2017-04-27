@@ -2,6 +2,11 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="lubin.guitar">
 
+    <!-- To auto-complete the email text field in the login form with the user's emails -->
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+    <uses-permission android:name="android.permission.READ_PROFILE" />
+    <uses-permission android:name="android.permission.READ_CONTACTS" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -9,7 +14,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name="lubin.guitar.MainActivity">
+        <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -17,15 +22,36 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="lubin.guitar.Guitar"
-            android:screenOrientation="portrait">
-
+            android:name=".Guitar"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Guitar2"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".SettingsActivity"
+            android:label="@string/title_activity_settings"
+            android:parentActivityName=".Guitar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="lubin.guitar.Guitar" />
         </activity>
         <activity
-            android:name="lubin.guitar.Guitar2"
-            android:screenOrientation="portrait">
+            android:name=".PreviewSong"
+            android:label="Přehraj skladbu"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".TrySong"
 
-        </activity>
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ChoiceAccount"
+            android:label="Vyber účet"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".PlayAcord"
+            android:label="Zahraj si akordy"
+            android:screenOrientation="portrait" />
+
     </application>
 
 </manifest>

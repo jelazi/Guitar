@@ -46,7 +46,7 @@ public class ChoiceAccount extends AppCompatActivity {
     View.OnClickListener runGuitarist = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
-            Intent i = new Intent(ChoiceAccount.this, TrySong.class);
+            Intent i = new Intent(ChoiceAccount.this, Account.class);
             startActivity(i);
 
         }

@@ -69,13 +69,13 @@ public class PlayAcord extends Activity {
     Button changeInstrument;
     Button changeAkord;
     Button setting;
-    Button btnplayMusic;
+
 
     SoundPool soundPool; //zvuk
     AudioManager audioManager;
     int soundId;
     int tone; //druh tonu
-    TextView textView;
+
     float normal_playback_rate;
     int numberInstrument = 0; //cislo nastroje
     private GestureDetector gestureDetector;
@@ -92,8 +92,10 @@ public class PlayAcord extends Activity {
     boolean isPlaying = false;
 
 
-    TextView money;
+
     int moneyValue = 0;
+
+    TextView akordName;
 
 
 
@@ -106,7 +108,7 @@ public class PlayAcord extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_guitar);
+        setContentView(R.layout.activity_play_acord);
         string14 = (ImageButton) findViewById(R.id.imageButton14);
         string13 = (ImageButton) findViewById(R.id.imageButton13);
         string12 = (ImageButton) findViewById(R.id.imageButton12);
@@ -181,12 +183,10 @@ public class PlayAcord extends Activity {
         changeAkord.setOnClickListener(btnChangeAkord);
         setting = (Button) findViewById(R.id.btnTrySong);
         setting.setOnClickListener(getSetting);
-        btnplayMusic = (Button)findViewById(R.id.playMusic);
-        btnplayMusic.setOnClickListener(previewSong);
-        money = (TextView) findViewById(R.id.valueMoney);
 
 
-        money.setText(Integer.toString(moneyValue));
+
+
 
         E2tone = new GuitarTone((ImageButton) findViewById(R.id.imageButton60), tones.getString60(), E2string);
         Btone = new GuitarTone((ImageButton) findViewById(R.id.imageButton50), tones.getString50(), Bstring);
@@ -216,6 +216,8 @@ public class PlayAcord extends Activity {
         normal_playback_rate = 0.5f;
         numberInstrument = 1;
         akordNumber = 0;
+        akordName = (TextView)findViewById(R.id.akordValue);
+        akordName.setText("Volné struny");
 
 
 
@@ -229,7 +231,7 @@ public class PlayAcord extends Activity {
 
             soundPool.release();
 
-            Intent i = new Intent(PlayAcord.this, SettingsActivity.class);
+            Intent i = new Intent(PlayAcord.this, Settings.class);
             startActivity(i);
 
         }
@@ -277,18 +279,14 @@ public class PlayAcord extends Activity {
         @Override
         public boolean onTouch(View view, MotionEvent motionEvent) {
 
-
-
-
-            boolean play = true;
+     boolean play = true;
 
             switch (motionEvent.getAction()) {
                 case MotionEvent.ACTION_DOWN: {
                     if (play) {
                         playTone(getToneFromTouch(view.getId()), 0);
                         play = false;
-                        moneyValue ++;
-                        money.setText(Integer.toString(moneyValue));
+
                     }
                     break;
                 }
@@ -309,71 +307,10 @@ public class PlayAcord extends Activity {
 
     };
 
-    // zahrani skladby
-    OnClickListener previewSong = new OnClickListener() {
-        @Override
-        public void onClick(View view) {
-
-
-            previewSong();
-
-        };
-
-
-        public void previewSong(){
-
-            skladba = Songs.getSong2();
-
-            pokus = createMusicFromTones(skladba);
-            if (isPlaying){
-
-                soundPool.release();
-                isPlaying = false;
-                Intent i = new Intent(PlayAcord.this, Guitar.class);
-                startActivity(i);
-                previewSong();
-
-
-
-            }
-
-            isPlaying = true;
-            btnplayMusic.setText("Zastav hudbu");
-
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    int delay = 1000;
-                    for (int i = 0; i <= skladba.size() - 1; i++) {
-                        if (!(skladba.get(i).nameTone.equals("silent"))) //neni to pomlka?
-                        {
-                            playTone(pokus.get(i), delay);
-                        }
-
-                        if (i == skladba.size() - 1){
-                            new Handler().postDelayed(new Runnable() {
-                                @Override
-                                public void run() {
-                                    btnplayMusic.setText("Pusť hudbu");
-                                    isPlaying = false;
-                                }
-                            }, delay + 1000);
 
 
 
 
-                        }
-
-
-                        delay = delay + skladba.get(i).lenghtTone;
-
-                    }
-                }
-            }, 1000);
-
-
-        }
-    };
 
 
 
@@ -415,19 +352,7 @@ public class PlayAcord extends Activity {
 
     }
 
-    ///vytvori skladbu
-    public ArrayList<GuitarTone> createMusicFromTones(ArrayList<Tone> musicTone){
-        int length = musicTone.size();
-        ArrayList<GuitarTone> music = new ArrayList<>();
-        for (int i = 0; i <=length-1;i++){
 
-
-            music.add(getToneFromName(musicTone.get(i).nameTone));
-
-        }
-        return music;
-
-    }
 
     // oznaci struny dle akordu
     private void showAkordOnBoard(){
@@ -508,9 +433,7 @@ public class PlayAcord extends Activity {
 
             @Override
             public void onAnimationStart(Animation animation) {
-                // if (imgButton == R.drawable.touch){
-                //        isBackground = true;
-                //}
+
                 imgButton.setBackgroundResource(R.drawable.touch);
             }
 
@@ -520,12 +443,9 @@ public class PlayAcord extends Activity {
             @Override
             public void onAnimationEnd(Animation animation)
             {
-                //if (isBackground){
 
-                //}
-                //else{
                 imgButton.setBackgroundResource(0);
-                //  }
+
 
 
             }
@@ -540,7 +460,7 @@ public class PlayAcord extends Activity {
 
             float[] guitarStringValue = new float[6];
             GuitarTone[] guitarTone = new GuitarTone[6];
-            eraseAkordOnBoard();
+         //   eraseAkordOnBoard();
 
             guitarTone[0] = Etone;
             guitarTone[1] = Atone;
@@ -556,6 +476,8 @@ public class PlayAcord extends Activity {
             {
                 akordNumber = 0;
             }
+
+            akordName.setText(akords[akordNumber-1]);
             for (int i = 0; i <=5; i++){
                 guitarTone[i].setStringValue(guitarStringValue[i]);
             }
@@ -645,7 +567,7 @@ public class PlayAcord extends Activity {
                 string63.setEnabled(true);
                 string64.setEnabled(true);
             }
-            showAkordOnBoard();
+          //  showAkordOnBoard();
         }
     };
 
@@ -864,7 +786,7 @@ public class PlayAcord extends Activity {
             return guitarTone;
         }
         if (imageButtonId == string30.getId()) {
-            guitarTone = Gtone;
+            guitarTone = Dtone;
             return guitarTone;
         }
         if (imageButtonId == string44.getId()) {

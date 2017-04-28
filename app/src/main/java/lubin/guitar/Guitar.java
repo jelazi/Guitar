@@ -229,7 +229,7 @@ public class Guitar extends Activity {
 
             soundPool.release();
 
-            Intent i = new Intent(Guitar.this, SettingsActivity.class);
+            Intent i = new Intent(Guitar.this, Settings.class);
             startActivity(i);
 
         }

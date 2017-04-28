@@ -69,18 +69,18 @@
             android:layout_weight="20"
             android:textSize="25dp"
             android:textColor="#e4941b"
-            android:text="Peníze"
+            android:text="hraje"
             android:textAlignment="center"
 
             />
         <TextView
-            android:id="@+id/valueMoney"
+            android:id="@+id/akordValue"
             android:layout_width="0dip"
             android:layout_height="match_parent"
             android:layout_weight="20"
-            android:textSize="25dp"
+            android:textSize="20dp"
             android:textColor="#e4941b"
-            android:text="250"
+            android:text="volne struny"
 
             />
 

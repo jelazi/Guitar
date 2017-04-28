@@ -88,8 +88,8 @@ public class MainActivity extends AppCompatActivity {
         normal_playback_rate = 0.5f;
         numberInstrument = 1;
 
-//        Intent i = new Intent(MainActivity.this, ChoiceAccount.class);
-//        startActivity(i);
+        Intent i = new Intent(MainActivity.this, ChoiceAccount.class);
+        startActivity(i);
 
 
     }

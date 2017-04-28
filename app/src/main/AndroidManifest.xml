@@ -28,20 +28,12 @@
             android:name=".Guitar2"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".SettingsActivity"
-            android:label="@string/title_activity_settings"
-            android:parentActivityName=".Guitar">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="lubin.guitar.Guitar" />
-        </activity>
-        <activity
             android:name=".PreviewSong"
             android:label="Přehraj skladbu"
             android:screenOrientation="portrait" />
         <activity
             android:name=".TrySong"
-
+            android:label="Zkus hrát"
             android:screenOrientation="portrait" />
         <activity
             android:name=".ChoiceAccount"
@@ -51,7 +43,14 @@
             android:name=".PlayAcord"
             android:label="Zahraj si akordy"
             android:screenOrientation="portrait" />
-
+        <activity
+            android:name=".Account"
+            android:label="Napiš jméno a heslo"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Settings"
+            android:label="Nastavení"
+            android:screenOrientation="portrait" />y>
     </application>
 
 </manifest>

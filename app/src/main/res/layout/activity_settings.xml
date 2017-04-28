@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    >
+    <TextView
+        android:id="@+id/song"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="Vyber píseň"
+        android:textSize="30dp"
+
+        />
+
+
+    <TextView
+        android:id="@+id/selection"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:textSize="20dp"
+
+        />
+
+    <Spinner android:id="@+id/spinner"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:drawSelectorOnTop="true"
+
+        />
+
+
+    <TextView
+        android:id="@+id/action"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="Vyber akci"
+        android:textSize="30dp"
+        />
+
+
+    <TextView
+        android:id="@+id/select_action"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:textSize="20dp"
+
+
+        />
+
+    <Spinner android:id="@+id/spinner_action"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:drawSelectorOnTop="true"
+        />
+
+
+    <Button
+        android:id="@+id/ok"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text= "Jdi do toho!!!"/>
+
+
+
+</LinearLayout>

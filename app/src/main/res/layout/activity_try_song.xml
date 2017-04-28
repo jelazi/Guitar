@@ -24,7 +24,7 @@
             android:text="Změň zvuk" />
 
         <Button
-            android:id="@+id/playMusic"
+            android:id="@+id/tryMusic"
             android:layout_width="0dip"
             android:layout_height="match_parent"
             android:layout_weight="20"

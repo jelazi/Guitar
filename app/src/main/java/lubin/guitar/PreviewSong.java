@@ -185,7 +185,7 @@ public class PreviewSong extends Activity {
 
             soundPool.release();
 
-            Intent i = new Intent(PreviewSong.this, TrySong.class);
+            Intent i = new Intent(PreviewSong.this, Settings.class);
             startActivity(i);
 
         }

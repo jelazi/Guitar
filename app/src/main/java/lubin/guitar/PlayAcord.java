@@ -1,15 +1,10 @@
 package lubin.guitar;
 
-import android.app.Activity;
-import android.content.Context;
-import android.content.Intent;
+
+import android.graphics.drawable.Drawable;
 import android.media.AudioManager;
-import android.media.SoundPool;
-import android.media.SoundPool.OnLoadCompleteListener;
 import android.os.Bundle;
 import android.os.Handler;
-
-import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -17,128 +12,23 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
-import java.util.ArrayList;
 
 
 
-public class PlayAcord extends Activity {
+public class PlayAcord extends VirtualGuitar {
 
-    ImageButton string14;
-    ImageButton string13;
-    ImageButton string12;
-    ImageButton string11;
-    ImageButton string10;
-    ImageButton string24;
-    ImageButton string23;
-    ImageButton string22;
-    ImageButton string21;
-    ImageButton string20;
-    ImageButton string34;
-    ImageButton string33;
-    ImageButton string32;
-    ImageButton string31;
-    ImageButton string30;
-    ImageButton string44;
-    ImageButton string43;
-    ImageButton string42;
-    ImageButton string41;
-    ImageButton string40;
-    ImageButton string54;
-    ImageButton string53;
-    ImageButton string52;
-    ImageButton string51;
-    ImageButton string50;
-    ImageButton string64;
-    ImageButton string63;
-    ImageButton string62;
-    ImageButton string61;
-    ImageButton string60;
-
-
-    ImageView Estring;
-    ImageView Astring;
-    ImageView Dstring;
-    ImageView Gstring;
-    ImageView Bstring;
-    ImageView E2string;
-
-
-    Button changeInstrument;
     Button changeAkord;
-    Button setting;
-
-
-    SoundPool soundPool; //zvuk
-    AudioManager audioManager;
-    int soundId;
-    int tone; //druh tonu
-
-    float normal_playback_rate;
-    int numberInstrument = 0; //cislo nastroje
-    private GestureDetector gestureDetector;
-    Tones tones = new Tones();
-
-    GuitarTone Etone;
-    GuitarTone Atone;
-    GuitarTone Dtone;
-    GuitarTone Gtone;
-    GuitarTone Btone;
-    GuitarTone E2tone;
     int akordNumber;
-    String[] akords = {"Cdur", "Ddur", "Edur", "Fdur", "Gdur", "Adur", "Bdur", "Cmi"};
-    boolean isPlaying = false;
-
-
-
-    int moneyValue = 0;
-
+    String[] akords = {"Cdur", "Ddur", "Edur", "Fdur", "Gdur", "Adur", "Bdur"};
     TextView akordName;
-
-
-
-
-
-    ArrayList<Tone> skladba = new ArrayList<>();
-    ArrayList<GuitarTone> pokus = new ArrayList<>();
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_play_acord);
-        string14 = (ImageButton) findViewById(R.id.imageButton14);
-        string13 = (ImageButton) findViewById(R.id.imageButton13);
-        string12 = (ImageButton) findViewById(R.id.imageButton12);
-        string11 = (ImageButton) findViewById(R.id.imageButton11);
-        string10 = (ImageButton) findViewById(R.id.imageButton10);
-        string24 = (ImageButton) findViewById(R.id.imageButton24);
-        string23 = (ImageButton) findViewById(R.id.imageButton23);
-        string22 = (ImageButton) findViewById(R.id.imageButton22);
-        string21 = (ImageButton) findViewById(R.id.imageButton21);
-        string20 = (ImageButton) findViewById(R.id.imageButton20);
-        string34 = (ImageButton) findViewById(R.id.imageButton34);
-        string33 = (ImageButton) findViewById(R.id.imageButton33);
-        string32 = (ImageButton) findViewById(R.id.imageButton32);
-        string31 = (ImageButton) findViewById(R.id.imageButton31);
-        string30 = (ImageButton) findViewById(R.id.imageButton30);
-        string44 = (ImageButton) findViewById(R.id.imageButton44);
-        string43 = (ImageButton) findViewById(R.id.imageButton43);
-        string42 = (ImageButton) findViewById(R.id.imageButton42);
-        string41 = (ImageButton) findViewById(R.id.imageButton41);
-        string40 = (ImageButton) findViewById(R.id.imageButton40);
-        string54 = (ImageButton) findViewById(R.id.imageButton54);
-        string53 = (ImageButton) findViewById(R.id.imageButton53);
-        string52 = (ImageButton) findViewById(R.id.imageButton52);
-        string51 = (ImageButton) findViewById(R.id.imageButton51);
-        string50 = (ImageButton) findViewById(R.id.imageButton50);
-        string64 = (ImageButton) findViewById(R.id.imageButton64);
-        string63 = (ImageButton) findViewById(R.id.imageButton63);
-        string62 = (ImageButton) findViewById(R.id.imageButton62);
-        string61 = (ImageButton) findViewById(R.id.imageButton61);
-        string60 = (ImageButton) findViewById(R.id.imageButton60);
+        createView();
+
         string14.setOnTouchListener(stringPlayOnTouchListener);
         string13.setOnTouchListener(stringPlayOnTouchListener);
         string12.setOnTouchListener(stringPlayOnTouchListener);
@@ -169,110 +59,18 @@ public class PlayAcord extends Activity {
         string62.setOnTouchListener(stringPlayOnTouchListener);
         string61.setOnTouchListener(stringPlayOnTouchListener);
         string60.setOnTouchListener(stringPlayOnTouchListener);
-        Estring = (ImageView) findViewById(R.id.Estring);
-        Astring = (ImageView) findViewById(R.id.Astring);
-        Dstring = (ImageView) findViewById(R.id.Dstring);
-        Gstring = (ImageView) findViewById(R.id.Gstring);
-        Bstring = (ImageView) findViewById(R.id.Bstring);
-        E2string = (ImageView) findViewById(R.id.E2string);
 
-
-        changeInstrument = (Button) findViewById(R.id.changeInstrument);
-        changeInstrument.setOnClickListener(btnChangeOnClickListener);
         changeAkord = (Button) findViewById(R.id.changeAkord);
         changeAkord.setOnClickListener(btnChangeAkord);
-        setting = (Button) findViewById(R.id.btnTrySong);
-        setting.setOnClickListener(getSetting);
 
 
-
-
-
-        E2tone = new GuitarTone((ImageButton) findViewById(R.id.imageButton60), tones.getString60(), E2string);
-        Btone = new GuitarTone((ImageButton) findViewById(R.id.imageButton50), tones.getString50(), Bstring);
-        Gtone = new GuitarTone((ImageButton) findViewById(R.id.imageButton40), tones.getString40(), Gstring);
-        Dtone = new GuitarTone((ImageButton) findViewById(R.id.imageButton30), tones.getString30(), Dstring);
-        Atone = new GuitarTone((ImageButton) findViewById(R.id.imageButton20), tones.getString20(), Astring);
-        Etone = new GuitarTone((ImageButton) findViewById(R.id.imageButton10), tones.getString10(), Estring);
-
-        //Etone.setColorFilter(0x80ff0000); zmena barvy
-
-        audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
-
-        //maximalni mnozstvi zaroven prehravanych zvuku
-        int maxStreams = 4;
-        //audiostream v audiomanageru
-        int streamType = AudioManager.STREAM_MUSIC;
-        //kvalita streamu
-        int srcQuality = 0;
-
-        soundPool = new SoundPool(maxStreams, streamType, srcQuality);
-        //listener zvuku
-        soundPool.setOnLoadCompleteListener(soundPoolOnLoadCompleteListener);
-        //id zvuku
-        soundId = soundPool.load(this, R.raw.s1, 1);
-
-        tone = 0;
-        normal_playback_rate = 0.5f;
-        numberInstrument = 1;
         akordNumber = 0;
         akordName = (TextView)findViewById(R.id.akordValue);
         akordName.setText("Volné struny");
-
-
-
+        showAkordOnBoard();
 
 
     }
-
-    OnClickListener getSetting = new OnClickListener() {
-        @Override
-        public void onClick(View view) {
-
-            soundPool.release();
-
-            Intent i = new Intent(PlayAcord.this, Settings.class);
-            startActivity(i);
-
-        }
-    };
-
-
-
-
-
-
-    OnLoadCompleteListener soundPoolOnLoadCompleteListener =
-            new OnLoadCompleteListener(){
-
-                @Override
-                public void onLoadComplete(SoundPool soundPool,
-                                           int sampleId, int status) {
-                    if(status==0){
-                        //string11.setEnabled(true);
-                    }else{
-                        Toast.makeText(PlayAcord.this,
-                                "SoundPool.load() fail",
-                                Toast.LENGTH_LONG).show();
-                    }
-
-                }
-            };
-
-
-
-    OnClickListener stringPlayOnClickListener =
-            new OnClickListener(){
-
-                @Override
-                public void onClick(View v ) {
-                    playTone(getToneFromTouch(v.getId()),0);
-
-                }
-            };
-
-
-
 
 
     View.OnTouchListener stringPlayOnTouchListener = new View.OnTouchListener() {
@@ -301,16 +99,12 @@ public class PlayAcord extends Activity {
             }
 
             // gdt.onTouchEvent(motionEvent);
+
             return true;
         }
 
 
     };
-
-
-
-
-
 
 
 
@@ -334,7 +128,7 @@ public class PlayAcord extends Activity {
 
                 normal_playback_rate = gtr.getStringValue();
                 Shaking(gtr.getStringImage());
-                Touching(gtr.getStringTouch());
+                Touching(gtr.getStringTouch(), gtr.getStringTouch().getBackground());
 
 
                 soundPool.play(soundId,
@@ -353,87 +147,18 @@ public class PlayAcord extends Activity {
     }
 
 
+//prepsna metoda dotyku - zelene kolecko akordu
+    @Override
+    protected void Touching(final ImageButton imgButton, final Drawable background){
 
-    // oznaci struny dle akordu
-    private void showAkordOnBoard(){
-        if (Etone.getStringTouch().isEnabled()) {
-            Etone.getStringTouch().setBackgroundResource(R.drawable.touch);
-            Etone.getStringTouch().setColorFilter(0x80002233);
-        }
-
-        if (Atone.getStringTouch().isEnabled()) {
-            Atone.getStringTouch().setBackgroundResource(R.drawable.touch);
-            Atone.getStringTouch().setColorFilter(0x80112233);
-        }
-
-        if (Dtone.getStringTouch().isEnabled()) {
-            Dtone.getStringTouch().setBackgroundResource(R.drawable.touch);
-            Dtone.getStringTouch().setColorFilter(0x80112233);
-        }
-
-        if (Gtone.getStringTouch().isEnabled()) {
-            Gtone.getStringTouch().setBackgroundResource(R.drawable.touch);
-            Gtone.getStringTouch().setColorFilter(0x80112233);
-        }
-
-        if (Btone.getStringTouch().isEnabled()) {
-            Btone.getStringTouch().setBackgroundResource(R.drawable.touch);
-            Btone.getStringTouch().setColorFilter(0x80112233);
-        }
-        if (E2tone.getStringTouch().isEnabled()) {
-            E2tone.getStringTouch().setBackgroundResource(R.drawable.touch);
-            E2tone.getStringTouch().setColorFilter(0x80112233);
-        }
-
-
-    }
-
-    // vymaze oznaceni strun akordu
-    private void eraseAkordOnBoard(){
-        if (Etone.getStringTouch().isEnabled()) {
-            Etone.getStringTouch().setBackgroundResource(0);
-        }
-        if (Atone.getStringTouch().isEnabled()) {
-            Atone.getStringTouch().setBackgroundResource(0);
-        }
-        if (Dtone.getStringTouch().isEnabled()) {
-            Dtone.getStringTouch().setBackgroundResource(0);
-        }
-        if (Gtone.getStringTouch().isEnabled()) {
-            Gtone.getStringTouch().setBackgroundResource(0);
-        }
-        if (Btone.getStringTouch().isEnabled()) {
-            Btone.getStringTouch().setBackgroundResource(0);
-        }
-        if (E2tone.getStringTouch().isEnabled()) {
-            E2tone.getStringTouch().setBackgroundResource(0);
-        }
-
-
-
-    }
-
-
-    //animace vibrace struny
-    private void Shaking(ImageView string){
-
-        android.view.animation.Animation animation= AnimationUtils.loadAnimation(getApplicationContext(), R.anim.shake);
-        string.startAnimation(animation);
-    }
-
-    //animace dotyku
-    private void Touching(final ImageButton imgButton){
-
-        android.view.animation.Animation animation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.blink);
+        final Animation animation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.blink);
         imgButton.startAnimation(animation);
         animation.setAnimationListener(new Animation.AnimationListener()
         {
-            boolean isBackground = false;
 
 
             @Override
             public void onAnimationStart(Animation animation) {
-
                 imgButton.setBackgroundResource(R.drawable.touch);
             }
 
@@ -444,32 +169,93 @@ public class PlayAcord extends Activity {
             public void onAnimationEnd(Animation animation)
             {
 
-                imgButton.setBackgroundResource(0);
-
-
-
+                imgButton.setBackgroundResource(R.drawable.touchakord);
             }
         });
     }
 
 
-    //zmacknute tlacitko
+
+    // oznaci struny dle akordu
+    private void showAkordOnBoard(){
+
+
+
+        if (Etone.getStringValue() != 0) {
+            Etone.getStringTouch().setBackgroundResource(R.drawable.touchakord);
+        }
+
+        if (Atone.getStringValue() != 0) {
+            Atone.getStringTouch().setBackgroundResource(R.drawable.touchakord);
+        }
+
+        if (Dtone.getStringValue() != 0) {
+            Dtone.getStringTouch().setBackgroundResource(R.drawable.touchakord);
+        }
+
+        if (Gtone.getStringValue() != 0) {
+            Gtone.getStringTouch().setBackgroundResource(R.drawable.touchakord);
+        }
+
+        if (Btone.getStringValue() != 0) {
+            Btone.getStringTouch().setBackgroundResource(R.drawable.touchakord);
+        }
+
+        if (E2tone.getStringValue() != 0) {
+            E2tone.getStringTouch().setBackgroundResource(R.drawable.touchakord);
+        }
+
+
+    }
+
+    // vymaze oznaceni strun akordu
+    private void eraseAkordOnBoard(){
+        if (Etone.getStringValue() != 0) {
+            Etone.getStringTouch().setBackgroundResource(0);
+        }
+
+        if (Atone.getStringValue() != 0) {
+            Atone.getStringTouch().setBackgroundResource(0);
+        }
+
+        if (Dtone.getStringValue() != 0) {
+            Dtone.getStringTouch().setBackgroundResource(0);
+        }
+
+        if (Gtone.getStringValue() != 0) {
+            Gtone.getStringTouch().setBackgroundResource(0);
+        }
+
+        if (Btone.getStringValue() != 0) {
+            Btone.getStringTouch().setBackgroundResource(0);
+        }
+
+        if (E2tone.getStringValue() != 0) {
+            E2tone.getStringTouch().setBackgroundResource(0);
+        }
+    }
+
+
+    //zmacknute tlacitko zmen akord
     OnClickListener btnChangeAkord = new OnClickListener() {
         @Override
         public void onClick(View view) {
 
             float[] guitarStringValue = new float[6];
-            GuitarTone[] guitarTone = new GuitarTone[6];
-         //   eraseAkordOnBoard();
 
-            guitarTone[0] = Etone;
-            guitarTone[1] = Atone;
-            guitarTone[2] = Dtone;
-            guitarTone[3] = Gtone;
-            guitarTone[4] = Btone;
-            guitarTone[5] = E2tone;
+            GuitarTone[] guitarTones = new GuitarTone[6]; //kytarove tony akordu
+
+            eraseAkordOnBoard();
+
+            guitarTones[0] = Etone;
+            guitarTones[1] = Atone;
+            guitarTones[2] = Dtone;
+            guitarTones[3] = Gtone;
+            guitarTones[4] = Btone;
+            guitarTones[5] = E2tone;
             guitarStringValue = tones.getAkord(akords[akordNumber]);
-            if (akordNumber < 7) {
+            akordName.setText(akords[akordNumber]);
+            if (akordNumber < 6) {
                 akordNumber++;
             }
             else
@@ -477,11 +263,11 @@ public class PlayAcord extends Activity {
                 akordNumber = 0;
             }
 
-            akordName.setText(akords[akordNumber-1]);
+
             for (int i = 0; i <=5; i++){
-                guitarTone[i].setStringValue(guitarStringValue[i]);
+                guitarTones[i].setStringValue(guitarStringValue[i]);
             }
-            guitarTone = FillStringsValue(guitarTone);
+            guitarTones = FillStringsValue(guitarTones);
             if (Etone.getStringValue() == 0){
                 string10.setEnabled(false);
                 string11.setEnabled(false);
@@ -567,7 +353,7 @@ public class PlayAcord extends Activity {
                 string63.setEnabled(true);
                 string64.setEnabled(true);
             }
-          //  showAkordOnBoard();
+            showAkordOnBoard();
         }
     };
 

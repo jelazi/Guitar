@@ -4,24 +4,19 @@ import android.content.Context;
 
 import android.content.Intent;
 import android.media.AudioManager;
-        import android.media.SoundPool;
-        import android.media.SoundPool.OnLoadCompleteListener;
-        import android.os.Bundle;
+import android.media.SoundPool;
+import android.media.SoundPool.OnLoadCompleteListener;
+import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
-        import android.view.View.OnClickListener;
-        import android.widget.Button;
+import android.view.View.OnClickListener;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.support.v7.app.AppCompatActivity;
 
 import lubin.guitar.R;
-
-
-
-
-
 
 
 public class MainActivity extends AppCompatActivity {
@@ -42,34 +37,30 @@ public class MainActivity extends AppCompatActivity {
     int numberInstrument = 0; //cislo nastroje
 
 
-
-
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        btnPlay = (Button)findViewById(R.id.play);
+        btnPlay = (Button) findViewById(R.id.play);
         //btnPlay.setEnabled(false);
         btnPlay.setOnClickListener(btnPlayOnClickListener);
-        btnChange = (Button)findViewById(R.id.bt2);
+        btnChange = (Button) findViewById(R.id.bt2);
         btnChange.setOnClickListener(btnChangeOnClickListener);
-        btnGuitar = (Button)findViewById(R.id.guitar);
+        btnGuitar = (Button) findViewById(R.id.guitar);
         btnGuitar.setOnClickListener(changeGuitar);
-        editText = (EditText)findViewById(R.id.editText);
-        btnGuitar2 = (Button)findViewById(R.id.guitar2);
+        editText = (EditText) findViewById(R.id.editText);
+        btnGuitar2 = (Button) findViewById(R.id.guitar2);
         btnGuitar2.setOnClickListener(changeGuitar2);
-        trySong = (Button)findViewById(R.id.trySong);
+        trySong = (Button) findViewById(R.id.trySong);
         trySong.setOnClickListener(btnTrySong);
-        previewSong = (Button)findViewById(R.id.previewSong);
+        previewSong = (Button) findViewById(R.id.previewSong);
         previewSong.setOnClickListener(btnPreviewSong);
-        choiceAccount = (Button)findViewById(R.id.choiceAccount);
+        choiceAccount = (Button) findViewById(R.id.choiceAccount);
         choiceAccount.setOnClickListener(btnChoiceAccount);
 
 
-        audioManager = (AudioManager)getSystemService(Context.AUDIO_SERVICE);
+        audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
 
         //maximalni mnozstvi zaroven prehravanych zvuku
         int maxStreams = 4;
@@ -83,7 +74,7 @@ public class MainActivity extends AppCompatActivity {
         soundPool.setOnLoadCompleteListener(soundPoolOnLoadCompleteListener);
         //id zvuku
         soundId = soundPool.load(this, R.raw.s1, 1);
-        textView = (TextView)findViewById(R.id.text);
+        textView = (TextView) findViewById(R.id.text);
 
         normal_playback_rate = 0.5f;
         numberInstrument = 1;
@@ -142,16 +133,15 @@ public class MainActivity extends AppCompatActivity {
     };
 
 
-
     OnLoadCompleteListener soundPoolOnLoadCompleteListener =
-            new OnLoadCompleteListener(){
+            new OnLoadCompleteListener() {
 
                 @Override
                 public void onLoadComplete(SoundPool soundPool,
                                            int sampleId, int status) {
-                    if(status==0){
+                    if (status == 0) {
                         btnPlay.setEnabled(true);
-                    }else{
+                    } else {
                         Toast.makeText(MainActivity.this,
                                 "SoundPool.load() fail",
                                 Toast.LENGTH_LONG).show();
@@ -161,11 +151,11 @@ public class MainActivity extends AppCompatActivity {
             };
 
     OnClickListener btnPlayOnClickListener =
-            new OnClickListener(){
+            new OnClickListener() {
 
                 @Override
                 public void onClick(View v) {
-                    for (float i = 1; i < 2; i=i+0.1f) {
+                    for (float i = 1; i < 2; i = i + 0.1f) {
                         float vol = audioManager.getStreamVolume(
                                 AudioManager.STREAM_MUSIC);
                         float maxVol = audioManager.getStreamMaxVolume(
@@ -207,10 +197,9 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public void onClick(View view) {
 
-            if (numberInstrument <11){
+            if (numberInstrument < 11) {
                 numberInstrument++;
-            }
-            else {
+            } else {
                 numberInstrument = 1;
             }
             normal_playback_rate = 0.5f;

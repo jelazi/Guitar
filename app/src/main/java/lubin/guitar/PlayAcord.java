@@ -15,7 +15,6 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 
-
 public class PlayAcord extends VirtualGuitar {
 
     Button changeAkord;
@@ -65,7 +64,7 @@ public class PlayAcord extends VirtualGuitar {
 
 
         akordNumber = 0;
-        akordName = (TextView)findViewById(R.id.akordValue);
+        akordName = (TextView) findViewById(R.id.akordValue);
         akordName.setText("Volné struny");
         showAkordOnBoard();
 
@@ -77,7 +76,7 @@ public class PlayAcord extends VirtualGuitar {
         @Override
         public boolean onTouch(View view, MotionEvent motionEvent) {
 
-     boolean play = true;
+            boolean play = true;
 
             switch (motionEvent.getAction()) {
                 case MotionEvent.ACTION_DOWN: {
@@ -107,9 +106,8 @@ public class PlayAcord extends VirtualGuitar {
     };
 
 
-
     // zahrani tonu s volitelnym zpozdenim
-    public void playTone(GuitarTone guitarTone, int delay){
+    public void playTone(GuitarTone guitarTone, int delay) {
         final GuitarTone gtr = guitarTone;
 
         new Handler().postDelayed(new Runnable() {
@@ -143,18 +141,16 @@ public class PlayAcord extends VirtualGuitar {
         }, delay);
 
 
-
     }
 
 
-//prepsna metoda dotyku - zelene kolecko akordu
+    //prepsna metoda dotyku - zelene kolecko akordu
     @Override
-    protected void Touching(final ImageButton imgButton, final Drawable background){
+    protected void Touching(final ImageButton imgButton, final Drawable background) {
 
         final Animation animation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.blink);
         imgButton.startAnimation(animation);
-        animation.setAnimationListener(new Animation.AnimationListener()
-        {
+        animation.setAnimationListener(new Animation.AnimationListener() {
 
 
             @Override
@@ -163,11 +159,11 @@ public class PlayAcord extends VirtualGuitar {
             }
 
             @Override
-            public void onAnimationRepeat(Animation animation) { }
+            public void onAnimationRepeat(Animation animation) {
+            }
 
             @Override
-            public void onAnimationEnd(Animation animation)
-            {
+            public void onAnimationEnd(Animation animation) {
 
                 imgButton.setBackgroundResource(R.drawable.touchakord);
             }
@@ -175,10 +171,8 @@ public class PlayAcord extends VirtualGuitar {
     }
 
 
-
     // oznaci struny dle akordu
-    private void showAkordOnBoard(){
-
+    private void showAkordOnBoard() {
 
 
         if (Etone.getStringValue() != 0) {
@@ -209,7 +203,7 @@ public class PlayAcord extends VirtualGuitar {
     }
 
     // vymaze oznaceni strun akordu
-    private void eraseAkordOnBoard(){
+    private void eraseAkordOnBoard() {
         if (Etone.getStringValue() != 0) {
             Etone.getStringTouch().setBackgroundResource(0);
         }
@@ -257,96 +251,88 @@ public class PlayAcord extends VirtualGuitar {
             akordName.setText(akords[akordNumber]);
             if (akordNumber < 6) {
                 akordNumber++;
-            }
-            else
-            {
+            } else {
                 akordNumber = 0;
             }
 
 
-            for (int i = 0; i <=5; i++){
+            for (int i = 0; i <= 5; i++) {
                 guitarTones[i].setStringValue(guitarStringValue[i]);
             }
             guitarTones = FillStringsValue(guitarTones);
-            if (Etone.getStringValue() == 0){
+            if (Etone.getStringValue() == 0) {
                 string10.setEnabled(false);
                 string11.setEnabled(false);
                 string12.setEnabled(false);
                 string13.setEnabled(false);
                 string14.setEnabled(false);
-            }
-            else{
+            } else {
                 string10.setEnabled(true);
                 string11.setEnabled(true);
                 string12.setEnabled(true);
                 string13.setEnabled(true);
                 string14.setEnabled(true);
             }
-            if (Atone.getStringValue() == 0){
+            if (Atone.getStringValue() == 0) {
                 string20.setEnabled(false);
                 string21.setEnabled(false);
                 string22.setEnabled(false);
                 string23.setEnabled(false);
                 string24.setEnabled(false);
-            }
-            else{
+            } else {
                 string20.setEnabled(true);
                 string21.setEnabled(true);
                 string22.setEnabled(true);
                 string23.setEnabled(true);
                 string24.setEnabled(true);
             }
-            if (Dtone.getStringValue() == 0){
+            if (Dtone.getStringValue() == 0) {
                 string30.setEnabled(false);
                 string31.setEnabled(false);
                 string32.setEnabled(false);
                 string33.setEnabled(false);
                 string34.setEnabled(false);
-            }
-            else{
+            } else {
                 string30.setEnabled(true);
                 string31.setEnabled(true);
                 string32.setEnabled(true);
                 string33.setEnabled(true);
                 string34.setEnabled(true);
             }
-            if (Gtone.getStringValue() == 0){
+            if (Gtone.getStringValue() == 0) {
                 string40.setEnabled(false);
                 string41.setEnabled(false);
                 string42.setEnabled(false);
                 string43.setEnabled(false);
                 string44.setEnabled(false);
 
-            }
-            else{
+            } else {
                 string40.setEnabled(true);
                 string41.setEnabled(true);
                 string42.setEnabled(true);
                 string43.setEnabled(true);
                 string44.setEnabled(true);
             }
-            if (Btone.getStringValue() == 0){
+            if (Btone.getStringValue() == 0) {
                 string50.setEnabled(false);
                 string51.setEnabled(false);
                 string52.setEnabled(false);
                 string53.setEnabled(false);
                 string54.setEnabled(false);
-            }
-            else{
+            } else {
                 string50.setEnabled(true);
                 string51.setEnabled(true);
                 string52.setEnabled(true);
                 string53.setEnabled(true);
                 string54.setEnabled(true);
             }
-            if (E2tone.getStringValue() == 0){
+            if (E2tone.getStringValue() == 0) {
                 string60.setEnabled(false);
                 string61.setEnabled(false);
                 string62.setEnabled(false);
                 string63.setEnabled(false);
                 string64.setEnabled(false);
-            }
-            else{
+            } else {
                 string60.setEnabled(true);
                 string61.setEnabled(true);
                 string62.setEnabled(true);
@@ -361,10 +347,9 @@ public class PlayAcord extends VirtualGuitar {
         @Override
         public void onClick(View view) {
 
-            if (numberInstrument <11){
+            if (numberInstrument < 11) {
                 numberInstrument++;
-            }
-            else {
+            } else {
                 numberInstrument = 1;
             }
             normal_playback_rate = 0.5f;
@@ -374,7 +359,6 @@ public class PlayAcord extends VirtualGuitar {
             soundId = soundPool.load(getApplicationContext(), path, 1);
         }
     };
-
 
 
     //naplni struny podle akordu
@@ -512,7 +496,7 @@ public class PlayAcord extends VirtualGuitar {
     }
 
     // vrati ton podle zmacknute struny
-    public GuitarTone getToneFromTouch (int imageButtonId){
+    public GuitarTone getToneFromTouch(int imageButtonId) {
         GuitarTone guitarTone = new GuitarTone(string10, tones.getString10(), Estring);
 
         if (imageButtonId == string14.getId()) {
@@ -832,7 +816,7 @@ public class PlayAcord extends VirtualGuitar {
                 break;
 
             }
-            default:{
+            default: {
                 guitarTone.setStringImage(Estring);
                 guitarTone.setStringValue(0);
                 guitarTone.setStringTouch(string10);

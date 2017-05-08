@@ -23,28 +23,28 @@ public class Settings extends Activity
         implements AdapterView.OnItemSelectedListener {
     private TextView selection1;
     private TextView selection2;
-    private static final String[] items1={"Pro Elišku", "Toccata a fuga Dmol", "Ovčáci, čtveráci"};
-    private static final String[] items2={"Hraj píseň", "Přehraj píseň", "Hraj akordy"};
+    private static final String[] items1 = {"Pro Elišku", "Toccata a fuga Dmol", "Ovčáci, čtveráci"};
+    private static final String[] items2 = {"Hraj píseň", "Přehraj píseň", "Hraj akordy"};
     Button ok;
 
     @Override
     public void onCreate(Bundle icicle) {
         super.onCreate(icicle);
         setContentView(R.layout.activity_settings);
-        selection1=(TextView)findViewById(R.id.selection);
-        selection2=(TextView)findViewById(R.id.select_action);
+        selection1 = (TextView) findViewById(R.id.selection);
+        selection2 = (TextView) findViewById(R.id.select_action);
 
-        Spinner spin=(Spinner)findViewById(R.id.spinner);
-        Spinner spin2= (Spinner)findViewById(R.id.spinner_action);
+        Spinner spin = (Spinner) findViewById(R.id.spinner);
+        Spinner spin2 = (Spinner) findViewById(R.id.spinner_action);
 
         spin.setOnItemSelectedListener(this);
         spin2.setOnItemSelectedListener(this);
 
-        ArrayAdapter<String> aa=new ArrayAdapter<String>(this,
+        ArrayAdapter<String> aa = new ArrayAdapter<String>(this,
                 android.R.layout.simple_spinner_item,
                 items1);
 
-        ArrayAdapter<String> bb=new ArrayAdapter<String>(this,
+        ArrayAdapter<String> bb = new ArrayAdapter<String>(this,
                 android.R.layout.simple_spinner_item,
                 items2);
 
@@ -55,13 +55,10 @@ public class Settings extends Activity
                 android.R.layout.simple_spinner_dropdown_item);
         spin2.setAdapter(bb);
 
-        ok = (Button)findViewById(R.id.ok);
+        ok = (Button) findViewById(R.id.ok);
         ok.setOnClickListener(changeActivityListener);
 
     }
-
-
-
 
 
     public void onItemSelected(AdapterView<?> parent,
@@ -80,15 +77,15 @@ public class Settings extends Activity
         @Override
         public void onClick(View view) {
 
-            if (selection2.getText().equals("Hraj píseň")){
+            if (selection2.getText().equals("Hraj píseň")) {
                 Intent i = new Intent(Settings.this, TrySong.class);
                 startActivity(i);
             }
-            if (selection2.getText().equals("Přehraj píseň")){
+            if (selection2.getText().equals("Přehraj píseň")) {
                 Intent i = new Intent(Settings.this, PreviewSong.class);
                 startActivity(i);
             }
-            if (selection2.getText().equals("Hraj akordy")){
+            if (selection2.getText().equals("Hraj akordy")) {
                 Intent i = new Intent(Settings.this, PlayAcord.class);
                 startActivity(i);
             }

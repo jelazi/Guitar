@@ -1,8 +1,5 @@
 package lubin.guitar;
 
-/**
- * Created by Lubin on 26.4.2017.
- */
 
 public class Tone {
 

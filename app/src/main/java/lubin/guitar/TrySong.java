@@ -1,7 +1,6 @@
 package lubin.guitar;
 
 
-
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -14,7 +13,7 @@ public class TrySong extends VirtualGuitar {
     Button btnTryMusic; //tlacitko hraj skladbu
 
     @Override
-    protected void onCreate(Bundle savedInstanceState){
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_try_song);
         createView();
@@ -51,39 +50,34 @@ public class TrySong extends VirtualGuitar {
         string62.setOnClickListener(stringPlayOnClickListener);
         string61.setOnClickListener(stringPlayOnClickListener);
         string60.setOnClickListener(stringPlayOnClickListener);
-        btnTryMusic = (Button)findViewById(R.id.tryMusic); //prirazeni tlacitka - Hraj skladbu
+        btnTryMusic = (Button) findViewById(R.id.tryMusic); //prirazeni tlacitka - Hraj skladbu
         btnTryMusic.setOnClickListener(trySong); //listener tlacitka - Hraj skladbu
     }
 
 
     View.OnClickListener stringPlayOnClickListener =
-            new View.OnClickListener(){
+            new View.OnClickListener() {
 
                 @Override
-                public void onClick(View v ) {
-                    if (playingSong){
-                        if (playingTone.getStringValue() == (getToneFromTouch(v.getId()).getStringValue())){
+                public void onClick(View v) {
+                    if (playingSong) {
+                        if (playingTone.getStringValue() == (getToneFromTouch(v.getId()).getStringValue())) {
                             playToneFromTouch(v, pokus.get(numberTone + 1).getStringTouch(), null);
                             moneyValue++;
                             money.setText(Integer.toString(moneyValue));
                             numberTone++;
                             playingTone.getStringImage().clearColorFilter();
-                         //   playingTone.getStringTouch().setBackgroundResource(0);
-                            if (numberTone <= pokus.size()-1)
-                            {
+                            //   playingTone.getStringTouch().setBackgroundResource(0);
+                            if (numberTone <= pokus.size() - 1) {
                                 trytrySong();
-                            }
-                            else
-                            {
+                            } else {
                                 playingSong = false;
                                 btnTryMusic.setText("Zkus hrát");
                                 btnTryMusic.setBackgroundResource(0);
                             }
+                        } else {
                         }
-                        else{
-                        }
-                    }
-                    else {
+                    } else {
                         playToneFromTouch(v, null);
                     }
                 }
@@ -94,14 +88,13 @@ public class TrySong extends VirtualGuitar {
     View.OnClickListener trySong = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
-            if (playingSong){
+            if (playingSong) {
                 playingSong = false;
                 btnTryMusic.setText("Zkus hrát");
                 btnTryMusic.setBackgroundResource(android.R.drawable.btn_default);
                 playingTone.getStringImage().clearColorFilter();
-            //    playingTone.getStringTouch().setBackgroundResource(0);
-            }
-            else{
+                //    playingTone.getStringTouch().setBackgroundResource(0);
+            } else {
                 playingSong = true;
                 btnTryMusic.setText("Hrajeme...");
                 btnTryMusic.setBackgroundColor(0x800a33f5);
@@ -109,23 +102,25 @@ public class TrySong extends VirtualGuitar {
                 pokus = createMusicFromTones(skladba);
                 trytrySong();
             }
-        };
+        }
+
+        ;
 
 
     };
 
 
-    public void trytrySong(){
+    public void trytrySong() {
         playingTone = pokus.get(numberTone);
         playingTone.getStringImage().setColorFilter(0x80ff0000);
         playingTone.getStringTouch().setBackgroundResource(R.drawable.touch);
     }
 
     ///vytvori skladbu
-    public ArrayList<GuitarTone> createMusicFromTones(ArrayList<Tone> musicTone){
+    public ArrayList<GuitarTone> createMusicFromTones(ArrayList<Tone> musicTone) {
         int length = musicTone.size();
         ArrayList<GuitarTone> music = new ArrayList<>();
-        for (int i = 0; i <=length-1;i++){
+        for (int i = 0; i <= length - 1; i++) {
             music.add(getToneFromName(musicTone.get(i).nameTone));
         }
         return music;

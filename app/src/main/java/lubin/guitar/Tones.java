@@ -11,6 +11,7 @@ import android.widget.Switch;
 
 final class Tones {
 
+//    modulace tonu
     final float string64 = 1.443f;
     final float string63 = 1.361f;
     final float string62 = 1.285f;
@@ -41,6 +42,7 @@ final class Tones {
     final float string12 = 0.321f;
     final float string11 = 0.303f;
     final float string10 = 0.286f;
+
 
     final float Gis4 = string64;
     final float G4 = string63;
@@ -77,7 +79,7 @@ final class Tones {
 
 
 
-
+// vrátí zpět struny akordu
     public float[] getAkord(String akord){
         float[] akordString = new float[6];
 

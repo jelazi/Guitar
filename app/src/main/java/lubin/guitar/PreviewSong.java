@@ -1,11 +1,9 @@
 package lubin.guitar;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.media.AudioManager;
 import android.media.SoundPool;
-import android.media.SoundPool.OnLoadCompleteListener;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
@@ -14,23 +12,22 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.ImageButton;
-import android.widget.ImageView;
-import android.widget.Toast;
-
 import java.util.ArrayList;
-
-// TODO udělat dědičnost PreviewSong na virtual guitar - zatím nefunguje padá
-
-//TODO chyba - při zmáčknutí tlačítka zpět, puštěná hudba se nechová standartně - hraje dál
-
 
 public class PreviewSong extends VirtualGuitar {
 
-
     Button btnplayMusic;
 
-    boolean isPlaying = false;
+    SoundPool soundPool; //zvuk
+    AudioManager audioManager;
+    int soundId;
+    int tone; //druh tonu
 
+    float normal_playback_rate;
+    int numberInstrument = 0; //cislo nastroje
+    Tones tones = new Tones();
+
+    boolean isPlaying = false;
 
     ArrayList<Tone> skladba = new ArrayList<>();
     ArrayList<GuitarTone> pokus = new ArrayList<>();
@@ -40,12 +37,32 @@ public class PreviewSong extends VirtualGuitar {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_preview_song);
+        createView();
 
+        changeInstrument = (Button) findViewById(R.id.changeInstrument);
+        changeInstrument.setOnClickListener(btnChangeOnClickListener);
 
-        btnplayMusic = (Button) findViewById(R.id.playMusic);
+        btnplayMusic = (Button)findViewById(R.id.playMusic);
         btnplayMusic.setOnClickListener(previewSong);
 
+        audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
 
+        //maximalni mnozstvi zaroven prehravanych zvuku
+        int maxStreams = 4;
+        //audiostream v audiomanageru
+        int streamType = AudioManager.STREAM_MUSIC;
+        //kvalita streamu
+        int srcQuality = 0;
+
+        soundPool = new SoundPool(maxStreams, streamType, srcQuality);
+        //listener zvuku
+        soundPool.setOnLoadCompleteListener(soundPoolOnLoadCompleteListener);
+        //id zvuku
+        soundId = soundPool.load(this, R.raw.s1, 1);
+
+        tone = 0;
+        normal_playback_rate = 0.5f;
+        numberInstrument = 1;
     }
 
 
@@ -54,28 +71,21 @@ public class PreviewSong extends VirtualGuitar {
         @Override
         public void onClick(View view) {
 
-
             previewSong();
+        };
 
-        }
-
-        ;
-
-
-        public void previewSong() {
+        public void previewSong(){
 
             skladba = Songs.getSong2();
 
             pokus = createMusicFromTones(skladba);
-            if (isPlaying) {
+            if (isPlaying){
 
                 soundPool.release();
                 isPlaying = false;
                 Intent i = new Intent(PreviewSong.this, PreviewSong.class);
                 startActivity(i);
                 previewSong();
-
-
             }
 
             isPlaying = true;
@@ -91,7 +101,7 @@ public class PreviewSong extends VirtualGuitar {
                             playTone(pokus.get(i), delay);
                         }
 
-                        if (i == skladba.size() - 1) {
+                        if (i == skladba.size() - 1){
                             new Handler().postDelayed(new Runnable() {
                                 @Override
                                 public void run() {
@@ -99,23 +109,16 @@ public class PreviewSong extends VirtualGuitar {
                                     isPlaying = false;
                                 }
                             }, delay + 1000);
-
-
                         }
-
                         delay = delay + skladba.get(i).lenghtTone;
-
                     }
                 }
             }, 1000);
-
-
         }
     };
 
-
     // zahrani tonu s volitelnym zpozdenim
-    public void playTone(GuitarTone guitarTone, int delay) {
+    public void playTone(GuitarTone guitarTone, int delay){
         final GuitarTone gtr = guitarTone;
 
         new Handler().postDelayed(new Runnable() {
@@ -136,42 +139,35 @@ public class PreviewSong extends VirtualGuitar {
                 Shaking(gtr.getStringImage());
                 Touching(gtr.getStringTouch());
 
-
                 soundPool.play(soundId,
                         leftVolume,
                         rightVolume,
                         priority,
                         no_loop,
                         normal_playback_rate);
-
-
             }
         }, delay);
-
-
     }
 
     ///vytvori skladbu
-    public ArrayList<GuitarTone> createMusicFromTones(ArrayList<Tone> musicTone) {
+    public ArrayList<GuitarTone> createMusicFromTones(ArrayList<Tone> musicTone){
         int length = musicTone.size();
         ArrayList<GuitarTone> music = new ArrayList<>();
-        for (int i = 0; i <= length - 1; i++) {
-
+        for (int i = 0; i <=length-1;i++){
 
             music.add(getToneFromName(musicTone.get(i).nameTone));
-
         }
         return music;
-
     }
 
 
     //animace dotyku
-    private void Touching(final ImageButton imgButton) {
+    private void Touching(final ImageButton imgButton){
 
         Animation animation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.blink);
         imgButton.startAnimation(animation);
-        animation.setAnimationListener(new Animation.AnimationListener() {
+        animation.setAnimationListener(new Animation.AnimationListener()
+        {
             boolean isBackground = false;
 
 
@@ -184,11 +180,11 @@ public class PreviewSong extends VirtualGuitar {
             }
 
             @Override
-            public void onAnimationRepeat(Animation animation) {
-            }
+            public void onAnimationRepeat(Animation animation) { }
 
             @Override
-            public void onAnimationEnd(Animation animation) {
+            public void onAnimationEnd(Animation animation)
+            {
                 //if (isBackground){
 
                 //}
@@ -201,5 +197,21 @@ public class PreviewSong extends VirtualGuitar {
         });
     }
 
+    OnClickListener btnChangeOnClickListener = new OnClickListener() { //zmena nastroje
+        @Override
+        public void onClick(View view) {
 
+            if (numberInstrument <11){
+                numberInstrument++;
+            }
+            else {
+                numberInstrument = 1;
+            }
+            normal_playback_rate = 0.5f;
+
+            int path = getResources().getIdentifier(("s" + String.valueOf(numberInstrument)), "raw", getPackageName());
+
+            soundId = soundPool.load(getApplicationContext(), path, 1);
+        }
+    };
 }

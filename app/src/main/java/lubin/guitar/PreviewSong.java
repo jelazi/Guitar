@@ -6,13 +6,19 @@ import android.media.AudioManager;
 import android.media.SoundPool;
 import android.os.Bundle;
 import android.os.Handler;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.Toast;
+
 import java.util.ArrayList;
+
+// TODO při zmáčknutí tlačítka zpět se nezastaví hudba
+
 
 public class PreviewSong extends VirtualGuitar {
 
@@ -29,7 +35,9 @@ public class PreviewSong extends VirtualGuitar {
 
     boolean isPlaying = false;
 
-    ArrayList<Tone> skladba = new ArrayList<>();
+    Song skladba = new Song();
+
+    ArrayList<Tone> tonySkladby = new ArrayList<>();
     ArrayList<GuitarTone> pokus = new ArrayList<>();
 
 
@@ -76,9 +84,14 @@ public class PreviewSong extends VirtualGuitar {
 
         public void previewSong(){
 
+
+
             skladba = Songs.getSong2();
 
-            pokus = createMusicFromTones(skladba);
+            tonySkladby = skladba.getTones();
+
+
+            pokus = createMusicFromTones(tonySkladby);
             if (isPlaying){
 
                 soundPool.release();
@@ -95,13 +108,13 @@ public class PreviewSong extends VirtualGuitar {
                 @Override
                 public void run() {
                     int delay = 1000;
-                    for (int i = 0; i <= skladba.size() - 1; i++) {
-                        if (!(skladba.get(i).nameTone.equals("silent"))) //neni to pomlka?
+                    for (int i = 0; i <= tonySkladby.size() - 1; i++) {
+                        if (!(tonySkladby.get(i).nameTone.equals("silent"))) //neni to pomlka?
                         {
                             playTone(pokus.get(i), delay);
                         }
 
-                        if (i == skladba.size() - 1){
+                        if (i == tonySkladby.size() - 1){
                             new Handler().postDelayed(new Runnable() {
                                 @Override
                                 public void run() {
@@ -110,7 +123,7 @@ public class PreviewSong extends VirtualGuitar {
                                 }
                             }, delay + 1000);
                         }
-                        delay = delay + skladba.get(i).lenghtTone;
+                        delay = delay + tonySkladby.get(i).lenghtTone;
                     }
                 }
             }, 1000);
@@ -214,4 +227,15 @@ public class PreviewSong extends VirtualGuitar {
             soundId = soundPool.load(getApplicationContext(), path, 1);
         }
     };
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event)
+    {
+        if ((keyCode == KeyEvent.KEYCODE_BACK))
+        {
+
+             soundPool.release();
+        }
+        return super.onKeyDown(keyCode, event);
+    }
 }

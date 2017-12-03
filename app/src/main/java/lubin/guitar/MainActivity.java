@@ -3,6 +3,7 @@ package lubin.guitar;
 import android.content.Context;
 
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.media.AudioManager;
 import android.media.SoundPool;
 import android.media.SoundPool.OnLoadCompleteListener;
@@ -35,6 +36,8 @@ public class MainActivity extends AppCompatActivity {
     TextView textView;
     float normal_playback_rate;
     int numberInstrument = 0; //cislo nastroje
+
+
 
 
     @Override
@@ -79,8 +82,21 @@ public class MainActivity extends AppCompatActivity {
         normal_playback_rate = 0.5f;
         numberInstrument = 1;
 
+
+
+
+
+
+
+
+
 //        Intent i = new Intent(MainActivity.this, ChoiceAccount.class);
 //        startActivity(i);
+
+
+
+
+
 
 
     }

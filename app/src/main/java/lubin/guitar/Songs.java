@@ -1,12 +1,81 @@
 package lubin.guitar;
 
 
+import android.database.sqlite.SQLiteDatabase;
+
 import java.util.ArrayList;
 
 public class Songs {
 
-    public static ArrayList<Tone> getSong1(){
-        ArrayList<Tone> song = new ArrayList<>();
+    private static final String NAME_DB = "mySONGDB";
+
+
+
+
+
+    public static SQLiteDatabase firstopenDB(){
+
+        SQLiteDatabase dbSongs = SQLiteDatabase.openOrCreateDatabase(NAME_DB, null);
+
+        return dbSongs;
+
+    }
+
+
+
+
+
+
+
+//TODO dodelat getSong a saveSong
+
+    public static Song getSongFromDB (String nameSong) {
+
+        Song song = new Song(nameSong);
+
+
+
+
+
+
+
+
+
+
+
+
+
+        return song;
+
+    }
+
+
+    public static boolean saveSongToDB(Song song){
+
+        SQLiteDatabase dbSongs = firstopenDB();
+
+
+
+
+
+
+
+
+
+
+        return true;
+    }
+
+
+
+
+
+
+    public static Song getSong1(){
+
+        Song song = new Song("Ovcaci, ctveraci");
+
+
 
 
         song.add(new Tone("C3", 500));
@@ -80,8 +149,10 @@ public class Songs {
 
 
 
-    public static ArrayList<Tone> getSong2(){
-        ArrayList<Tone> song = new ArrayList<>();
+    public static Song getSong2(){
+
+        Song song = new Song("Pro Elisku");
+
 
 
         song.add(new Tone("E4", 250));

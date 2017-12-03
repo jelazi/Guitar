@@ -99,7 +99,7 @@ public class Guitar extends Activity {
 
 
 
-    ArrayList<Tone> skladba = new ArrayList<>();
+    Song skladba = new Song();
     ArrayList<GuitarTone> pokus = new ArrayList<>();
 
 
@@ -324,7 +324,7 @@ public void previewSong(){
 
     skladba = Songs.getSong2();
 
-    pokus = createMusicFromTones(skladba);
+    pokus = createMusicFromTones(skladba.getTones());
     if (isPlaying){
 
         soundPool.release();
@@ -344,13 +344,13 @@ public void previewSong(){
         @Override
         public void run() {
             int delay = 1000;
-            for (int i = 0; i <= skladba.size() - 1; i++) {
-                if (!(skladba.get(i).nameTone.equals("silent"))) //neni to pomlka?
+            for (int i = 0; i <= skladba.getTones().size() - 1; i++) {
+                if (!(skladba.getTones().get(i).nameTone.equals("silent"))) //neni to pomlka?
                 {
                     playTone(pokus.get(i), delay);
                 }
 
-                if (i == skladba.size() - 1){
+                if (i == skladba.getTones().size() - 1){
                     new Handler().postDelayed(new Runnable() {
                         @Override
                         public void run() {
@@ -365,7 +365,7 @@ public void previewSong(){
                 }
 
 
-                delay = delay + skladba.get(i).lenghtTone;
+                delay = delay + skladba.getTones().get(i).lenghtTone;
 
             }
         }

@@ -55,6 +55,32 @@
         android:drawSelectorOnTop="true"
         />
 
+    <Button
+        android:id="@+id/load"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text= "Nahraj databázi"/>
+
+    <Button
+        android:id="@+id/save"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text= "Ulož databázi"/>
+
+    <Button
+        android:id="@+id/o"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text= "bez odezvy"/>
+
+
+    <Button
+        android:id="@+id/o"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text= "Bez odezvy"/>
+
+
 
     <Button
         android:id="@+id/ok"

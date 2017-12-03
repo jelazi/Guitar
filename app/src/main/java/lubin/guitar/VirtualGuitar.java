@@ -9,6 +9,7 @@ import android.media.SoundPool;
 import android.media.SoundPool.OnLoadCompleteListener;
 import android.os.Bundle;
 import android.os.Handler;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.animation.Animation;
@@ -93,7 +94,9 @@ public abstract class VirtualGuitar extends Activity {
     GuitarTone playingTone;
 
 
-    ArrayList<Tone> skladba = new ArrayList<>();
+    Song skladba = new Song();
+
+    ArrayList<Tone> tonySkladby = new ArrayList<>();
     ArrayList<GuitarTone> pokus = new ArrayList<>();
 
     ArrayList<ImageButton> imageButtons = new ArrayList<>();
@@ -1133,5 +1136,8 @@ public abstract class VirtualGuitar extends Activity {
 
 
     }
+
+
+
 
 }

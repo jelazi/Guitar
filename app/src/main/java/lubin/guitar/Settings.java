@@ -26,7 +26,7 @@ public class Settings extends Activity
         implements AdapterView.OnItemSelectedListener {
     private TextView selection1;
     private TextView selection2;
-    private String[] items1 = {"pro elisku", "bla bla bla", "jeste neco"};
+    private String[] items1 = {"Pro Elisku", "Ovcaci, ctveraci"};
     private static final String[] items2 = {"Hraj píseň", "Přehraj píseň", "Hraj akordy"};
     Button ok;
     Button load;
@@ -46,10 +46,6 @@ public class Settings extends Activity
 
         spin.setOnItemSelectedListener(this);
         spin2.setOnItemSelectedListener(this);
-
-
-        items1[0] = "ahoj";
-
 
 
 
@@ -97,7 +93,7 @@ public class Settings extends Activity
         @Override
         public void onClick(View view) {
 
-            if (selection1.getText().equals("ahoj")){
+            if (selection1.getText().equals("Pro Elisku")){
 
             }
 
@@ -106,8 +102,14 @@ public class Settings extends Activity
                 startActivity(i);
             }
             if (selection2.getText().equals("Přehraj píseň")) {
+
+
                 Intent i = new Intent(Settings.this, PreviewSong.class);
+
+
                 startActivity(i);
+
+
             }
             if (selection2.getText().equals("Hraj akordy")) {
                 Intent i = new Intent(Settings.this, PlayAcord.class);

@@ -95,6 +95,7 @@ public abstract class VirtualGuitar extends Activity {
 
 
     Song skladba = new Song();
+    String nameOfSong;
 
     ArrayList<Tone> tonySkladby = new ArrayList<>();
     ArrayList<GuitarTone> pokus = new ArrayList<>();
@@ -104,6 +105,7 @@ public abstract class VirtualGuitar extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
 
 
@@ -274,6 +276,7 @@ public abstract class VirtualGuitar extends Activity {
             @Override
             public void onAnimationStart(Animation animation) {
                 imgButton.setBackgroundResource(R.drawable.touch);
+
             }
 
             @Override

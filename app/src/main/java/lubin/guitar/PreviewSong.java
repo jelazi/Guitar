@@ -44,6 +44,12 @@ public class PreviewSong extends VirtualGuitar {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        try {
+
+        } catch (Exception e){
+
+        }
+
         setContentView(R.layout.activity_preview_song);
         createView();
 
@@ -71,6 +77,25 @@ public class PreviewSong extends VirtualGuitar {
         tone = 0;
         normal_playback_rate = 0.5f;
         numberInstrument = 1;
+
+
+        if (savedInstanceState == null) {
+            Bundle extras = getIntent().getExtras();
+            if(extras == null) {
+                nameOfSong = "Ovcaci, ctveraci";
+            } else {
+                nameOfSong = extras.getString("oldName");
+
+            }
+        } else {
+            nameOfSong = (String) savedInstanceState.getSerializable("oldName");
+        }
+
+
+
+
+
+
     }
 
 
@@ -84,9 +109,40 @@ public class PreviewSong extends VirtualGuitar {
 
         public void previewSong(){
 
+            if (!isPlaying){
+                if (nameOfSong != null){
+                    if (nameOfSong.equals("Pro Elisku")){
+
+                        skladba = Songs.getSong2();
+                        nameOfSong = "Ovcaci, ctveraci";
+                    }
+                    else
+                    {
+
+                        skladba = Songs.getSong1();
+                        nameOfSong = "Pro Elisku";
+
+                    }
+
+                }
+                else
+                {
+                    nameOfSong = "Ovcaci, ctveraci";
+                    skladba = Songs.getSong1();
+                }
 
 
-            skladba = Songs.getSong2();
+            }
+
+
+
+
+
+
+
+
+
+
 
             tonySkladby = skladba.getTones();
 
@@ -96,9 +152,16 @@ public class PreviewSong extends VirtualGuitar {
 
                 soundPool.release();
                 isPlaying = false;
+
                 Intent i = new Intent(PreviewSong.this, PreviewSong.class);
+                i.putExtra("oldName", nameOfSong);
+                finish();
                 startActivity(i);
-                previewSong();
+
+
+
+
+
             }
 
             isPlaying = true;

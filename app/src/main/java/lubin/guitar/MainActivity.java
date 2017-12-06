@@ -36,6 +36,7 @@ public class MainActivity extends AppCompatActivity {
     TextView textView;
     float normal_playback_rate;
     int numberInstrument = 0; //cislo nastroje
+    String nameOfSong;
 
 
 

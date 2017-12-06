@@ -99,7 +99,25 @@ public class TrySong extends VirtualGuitar {
                 btnTryMusic.setText("Hrajeme...");
                 btnTryMusic.setBackgroundColor(0x800a33f5);
 
-                skladba = Songs.getSong2();
+                switch (nameOfSong){
+                    case "Ovcaci, ctveraci":{
+                        nameOfSong = "Pro Elisku";
+                        skladba = Songs.getSong1();
+                        break;
+                    }
+                    case "Pro Elisku":{
+                        nameOfSong = "Ovcaci, ctveraci";
+                        skladba = Songs.getSong2();
+                        break;
+                    }
+                    default:{
+                        nameOfSong = "Ovcaci, ctveraci";
+                        skladba = Songs.getSong1();
+
+                    }
+                }
+
+                //skladba = Songs.getSong1();
                 pokus = createMusicFromTones(skladba.getTones());
                 trytrySong();
             }

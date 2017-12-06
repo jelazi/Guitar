@@ -77,7 +77,6 @@ public class Songs {
 
 
 
-
         song.add(new Tone("C3", 500));
         song.add(new Tone("E3", 500));
         song.add(new Tone("G3", 1000));

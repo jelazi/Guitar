@@ -156,16 +156,20 @@ public class PlayAcord extends VirtualGuitar {
             @Override
             public void onAnimationStart(Animation animation) {
                 imgButton.setBackgroundResource(R.drawable.touch);
-            }
+
+                            }
 
             @Override
             public void onAnimationRepeat(Animation animation) {
+
+
             }
 
             @Override
             public void onAnimationEnd(Animation animation) {
+                eraseAkordOnBoard();
+                showAkordOnBoard();
 
-                imgButton.setBackgroundResource(R.drawable.touchakord);
             }
         });
     }
@@ -234,6 +238,8 @@ public class PlayAcord extends VirtualGuitar {
     OnClickListener btnChangeAkord = new OnClickListener() {
         @Override
         public void onClick(View view) {
+
+
 
             float[] guitarStringValue = new float[6];
 
@@ -343,9 +349,14 @@ public class PlayAcord extends VirtualGuitar {
         }
     };
 
+    //TODO spocitani nahranych instumentu
+
+
     OnClickListener btnChangeOnClickListener = new OnClickListener() { //zmena nastroje
         @Override
         public void onClick(View view) {
+
+
 
             if (numberInstrument < 11) {
                 numberInstrument++;

@@ -24,11 +24,24 @@
             android:text="Změň zvuk" />
 
         <Button
-            android:id="@+id/changeAkord"
+            android:id="@+id/firstChord"
             android:layout_width="0dip"
             android:layout_height="match_parent"
             android:layout_weight="20"
-            android:text="Změň akord" />
+            android:text="Fdur" />
+
+        <Button
+            android:id="@+id/secondChord"
+            android:layout_width="0dip"
+            android:layout_height="match_parent"
+            android:layout_weight="20"
+            android:text="Cdur" />
+        <Button
+            android:id="@+id/thirdChord"
+            android:layout_width="0dip"
+            android:layout_height="match_parent"
+            android:layout_weight="20"
+            android:text="Gdur" />
 
         <Button
             android:id="@+id/btnTrySong"

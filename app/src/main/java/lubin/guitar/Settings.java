@@ -27,7 +27,7 @@ public class Settings extends Activity
     private TextView selection1;
     private TextView selection2;
     private String[] items1 = {"Pro Elisku", "Ovcaci, ctveraci"};
-    private static final String[] items2 = {"Hraj píseň", "Přehraj píseň", "Hraj akordy"};
+    private static final String[] items2 = {"Prehraj pisen", "Vyzkousej pisen", "Hraj akordy"};
     Button ok;
     Button load;
     Button save;
@@ -46,6 +46,7 @@ public class Settings extends Activity
 
         spin.setOnItemSelectedListener(this);
         spin2.setOnItemSelectedListener(this);
+        this.setTitle("Nastavení");
 
 
 
@@ -79,9 +80,22 @@ public class Settings extends Activity
 
     public void onItemSelected(AdapterView<?> parent,
                                View v, int position, long id) {
-        selection1.setText(items1[0]);
-        selection2.setText(items2[position]);
+        if (parent.getId() == R.id.spinner)
+        {
+            selection1.setText(items1[position]);
+        }
+
+            if (parent.getId() == R.id.spinner_action)
+            {
+                selection2.setText(items2[position]);
+
+            }
+
+
+
     }
+
+
 
     public void onNothingSelected(AdapterView<?> parent) {
         selection1.setText("");
@@ -93,28 +107,33 @@ public class Settings extends Activity
         @Override
         public void onClick(View view) {
 
-            if (selection1.getText().equals("Pro Elisku")){
 
-            }
 
-            if (selection2.getText().equals("Hraj píseň")) {
+
+
+            if (selection2.getText().equals("Vyzkousej pisen")) {
                 Intent i = new Intent(Settings.this, TrySong.class);
+                i.putExtra("oldName", selection1.getText());
                 startActivity(i);
             }
-            if (selection2.getText().equals("Přehraj píseň")) {
-
-
-                Intent i = new Intent(Settings.this, PreviewSong.class);
-
-
-                startActivity(i);
+            else
+            {
+                if (selection2.getText().equals("Prehraj pisen")) {
+                    Intent i = new Intent(Settings.this, PreviewSong.class);
+                    i.putExtra("oldName", selection1.getText());
+                    startActivity(i);
+                }
+                else
+                {
+                    if (selection2.getText().equals("Hraj akordy")) {
+                        Intent i = new Intent(Settings.this, PlayAcord.class);
+                        startActivity(i);
+                    }
+                }
 
 
             }
-            if (selection2.getText().equals("Hraj akordy")) {
-                Intent i = new Intent(Settings.this, PlayAcord.class);
-                startActivity(i);
-            }
+
 
 
         }

@@ -13,6 +13,7 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -39,6 +40,8 @@ public class PreviewSong extends VirtualGuitar {
 
     ArrayList<Tone> tonySkladby = new ArrayList<>();
     ArrayList<GuitarTone> pokus = new ArrayList<>();
+    TextView nameOfSongView;
+
 
 
     @Override
@@ -61,6 +64,10 @@ public class PreviewSong extends VirtualGuitar {
 
         audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
 
+        nameOfSongView = (TextView) findViewById(R.id.nameSong);
+
+
+
         //maximalni mnozstvi zaroven prehravanych zvuku
         int maxStreams = 4;
         //audiostream v audiomanageru
@@ -77,6 +84,7 @@ public class PreviewSong extends VirtualGuitar {
         tone = 0;
         normal_playback_rate = 0.5f;
         numberInstrument = 1;
+        this.setTitle("Přehrávání písně");
 
 
         if (savedInstanceState == null) {
@@ -91,8 +99,7 @@ public class PreviewSong extends VirtualGuitar {
             nameOfSong = (String) savedInstanceState.getSerializable("oldName");
         }
 
-
-
+        nameOfSongView.setText(nameOfSong);
 
 
 
@@ -109,38 +116,17 @@ public class PreviewSong extends VirtualGuitar {
 
         public void previewSong(){
 
-            if (!isPlaying){
-                if (nameOfSong != null){
-                    if (nameOfSong.equals("Pro Elisku")){
-
+            if (!isPlaying) {
+                if (nameOfSong != null) {
+                    if (nameOfSong.equals("Pro Elisku")) {
                         skladba = Songs.getSong2();
-                        nameOfSong = "Ovcaci, ctveraci";
-                    }
-                    else
-                    {
-
+                    } else {
                         skladba = Songs.getSong1();
-                        nameOfSong = "Pro Elisku";
-
                     }
 
-                }
-                else
-                {
-                    nameOfSong = "Ovcaci, ctveraci";
-                    skladba = Songs.getSong1();
-                }
 
-
+                }
             }
-
-
-
-
-
-
-
-
 
 
 

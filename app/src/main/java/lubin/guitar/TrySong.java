@@ -52,6 +52,22 @@ public class TrySong extends VirtualGuitar {
         string60.setOnClickListener(stringPlayOnClickListener);
         btnTryMusic = (Button) findViewById(R.id.tryMusic); //prirazeni tlacitka - Hraj skladbu
         btnTryMusic.setOnClickListener(trySong); //listener tlacitka - Hraj skladbu
+
+        this.setTitle("Zkoušení písně");
+
+
+        if (savedInstanceState == null) {
+            Bundle extras = getIntent().getExtras();
+            if(extras == null) {
+                nameOfSong = "Ovcaci, ctveraci";
+            } else {
+                nameOfSong = extras.getString("oldName");
+
+            }
+        } else {
+            nameOfSong = (String) savedInstanceState.getSerializable("oldName");
+        }
+
     }
 
 
@@ -99,25 +115,31 @@ public class TrySong extends VirtualGuitar {
                 btnTryMusic.setText("Hrajeme...");
                 btnTryMusic.setBackgroundColor(0x800a33f5);
 
-                switch (nameOfSong){
-                    case "Ovcaci, ctveraci":{
-                        nameOfSong = "Pro Elisku";
-                        skladba = Songs.getSong1();
-                        break;
-                    }
-                    case "Pro Elisku":{
-                        nameOfSong = "Ovcaci, ctveraci";
-                        skladba = Songs.getSong2();
-                        break;
-                    }
-                    default:{
-                        nameOfSong = "Ovcaci, ctveraci";
-                        skladba = Songs.getSong1();
 
-                    }
-                }
 
                 //skladba = Songs.getSong1();
+                if (nameOfSong != null){
+                    if (nameOfSong.equals("Pro Elisku")){
+
+                        skladba = Songs.getSong2();
+                        nameOfSong = "Ovcaci, ctveraci";
+                    }
+                    else
+                    {
+
+                        skladba = Songs.getSong1();
+                        nameOfSong = "Pro Elisku";
+
+                    }
+
+                }
+                else
+                {
+                    nameOfSong = "Ovcaci, ctveraci";
+                    skladba = Songs.getSong1();
+                }
+
+
                 pokus = createMusicFromTones(skladba.getTones());
                 trytrySong();
             }

@@ -14,12 +14,19 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+
 
 public class PlayAcord extends VirtualGuitar {
 
-    Button changeAkord;
+    Button firstChord;
+    Button secondChord;
+    Button thirdChord;
     int akordNumber;
-    String[] akords = {"Cdur", "Ddur", "Edur", "Fdur", "Gdur", "Adur", "Bdur"};
+    String[] chords = {"Cdur", "Gdur", "Ddur", "Adur", "Edur", "Bdur", "Fdur"};
+
+    ArrayList<String> akords = new ArrayList<String>(Arrays.asList(chords));
     TextView akordName;
 
     @Override
@@ -59,8 +66,13 @@ public class PlayAcord extends VirtualGuitar {
         string61.setOnTouchListener(stringPlayOnTouchListener);
         string60.setOnTouchListener(stringPlayOnTouchListener);
 
-        changeAkord = (Button) findViewById(R.id.changeAkord);
-        changeAkord.setOnClickListener(btnChangeAkord);
+        firstChord = (Button) findViewById(R.id.firstChord);
+        firstChord.setOnClickListener(btnChangeAkord);
+        secondChord = (Button) findViewById(R.id.secondChord);
+        secondChord.setOnClickListener(btnChangeAkord);
+        thirdChord = (Button) findViewById(R.id.thirdChord);
+        thirdChord.setOnClickListener(btnChangeAkord);
+
 
 
         akordNumber = 0;
@@ -233,6 +245,112 @@ public class PlayAcord extends VirtualGuitar {
         }
     }
 
+    private void ChangeChord (String nameChord){
+
+        float[] guitarStringValue = new float[6];
+
+        GuitarTone[] guitarTones = new GuitarTone[6]; //kytarove tony akordu
+
+        eraseAkordOnBoard();
+
+        guitarTones[0] = Etone;
+        guitarTones[1] = Atone;
+        guitarTones[2] = Dtone;
+        guitarTones[3] = Gtone;
+        guitarTones[4] = Btone;
+        guitarTones[5] = E2tone;
+        guitarStringValue = tones.getAkord(nameChord);
+        akordName.setText(nameChord);
+
+
+
+        for (int i = 0; i <= 5; i++) {
+            guitarTones[i].setStringValue(guitarStringValue[i]);
+        }
+        guitarTones = FillStringsValue(guitarTones);
+        if (Etone.getStringValue() == 0) {
+            string10.setEnabled(false);
+            string11.setEnabled(false);
+            string12.setEnabled(false);
+            string13.setEnabled(false);
+            string14.setEnabled(false);
+        } else {
+            string10.setEnabled(true);
+            string11.setEnabled(true);
+            string12.setEnabled(true);
+            string13.setEnabled(true);
+            string14.setEnabled(true);
+        }
+        if (Atone.getStringValue() == 0) {
+            string20.setEnabled(false);
+            string21.setEnabled(false);
+            string22.setEnabled(false);
+            string23.setEnabled(false);
+            string24.setEnabled(false);
+        } else {
+            string20.setEnabled(true);
+            string21.setEnabled(true);
+            string22.setEnabled(true);
+            string23.setEnabled(true);
+            string24.setEnabled(true);
+        }
+        if (Dtone.getStringValue() == 0) {
+            string30.setEnabled(false);
+            string31.setEnabled(false);
+            string32.setEnabled(false);
+            string33.setEnabled(false);
+            string34.setEnabled(false);
+        } else {
+            string30.setEnabled(true);
+            string31.setEnabled(true);
+            string32.setEnabled(true);
+            string33.setEnabled(true);
+            string34.setEnabled(true);
+        }
+        if (Gtone.getStringValue() == 0) {
+            string40.setEnabled(false);
+            string41.setEnabled(false);
+            string42.setEnabled(false);
+            string43.setEnabled(false);
+            string44.setEnabled(false);
+
+        } else {
+            string40.setEnabled(true);
+            string41.setEnabled(true);
+            string42.setEnabled(true);
+            string43.setEnabled(true);
+            string44.setEnabled(true);
+        }
+        if (Btone.getStringValue() == 0) {
+            string50.setEnabled(false);
+            string51.setEnabled(false);
+            string52.setEnabled(false);
+            string53.setEnabled(false);
+            string54.setEnabled(false);
+        } else {
+            string50.setEnabled(true);
+            string51.setEnabled(true);
+            string52.setEnabled(true);
+            string53.setEnabled(true);
+            string54.setEnabled(true);
+        }
+        if (E2tone.getStringValue() == 0) {
+            string60.setEnabled(false);
+            string61.setEnabled(false);
+            string62.setEnabled(false);
+            string63.setEnabled(false);
+            string64.setEnabled(false);
+        } else {
+            string60.setEnabled(true);
+            string61.setEnabled(true);
+            string62.setEnabled(true);
+            string63.setEnabled(true);
+            string64.setEnabled(true);
+        }
+        showAkordOnBoard();
+
+    }
+
 
     //zmacknute tlacitko zmen akord
     OnClickListener btnChangeAkord = new OnClickListener() {
@@ -240,113 +358,35 @@ public class PlayAcord extends VirtualGuitar {
         public void onClick(View view) {
 
 
+            String nameChord = ((Button) view).getText().toString();
 
-            float[] guitarStringValue = new float[6];
+            ChangeChord(nameChord);
 
-            GuitarTone[] guitarTones = new GuitarTone[6]; //kytarove tony akordu
-
-            eraseAkordOnBoard();
-
-            guitarTones[0] = Etone;
-            guitarTones[1] = Atone;
-            guitarTones[2] = Dtone;
-            guitarTones[3] = Gtone;
-            guitarTones[4] = Btone;
-            guitarTones[5] = E2tone;
-            guitarStringValue = tones.getAkord(akords[akordNumber]);
-            akordName.setText(akords[akordNumber]);
-            if (akordNumber < 6) {
-                akordNumber++;
-            } else {
-                akordNumber = 0;
+            int numberChord = akords.indexOf(nameChord);
+            int numberChordBefore = 0;
+            int numberChordAfter = 0;
+            if (numberChord == 0){
+                numberChordBefore = 6;
+            }
+            else
+            {
+                numberChordBefore = numberChord-1;
             }
 
+            if (numberChord == 6){
+                numberChordAfter = 0;
+            }
+            else
+            {
+                numberChordAfter = numberChord+1;
+            }
+            secondChord.setText(nameChord);
+            firstChord.setText(akords.get(numberChordBefore));
+            thirdChord.setText(akords.get(numberChordAfter));
 
-            for (int i = 0; i <= 5; i++) {
-                guitarTones[i].setStringValue(guitarStringValue[i]);
-            }
-            guitarTones = FillStringsValue(guitarTones);
-            if (Etone.getStringValue() == 0) {
-                string10.setEnabled(false);
-                string11.setEnabled(false);
-                string12.setEnabled(false);
-                string13.setEnabled(false);
-                string14.setEnabled(false);
-            } else {
-                string10.setEnabled(true);
-                string11.setEnabled(true);
-                string12.setEnabled(true);
-                string13.setEnabled(true);
-                string14.setEnabled(true);
-            }
-            if (Atone.getStringValue() == 0) {
-                string20.setEnabled(false);
-                string21.setEnabled(false);
-                string22.setEnabled(false);
-                string23.setEnabled(false);
-                string24.setEnabled(false);
-            } else {
-                string20.setEnabled(true);
-                string21.setEnabled(true);
-                string22.setEnabled(true);
-                string23.setEnabled(true);
-                string24.setEnabled(true);
-            }
-            if (Dtone.getStringValue() == 0) {
-                string30.setEnabled(false);
-                string31.setEnabled(false);
-                string32.setEnabled(false);
-                string33.setEnabled(false);
-                string34.setEnabled(false);
-            } else {
-                string30.setEnabled(true);
-                string31.setEnabled(true);
-                string32.setEnabled(true);
-                string33.setEnabled(true);
-                string34.setEnabled(true);
-            }
-            if (Gtone.getStringValue() == 0) {
-                string40.setEnabled(false);
-                string41.setEnabled(false);
-                string42.setEnabled(false);
-                string43.setEnabled(false);
-                string44.setEnabled(false);
 
-            } else {
-                string40.setEnabled(true);
-                string41.setEnabled(true);
-                string42.setEnabled(true);
-                string43.setEnabled(true);
-                string44.setEnabled(true);
-            }
-            if (Btone.getStringValue() == 0) {
-                string50.setEnabled(false);
-                string51.setEnabled(false);
-                string52.setEnabled(false);
-                string53.setEnabled(false);
-                string54.setEnabled(false);
-            } else {
-                string50.setEnabled(true);
-                string51.setEnabled(true);
-                string52.setEnabled(true);
-                string53.setEnabled(true);
-                string54.setEnabled(true);
-            }
-            if (E2tone.getStringValue() == 0) {
-                string60.setEnabled(false);
-                string61.setEnabled(false);
-                string62.setEnabled(false);
-                string63.setEnabled(false);
-                string64.setEnabled(false);
-            } else {
-                string60.setEnabled(true);
-                string61.setEnabled(true);
-                string62.setEnabled(true);
-                string63.setEnabled(true);
-                string64.setEnabled(true);
-            }
-            showAkordOnBoard();
         }
+
     };
 
     //TODO spocitani nahranych instumentu

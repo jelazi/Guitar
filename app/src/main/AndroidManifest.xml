@@ -50,7 +50,12 @@
         <activity
             android:name=".Settings"
             android:label="Nastavení"
-            android:screenOrientation="portrait" />y>
+            android:screenOrientation="portrait" />
+        y>
+        <activity
+            android:name=".drawer"
+            android:label="@string/title_activity_drawer"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>

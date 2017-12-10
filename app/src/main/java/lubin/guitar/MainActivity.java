@@ -46,6 +46,9 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        Intent draw = new Intent (MainActivity.this, drawer.class);
+        startActivity(draw);
+
         btnPlay = (Button) findViewById(R.id.play);
         //btnPlay.setEnabled(false);
         btnPlay.setOnClickListener(btnPlayOnClickListener);

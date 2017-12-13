@@ -102,6 +102,9 @@ public class drawer extends AppCompatActivity
 
         normal_playback_rate = 0.5f;
         numberInstrument = 1;
+
+
+
     }
 
     @Override

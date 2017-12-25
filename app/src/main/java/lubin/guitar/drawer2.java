@@ -5,17 +5,21 @@ import android.content.Intent;
 import android.media.AudioManager;
 import android.media.SoundPool;
 import android.os.Bundle;
-import android.view.View;
 import android.support.design.widget.NavigationView;
+import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class drawer extends NavigationDrawerSetup
+public class drawer2 extends NavigationDrawerSetup
         implements NavigationView.OnNavigationItemSelectedListener {
 
     Button btnPlay; //hraci tlacitko
@@ -37,7 +41,6 @@ public class drawer extends NavigationDrawerSetup
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
 
 
         setContentView(R.layout.activity_drawer);
@@ -100,7 +103,7 @@ public class drawer extends NavigationDrawerSetup
     View.OnClickListener changeGuitar = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
-            Intent i = new Intent(drawer.this, Guitar.class);
+            Intent i = new Intent(drawer2.this, Guitar.class);
             startActivity(i);
 
         }
@@ -109,7 +112,7 @@ public class drawer extends NavigationDrawerSetup
     View.OnClickListener btnChoiceAccount = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
-            Intent i = new Intent(drawer.this, ChoiceAccount.class);
+            Intent i = new Intent(drawer2.this, ChoiceAccount.class);
             startActivity(i);
 
         }
@@ -119,7 +122,7 @@ public class drawer extends NavigationDrawerSetup
     View.OnClickListener btnTrySong = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
-            Intent i = new Intent(drawer.this, TrySong.class);
+            Intent i = new Intent(drawer2.this, TrySong.class);
             startActivity(i);
 
         }
@@ -129,7 +132,7 @@ public class drawer extends NavigationDrawerSetup
     View.OnClickListener btnPreviewSong = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
-            Intent i = new Intent(drawer.this, PreviewSong.class);
+            Intent i = new Intent(drawer2.this, PreviewSong.class);
             startActivity(i);
 
         }
@@ -138,7 +141,7 @@ public class drawer extends NavigationDrawerSetup
     View.OnClickListener changeGuitar2 = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
-            Intent i = new Intent(drawer.this, Guitar2.class);
+            Intent i = new Intent(drawer2.this, Guitar2.class);
             startActivity(i);
 
         }
@@ -154,7 +157,7 @@ public class drawer extends NavigationDrawerSetup
                     if (status == 0) {
                         btnPlay.setEnabled(true);
                     } else {
-                        Toast.makeText(drawer.this,
+                        Toast.makeText(drawer2.this,
                                 "SoundPool.load() fail",
                                 Toast.LENGTH_LONG).show();
                     }

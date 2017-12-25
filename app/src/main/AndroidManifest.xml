@@ -51,11 +51,19 @@
             android:name=".Settings"
             android:label="Nastavení"
             android:screenOrientation="portrait" />
-        y>
+
+        <activity
+            android:name=".drawer2"
+            android:label="@string/title_activity_drawer"
+            android:theme="@style/AppTheme.NoActionBar"/>
+
+
         <activity
             android:name=".drawer"
             android:label="@string/title_activity_drawer"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar">
+
+        </activity>
     </application>
 
 </manifest>

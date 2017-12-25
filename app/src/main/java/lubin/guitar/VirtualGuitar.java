@@ -9,6 +9,7 @@ import android.media.SoundPool;
 import android.media.SoundPool.OnLoadCompleteListener;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.v7.app.AppCompatActivity;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -20,10 +21,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.File;
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 
 
-public abstract class VirtualGuitar extends Activity {
+public abstract class VirtualGuitar extends AppCompatActivity {
 
     ImageButton string14;
     ImageButton string13;
@@ -319,16 +322,21 @@ public abstract class VirtualGuitar extends Activity {
 
     OnClickListener btnChangeOnClickListener = new OnClickListener() { //zmena nastroje
         @Override
-        public void onClick(View view) {
+        public void onClick(View view) {  //klik na změnu nástroje
 
-            if (numberInstrument < 11) {
+            Field[] fields=R.raw.class.getFields();
+
+            int lenght = fields.length;
+
+
+            if (numberInstrument < lenght) {
                 numberInstrument++;
             } else {
                 numberInstrument = 1;
             }
             normal_playback_rate = 0.5f;
 
-            int path = getResources().getIdentifier(("s" + String.valueOf(numberInstrument)), "raw", getPackageName());
+            int path = getResources().getIdentifier(fields[numberInstrument  - 1 ].getName(), "raw", getPackageName());
             soundId = soundPool.load(getApplicationContext(), path, 1);
         }
     };

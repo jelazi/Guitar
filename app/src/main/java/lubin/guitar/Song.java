@@ -66,6 +66,49 @@ public class Song {
 
     }
 
+
+    public String nameWithoutDiacritic (){
+        String nameOut = "";
+        String nameIn = getNameOfSong();
+
+        String withdiacritic = "áéěíóúůÁÉĚÍÓÚŮščřžťŠČŘŽŤ";
+        String withoutdiacritic = "aeeiouuAEEIOUUscrztSCRZT";
+
+        int j = 0;
+
+
+
+        for (char i : nameIn.toCharArray()){
+
+            if (withdiacritic.contains(String.valueOf(i))){
+                nameOut += withoutdiacritic.charAt(j);
+
+            }
+            else{
+
+                if (i == ' '){
+                    nameOut += '_';
+                }
+                else
+                {
+                    nameOut += i;
+                }
+
+
+            }
+
+            j++;
+
+
+        }
+
+
+
+        return nameOut;
+
+
+    }
+
     public ArrayList<Tone> getTones() {
         return tones;
     }

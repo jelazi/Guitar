@@ -14,7 +14,12 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.lang.reflect.Proxy;
+
 import java.util.ArrayList;
+import java.util.Objects;
 
 
 public class TrySong extends VirtualGuitar
@@ -25,6 +30,8 @@ public class TrySong extends VirtualGuitar
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+
 
 
 
@@ -160,7 +167,7 @@ public class TrySong extends VirtualGuitar
                             numberTone++;
                             playingTone.getStringImage().clearColorFilter();
                             //   playingTone.getStringTouch().setBackgroundResource(0);
-                            if (numberTone <= pokus.size() - 1) {
+                            if (numberTone < pokus.size() - 1) {
                                 trytrySong();
                             } else {
                                 playingSong = false;
@@ -174,6 +181,8 @@ public class TrySong extends VirtualGuitar
                     }
                 }
             };
+
+
 
 
     // zkouska skladby
@@ -191,28 +200,34 @@ public class TrySong extends VirtualGuitar
                 btnTryMusic.setText("Hrajeme...");
                 btnTryMusic.setBackgroundColor(0x800a33f5);
 
+                Songs songs = new Songs();
 
 
-                //skladba = Songs.getSong1();
                 if (nameOfSong != null){
                     if (nameOfSong.equals("Pro Elisku")){
 
-                        skladba = Songs.getSong2();
-                        nameOfSong = "Ovcaci, ctveraci";
+                        skladba.setNameOfSong(nameOfSong);
+
+                        skladba = songs.callByName("getSong2");
+
+                        nameOfSong = skladba.getNameOfSong();
                     }
                     else
                     {
+                        skladba = songs.callByName("getSong1");
 
-                        skladba = Songs.getSong1();
-                        nameOfSong = "Pro Elisku";
+
+                        nameOfSong = skladba.getNameOfSong();
 
                     }
 
                 }
                 else
                 {
-                    nameOfSong = "Ovcaci, ctveraci";
-                    skladba = Songs.getSong1();
+
+                    skladba = songs.callByName("getSong1");
+                    nameOfSong = skladba.getNameOfSong();
+
                 }
 
 

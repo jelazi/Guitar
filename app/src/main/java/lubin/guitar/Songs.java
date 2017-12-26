@@ -1,13 +1,27 @@
 package lubin.guitar;
 
 
+import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
+import android.os.Environment;
+import android.support.v7.app.AppCompatActivity;
 
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.lang.Object;
 import java.util.ArrayList;
+
+import static lubin.guitar.R.id.parent;
 
 public class Songs {
 
     private static final String NAME_DB = "mySONGDB";
+
+    private Song song = new Song("Ovcaci, ctveraci");
 
 
 
@@ -69,88 +83,114 @@ public class Songs {
 
 
 
+    public Song callByName(String funcName) {
+        try {
+            Method method = getClass().getDeclaredMethod(funcName);
+            method.invoke(this, new Object[] {});
+            return song;
+        } catch (SecurityException e) {
+            e.printStackTrace();
+        } catch (NoSuchMethodException e) {
+            e.printStackTrace();
+        } catch (IllegalArgumentException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        } catch (InvocationTargetException e) {
+            e.printStackTrace();
+        }
+        return song;
+    }
 
+    public Song getSong(){
 
-    public static Song getSong1(){
-
-        Song song = new Song("Ovcaci, ctveraci");
-
-
-
-        song.add(new Tone("C3", 500));
-        song.add(new Tone("E3", 500));
-        song.add(new Tone("G3", 1000));
-        song.add(new Tone("C3", 500));
-        song.add(new Tone("E3", 500));
-        song.add(new Tone("G3", 1000));
-        song.add(new Tone("E3", 250));
-        song.add(new Tone("E3", 250));
-        song.add(new Tone("D3", 250));
-        song.add(new Tone("E3", 250));
-        song.add(new Tone("F3", 500));
-        song.add(new Tone("D3", 500));
-        song.add(new Tone("E3", 250));
-        song.add(new Tone("E3", 250));
-        song.add(new Tone("D3", 250));
-        song.add(new Tone("E3", 250));
-        song.add(new Tone("F3", 500));
-        song.add(new Tone("D3", 500));
-        song.add(new Tone("E3", 500));
-        song.add(new Tone("D3", 500));
-        song.add(new Tone("C3", 1000));
-        song.add(new Tone("C3", 500));
-        song.add(new Tone("E3", 500));
-        song.add(new Tone("G3", 1000));
-        song.add(new Tone("C3", 500));
-        song.add(new Tone("E3", 500));
-        song.add(new Tone("G3", 1000));
-        song.add(new Tone("E3", 250));
-        song.add(new Tone("E3", 250));
-        song.add(new Tone("D3", 250));
-        song.add(new Tone("E3", 250));
-        song.add(new Tone("F3", 500));
-        song.add(new Tone("D3", 500));
-        song.add(new Tone("E3", 250));
-        song.add(new Tone("E3", 250));
-        song.add(new Tone("D3", 250));
-        song.add(new Tone("E3", 250));
-        song.add(new Tone("F3", 500));
-        song.add(new Tone("D3", 500));
-        song.add(new Tone("E3", 500));
-        song.add(new Tone("D3", 500));
-        song.add(new Tone("C3", 1000));
-        song.add(new Tone("C3", 500));
-        song.add(new Tone("E3", 500));
-        song.add(new Tone("G3", 1000));
-        song.add(new Tone("C3", 500));
-        song.add(new Tone("E3", 500));
-        song.add(new Tone("G3", 1000));
-        song.add(new Tone("E3", 250));
-        song.add(new Tone("E3", 250));
-        song.add(new Tone("D3", 250));
-        song.add(new Tone("E3", 250));
-        song.add(new Tone("F3", 500));
-        song.add(new Tone("D3", 500));
-        song.add(new Tone("E3", 250));
-        song.add(new Tone("E3", 250));
-        song.add(new Tone("D3", 250));
-        song.add(new Tone("E3", 250));
-        song.add(new Tone("F3", 500));
-        song.add(new Tone("D3", 500));
-        song.add(new Tone("E3", 500));
-        song.add(new Tone("D3", 500));
-        song.add(new Tone("C3", 1000));
-
+        getSong1();
 
         return song;
+    }
+
+
+
+    public void getSong1(){
+
+        song.setNameOfSong("Ovcaci, ctveraci");
+
+
+
+        song.add(new Tone("C3", 500));
+        song.add(new Tone("E3", 500));
+        song.add(new Tone("G3", 1000));
+        song.add(new Tone("C3", 500));
+        song.add(new Tone("E3", 500));
+        song.add(new Tone("G3", 1000));
+        song.add(new Tone("E3", 250));
+        song.add(new Tone("E3", 250));
+        song.add(new Tone("D3", 250));
+        song.add(new Tone("E3", 250));
+        song.add(new Tone("F3", 500));
+        song.add(new Tone("D3", 500));
+        song.add(new Tone("E3", 250));
+        song.add(new Tone("E3", 250));
+        song.add(new Tone("D3", 250));
+        song.add(new Tone("E3", 250));
+        song.add(new Tone("F3", 500));
+        song.add(new Tone("D3", 500));
+        song.add(new Tone("E3", 500));
+        song.add(new Tone("D3", 500));
+        song.add(new Tone("C3", 1000));
+        song.add(new Tone("C3", 500));
+        song.add(new Tone("E3", 500));
+        song.add(new Tone("G3", 1000));
+        song.add(new Tone("C3", 500));
+        song.add(new Tone("E3", 500));
+        song.add(new Tone("G3", 1000));
+        song.add(new Tone("E3", 250));
+        song.add(new Tone("E3", 250));
+        song.add(new Tone("D3", 250));
+        song.add(new Tone("E3", 250));
+        song.add(new Tone("F3", 500));
+        song.add(new Tone("D3", 500));
+        song.add(new Tone("E3", 250));
+        song.add(new Tone("E3", 250));
+        song.add(new Tone("D3", 250));
+        song.add(new Tone("E3", 250));
+        song.add(new Tone("F3", 500));
+        song.add(new Tone("D3", 500));
+        song.add(new Tone("E3", 500));
+        song.add(new Tone("D3", 500));
+        song.add(new Tone("C3", 1000));
+        song.add(new Tone("C3", 500));
+        song.add(new Tone("E3", 500));
+        song.add(new Tone("G3", 1000));
+        song.add(new Tone("C3", 500));
+        song.add(new Tone("E3", 500));
+        song.add(new Tone("G3", 1000));
+        song.add(new Tone("E3", 250));
+        song.add(new Tone("E3", 250));
+        song.add(new Tone("D3", 250));
+        song.add(new Tone("E3", 250));
+        song.add(new Tone("F3", 500));
+        song.add(new Tone("D3", 500));
+        song.add(new Tone("E3", 250));
+        song.add(new Tone("E3", 250));
+        song.add(new Tone("D3", 250));
+        song.add(new Tone("E3", 250));
+        song.add(new Tone("F3", 500));
+        song.add(new Tone("D3", 500));
+        song.add(new Tone("E3", 500));
+        song.add(new Tone("D3", 500));
+        song.add(new Tone("C3", 1000));
+
+
+
 
     }
 
 
 
-    public static Song getSong2(){
+    public void getSong2(){
 
-        Song song = new Song("Pro Elisku");
+        song.setNameOfSong("Pro Elisku");
 
 
 
@@ -255,7 +295,7 @@ public class Songs {
 
 
 
-        return song;
+
 
     }
 

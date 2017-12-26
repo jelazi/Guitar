@@ -3,11 +3,13 @@ package lubin.guitar;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.graphics.drawable.Drawable;
 import android.media.AudioManager;
 import android.media.SoundPool;
 import android.media.SoundPool.OnLoadCompleteListener;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.view.KeyEvent;
@@ -22,6 +24,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 
@@ -98,6 +104,11 @@ public abstract class VirtualGuitar extends AppCompatActivity {
 
 
     Song skladba = new Song();
+
+    Songs songs = new Songs();
+
+
+
     String nameOfSong;
 
     ArrayList<Tone> tonySkladby = new ArrayList<>();
@@ -110,6 +121,20 @@ public abstract class VirtualGuitar extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
+
+        FileInOut fileInOut = new FileInOut(this);
+
+        fileInOut.copyFiletoDir(R.raw.s2, "s2.wav");
+
+
+        SongToXML songToXML = new SongToXML();
+
+        songToXML.saveSongToXML(this, songs.getSong());
+
+
+
+
+
 
 
         audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
@@ -1147,6 +1172,8 @@ public abstract class VirtualGuitar extends AppCompatActivity {
 
 
     }
+
+
 
 
 

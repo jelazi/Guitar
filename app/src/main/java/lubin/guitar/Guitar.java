@@ -322,7 +322,10 @@ previewSong();
 
 public void previewSong(){
 
-    skladba = Songs.getSong2();
+    Songs songs = new Songs();
+    skladba = songs.callByName("getSong1");
+
+
 
     pokus = createMusicFromTones(skladba.getTones());
     if (isPlaying){

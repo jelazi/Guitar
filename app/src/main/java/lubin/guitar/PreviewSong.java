@@ -116,12 +116,17 @@ public class PreviewSong extends VirtualGuitar {
 
         public void previewSong(){
 
+            Songs songs = new Songs();
+
             if (!isPlaying) {
                 if (nameOfSong != null) {
                     if (nameOfSong.equals("Pro Elisku")) {
-                        skladba = Songs.getSong2();
+                        skladba = songs.callByName("getSong2");
+                        //skladba = Songs.getSong2();
                     } else {
-                        skladba = Songs.getSong1();
+                        skladba = songs.callByName("getSong1");
+
+                        //skladba = Songs.getSong1();
                     }
 
 

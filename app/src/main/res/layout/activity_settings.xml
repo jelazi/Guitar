@@ -55,30 +55,34 @@
         android:drawSelectorOnTop="true"
         />
 
-    <Button
-        android:id="@+id/load"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text= "Nahraj databázi"/>
-
-    <Button
-        android:id="@+id/save"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text= "Ulož databázi"/>
-
-    <Button
-        android:id="@+id/o"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text= "bez odezvy"/>
 
 
-    <Button
-        android:id="@+id/o"
-        android:layout_width="match_parent"
+
+    <TextView
+        android:id="@+id/action"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:text= "Bez odezvy"/>
+        android:text="Vyber nástroj"
+        android:textSize="30dp"
+        />
+
+
+    <TextView
+        android:id="@+id/select_instrument"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:textSize="20dp"
+
+
+        />
+
+    <Spinner android:id="@+id/spinner_instrument"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:drawSelectorOnTop="true"
+        />
+
+
 
 
 

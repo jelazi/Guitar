@@ -1,62 +1,66 @@
 package lubin.guitar;
 
-import android.app.ListActivity;
 import android.content.Intent;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.ListView;
 import android.widget.TextView;
 
-import lubin.guitar.R;
-
-import android.app.Activity;
-import android.os.Bundle;
-import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Spinner;
-import android.widget.TextView;
 
-import java.util.List;
+import java.util.ArrayList;
 
-public class Settings extends Activity
+public class Settings extends AppCompatActivity
         implements AdapterView.OnItemSelectedListener {
     private TextView selection1;
     private TextView selection2;
-    private String[] items1 = {"Pro Elisku", "Ovcaci, ctveraci"};
-    private static final String[] items2 = {"Prehraj pisen", "Vyzkousej pisen", "Hraj akordy"};
+    private TextView selectionInstr;
+    private ArrayList<String> songName = new ArrayList<>();
+    private static final String[] action = {"Přehraj píseň", "Vyzkoušej píseň", "Hraj akordy"};
+    private ArrayList<String> instruments = new ArrayList<>();
     Button ok;
-    Button load;
-    Button save;
+
+
 
     @Override
     public void onCreate(Bundle icicle) {
         super.onCreate(icicle);
         setContentView(R.layout.activity_settings);
-      //  SQLiteDatabase mySongs = Songs.firstopenDB(); //první otevreni ci vytvoreni databaze
+
+        Songs songs = new Songs(this);
+
+        songName = songs.getSongsName();
+        instruments = songs.getNameInstruments();
+
+
 
         selection1 = (TextView) findViewById(R.id.selection);
         selection2 = (TextView) findViewById(R.id.select_action);
+        selectionInstr = (TextView) findViewById(R.id.select_instrument);
 
         Spinner spin = (Spinner) findViewById(R.id.spinner);
         Spinner spin2 = (Spinner) findViewById(R.id.spinner_action);
+        Spinner spinInstr = (Spinner) findViewById(R.id.spinner_instrument);
 
         spin.setOnItemSelectedListener(this);
         spin2.setOnItemSelectedListener(this);
+        spinInstr.setOnItemSelectedListener(this);
         this.setTitle("Nastavení");
 
 
 
         ArrayAdapter<String> aa = new ArrayAdapter<String>(this,
                 android.R.layout.simple_spinner_item,
-                items1);
+                songName);
 
         ArrayAdapter<String> bb = new ArrayAdapter<String>(this,
                 android.R.layout.simple_spinner_item,
-                items2);
+                action);
+
+        ArrayAdapter<String> instr = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, instruments);
 
         aa.setDropDownViewResource(
                 android.R.layout.simple_spinner_dropdown_item);
@@ -65,13 +69,13 @@ public class Settings extends Activity
                 android.R.layout.simple_spinner_dropdown_item);
         spin2.setAdapter(bb);
 
+        instr.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinInstr.setAdapter(instr);
+
         ok = (Button) findViewById(R.id.ok);
         ok.setOnClickListener(changeActivityListener);
 
-        load = (Button) findViewById(R.id.load);
 
-
-        save = (Button) findViewById(R.id.save);
 
 
 
@@ -82,13 +86,18 @@ public class Settings extends Activity
                                View v, int position, long id) {
         if (parent.getId() == R.id.spinner)
         {
-            selection1.setText(items1[position]);
+            selection1.setText(songName.get(position));
         }
 
             if (parent.getId() == R.id.spinner_action)
             {
-                selection2.setText(items2[position]);
+                selection2.setText(action[position]);
 
+            }
+
+            if (parent.getId() == R.id.spinner_instrument)
+            {
+                selectionInstr.setText(instruments.get(position));
             }
 
 
@@ -100,6 +109,7 @@ public class Settings extends Activity
     public void onNothingSelected(AdapterView<?> parent) {
         selection1.setText("");
         selection2.setText("");
+        selectionInstr.setText("");
     }
 
 
@@ -111,22 +121,25 @@ public class Settings extends Activity
 
 
 
-            if (selection2.getText().equals("Vyzkousej pisen")) {
+            if (selection2.getText().equals("Vyzkoušej píseň")) {
                 Intent i = new Intent(Settings.this, TrySong.class);
                 i.putExtra("oldName", selection1.getText());
+                i.putExtra("instrument", selectionInstr.getText());
                 startActivity(i);
             }
             else
             {
-                if (selection2.getText().equals("Prehraj pisen")) {
+                if (selection2.getText().equals("Přehraj píseň")) {
                     Intent i = new Intent(Settings.this, PreviewSong.class);
                     i.putExtra("oldName", selection1.getText());
+                    i.putExtra("instrument", selectionInstr.getText());
                     startActivity(i);
                 }
                 else
                 {
                     if (selection2.getText().equals("Hraj akordy")) {
                         Intent i = new Intent(Settings.this, PlayAcord.class);
+                        i.putExtra("instrument", selectionInstr.getText());
                         startActivity(i);
                     }
                 }

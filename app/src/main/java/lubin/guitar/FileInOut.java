@@ -1,6 +1,7 @@
 package lubin.guitar;
 
 import android.content.Context;
+import android.content.res.AssetManager;
 import android.util.Log;
 
 import java.io.Console;
@@ -126,11 +127,11 @@ public class FileInOut {
     protected void copyFiletoDir(int resourceId, String resourceName){
 
 
-        String pathSDCard = context.getFilesDir() + "/" + resourceName;
+        String path = context.getFilesDir() + "/" + resourceName;
         try{
             InputStream in = context.getResources().openRawResource(resourceId);
             FileOutputStream out = null;
-            out = new FileOutputStream(pathSDCard);
+            out = new FileOutputStream(path);
             byte[] buff = new byte[1024];
             int read = 0;
             try {
@@ -148,6 +149,70 @@ public class FileInOut {
         }
 
     }
+
+    public File createFileFromInputStream(InputStream inputStream) {
+
+        try{
+            File f = new File("File");
+            OutputStream outputStream = new FileOutputStream(f);
+            byte buffer[] = new byte[1024];
+            int length = 0;
+
+            while((length=inputStream.read(buffer)) > 0) {
+                outputStream.write(buffer,0,length);
+            }
+
+            outputStream.close();
+            inputStream.close();
+
+            return f;
+        }catch (IOException e) {
+            e.getMessage();
+        }
+
+        return null;
+    }
+
+
+    public void copyFromAssets (String inputDirPath, String outputDirPath ) { //kopirovani jednoho adresare z assets files do jineho adresare
+        AssetManager assetManager = context.getAssets();
+        try {
+
+            String [] assetsList = assetManager.list(inputDirPath);
+
+            for (String files : assetsList)
+            {
+                InputStream in = assetManager.open(inputDirPath + "/" + files);
+
+
+                File outputDir = new File(outputDirPath); //vytvoreni adresare
+                if (!(outputDir.exists())){
+                    outputDir.mkdir();
+                }
+
+                OutputStream out = new FileOutputStream(outputDirPath + files);
+                byte[] buffer = new byte[1024];
+                int read = in.read(buffer);
+                while (read != -1) {
+                    out.write(buffer, 0, read);
+                    read = in.read(buffer);
+                }
+                in.close();
+                out.flush();
+                out.close();
+            }
+
+
+
+        } catch (Exception e) {
+            e.getMessage();
+        }
+    }
+
+
+
+
+
 
 
 

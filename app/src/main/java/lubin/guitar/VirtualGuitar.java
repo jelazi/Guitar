@@ -3,6 +3,7 @@ package lubin.guitar;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.AssetManager;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.drawable.Drawable;
 import android.media.AudioManager;
@@ -102,14 +103,16 @@ public abstract class VirtualGuitar extends AppCompatActivity {
     int numberTone = 0;
     GuitarTone playingTone;
 
+    Songs songs;
+
 
     Song skladba = new Song();
 
-    Songs songs = new Songs();
 
-
+    FileInOut fileInOut = new FileInOut(this); //trida prace se soubory
 
     String nameOfSong;
+    String nameOfInstrument;
 
     ArrayList<Tone> tonySkladby = new ArrayList<>();
     ArrayList<GuitarTone> pokus = new ArrayList<>();
@@ -122,17 +125,34 @@ public abstract class VirtualGuitar extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
 
-        FileInOut fileInOut = new FileInOut(this);
-
-        fileInOut.copyFiletoDir(R.raw.s2, "s2.wav");
 
 
-        SongToXML songToXML = new SongToXML();
-
-        songToXML.saveSongToXML(this, songs.getSong());
-
+        fileInOut.copyFromAssets("Instruments", getFilesDir()+"/Instruments/");
+        fileInOut.copyFromAssets("Songs", getFilesDir()+"/Songs/");
 
 
+        songs = new Songs(this); //trida pisni
+        skladba = songs.getSongFromXML(songs.getListSongs()[0]);
+
+
+
+        if (savedInstanceState == null) { //predavani jmena pisne a názvu Instrumentu
+            Bundle extras = getIntent().getExtras();
+            if(extras == null) {
+                nameOfSong = songs.nameSongs.get(0);
+                nameOfInstrument = songs.nameInstruments.get(0);
+                numberInstrument = songs.getNumberInstrument(nameOfInstrument);
+            } else {
+                nameOfSong = extras.getString("oldName");
+                nameOfInstrument = extras.getString("instrument");
+                numberInstrument = songs.getNumberInstrument(nameOfInstrument);
+//
+            }
+        } else {
+            nameOfSong = (String) savedInstanceState.getSerializable("oldName");
+            nameOfInstrument = (String) savedInstanceState.getSerializable("instrument");
+            numberInstrument = songs.getNumberInstrument(nameOfInstrument);
+        }
 
 
 
@@ -150,10 +170,10 @@ public abstract class VirtualGuitar extends AppCompatActivity {
         //listener zvuku
         soundPool.setOnLoadCompleteListener(soundPoolOnLoadCompleteListener);
         //id zvuku
-        soundId = soundPool.load(this, R.raw.s1, 1);
         tone = 0;
         normal_playback_rate = 0.5f;
-        numberInstrument = 1;
+
+        changeInstrument(); //
     }
 
     //vytvari tlacitka
@@ -349,22 +369,34 @@ public abstract class VirtualGuitar extends AppCompatActivity {
         @Override
         public void onClick(View view) {  //klik na změnu nástroje
 
-            Field[] fields=R.raw.class.getFields();
-
-            int lenght = fields.length;
+changeInstrument();
 
 
-            if (numberInstrument < lenght) {
-                numberInstrument++;
-            } else {
-                numberInstrument = 1;
-            }
-            normal_playback_rate = 0.5f;
-
-            int path = getResources().getIdentifier(fields[numberInstrument  - 1 ].getName(), "raw", getPackageName());
-            soundId = soundPool.load(getApplicationContext(), path, 1);
         }
     };
+
+
+    protected void changeInstrument (){ //zmena nastroje na zaklade slozky Instruments
+
+
+        ArrayList<String> nameInstruments = songs.getNameInstruments();
+
+        int lenght= nameInstruments.size();
+
+        nameOfInstrument = nameInstruments.get(numberInstrument - 1);
+
+
+        if (numberInstrument < lenght) {
+
+            numberInstrument++;
+
+        } else {
+            numberInstrument = 1;
+        }
+        normal_playback_rate = 0.5f;
+
+        soundId = soundPool.load( getFilesDir()+"/Instruments/"+nameOfInstrument, 1);
+    }
 
     protected void playToneFromTouch(View v, Drawable background) {
         switch (v.getId()) {

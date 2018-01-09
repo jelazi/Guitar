@@ -28,10 +28,7 @@ public class Song {
     public Song(String nameOfSong){
 
         this.nameOfSong = nameOfSong;
-
     }
-
-
 
 
 
@@ -43,7 +40,7 @@ public class Song {
     }
 
 
-    public void add (Tone tone){
+    public void add (Tone tone){ //pridani tonu
         tones.add(tone);
 
     }
@@ -67,7 +64,7 @@ public class Song {
     }
 
 
-    public String nameWithoutDiacritic (){
+    public String nameWithoutDiacritic (){ //vrati String bez diakritiky z názvu písne s diakritikou
         String nameOut = "";
         String nameIn = getNameOfSong();
 
@@ -75,8 +72,6 @@ public class Song {
         String withoutdiacritic = "aeeiouuAEEIOUUscrztSCRZT";
 
         int j = 0;
-
-
 
         for (char i : nameIn.toCharArray()){
 
@@ -93,13 +88,8 @@ public class Song {
                 {
                     nameOut += i;
                 }
-
-
             }
-
             j++;
-
-
         }
 
 

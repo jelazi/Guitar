@@ -1,122 +1,137 @@
 package lubin.guitar;
 
-
 import android.content.Context;
-import android.database.sqlite.SQLiteDatabase;
-import android.os.Environment;
-import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+
+import java.io.File;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.Object;
 import java.util.ArrayList;
 
-import static lubin.guitar.R.id.parent;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.transform.OutputKeys;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
+
+//TODO vytvorit tuto moznost tridy
+//trida - pri vytvoreni nahraje vsechny pisne z xml
+
 
 public class Songs {
 
-    private static final String NAME_DB = "mySONGDB";
+
+
+    File[] listFiles; //seznam vsech souborů xml nahranych do Songs
+    ArrayList<Song> listSongs = new ArrayList<>(); //seznam vsech songu nahranych do songs
+    ArrayList<String> nameSongs = new ArrayList<>(); //seznam jmen vsech songu nahranych do songs
+
+
+
+    ArrayList<String> nameInstruments = new ArrayList<>(); //seznam jmen vsech instrumentu
+
 
     private Song song = new Song("Ovcaci, ctveraci");
 
+    Context context;
 
 
-
-
-    public static SQLiteDatabase firstopenDB(){
-
-        SQLiteDatabase dbSongs = SQLiteDatabase.openOrCreateDatabase(NAME_DB, null);
-
-        return dbSongs;
+    public Songs(){
 
     }
 
 
 
 
+    public Songs (Context context){
+
+        this.context = context;
 
 
-
-//TODO dodelat getSong a saveSong
-
-    public static Song getSongFromDB (String nameSong) {
-
-        Song song = new Song(nameSong);
-
-
-
-
-
-
-
-
-
-
-
-
-
-        return song;
+        fillSongs();
 
     }
 
 
-    public static boolean saveSongToDB(Song song){
+    private void fillSongs(){
 
-        SQLiteDatabase dbSongs = firstopenDB();
+        try{
+            File dirSongs = new File (this.context.getFilesDir()+"/Songs/");
+            listFiles = dirSongs.listFiles();
+            Song thissong = new Song();
+            listSongs = new ArrayList<>();
+            nameSongs = new ArrayList<>();
+            nameInstruments = new ArrayList<>();
 
-
-
-
-
-
-
-
-
-
-        return true;
-    }
+            File dirInstruments = new File (this.context.getFilesDir()+"/Instruments/");
+            File [] listInstruments = dirInstruments.listFiles();
 
 
+            for (File file : listFiles){
+                thissong = getSongFromXML(file);
+                listSongs.add(thissong);
+                nameSongs.add(thissong.getNameOfSong());
+
+            }
 
 
-    public Song callByName(String funcName) {
-        try {
-            Method method = getClass().getDeclaredMethod(funcName);
-            method.invoke(this, new Object[] {});
-            return song;
-        } catch (SecurityException e) {
-            e.printStackTrace();
-        } catch (NoSuchMethodException e) {
-            e.printStackTrace();
-        } catch (IllegalArgumentException e) {
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        } catch (InvocationTargetException e) {
-            e.printStackTrace();
+            for (File file : listInstruments){
+
+                nameInstruments.add(file.getName());
+
+            }
+
+        }catch (Exception e){
+            e.getMessage();
         }
+
+    }
+
+    public ArrayList<String> getSongsName(){
+
+        fillSongs();
+
+        return nameSongs;
+
+    }
+
+    public int getNumberInstrument(String name){
+
+        //fillSongs();
+
+        int index = nameInstruments.indexOf(name) + 1;
+
+        return index;
+
+    }
+
+
+
+    public Song callByName(String name) {
+
+        fillSongs();
+
+        song = listSongs.get(nameSongs.indexOf(name));
+
+
         return song;
     }
 
-    public Song getSong(){
-
-        getSong1();
-
-        return song;
-    }
 
 
-
-    public void getSong1(){
+   /* public void ovcaci(){
 
         song.setNameOfSong("Ovcaci, ctveraci");
 
 
-
         song.add(new Tone("C3", 500));
         song.add(new Tone("E3", 500));
         song.add(new Tone("G3", 1000));
@@ -180,19 +195,13 @@ public class Songs {
         song.add(new Tone("E3", 500));
         song.add(new Tone("D3", 500));
         song.add(new Tone("C3", 1000));
-
-
-
-
     }
 
 
 
-    public void getSong2(){
+    public void proElisku(){
 
         song.setNameOfSong("Pro Elisku");
-
-
 
         song.add(new Tone("E4", 250));
         song.add(new Tone("Dis4", 250));
@@ -292,12 +301,126 @@ public class Songs {
         song.add(new Tone("C4", 250));
         song.add(new Tone("B3", 250));
         song.add(new Tone("A3", 1000));
+    }*/
 
 
+    public Song getSongFromXML(File XML){
 
+        Song song = new Song();
 
+        try
+        {
+            DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+            DocumentBuilder db = dbf.newDocumentBuilder();
+            Document doc = db.parse(XML);
 
+            Node root = doc.getDocumentElement();
+            root.normalize();
+
+            NodeList SongList = root.getChildNodes();
+
+            NodeList description = SongList.item(1).getChildNodes();
+
+            Node nameOfSong = description.item(1);
+            Node nameOfAuthor = description.item(3);
+
+            song.setNameOfSong(nameOfSong.getTextContent());
+            song.setAuthorOfSong(nameOfAuthor.getTextContent());
+
+            NodeList tones = SongList.item(3).getChildNodes();
+
+            for (int i = 0; i < tones.getLength(); i++){
+
+                Node tone = tones.item(i);
+
+                if (tone.getNodeType() == Node.ELEMENT_NODE && tone.getNodeName().equals("NameTone")){
+
+                    String nameTone = tone.getChildNodes().item(0).getTextContent();
+                    int valueTone = Integer.parseInt(tone.getChildNodes().item(1).getChildNodes().item(0).getTextContent());
+                    song.add(new Tone(nameTone, valueTone));
+                }
+            }
+        }
+        catch (Exception e)
+        {
+
+        }
+        return song;
     }
 
 
+    public boolean setSongToXML(Context context, Song song){
+
+        try{
+            DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+            DocumentBuilder db = dbf.newDocumentBuilder();
+            Document doc = db.newDocument();
+
+            Element aboutSong = doc.createElement("Song");
+
+            Element description = doc.createElement("Description");
+
+            Element nameOfSong = doc.createElement("Name_of_Song");
+            nameOfSong.appendChild(doc.createTextNode(song.getNameOfSong()));
+            description.appendChild(nameOfSong);
+
+            Element nameOfAuthor = doc.createElement("Name_of_Author");
+            nameOfAuthor.appendChild(doc.createTextNode(song.getAuthorOfSong()));
+            description.appendChild(nameOfAuthor);
+
+            aboutSong.appendChild(description);
+
+            Element tones = doc.createElement("Tones");
+
+            for (Tone tone : song.getTones()){
+
+                Element nameTone = doc.createElement("NameTone");
+                nameTone.appendChild(doc.createTextNode(tone.nameTone));
+
+                Element valueTone = doc.createElement("ValueTone");
+                valueTone.appendChild(doc.createTextNode(Integer.toString(tone.lenghtTone)));
+                nameTone.appendChild(valueTone);
+
+                tones.appendChild(nameTone);
+            }
+
+            aboutSong.appendChild(tones);
+
+            doc.appendChild(aboutSong);
+
+
+            File folder = new File(context.getFilesDir() + "/Songs"); //vytvoreni slozky Songs
+            boolean success = true;
+            if (!folder.exists()) {
+                success = folder.mkdir();
+            }
+
+            if (success){
+
+                TransformerFactory tf = TransformerFactory.newInstance();
+                Transformer transformer = tf.newTransformer();
+                transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "2");
+                transformer.setOutputProperty(OutputKeys.INDENT, "yes");
+
+
+                DOMSource source = new DOMSource(doc);
+                StreamResult result = new StreamResult(new File(context.getFilesDir() + "/Songs/" + song.nameWithoutDiacritic()));
+                transformer.transform(source, result);
+            }
+
+        }
+        catch (Exception e)
+        {
+            Log.e("Error: ", e.getMessage());
+        }
+        return true;
+    }
+
+    public File[] getListSongs() {
+        return listFiles;
+    }
+
+    public ArrayList<String> getNameInstruments() {
+        return nameInstruments;
+    }
 }

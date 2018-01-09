@@ -31,9 +31,7 @@ public class TrySong extends VirtualGuitar
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-
-
-
+        songs = new Songs(this);
 
         setContentView(R.layout.activity_try_song);
         createView();
@@ -76,17 +74,7 @@ public class TrySong extends VirtualGuitar
         this.setTitle("Zkoušení písně");
 
 
-        if (savedInstanceState == null) {
-            Bundle extras = getIntent().getExtras();
-            if(extras == null) {
-                nameOfSong = "Ovcaci, ctveraci";
-            } else {
-                nameOfSong = extras.getString("oldName");
 
-            }
-        } else {
-            nameOfSong = (String) savedInstanceState.getSerializable("oldName");
-        }
 
     }
 
@@ -200,35 +188,10 @@ public class TrySong extends VirtualGuitar
                 btnTryMusic.setText("Hrajeme...");
                 btnTryMusic.setBackgroundColor(0x800a33f5);
 
-                Songs songs = new Songs();
+
+                skladba = songs.callByName(nameOfSong);
 
 
-                if (nameOfSong != null){
-                    if (nameOfSong.equals("Pro Elisku")){
-
-                        skladba.setNameOfSong(nameOfSong);
-
-                        skladba = songs.callByName("getSong2");
-
-                        nameOfSong = skladba.getNameOfSong();
-                    }
-                    else
-                    {
-                        skladba = songs.callByName("getSong1");
-
-
-                        nameOfSong = skladba.getNameOfSong();
-
-                    }
-
-                }
-                else
-                {
-
-                    skladba = songs.callByName("getSong1");
-                    nameOfSong = skladba.getNameOfSong();
-
-                }
 
 
                 pokus = createMusicFromTones(skladba.getTones());

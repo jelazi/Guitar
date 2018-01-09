@@ -16,6 +16,7 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.File;
 import java.util.ArrayList;
 
 // TODO při zmáčknutí tlačítka zpět se nezastaví hudba
@@ -31,7 +32,7 @@ public class PreviewSong extends VirtualGuitar {
     int tone; //druh tonu
 
     float normal_playback_rate;
-    int numberInstrument = 0; //cislo nastroje
+
     Tones tones = new Tones();
 
     boolean isPlaying = false;
@@ -44,20 +45,18 @@ public class PreviewSong extends VirtualGuitar {
 
 
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        try {
 
-        } catch (Exception e){
+        songs = new Songs(this);
 
-        }
 
         setContentView(R.layout.activity_preview_song);
         createView();
 
-        changeInstrument = (Button) findViewById(R.id.changeInstrument);
-        changeInstrument.setOnClickListener(btnChangeOnClickListener);
+
 
         btnplayMusic = (Button)findViewById(R.id.playMusic);
         btnplayMusic.setOnClickListener(previewSong);
@@ -79,25 +78,18 @@ public class PreviewSong extends VirtualGuitar {
         //listener zvuku
         soundPool.setOnLoadCompleteListener(soundPoolOnLoadCompleteListener);
         //id zvuku
-        soundId = soundPool.load(this, R.raw.s1, 1);
+        File dirInstruments = new File(getFilesDir()+"/Instruments/");
+        String[] nameInstruments = dirInstruments.list();
+        String nameInstrument = nameInstruments[numberInstrument - 1];
+
+        soundId = soundPool.load( getFilesDir()+"/Instruments/"+nameInstrument, 1);
 
         tone = 0;
         normal_playback_rate = 0.5f;
-        numberInstrument = 1;
+
         this.setTitle("Přehrávání písně");
 
 
-        if (savedInstanceState == null) {
-            Bundle extras = getIntent().getExtras();
-            if(extras == null) {
-                nameOfSong = "Ovcaci, ctveraci";
-            } else {
-                nameOfSong = extras.getString("oldName");
-
-            }
-        } else {
-            nameOfSong = (String) savedInstanceState.getSerializable("oldName");
-        }
 
         nameOfSongView.setText(nameOfSong);
 
@@ -116,21 +108,11 @@ public class PreviewSong extends VirtualGuitar {
 
         public void previewSong(){
 
-            Songs songs = new Songs();
+
 
             if (!isPlaying) {
-                if (nameOfSong != null) {
-                    if (nameOfSong.equals("Pro Elisku")) {
-                        skladba = songs.callByName("getSong2");
-                        //skladba = Songs.getSong2();
-                    } else {
-                        skladba = songs.callByName("getSong1");
+                skladba = songs.callByName(nameOfSong);
 
-                        //skladba = Songs.getSong1();
-                    }
-
-
-                }
             }
 
 
@@ -264,23 +246,7 @@ public class PreviewSong extends VirtualGuitar {
         });
     }
 
-    OnClickListener btnChangeOnClickListener = new OnClickListener() { //zmena nastroje
-        @Override
-        public void onClick(View view) {
 
-            if (numberInstrument <11){
-                numberInstrument++;
-            }
-            else {
-                numberInstrument = 1;
-            }
-            normal_playback_rate = 0.5f;
-
-            int path = getResources().getIdentifier(("s" + String.valueOf(numberInstrument)), "raw", getPackageName());
-
-            soundId = soundPool.load(getApplicationContext(), path, 1);
-        }
-    };
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event)

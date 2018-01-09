@@ -118,6 +118,7 @@ public abstract class VirtualGuitar extends AppCompatActivity {
     ArrayList<GuitarTone> pokus = new ArrayList<>();
 
     ArrayList<ImageButton> imageButtons = new ArrayList<>();
+    Toast mToast;
 
 
     @Override
@@ -127,12 +128,14 @@ public abstract class VirtualGuitar extends AppCompatActivity {
 
 
 
+
         fileInOut.copyFromAssets("Instruments", getFilesDir()+"/Instruments/");
         fileInOut.copyFromAssets("Songs", getFilesDir()+"/Songs/");
 
 
         songs = new Songs(this); //trida pisni
         skladba = songs.getSongFromXML(songs.getListSongs()[0]);
+
 
 
 
@@ -173,7 +176,8 @@ public abstract class VirtualGuitar extends AppCompatActivity {
         tone = 0;
         normal_playback_rate = 0.5f;
 
-        changeInstrument(); //
+        fillInstrument(); //
+        mToast = Toast.makeText(this,"Zvuk kytary změněn na: " + nameOfInstrument,Toast.LENGTH_SHORT);
     }
 
     //vytvari tlacitka
@@ -379,11 +383,9 @@ changeInstrument();
     protected void changeInstrument (){ //zmena nastroje na zaklade slozky Instruments
 
 
-        ArrayList<String> nameInstruments = songs.getNameInstruments();
+        int lenght= songs.getNameInstruments().size();
 
-        int lenght= nameInstruments.size();
-
-        nameOfInstrument = nameInstruments.get(numberInstrument - 1);
+        nameOfInstrument = songs.getNameInstruments().get(numberInstrument - 1);
 
 
         if (numberInstrument < lenght) {
@@ -395,7 +397,21 @@ changeInstrument();
         }
         normal_playback_rate = 0.5f;
 
+        fillInstrument();
+
+
+        mToast.cancel();
+        mToast = Toast.makeText(this,"Zvuk kytary změněn na: " + (nameOfInstrument.substring(0, nameOfInstrument.length() - 4)),Toast.LENGTH_SHORT);
+        mToast.show();
+
+    }
+
+
+    protected void fillInstrument(){
+
+        nameOfInstrument = songs.getNameInstruments().get(numberInstrument - 1);
         soundId = soundPool.load( getFilesDir()+"/Instruments/"+nameOfInstrument, 1);
+
     }
 
     protected void playToneFromTouch(View v, Drawable background) {

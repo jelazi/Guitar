@@ -52,19 +52,14 @@ public class PreviewSong extends VirtualGuitar {
 
         songs = new Songs(this);
 
-
         setContentView(R.layout.activity_preview_song);
         createView();
-
-
-
         btnplayMusic = (Button)findViewById(R.id.playMusic);
         btnplayMusic.setOnClickListener(previewSong);
 
         audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
 
         nameOfSongView = (TextView) findViewById(R.id.nameSong);
-
 
 
         //maximalni mnozstvi zaroven prehravanych zvuku
@@ -78,11 +73,11 @@ public class PreviewSong extends VirtualGuitar {
         //listener zvuku
         soundPool.setOnLoadCompleteListener(soundPoolOnLoadCompleteListener);
         //id zvuku
-        File dirInstruments = new File(getFilesDir()+"/Instruments/");
-        String[] nameInstruments = dirInstruments.list();
-        String nameInstrument = nameInstruments[numberInstrument - 1];
 
-        soundId = soundPool.load( getFilesDir()+"/Instruments/"+nameInstrument, 1);
+
+        nameOfInstrument = songs.getNameInstruments().get(numberInstrument - 1);
+        soundId = soundPool.load( getFilesDir()+"/Instruments/"+nameOfInstrument, 1);
+
 
         tone = 0;
         normal_playback_rate = 0.5f;
@@ -108,17 +103,12 @@ public class PreviewSong extends VirtualGuitar {
 
         public void previewSong(){
 
-
-
             if (!isPlaying) {
                 skladba = songs.callByName(nameOfSong);
 
             }
 
-
-
             tonySkladby = skladba.getTones();
-
 
             pokus = createMusicFromTones(tonySkladby);
             if (isPlaying){
@@ -128,11 +118,9 @@ public class PreviewSong extends VirtualGuitar {
 
                 Intent i = new Intent(PreviewSong.this, PreviewSong.class);
                 i.putExtra("oldName", nameOfSong);
+                i.putExtra("instrument", nameOfInstrument);
                 finish();
                 startActivity(i);
-
-
-
 
 
             }
@@ -209,7 +197,6 @@ public class PreviewSong extends VirtualGuitar {
         return music;
     }
 
-
     //animace dotyku
     private void Touching(final ImageButton imgButton){
 
@@ -247,13 +234,11 @@ public class PreviewSong extends VirtualGuitar {
     }
 
 
-
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event)
     {
         if ((keyCode == KeyEvent.KEYCODE_BACK))
         {
-
              soundPool.release();
         }
         return super.onKeyDown(keyCode, event);

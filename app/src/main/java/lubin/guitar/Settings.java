@@ -11,7 +11,11 @@ import android.widget.TextView;
 import android.widget.AdapterView;
 import android.widget.Spinner;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 
 public class Settings extends AppCompatActivity
         implements AdapterView.OnItemSelectedListener {
@@ -22,6 +26,10 @@ public class Settings extends AppCompatActivity
     private static final String[] action = {"Přehraj píseň", "Vyzkoušej píseň", "Hraj akordy"};
     private ArrayList<String> instruments = new ArrayList<>();
     Button ok;
+    private Button record;
+    private Button stop;
+    private Button write;
+    Record recorder;
 
 
 
@@ -34,6 +42,16 @@ public class Settings extends AppCompatActivity
 
         songName = songs.getSongsName();
         instruments = songs.getNameInstruments();
+
+
+        record = (Button) findViewById(R.id.record);
+        stop = (Button) findViewById(R.id.stop);
+        write = (Button) findViewById(R.id.write);
+
+
+        record.setOnClickListener(recordListener);
+        stop.setOnClickListener(stopListener);
+        write.setOnClickListener(writeListener);
 
 
 
@@ -77,8 +95,17 @@ public class Settings extends AppCompatActivity
 
 
 
+        recorder = new Record(this, getFilesDir() + "/Instruments/" + getDate() + ".wav");
 
 
+    }
+
+
+    private String getDate(){
+
+        DateFormat dfTime = new SimpleDateFormat("HH:mm:ss");
+        String time = dfTime.format(Calendar.getInstance().getTime());
+        return time;
     }
 
 
@@ -117,35 +144,66 @@ public class Settings extends AppCompatActivity
         @Override
         public void onClick(View view) {
 
-
+            Globals.setInstrument(selectionInstr.getText().toString());
+            Globals.setSongName(selection1.getText().toString());
 
 
 
             if (selection2.getText().equals("Vyzkoušej píseň")) {
                 Intent i = new Intent(Settings.this, TrySong.class);
-                i.putExtra("oldName", selection1.getText());
-                i.putExtra("instrument", selectionInstr.getText());
                 startActivity(i);
             }
             else
             {
                 if (selection2.getText().equals("Přehraj píseň")) {
                     Intent i = new Intent(Settings.this, PreviewSong.class);
-                    i.putExtra("oldName", selection1.getText());
-                    i.putExtra("instrument", selectionInstr.getText());
                     startActivity(i);
                 }
                 else
                 {
                     if (selection2.getText().equals("Hraj akordy")) {
                         Intent i = new Intent(Settings.this, PlayAcord.class);
-                        i.putExtra("instrument", selectionInstr.getText());
                         startActivity(i);
                     }
                 }
 
 
             }
+
+
+
+        }
+    };
+
+    View.OnClickListener recordListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+
+
+            recorder.startRecording();
+
+
+
+
+
+
+        }
+    };
+
+    View.OnClickListener stopListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+
+            recorder.stopRecording();
+
+
+
+        }
+    };
+
+    View.OnClickListener writeListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
 
 
 

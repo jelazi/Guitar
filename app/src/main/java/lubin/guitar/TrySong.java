@@ -189,7 +189,7 @@ public class TrySong extends VirtualGuitar
                 btnTryMusic.setBackgroundColor(0x800a33f5);
 
 
-                skladba = songs.callByName(nameOfSong);
+                skladba = songs.callByName(Globals.getSongName());
 
 
 

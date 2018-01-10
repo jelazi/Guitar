@@ -83,13 +83,39 @@
         />
 
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="80dp">
+
+
+        <Button
+            android:id="@+id/record"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Nahrát"/>
+
+        <Button
+            android:id="@+id/stop"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Zastavit nahrávání"/>
+
+        <Button
+            android:id="@+id/write"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Uložit"/>
+
+    </LinearLayout>
+
+
 
 
 
     <Button
         android:id="@+id/ok"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:text= "Jdi do toho!!!"/>
 
 

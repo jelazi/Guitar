@@ -109,11 +109,6 @@ public abstract class VirtualGuitar extends AppCompatActivity {
     Song skladba = new Song();
 
 
-    FileInOut fileInOut = new FileInOut(this); //trida prace se soubory
-
-    String nameOfSong;
-    String nameOfInstrument;
-
     ArrayList<Tone> tonySkladby = new ArrayList<>();
     ArrayList<GuitarTone> pokus = new ArrayList<>();
 
@@ -126,38 +121,23 @@ public abstract class VirtualGuitar extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
 
+        Globals.addValueUser();
 
-
-
-        fileInOut.copyFromAssets("Instruments", getFilesDir()+"/Instruments/");
-        fileInOut.copyFromAssets("Songs", getFilesDir()+"/Songs/");
+        FileInOut.copyFromAssets(this, "Instruments", getFilesDir()+"/Instruments/");
+        FileInOut.copyFromAssets(this, "Songs", getFilesDir()+"/Songs/");
 
 
         songs = new Songs(this); //trida pisni
         skladba = songs.getSongFromXML(songs.getListSongs()[0]);
 
-
-
-
-        if (savedInstanceState == null) { //predavani jmena pisne a názvu Instrumentu
+        if (savedInstanceState == null) { //predavani jmena pisne a názvu Instrumentu pri prvnim spusteni
             Bundle extras = getIntent().getExtras();
-            if(extras == null) {
-                nameOfSong = songs.nameSongs.get(0);
-                nameOfInstrument = songs.nameInstruments.get(0);
-                numberInstrument = songs.getNumberInstrument(nameOfInstrument);
-            } else {
-                nameOfSong = extras.getString("oldName");
-                nameOfInstrument = extras.getString("instrument");
-                numberInstrument = songs.getNumberInstrument(nameOfInstrument);
-//
+            if (extras == null) {
+                Globals.setSongName(songs.nameSongs.get(0));
+                Globals.setInstrument(songs.nameInstruments.get(0));
+                numberInstrument = songs.getNumberInstrument(Globals.getInstrument());
             }
-        } else {
-            nameOfSong = (String) savedInstanceState.getSerializable("oldName");
-            nameOfInstrument = (String) savedInstanceState.getSerializable("instrument");
-            numberInstrument = songs.getNumberInstrument(nameOfInstrument);
         }
-
-
 
 
         audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
@@ -177,7 +157,11 @@ public abstract class VirtualGuitar extends AppCompatActivity {
         normal_playback_rate = 0.5f;
 
         fillInstrument(); //
-        mToast = Toast.makeText(this,"Zvuk kytary změněn na: " + nameOfInstrument,Toast.LENGTH_SHORT);
+
+        Toast.makeText(this, Globals.getSongName(), Toast.LENGTH_SHORT).show();
+
+
+        mToast = Toast.makeText(this,"Zvuk kytary změněn na: " + Globals.getInstrument(),Toast.LENGTH_SHORT);
     }
 
     //vytvari tlacitka
@@ -303,8 +287,6 @@ public abstract class VirtualGuitar extends AppCompatActivity {
                         priority,
                         no_loop,
                         normal_playback_rate);
-
-
             }
         }, delay);
     }
@@ -328,7 +310,6 @@ public abstract class VirtualGuitar extends AppCompatActivity {
             @Override
             public void onAnimationStart(Animation animation) {
                 imgButton.setBackgroundResource(R.drawable.touch);
-
             }
 
             @Override
@@ -385,7 +366,7 @@ changeInstrument();
 
         int lenght= songs.getNameInstruments().size();
 
-        nameOfInstrument = songs.getNameInstruments().get(numberInstrument - 1);
+        Globals.setInstrument(songs.getNameInstruments().get(numberInstrument - 1));
 
 
         if (numberInstrument < lenght) {
@@ -401,7 +382,7 @@ changeInstrument();
 
 
         mToast.cancel();
-        mToast = Toast.makeText(this,"Zvuk kytary změněn na: " + (nameOfInstrument.substring(0, nameOfInstrument.length() - 4)),Toast.LENGTH_SHORT);
+        mToast = Toast.makeText(this,"Zvuk kytary změněn na: " + (Globals.getInstrument().substring(0, Globals.getInstrument().length() - 4)),Toast.LENGTH_SHORT);
         mToast.show();
 
     }
@@ -409,9 +390,8 @@ changeInstrument();
 
     protected void fillInstrument(){
 
-        nameOfInstrument = songs.getNameInstruments().get(numberInstrument - 1);
-        soundId = soundPool.load( getFilesDir()+"/Instruments/"+nameOfInstrument, 1);
-
+        Globals.setInstrument(songs.getNameInstruments().get(numberInstrument - 1));
+        soundId = soundPool.load( getFilesDir()+"/Instruments/"+Globals.getInstrument(), 1);
     }
 
     protected void playToneFromTouch(View v, Drawable background) {

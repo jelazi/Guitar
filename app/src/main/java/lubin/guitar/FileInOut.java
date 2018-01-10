@@ -174,7 +174,7 @@ public class FileInOut {
     }
 
 
-    public void copyFromAssets (String inputDirPath, String outputDirPath ) { //kopirovani jednoho adresare z assets files do jineho adresare
+    public static void copyFromAssets (Context context, String inputDirPath, String outputDirPath ) { //kopirovani jednoho adresare z assets files do jineho adresare
         AssetManager assetManager = context.getAssets();
         try {
 

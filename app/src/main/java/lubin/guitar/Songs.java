@@ -33,28 +33,20 @@ public class Songs {
     File[] listFiles; //seznam vsech souborů xml nahranych do Songs
     ArrayList<Song> listSongs = new ArrayList<>(); //seznam vsech songu nahranych do songs
     ArrayList<String> nameSongs = new ArrayList<>(); //seznam jmen vsech songu nahranych do songs
-
-
-
     ArrayList<String> nameInstruments = new ArrayList<>(); //seznam jmen vsech instrumentu
-
 
     private Song song = new Song("Ovcaci, ctveraci");
 
     Context context;
-
 
     public Songs(){
 
     }
 
 
-
-
     public Songs (Context context){
 
         this.context = context;
-
 
         fillSongs();
 
@@ -79,14 +71,11 @@ public class Songs {
                 thissong = getSongFromXML(file);
                 listSongs.add(thissong);
                 nameSongs.add(thissong.getNameOfSong());
-
             }
 
 
             for (File file : listInstruments){
-
                 nameInstruments.add(file.getName());
-
             }
 
         }catch (Exception e){
@@ -100,7 +89,6 @@ public class Songs {
         fillSongs();
 
         return nameSongs;
-
     }
 
     public int getNumberInstrument(String name){
@@ -110,7 +98,6 @@ public class Songs {
         int index = nameInstruments.indexOf(name) + 1;
 
         return index;
-
     }
 
 
@@ -120,7 +107,6 @@ public class Songs {
         fillSongs();
 
         song = listSongs.get(nameSongs.indexOf(name));
-
 
         return song;
     }

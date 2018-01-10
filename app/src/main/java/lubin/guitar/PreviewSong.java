@@ -75,8 +75,8 @@ public class PreviewSong extends VirtualGuitar {
         //id zvuku
 
 
-        nameOfInstrument = songs.getNameInstruments().get(numberInstrument - 1);
-        soundId = soundPool.load( getFilesDir()+"/Instruments/"+nameOfInstrument, 1);
+        Globals.setInstrument(songs.getNameInstruments().get(numberInstrument - 1));
+        soundId = soundPool.load( getFilesDir()+"/Instruments/"+Globals.getInstrument(), 1);
 
 
         tone = 0;
@@ -86,7 +86,7 @@ public class PreviewSong extends VirtualGuitar {
 
 
 
-        nameOfSongView.setText(nameOfSong);
+        nameOfSongView.setText(Globals.getSongName());
 
 
 
@@ -104,7 +104,7 @@ public class PreviewSong extends VirtualGuitar {
         public void previewSong(){
 
             if (!isPlaying) {
-                skladba = songs.callByName(nameOfSong);
+                skladba = songs.callByName(Globals.getSongName());
 
             }
 
@@ -117,8 +117,6 @@ public class PreviewSong extends VirtualGuitar {
                 isPlaying = false;
 
                 Intent i = new Intent(PreviewSong.this, PreviewSong.class);
-                i.putExtra("oldName", nameOfSong);
-                i.putExtra("instrument", nameOfInstrument);
                 finish();
                 startActivity(i);
 

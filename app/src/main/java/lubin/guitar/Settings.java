@@ -22,7 +22,7 @@ public class Settings extends AppCompatActivity
     private TextView selection1;
     private TextView selection2;
     private TextView selectionInstr;
-    private ArrayList<String> songName = new ArrayList<>();
+    private ArrayList<String> songNames = new ArrayList<>();
     private static final String[] action = {"Přehraj píseň", "Vyzkoušej píseň", "Hraj akordy"};
     private ArrayList<String> instruments = new ArrayList<>();
     Button ok;
@@ -37,11 +37,10 @@ public class Settings extends AppCompatActivity
     public void onCreate(Bundle icicle) {
         super.onCreate(icicle);
         setContentView(R.layout.activity_settings);
+        Globals.setFirstStart(false);
 
-        Songs songs = new Songs(this);
-
-        songName = songs.getSongsName();
-        instruments = songs.getNameInstruments();
+        songNames = Songs.getSongsName(this);
+        instruments = Songs.getNameInstruments();
 
 
         record = (Button) findViewById(R.id.record);
@@ -72,7 +71,7 @@ public class Settings extends AppCompatActivity
 
         ArrayAdapter<String> aa = new ArrayAdapter<String>(this,
                 android.R.layout.simple_spinner_item,
-                songName);
+                songNames);
 
         ArrayAdapter<String> bb = new ArrayAdapter<String>(this,
                 android.R.layout.simple_spinner_item,
@@ -113,7 +112,7 @@ public class Settings extends AppCompatActivity
                                View v, int position, long id) {
         if (parent.getId() == R.id.spinner)
         {
-            selection1.setText(songName.get(position));
+            selection1.setText(songNames.get(position));
         }
 
             if (parent.getId() == R.id.spinner_action)
@@ -146,6 +145,7 @@ public class Settings extends AppCompatActivity
 
             Globals.setInstrument(selectionInstr.getText().toString());
             Globals.setSongName(selection1.getText().toString());
+            Songs.setSong(Songs.callByName(getApplicationContext(), Globals.getSongName()));
 
 
 

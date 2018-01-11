@@ -30,52 +30,40 @@ public class Songs {
 
 
 
-    File[] listFiles; //seznam vsech souborů xml nahranych do Songs
-    ArrayList<Song> listSongs = new ArrayList<>(); //seznam vsech songu nahranych do songs
-    ArrayList<String> nameSongs = new ArrayList<>(); //seznam jmen vsech songu nahranych do songs
-    ArrayList<String> nameInstruments = new ArrayList<>(); //seznam jmen vsech instrumentu
+    private static File[] listFiles; //seznam vsech souborů xml nahranych do Songs
+    private static ArrayList<Song> listSongs = new ArrayList<>(); //seznam vsech songu nahranych do songs
+    private static ArrayList<String> nameSongs = new ArrayList<>(); //seznam jmen vsech songu nahranych do songs
+    private static ArrayList<String> nameInstruments = new ArrayList<>(); //seznam jmen vsech instrumentu
 
-    private Song song = new Song("Ovcaci, ctveraci");
-
-    Context context;
-
-    public Songs(){
-
-    }
+    private static Song song = new Song("Ovcaci, ctveraci");
 
 
-    public Songs (Context context){
-
-        this.context = context;
-
-        fillSongs();
-
-    }
 
 
-    private void fillSongs(){
+
+    public static void fillSongs(Context context){
 
         try{
-            File dirSongs = new File (this.context.getFilesDir()+"/Songs/");
-            listFiles = dirSongs.listFiles();
+            File dirSongs = new File (context.getFilesDir()+"/Songs/");
+            Songs.listFiles = dirSongs.listFiles();
             Song thissong = new Song();
-            listSongs = new ArrayList<>();
-            nameSongs = new ArrayList<>();
-            nameInstruments = new ArrayList<>();
+            Songs.listSongs = new ArrayList<>();
+            Songs.nameSongs = new ArrayList<>();
+            Songs.nameInstruments = new ArrayList<>();
 
-            File dirInstruments = new File (this.context.getFilesDir()+"/Instruments/");
+            File dirInstruments = new File (context.getFilesDir()+"/Instruments/");
             File [] listInstruments = dirInstruments.listFiles();
 
 
             for (File file : listFiles){
-                thissong = getSongFromXML(file);
-                listSongs.add(thissong);
-                nameSongs.add(thissong.getNameOfSong());
+                thissong = Songs.getSongFromXML(file);
+                Songs.listSongs.add(thissong);
+                Songs.nameSongs.add(thissong.getNameOfSong());
             }
 
 
             for (File file : listInstruments){
-                nameInstruments.add(file.getName());
+                Songs.nameInstruments.add(file.getName());
             }
 
         }catch (Exception e){
@@ -84,31 +72,31 @@ public class Songs {
 
     }
 
-    public ArrayList<String> getSongsName(){
+    public static ArrayList<String> getSongsName(Context context){
 
-        fillSongs();
+        Songs.fillSongs(context);
 
-        return nameSongs;
+        return Songs.nameSongs;
     }
 
-    public int getNumberInstrument(String name){
+    public static int getNumberInstrument(String name){
 
         //fillSongs();
 
-        int index = nameInstruments.indexOf(name) + 1;
+        int index = Songs.nameInstruments.indexOf(name) + 1;
 
         return index;
     }
 
 
 
-    public Song callByName(String name) {
+    public static Song callByName(Context context, String name) {
 
-        fillSongs();
+        fillSongs(context);
 
-        song = listSongs.get(nameSongs.indexOf(name));
+        Songs.song = Songs.listSongs.get(Songs.nameSongs.indexOf(name));
 
-        return song;
+        return Songs.song;
     }
 
 
@@ -290,7 +278,7 @@ public class Songs {
     }*/
 
 
-    public Song getSongFromXML(File XML){
+    public static Song getSongFromXML(File XML){
 
         Song song = new Song();
 
@@ -335,7 +323,7 @@ public class Songs {
     }
 
 
-    public boolean setSongToXML(Context context, Song song){
+    public static boolean setSongToXML(Context context, Song song){
 
         try{
             DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
@@ -402,11 +390,43 @@ public class Songs {
         return true;
     }
 
-    public File[] getListSongs() {
-        return listFiles;
+    public static File[] getListSongs() {
+        return Songs.listFiles;
     }
 
-    public ArrayList<String> getNameInstruments() {
-        return nameInstruments;
+    public static ArrayList<String> getNameInstruments() {
+        return Songs.nameInstruments;
+    }
+
+    public static File[] getListFiles() {
+        return Songs.listFiles;
+    }
+
+    public static void setListFiles(File[] listFiles) {
+        Songs.listFiles = listFiles;
+    }
+
+    public static void setListSongs(ArrayList<Song> listSongs) {
+        Songs.listSongs = listSongs;
+    }
+
+    public static ArrayList<String> getNameSongs() {
+        return Songs.nameSongs;
+    }
+
+    public static void setNameSongs(ArrayList<String> nameSongs) {
+        Songs.nameSongs = nameSongs;
+    }
+
+    public static void setNameInstruments(ArrayList<String> nameInstruments) {
+        Songs.nameInstruments = nameInstruments;
+    }
+
+    public static Song getSong() {
+        return Songs.song;
+    }
+
+    public static void setSong(Song song) {
+        Songs.song = song;
     }
 }

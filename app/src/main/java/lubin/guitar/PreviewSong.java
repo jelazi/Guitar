@@ -46,11 +46,12 @@ public class PreviewSong extends VirtualGuitar {
 
 
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        songs = new Songs(this);
+       // Songs = new Songs(this);
 
         setContentView(R.layout.activity_preview_song);
         createView();
@@ -75,7 +76,7 @@ public class PreviewSong extends VirtualGuitar {
         //id zvuku
 
 
-        Globals.setInstrument(songs.getNameInstruments().get(numberInstrument - 1));
+        Globals.setInstrument(Songs.getNameInstruments().get(Globals.getNumberInstrument() - 1));
         soundId = soundPool.load( getFilesDir()+"/Instruments/"+Globals.getInstrument(), 1);
 
 
@@ -104,7 +105,7 @@ public class PreviewSong extends VirtualGuitar {
         public void previewSong(){
 
             if (!isPlaying) {
-                skladba = songs.callByName(Globals.getSongName());
+                skladba = Songs.callByName(getApplicationContext(), Globals.getSongName());
 
             }
 

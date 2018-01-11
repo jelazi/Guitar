@@ -4,6 +4,9 @@ import android.content.Context;
 import android.content.res.AssetManager;
 import android.util.Log;
 
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+
 import java.io.Console;
 import java.io.File;
 import java.io.FileInputStream;
@@ -13,6 +16,13 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.transform.OutputKeys;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
 
 
 public class FileInOut {
@@ -207,6 +217,95 @@ public class FileInOut {
         } catch (Exception e) {
             e.getMessage();
         }
+    }
+
+
+    public static String nameWithoutDiacritic (String name){ //vrati String bez diakritiky z názvu písne s diakritikou
+        String nameOut = "";
+        String nameIn = name;
+
+        String withdiacritic = "áéěíóúůÁÉĚÍÓÚŮščřžťŠČŘŽŤ";
+        String withoutdiacritic = "aeeiouuAEEIOUUscrztSCRZT";
+
+        int j = 0;
+
+        for (char i : nameIn.toCharArray()){
+
+            if (withdiacritic.contains(String.valueOf(i))){
+                nameOut += withoutdiacritic.charAt(j);
+
+            }
+            else{
+
+                if (i == ' '){
+                    nameOut += '_';
+                }
+                else
+                {
+                    nameOut += i;
+                }
+            }
+            j++;
+        }
+
+
+
+        return nameOut;
+
+
+    }
+
+
+    public static boolean setUserToXML(Context context){
+
+        try{
+            DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+            DocumentBuilder db = dbf.newDocumentBuilder();
+            Document doc = db.newDocument();
+
+            Element aboutUser = doc.createElement("User");
+
+            Element nameOfUser = doc.createElement("Name_of_User");
+            nameOfUser.appendChild(doc.createTextNode(Globals.getUserName()));
+            aboutUser.appendChild(nameOfUser);
+
+            Element password = doc.createElement("Password");
+            password.appendChild(doc.createTextNode(Globals.getPass()));
+            aboutUser.appendChild(password);
+
+            Element valueUser = doc.createElement("Value_User");
+            valueUser.appendChild(doc.createTextNode(Integer.toString(Globals.getValueUser())));
+            aboutUser.appendChild(valueUser);
+
+
+            doc.appendChild(aboutUser);
+
+
+            File folder = new File(context.getFilesDir() + "/Users"); //vytvoreni slozky Users
+            boolean success = true;
+            if (!folder.exists()) {
+                success = folder.mkdir();
+            }
+
+            if (success){
+
+                TransformerFactory tf = TransformerFactory.newInstance();
+                Transformer transformer = tf.newTransformer();
+                transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "2");
+                transformer.setOutputProperty(OutputKeys.INDENT, "yes");
+
+
+                DOMSource source = new DOMSource(doc);
+                StreamResult result = new StreamResult(new File(context.getFilesDir() + "/Users/" + nameWithoutDiacritic(Globals.getUserName())));
+                transformer.transform(source, result);
+            }
+
+        }
+        catch (Exception e)
+        {
+            Log.e("Error: ", e.getMessage());
+        }
+        return true;
     }
 
 

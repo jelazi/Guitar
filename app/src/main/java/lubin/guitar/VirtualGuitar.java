@@ -98,12 +98,12 @@ public abstract class VirtualGuitar extends AppCompatActivity {
 
 
     TextView money;
-    int moneyValue = 0;
+    //int moneyValue = 0;
     boolean playingSong = false;
     int numberTone = 0;
     GuitarTone playingTone;
 
-    Songs songs;
+
 
 
     Song skladba = new Song();
@@ -126,17 +126,15 @@ public abstract class VirtualGuitar extends AppCompatActivity {
         FileInOut.copyFromAssets(this, "Instruments", getFilesDir()+"/Instruments/");
         FileInOut.copyFromAssets(this, "Songs", getFilesDir()+"/Songs/");
 
+        Songs.fillSongs(this);
+        skladba = Songs.getSong();
 
-        songs = new Songs(this); //trida pisni
-        skladba = songs.getSongFromXML(songs.getListSongs()[0]);
+       if (Globals.isFirstStart()) { //predavani jmena pisne a názvu Instrumentu pri prvnim spusteni
 
-        if (savedInstanceState == null) { //predavani jmena pisne a názvu Instrumentu pri prvnim spusteni
-            Bundle extras = getIntent().getExtras();
-            if (extras == null) {
-                Globals.setSongName(songs.nameSongs.get(0));
-                Globals.setInstrument(songs.nameInstruments.get(0));
-                numberInstrument = songs.getNumberInstrument(Globals.getInstrument());
-            }
+                Globals.setSongName(Songs.getNameSongs().get(0));
+                Globals.setInstrument(Songs.getNameInstruments().get(0));
+                Globals.setNumberInstrument(Songs.getNumberInstrument(Globals.getInstrument()));
+
         }
 
 
@@ -159,6 +157,8 @@ public abstract class VirtualGuitar extends AppCompatActivity {
         fillInstrument(); //
 
         Toast.makeText(this, Globals.getSongName(), Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, skladba.getNameOfSong(), Toast.LENGTH_SHORT).show();
+
 
 
         mToast = Toast.makeText(this,"Zvuk kytary změněn na: " + Globals.getInstrument(),Toast.LENGTH_SHORT);
@@ -364,17 +364,17 @@ changeInstrument();
     protected void changeInstrument (){ //zmena nastroje na zaklade slozky Instruments
 
 
-        int lenght= songs.getNameInstruments().size();
+        int lenght= Songs.getNameInstruments().size();
 
-        Globals.setInstrument(songs.getNameInstruments().get(numberInstrument - 1));
+        Globals.setInstrument(Songs.getNameInstruments().get(Globals.getNumberInstrument() - 1));
 
 
-        if (numberInstrument < lenght) {
+        if (Globals.getNumberInstrument() < lenght) {
 
-            numberInstrument++;
+            Globals.setNumberInstrument(Globals.getNumberInstrument() + 1);
 
         } else {
-            numberInstrument = 1;
+            Globals.setNumberInstrument(1);
         }
         normal_playback_rate = 0.5f;
 
@@ -390,7 +390,7 @@ changeInstrument();
 
     protected void fillInstrument(){
 
-        Globals.setInstrument(songs.getNameInstruments().get(numberInstrument - 1));
+        Globals.setInstrument(Songs.getNameInstruments().get(Globals.getNumberInstrument() - 1));
         soundId = soundPool.load( getFilesDir()+"/Instruments/"+Globals.getInstrument(), 1);
     }
 
@@ -1200,10 +1200,6 @@ changeInstrument();
 
 
     }
-
-
-
-
 
 
 }

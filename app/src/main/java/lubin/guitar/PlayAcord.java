@@ -389,27 +389,7 @@ public class PlayAcord extends VirtualGuitar {
 
     };
 
-    //TODO spocitani nahranych instumentu
 
-
-    OnClickListener btnChangeOnClickListener = new OnClickListener() { //zmena nastroje
-        @Override
-        public void onClick(View view) {
-
-
-
-            if (numberInstrument < 11) {
-                numberInstrument++;
-            } else {
-                numberInstrument = 1;
-            }
-            normal_playback_rate = 0.5f;
-
-            int path = getResources().getIdentifier(("s" + String.valueOf(numberInstrument)), "raw", getPackageName());
-
-            soundId = soundPool.load(getApplicationContext(), path, 1);
-        }
-    };
 
 
     //naplni struny podle akordu

@@ -163,7 +163,7 @@ public class drawer3 extends AppCompatActivity
     View.OnClickListener changeGuitar = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
-            Intent i = new Intent(drawer3.this, Guitar.class);
+            Intent i = new Intent(drawer3.this, TrySong.class);
             startActivity(i);
 
         }
@@ -201,7 +201,7 @@ public class drawer3 extends AppCompatActivity
     View.OnClickListener changeGuitar2 = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
-            Intent i = new Intent(drawer3.this, Guitar2.class);
+            Intent i = new Intent(drawer3.this, TrySong.class);
             startActivity(i);
 
         }

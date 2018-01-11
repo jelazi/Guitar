@@ -103,7 +103,7 @@ public class drawer2 extends NavigationDrawerSetup
     View.OnClickListener changeGuitar = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
-            Intent i = new Intent(drawer2.this, Guitar.class);
+            Intent i = new Intent(drawer2.this, TrySong.class);
             startActivity(i);
 
         }
@@ -141,7 +141,7 @@ public class drawer2 extends NavigationDrawerSetup
     View.OnClickListener changeGuitar2 = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
-            Intent i = new Intent(drawer2.this, Guitar2.class);
+            Intent i = new Intent(drawer2.this, TrySong.class);
             startActivity(i);
 
         }

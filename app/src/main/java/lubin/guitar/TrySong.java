@@ -31,12 +31,12 @@ public class TrySong extends VirtualGuitar
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        songs = new Songs(this);
+
 
         setContentView(R.layout.activity_try_song);
         createView();
         money = (TextView) findViewById(R.id.valueMoney);
-        money.setText(Integer.toString(moneyValue));
+        money.setText(Integer.toString(Globals.getValueUser()));
 
         string14.setOnClickListener(stringPlayOnClickListener);
         string13.setOnClickListener(stringPlayOnClickListener);
@@ -150,8 +150,8 @@ public class TrySong extends VirtualGuitar
                     if (playingSong) {
                         if (playingTone.getStringValue() == (getToneFromTouch(v.getId()).getStringValue())) {
                             playToneFromTouch(v, pokus.get(numberTone + 1).getStringTouch(), null);
-                            moneyValue++;
-                            money.setText(Integer.toString(moneyValue));
+                            Globals.setValueUser(Globals.getValueUser() + 1);
+                            money.setText(Integer.toString(Globals.getValueUser()));
                             numberTone++;
                             playingTone.getStringImage().clearColorFilter();
                             //   playingTone.getStringTouch().setBackgroundResource(0);
@@ -189,7 +189,7 @@ public class TrySong extends VirtualGuitar
                 btnTryMusic.setBackgroundColor(0x800a33f5);
 
 
-                skladba = songs.callByName(Globals.getSongName());
+                skladba = Songs.callByName(getApplicationContext(), Globals.getSongName());
 
 
 

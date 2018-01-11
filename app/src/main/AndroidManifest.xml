@@ -24,12 +24,6 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".Guitar"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".Guitar2"
-            android:screenOrientation="portrait" />
-        <activity
             android:name=".PreviewSong"
             android:label="Přehraj skladbu"
             android:screenOrientation="portrait" />

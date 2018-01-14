@@ -2,12 +2,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="lubin.guitar">
 
-
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-
-
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
         android:allowBackup="true"
@@ -49,17 +46,11 @@
             android:screenOrientation="portrait" />
 
         <activity
-            android:name=".drawer2"
-            android:label="@string/title_activity_drawer"
-            android:theme="@style/AppTheme.NoActionBar"/>
+                android:name=".SettingsScreen"
+                android:label="Nastavení"
+                android:theme="@style/AppTheme.NoActionBar"/>
 
 
-        <activity
-            android:name=".drawer"
-            android:label="@string/title_activity_drawer"
-            android:theme="@style/AppTheme.NoActionBar">
-
-        </activity>
     </application>
 
 </manifest>

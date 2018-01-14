@@ -1,7 +1,16 @@
 package lubin.guitar;
 
+import android.app.Dialog;
+import android.content.ContentResolver;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.Cursor;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
+import android.provider.MediaStore;
+import android.provider.OpenableColumns;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -10,12 +19,24 @@ import android.widget.TextView;
 
 import android.widget.AdapterView;
 import android.widget.Spinner;
+import android.widget.Toast;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URI;
+import java.nio.channels.FileChannel;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Scanner;
 
 public class Settings extends AppCompatActivity
         implements AdapterView.OnItemSelectedListener {
@@ -205,8 +226,63 @@ public class Settings extends AppCompatActivity
         @Override
         public void onClick(View view) {
 
+            Intent intent = new Intent();
+
+            intent.setAction(Intent.ACTION_GET_CONTENT);
+            intent.setType("*/*");
+            startActivityForResult(intent, 3);
 
 
         }
     };
+
+
+
+
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        // TODO Auto-generated method stub
+
+        InputStream input;
+        String realPath = "";
+
+
+        switch (requestCode) {
+
+            case 3:
+
+                if (resultCode == RESULT_OK) {
+
+                    File file = new File(data.getData().getPath());
+                    boolean is = file.exists();
+                    String fileName = FileInOut.queryName(this.getContentResolver(), data.getData());  //jméno souboru
+                    File outputDir = new File(getFilesDir() + "/" + fileName);  //zkopírování
+
+                    try {
+                        FileInOut.copyFileByUri(this, data.getData(), outputDir);
+                        realPath = FileInOut.queryName(this.getContentResolver(), data.getData());
+
+
+
+                    } catch (FileNotFoundException e) {
+                        e.printStackTrace();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+
+
+                    //String PathHolder = data.getData().getPath();
+
+                    Toast.makeText(this, realPath, Toast.LENGTH_LONG).show();
+
+                }
+                break;
+
+        }
+    }
+
+
+
+
 }

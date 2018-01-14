@@ -109,4 +109,26 @@
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
     <string name="action_settings">Nastavení</string>
+    <string name="action_change_instrument">Změň přehrávaný zvuk</string>
+
+    <string name="title_activity_settings2">Nastavení</string>
+
+
+    <string-array name="lists">
+        <item>Item one</item>
+        <item>Item two</item>
+        <item>Item three</item>
+        <item>Item four</item>
+        <item>Item fiveone</item>
+        <item>Item one</item>
+        <item>Item one</item>
+
+
+
+    </string-array>
+
+
+
+
+
 </resources>

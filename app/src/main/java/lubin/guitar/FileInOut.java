@@ -1,12 +1,25 @@
 package lubin.guitar;
 
+import android.app.Activity;
+import android.content.ContentResolver;
+import android.content.ContentUris;
 import android.content.Context;
+import android.content.CursorLoader;
 import android.content.res.AssetManager;
+import android.database.Cursor;
+import android.net.Uri;
+import android.os.Build;
+import android.os.Environment;
+import android.provider.DocumentsContract;
+import android.provider.MediaStore;
+import android.provider.OpenableColumns;
 import android.util.Log;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
 import java.io.Console;
 import java.io.File;
 import java.io.FileInputStream;
@@ -15,6 +28,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -94,7 +109,7 @@ public class FileInOut {
     }
 
 
-    protected void copyFile(String inputPath, String inputFile, String outputPath) {
+    public static void copyFile(String inputPath, String inputFile, String outputPath) {
 
         InputStream in = null;
         OutputStream out = null;
@@ -132,6 +147,29 @@ public class FileInOut {
         }
 
     }
+
+
+    public static void copy(File src, File dst) throws IOException {
+        InputStream in = new FileInputStream(src);
+        try {
+            OutputStream out = new FileOutputStream(dst);
+            try {
+                // Transfer bytes from in to out
+                byte[] buf = new byte[1024];
+                int len;
+                while ((len = in.read(buf)) > 0) {
+                    out.write(buf, 0, len);
+                }
+            } finally {
+                out.close();
+            }
+        } finally {
+            in.close();
+        }
+    }
+
+
+
 
 
     protected void copyFiletoDir(int resourceId, String resourceName){
@@ -310,10 +348,37 @@ public class FileInOut {
 
 
 
+    public static void copyFileByUri(Context context, Uri uri, File dst) throws IOException { //zkopiruje soubor podle Uri
 
 
+        try {
+            FileInputStream in = (FileInputStream) context.getContentResolver().openInputStream( uri);
+            OutputStream out = new FileOutputStream(dst);
+            try {
+                // Transfer bytes from in to out
+                byte[] buf = new byte[1024];
+                int len;
+                while ((len = in.read(buf)) > 0) {
+                    out.write(buf, 0, len);
+                }
+            } finally {
+                out.close();
+                in.close();
+            }
+        } finally {
 
+        }
+    }
 
-
+    public static String queryName(ContentResolver resolver, Uri uri) { //vrati jmeno souboru otevrenem a ulozenem v prohlizeci
+        Cursor returnCursor =
+                resolver.query(uri, null, null, null, null);
+        assert returnCursor != null;
+        int nameIndex = returnCursor.getColumnIndex(OpenableColumns.DISPLAY_NAME);
+        returnCursor.moveToFirst();
+        String name = returnCursor.getString(nameIndex);
+        returnCursor.close();
+        return name;
+    }
 
 }

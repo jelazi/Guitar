@@ -1,6 +1,8 @@
 package lubin.guitar;
 
 import android.app.Activity;
+import android.app.Fragment;
+import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.AssetManager;
@@ -139,20 +141,21 @@ public abstract class VirtualGuitar extends AppCompatActivity {
 
 
         audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
-
         //maximalni mnozstvi zaroven prehravanych zvuku
         int maxStreams = 4;
         //audiostream v audiomanageru
         int streamType = AudioManager.STREAM_MUSIC;
         //kvalita streamu
         int srcQuality = 0;
-
         soundPool = new SoundPool(maxStreams, streamType, srcQuality);
         //listener zvuku
         soundPool.setOnLoadCompleteListener(soundPoolOnLoadCompleteListener);
         //id zvuku
         tone = 0;
         normal_playback_rate = 0.5f;
+
+
+
 
         fillInstrument(); //
 
@@ -237,8 +240,22 @@ public abstract class VirtualGuitar extends AppCompatActivity {
         @Override
         public void onClick(View view) {
             soundPool.release();
-            Intent i = new Intent(VirtualGuitar.this, Settings.class);
+/*            Intent i = new Intent(VirtualGuitar.this, Settings.class);
+            startActivity(i);*/
+
+            /*Intent i = new Intent(VirtualGuitar.this, SettingsActivity.class);
+            startActivity(i);*/
+
+
+/*            Fragment fragment = new SettingsScreen();
+            FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+            fragmentTransaction.add(R.id.coordinator_layout, fragment, "settings_fragment");
+            fragmentTransaction.commit();*/
+
+            Intent i = new Intent(VirtualGuitar.this, SettingsScreen.class);
             startActivity(i);
+
+
         }
     };
 

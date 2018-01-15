@@ -110,6 +110,13 @@
 
     <string name="action_settings">Nastavení</string>
     <string name="action_change_instrument">Změň přehrávaný zvuk</string>
+    <string name="action_try_song">Vyzkoušej si zahrát píseň</string>
+    <string name="action_preview_song">Přehraj si píseň</string>
+    <string name="action_play_chords">Zahraj si akordy</string>
+    <string name="action_play_pause_try_song">Zkus hrát</string>
+
+
+
 
     <string name="title_activity_settings2">Nastavení</string>
 

@@ -16,12 +16,6 @@
         android:background="@null"
         android:orientation="horizontal">
 
-        <Button
-            android:id="@+id/changeInstrument"
-            android:layout_width="0dip"
-            android:layout_height="match_parent"
-            android:layout_weight="20"
-            android:text="Změň zvuk" />
 
         <Button
             android:id="@+id/tryMusic"
@@ -30,12 +24,6 @@
             android:layout_weight="20"
             android:text="Zkus hrát" />
 
-        <Button
-            android:id="@+id/btnTrySong"
-            android:layout_width="0dip"
-            android:layout_height="match_parent"
-            android:layout_weight="20"
-            android:text="Nastavení" />
 
 
     </LinearLayout>

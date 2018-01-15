@@ -1,10 +1,17 @@
 package lubin.guitar;
 
 
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
 import android.media.AudioManager;
 import android.os.Bundle;
 import android.os.Handler;
+import android.preference.PreferenceManager;
+import android.support.v7.view.menu.MenuBuilder;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -13,6 +20,7 @@ import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -34,6 +42,7 @@ public class PlayAcord extends VirtualGuitar {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_play_acord);
         createView();
+
 
         string14.setOnTouchListener(stringPlayOnTouchListener);
         string13.setOnTouchListener(stringPlayOnTouchListener);
@@ -73,14 +82,76 @@ public class PlayAcord extends VirtualGuitar {
         thirdChord = (Button) findViewById(R.id.thirdChord);
         thirdChord.setOnClickListener(btnChangeAkord);
 
-
-
         akordNumber = 0;
         akordName = (TextView) findViewById(R.id.akordValue);
         akordName.setText("Volné struny");
         showAkordOnBoard();
 
 
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        String string =  preferences.getString("string", null);
+
+        Toast.makeText(this,string,Toast.LENGTH_SHORT).show();
+
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putString("string", "cauky");
+        editor.apply();
+        string = preferences.getString("string", null);
+
+        Toast.makeText(this,string,Toast.LENGTH_SHORT).show();
+
+        this.setTitle(R.string.action_play_chords);
+    }
+
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_virtual, menu);
+        if(menu instanceof MenuBuilder){
+            MenuBuilder m = (MenuBuilder) menu;
+            //noinspection RestrictedApi
+            m.setOptionalIconsVisible(true);
+        }
+        return true;
+    }
+
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item){
+        int id = item.getItemId();
+
+
+        switch(id)
+        {
+            case android.R.id.home:
+                onBackPressed();
+                break;
+
+            case R.id.settings:
+                soundPool.release();
+                Intent i = new Intent(PlayAcord.this, Settings.class);
+                startActivity(i);
+                break;
+
+            case R.id.change_instrument:
+                changeInstrument();
+                break;
+
+            case R.id.try_song:
+                soundPool.release();
+                i = new Intent(PlayAcord.this, TrySong.class);
+                startActivity(i);
+                break;
+
+            case R.id.preview_song:
+                soundPool.release();
+                i = new Intent(PlayAcord.this, PreviewSong.class);
+                startActivity(i);
+                break;
+
+        }
+        return true;
     }
 
 

@@ -7,8 +7,10 @@ import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.view.menu.MenuBuilder;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -23,7 +25,7 @@ import java.util.Objects;
 
 
 public class TrySong extends VirtualGuitar
-    implements NavigationView.OnNavigationItemSelectedListener
+
 {
     Button btnTryMusic; //tlacitko hraj skladbu
 
@@ -37,6 +39,7 @@ public class TrySong extends VirtualGuitar
         createView();
         money = (TextView) findViewById(R.id.valueMoney);
         money.setText(Integer.toString(Globals.getValueUser()));
+
 
         string14.setOnClickListener(stringPlayOnClickListener);
         string13.setOnClickListener(stringPlayOnClickListener);
@@ -71,75 +74,78 @@ public class TrySong extends VirtualGuitar
         btnTryMusic = (Button) findViewById(R.id.tryMusic); //prirazeni tlacitka - Hraj skladbu
         btnTryMusic.setOnClickListener(trySong); //listener tlacitka - Hraj skladbu
 
-        this.setTitle("Zkoušení písně");
-
-
-
+        this.setTitle(R.string.action_try_song);
 
     }
 
-    @Override
-    public void onBackPressed() {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
-            drawer.closeDrawer(GravityCompat.START);
-        } else {
-            super.onBackPressed();
-        }
-    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.drawer, menu);
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_try_song, menu);
+        if(menu instanceof MenuBuilder){
+            MenuBuilder m = (MenuBuilder) menu;
+            //noinspection RestrictedApi
+            m.setOptionalIconsVisible(true);
+        }
         return true;
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
-
-    @SuppressWarnings("StatementWithEmptyBody")
 
     @Override
-    public boolean onNavigationItemSelected(MenuItem item) {
-        // Handle navigation view item clicks here.
+    public boolean onOptionsItemSelected(MenuItem item){
         int id = item.getItemId();
 
-        if (id == R.id.try_song) {
-            Intent trySong = new Intent(TrySong.this, TrySong.class);
-            startActivity(trySong);
 
+        switch(id)
+        {
+            case android.R.id.home:
+                onBackPressed();
+                break;
 
-        } else if (id == R.id.preview_song) {
-            Intent previewSong = new Intent(TrySong.this, PreviewSong.class);
-            startActivity(previewSong);
+            case R.id.play_pause_try_song:
 
-        } else if (id == R.id.nav_slideshow) {
+                        if (playingSong) {
+                            playingSong = false;
+                            playingTone.getStringImage().clearColorFilter();
+                            item.setIcon(R.mipmap.play_circle);
 
-        } else if (id == R.id.nav_manage) {
+                        } else {
+                            playingSong = true;
+                            skladba = Songs.callByName(getApplicationContext(), Globals.getSongName());
+                            pokus = createMusicFromTones(skladba.getTones());
+                            item.setIcon(R.mipmap.pause_circle);
+                            trytrySong();
+                        }
 
-        } else if (id == R.id.nav_share) {
+                break;
 
-        } else if (id == R.id.nav_send) {
+            case R.id.settings:
+                soundPool.release();
+                Intent i = new Intent(TrySong.this, Settings.class);
+                startActivity(i);
+                break;
 
+            case R.id.change_instrument:
+                changeInstrument();
+                break;
+
+            case R.id.preview_song:
+                soundPool.release();
+                i = new Intent(TrySong.this, PreviewSong.class);
+                startActivity(i);
+                break;
+
+            case R.id.play_chord:
+                soundPool.release();
+                i = new Intent(TrySong.this, PlayAcord.class);
+                startActivity(i);
+                break;
         }
-
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+
+
 
 
     View.OnClickListener stringPlayOnClickListener =
@@ -199,7 +205,7 @@ public class TrySong extends VirtualGuitar
             }
         }
 
-        ;
+
 
 
     };

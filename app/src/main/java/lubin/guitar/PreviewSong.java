@@ -6,7 +6,11 @@ import android.media.AudioManager;
 import android.media.SoundPool;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.v7.view.menu.MenuBuilder;
 import android.view.KeyEvent;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.animation.Animation;
@@ -51,7 +55,6 @@ public class PreviewSong extends VirtualGuitar {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-       // Songs = new Songs(this);
 
         setContentView(R.layout.activity_preview_song);
         createView();
@@ -61,7 +64,6 @@ public class PreviewSong extends VirtualGuitar {
         audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
 
         nameOfSongView = (TextView) findViewById(R.id.nameSong);
-
 
         //maximalni mnozstvi zaroven prehravanych zvuku
         int maxStreams = 4;
@@ -75,22 +77,66 @@ public class PreviewSong extends VirtualGuitar {
         soundPool.setOnLoadCompleteListener(soundPoolOnLoadCompleteListener);
         //id zvuku
 
-
         Globals.setInstrument(Songs.getNameInstruments().get(Globals.getNumberInstrument() - 1));
         soundId = soundPool.load( getFilesDir()+"/Instruments/"+Globals.getInstrument(), 1);
-
 
         tone = 0;
         normal_playback_rate = 0.5f;
 
-        this.setTitle("Přehrávání písně");
-
-
+        this.setTitle(R.string.action_preview_song);
 
         nameOfSongView.setText(Globals.getSongName());
 
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_preview_song, menu);
+        if(menu instanceof MenuBuilder){
+            MenuBuilder m = (MenuBuilder) menu;
+            //noinspection RestrictedApi
+            m.setOptionalIconsVisible(true);
+        }
+        return true;
+    }
 
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item){
+        int id = item.getItemId();
+
+
+        switch(id)
+        {
+            case android.R.id.home:
+                onBackPressed();
+                break;
+
+            case R.id.settings:
+                soundPool.release();
+                Intent i = new Intent(PreviewSong.this, Settings.class);
+                startActivity(i);
+                break;
+
+            case R.id.change_instrument:
+                changeInstrument();
+                break;
+
+            case R.id.try_song:
+                soundPool.release();
+                i = new Intent(PreviewSong.this, TrySong.class);
+                startActivity(i);
+                break;
+
+
+            case R.id.play_chord:
+                soundPool.release();
+                i = new Intent(PreviewSong.this, PlayAcord.class);
+                startActivity(i);
+                break;
+        }
+        return true;
     }
 
 

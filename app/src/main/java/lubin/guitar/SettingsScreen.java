@@ -1,14 +1,7 @@
 package lubin.guitar;
 
 import android.os.Bundle;
-import android.preference.PreferenceFragment;
-import android.preference.SwitchPreference;
-import android.support.annotation.Nullable;
 
-import android.os.Bundle;
-import android.preference.PreferenceActivity;
-import android.preference.PreferenceFragment;
-import android.support.v7.view.menu.MenuBuilder;
 import android.support.v7.widget.Toolbar;
 import android.util.TypedValue;
 import android.view.Menu;
@@ -29,6 +22,7 @@ public class SettingsScreen extends AppCompatPreferenceActivity {
         int topMargin = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, (int) getResources().getDimension(R.dimen.activity_vertical_margin) + 30, getResources().getDisplayMetrics());
         getListView().setPadding(horizontalMargin, topMargin, horizontalMargin, verticalMargin);
 
+
     }
 
 
@@ -46,7 +40,7 @@ public class SettingsScreen extends AppCompatPreferenceActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.drawer, menu);
+        inflater.inflate(R.menu.menu_virtual, menu);
         return true;
     }
 
@@ -59,5 +53,11 @@ public class SettingsScreen extends AppCompatPreferenceActivity {
         }
         return super.onOptionsItemSelected(item);
     }
+
+
+
+
+
+
 
 }

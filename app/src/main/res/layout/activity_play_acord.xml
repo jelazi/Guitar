@@ -1,4 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
+
+
+
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
 
 
@@ -16,12 +19,6 @@
         android:background="@null"
         android:orientation="horizontal">
 
-        <Button
-            android:id="@+id/changeInstrument"
-            android:layout_width="0dip"
-            android:layout_height="match_parent"
-            android:layout_weight="20"
-            android:text="Změň zvuk" />
 
         <Button
             android:id="@+id/firstChord"
@@ -42,13 +39,6 @@
             android:layout_height="match_parent"
             android:layout_weight="20"
             android:text="Gdur" />
-
-        <Button
-            android:id="@+id/btnTrySong"
-            android:layout_width="0dip"
-            android:layout_height="match_parent"
-            android:layout_weight="20"
-            android:text="Nastavení" />
 
 
 

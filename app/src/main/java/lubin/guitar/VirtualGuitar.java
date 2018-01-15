@@ -1,37 +1,28 @@
 package lubin.guitar;
 
-import android.app.Activity;
-import android.app.Fragment;
-import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.Intent;
-import android.content.res.AssetManager;
-import android.database.sqlite.SQLiteDatabase;
+import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
 import android.media.AudioManager;
 import android.media.SoundPool;
 import android.media.SoundPool.OnLoadCompleteListener;
 import android.os.Bundle;
-import android.os.Environment;
 import android.os.Handler;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
-import android.view.KeyEvent;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.lang.reflect.Field;
 import java.util.ArrayList;
 
 
@@ -77,9 +68,6 @@ public abstract class VirtualGuitar extends AppCompatActivity {
     ImageView E2string;
 
 
-    Button changeInstrument;
-    Button setting;
-
 
     SoundPool soundPool; //zvuk
     AudioManager audioManager;
@@ -87,7 +75,7 @@ public abstract class VirtualGuitar extends AppCompatActivity {
     int tone; //druh tonu
 
     float normal_playback_rate;
-    int numberInstrument = 0; //cislo nastroje
+
 
     Tones tones = new Tones();
 
@@ -100,7 +88,6 @@ public abstract class VirtualGuitar extends AppCompatActivity {
 
 
     TextView money;
-    //int moneyValue = 0;
     boolean playingSong = false;
     int numberTone = 0;
     GuitarTone playingTone;
@@ -122,6 +109,7 @@ public abstract class VirtualGuitar extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
+
 
         Globals.addValueUser();
 
@@ -155,17 +143,76 @@ public abstract class VirtualGuitar extends AppCompatActivity {
         normal_playback_rate = 0.5f;
 
 
-
-
         fillInstrument(); //
 
         Toast.makeText(this, Globals.getSongName(), Toast.LENGTH_SHORT).show();
         Toast.makeText(this, skladba.getNameOfSong(), Toast.LENGTH_SHORT).show();
 
-
-
         mToast = Toast.makeText(this,"Zvuk kytary změněn na: " + Globals.getInstrument(),Toast.LENGTH_SHORT);
+
+
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putString("string", "ahoj");
+        editor.commit();
+
+
+        this.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
     }
+
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_virtual, menu);
+        return true;
+    }
+
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item){
+        int id = item.getItemId();
+
+
+        switch(id)
+        {
+            case android.R.id.home:
+                onBackPressed();
+                break;
+
+            case R.id.settings:
+                soundPool.release();
+                Intent i = new Intent(VirtualGuitar.this, Settings.class);
+                startActivity(i);
+                break;
+
+            case R.id.change_instrument:
+                changeInstrument();
+                break;
+
+            case R.id.try_song:
+                soundPool.release();
+                i = new Intent(VirtualGuitar.this, TrySong.class);
+                startActivity(i);
+                break;
+
+            case R.id.preview_song:
+                soundPool.release();
+                i = new Intent(VirtualGuitar.this, PreviewSong.class);
+                startActivity(i);
+                break;
+
+            case R.id.play_chord:
+                soundPool.release();
+                i = new Intent(VirtualGuitar.this, PlayAcord.class);
+                startActivity(i);
+                break;
+        }
+        return true;
+    }
+
+
 
     //vytvari tlacitka
     protected void createView() {
@@ -209,11 +256,6 @@ public abstract class VirtualGuitar extends AppCompatActivity {
         Bstring = (ImageView) findViewById(R.id.Bstring);
         E2string = (ImageView) findViewById(R.id.E2string);
 
-        changeInstrument = (Button) findViewById(R.id.changeInstrument);
-        changeInstrument.setOnClickListener(btnChangeOnClickListener);
-        setting = (Button) findViewById(R.id.btnTrySong);
-        setting.setOnClickListener(getSetting);
-
 
         E2tone = new GuitarTone((ImageButton) findViewById(R.id.imageButton60), tones.getString60(), E2string);
         Btone = new GuitarTone((ImageButton) findViewById(R.id.imageButton50), tones.getString50(), Bstring);
@@ -222,6 +264,9 @@ public abstract class VirtualGuitar extends AppCompatActivity {
         Atone = new GuitarTone((ImageButton) findViewById(R.id.imageButton20), tones.getString20(), Astring);
         Etone = new GuitarTone((ImageButton) findViewById(R.id.imageButton10), tones.getString10(), Estring);
         playingTone = new GuitarTone((ImageButton) findViewById(R.id.imageButton10), tones.getString10(), Estring);
+
+
+
 
 
     }
@@ -240,8 +285,8 @@ public abstract class VirtualGuitar extends AppCompatActivity {
         @Override
         public void onClick(View view) {
             soundPool.release();
-/*            Intent i = new Intent(VirtualGuitar.this, Settings.class);
-            startActivity(i);*/
+            Intent i = new Intent(VirtualGuitar.this, Settings.class);
+            startActivity(i);
 
             /*Intent i = new Intent(VirtualGuitar.this, SettingsActivity.class);
             startActivity(i);*/
@@ -252,8 +297,8 @@ public abstract class VirtualGuitar extends AppCompatActivity {
             fragmentTransaction.add(R.id.coordinator_layout, fragment, "settings_fragment");
             fragmentTransaction.commit();*/
 
-            Intent i = new Intent(VirtualGuitar.this, SettingsScreen.class);
-            startActivity(i);
+            /*Intent i = new Intent(VirtualGuitar.this, SettingsScreen.class);
+            startActivity(i);*/
 
 
         }
@@ -307,6 +352,9 @@ public abstract class VirtualGuitar extends AppCompatActivity {
             }
         }, delay);
     }
+
+
+
 
 
     //animace vibrace struny

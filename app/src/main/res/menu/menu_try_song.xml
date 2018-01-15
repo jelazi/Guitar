@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/play_pause_try_song"
+        android:orderInCategory="1"
+        android:title="@string/action_play_pause_try_song"
+        android:icon="@mipmap/play_circle"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/settings"
+        android:orderInCategory="1"
+        android:title="@string/action_settings"
+        android:icon="@mipmap/settings"
+        app:showAsAction="collapseActionView" />
+    <item
+        android:id="@+id/change_instrument"
+        android:orderInCategory="2"
+        android:title="@string/action_change_instrument"
+        android:icon="@mipmap/guitar_acoustic"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/preview_song"
+        android:orderInCategory="4"
+        android:icon="@mipmap/guitar_acoustic"
+        android:title="@string/action_preview_song"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/play_chord"
+        android:orderInCategory="5"
+        android:title="@string/action_play_chords"
+        android:icon="@mipmap/guitar_acoustic"
+        app:showAsAction="never" />
+
+</menu>

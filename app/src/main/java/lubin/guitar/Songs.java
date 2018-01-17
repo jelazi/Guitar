@@ -28,17 +28,12 @@ import javax.xml.transform.stream.StreamResult;
 
 public class Songs {
 
-
-
     private static File[] listFiles; //seznam vsech souborů xml nahranych do Songs
     private static ArrayList<Song> listSongs = new ArrayList<>(); //seznam vsech songu nahranych do songs
     private static ArrayList<String> nameSongs = new ArrayList<>(); //seznam jmen vsech songu nahranych do songs
     private static ArrayList<String> nameInstruments = new ArrayList<>(); //seznam jmen vsech instrumentu
 
     private static Song song = new Song("Ovcaci, ctveraci");
-
-
-
 
 
     public static void fillSongs(Context context){
@@ -78,6 +73,9 @@ public class Songs {
 
         return Songs.nameSongs;
     }
+
+
+
 
     public static int getNumberInstrument(String name){
 
@@ -395,6 +393,9 @@ public class Songs {
     }
 
     public static ArrayList<String> getNameInstruments() {
+
+        //Songs.fillSongs(context);
+
         return Songs.nameInstruments;
     }
 
@@ -419,6 +420,7 @@ public class Songs {
     }
 
     public static void setNameInstruments(ArrayList<String> nameInstruments) {
+
         Songs.nameInstruments = nameInstruments;
     }
 

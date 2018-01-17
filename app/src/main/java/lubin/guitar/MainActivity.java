@@ -16,8 +16,6 @@ public class MainActivity extends AppCompatActivity {
 
     Button trySong;
     Button previewSong;
-    Button playAkord;
-
 
 
 
@@ -27,11 +25,6 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         trySong = (Button) findViewById(R.id.trySong);
-
-
-
-
-
 
         Intent draw = new Intent(MainActivity.this,  TrySong.class);
         startActivity(draw);
@@ -54,13 +47,32 @@ public class MainActivity extends AppCompatActivity {
 
         switch(id)
         {
-                case R.id.settings:
-                Intent i = new Intent(MainActivity.this, Settings.class);
+            case android.R.id.home:
+                onBackPressed();
+                break;
+
+            case R.id.settings:
+
+                Intent i = new Intent(this, SettingsScreen.class);
                 startActivity(i);
                 break;
 
-            case R.id.change_instrument:
+            case R.id.try_song:
+               // soundPool.release();
+                i = new Intent(this, TrySong.class);
+                startActivity(i);
+                break;
 
+            case R.id.preview_song:
+                //soundPool.release();
+                i = new Intent(this, PreviewSong.class);
+                startActivity(i);
+                break;
+
+            case R.id.play_chord:
+               // soundPool.release();
+                i = new Intent(this, PlayAcord.class);
+                startActivity(i);
                 break;
         }
         return true;

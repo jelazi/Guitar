@@ -40,15 +40,13 @@
             android:name=".Account"
             android:label="Napiš jméno a heslo"
             android:screenOrientation="portrait" />
-        <activity
-            android:name=".Settings"
-            android:label="Nastavení"
-            android:screenOrientation="portrait" />
 
         <activity
                 android:name=".SettingsScreen"
                 android:label="Nastavení"
-                android:theme="@style/AppTheme.NoActionBar"/>
+                android:theme="@style/AppTheme"/>
+
+
 
 
     </application>

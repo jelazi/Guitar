@@ -1,5 +1,6 @@
 package lubin.guitar;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -9,6 +10,8 @@ import android.media.SoundPool;
 import android.media.SoundPool.OnLoadCompleteListener;
 import android.os.Bundle;
 import android.os.Handler;
+import android.preference.ListPreference;
+import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
@@ -24,6 +27,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.List;
 
 
 public abstract class VirtualGuitar extends AppCompatActivity {
@@ -91,6 +95,8 @@ public abstract class VirtualGuitar extends AppCompatActivity {
     boolean playingSong = false;
     int numberTone = 0;
     GuitarTone playingTone;
+    int numberInstrument = 0;
+    String nameInstrument;
 
 
 
@@ -99,10 +105,11 @@ public abstract class VirtualGuitar extends AppCompatActivity {
 
 
     ArrayList<Tone> tonySkladby = new ArrayList<>();
-    ArrayList<GuitarTone> pokus = new ArrayList<>();
+    ArrayList<GuitarTone> playingTones = new ArrayList<>();
 
     ArrayList<ImageButton> imageButtons = new ArrayList<>();
     Toast mToast;
+    SharedPreferences settings;
 
 
     @Override
@@ -110,22 +117,19 @@ public abstract class VirtualGuitar extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
 
+        settings = PreferenceManager.getDefaultSharedPreferences(this);
 
-        Globals.addValueUser();
 
         FileInOut.copyFromAssets(this, "Instruments", getFilesDir()+"/Instruments/");
         FileInOut.copyFromAssets(this, "Songs", getFilesDir()+"/Songs/");
 
         Songs.fillSongs(this);
-        skladba = Songs.getSong();
+        fillInstrument();
 
-       if (Globals.isFirstStart()) { //predavani jmena pisne a názvu Instrumentu pri prvnim spusteni
+        skladba = Songs.callByName(getApplicationContext(), settings.getString("list_songs", "Pro_Elisku"));
 
-                Globals.setSongName(Songs.getNameSongs().get(0));
-                Globals.setInstrument(Songs.getNameInstruments().get(0));
-                Globals.setNumberInstrument(Songs.getNumberInstrument(Globals.getInstrument()));
 
-        }
+
 
 
         audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
@@ -142,24 +146,15 @@ public abstract class VirtualGuitar extends AppCompatActivity {
         tone = 0;
         normal_playback_rate = 0.5f;
 
-
-        fillInstrument(); //
-
-        Toast.makeText(this, Globals.getSongName(), Toast.LENGTH_SHORT).show();
-        Toast.makeText(this, skladba.getNameOfSong(), Toast.LENGTH_SHORT).show();
-
-        mToast = Toast.makeText(this,"Zvuk kytary změněn na: " + Globals.getInstrument(),Toast.LENGTH_SHORT);
-
-
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
-        SharedPreferences.Editor editor = preferences.edit();
-        editor.putString("string", "ahoj");
-        editor.commit();
+         //
 
 
         this.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
     }
+
+
+
 
 
     @Override
@@ -182,8 +177,8 @@ public abstract class VirtualGuitar extends AppCompatActivity {
                 break;
 
             case R.id.settings:
-                soundPool.release();
-                Intent i = new Intent(VirtualGuitar.this, Settings.class);
+              //  soundPool.release();
+                Intent i = new Intent(VirtualGuitar.this, SettingsScreen.class);
                 startActivity(i);
                 break;
 
@@ -198,13 +193,13 @@ public abstract class VirtualGuitar extends AppCompatActivity {
                 break;
 
             case R.id.preview_song:
-                soundPool.release();
+              //  soundPool.release();
                 i = new Intent(VirtualGuitar.this, PreviewSong.class);
                 startActivity(i);
                 break;
 
             case R.id.play_chord:
-                soundPool.release();
+               // soundPool.release();
                 i = new Intent(VirtualGuitar.this, PlayAcord.class);
                 startActivity(i);
                 break;
@@ -265,10 +260,6 @@ public abstract class VirtualGuitar extends AppCompatActivity {
         Etone = new GuitarTone((ImageButton) findViewById(R.id.imageButton10), tones.getString10(), Estring);
         playingTone = new GuitarTone((ImageButton) findViewById(R.id.imageButton10), tones.getString10(), Estring);
 
-
-
-
-
     }
 
     View.OnClickListener stringPlayOnClickListener =
@@ -281,30 +272,6 @@ public abstract class VirtualGuitar extends AppCompatActivity {
             };
 
 
-    OnClickListener getSetting = new OnClickListener() {
-        @Override
-        public void onClick(View view) {
-            soundPool.release();
-            Intent i = new Intent(VirtualGuitar.this, Settings.class);
-            startActivity(i);
-
-            /*Intent i = new Intent(VirtualGuitar.this, SettingsActivity.class);
-            startActivity(i);*/
-
-
-/*            Fragment fragment = new SettingsScreen();
-            FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
-            fragmentTransaction.add(R.id.coordinator_layout, fragment, "settings_fragment");
-            fragmentTransaction.commit();*/
-
-            /*Intent i = new Intent(VirtualGuitar.this, SettingsScreen.class);
-            startActivity(i);*/
-
-
-        }
-    };
-
-
     OnLoadCompleteListener soundPoolOnLoadCompleteListener =
             new OnLoadCompleteListener() {
 
@@ -312,7 +279,7 @@ public abstract class VirtualGuitar extends AppCompatActivity {
                 public void onLoadComplete(SoundPool soundPool,
                                            int sampleId, int status) {
                     if (status == 0) {
-                        //string11.setEnabled(true);
+
                     } else {
                         Toast.makeText(VirtualGuitar.this,
                                 "SoundPool.load() fail",
@@ -352,8 +319,6 @@ public abstract class VirtualGuitar extends AppCompatActivity {
             }
         }, delay);
     }
-
-
 
 
 
@@ -415,48 +380,64 @@ public abstract class VirtualGuitar extends AppCompatActivity {
     }
 
 
-    OnClickListener btnChangeOnClickListener = new OnClickListener() { //zmena nastroje
-        @Override
-        public void onClick(View view) {  //klik na změnu nástroje
-
-changeInstrument();
-
-
-        }
-    };
 
 
     protected void changeInstrument (){ //zmena nastroje na zaklade slozky Instruments
 
 
+        Songs.fillSongs(this);
+
+
+        fillInstrument();
+
         int lenght= Songs.getNameInstruments().size();
 
-        Globals.setInstrument(Songs.getNameInstruments().get(Globals.getNumberInstrument() - 1));
 
+        if (numberInstrument + 1 < lenght) {
 
-        if (Globals.getNumberInstrument() < lenght) {
-
-            Globals.setNumberInstrument(Globals.getNumberInstrument() + 1);
+            numberInstrument++;
 
         } else {
-            Globals.setNumberInstrument(1);
+            numberInstrument = 0;
         }
-        normal_playback_rate = 0.5f;
+
+        settings.edit().putString("list_instruments", Songs.getNameInstruments().get(numberInstrument)).apply();;
 
         fillInstrument();
 
 
-        mToast.cancel();
-        mToast = Toast.makeText(this,"Zvuk kytary změněn na: " + (Globals.getInstrument().substring(0, Globals.getInstrument().length() - 4)),Toast.LENGTH_SHORT);
+        try {
+            mToast.cancel();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+
+        mToast = Toast.makeText(this,"Zvuk kytary změněn na: " + nameInstrument.substring(0, nameInstrument.length()-4),Toast.LENGTH_SHORT);
+
         mToast.show();
+
+
+
+            mToast = Toast.makeText(this,"Hudba: " + settings.getString("list_songs", null),Toast.LENGTH_SHORT);
+            mToast.show();
+
+
 
     }
 
 
     protected void fillInstrument(){
 
-        Globals.setInstrument(Songs.getNameInstruments().get(Globals.getNumberInstrument() - 1));
-        soundId = soundPool.load( getFilesDir()+"/Instruments/"+Globals.getInstrument(), 1);
+        nameInstrument = settings.getString("list_instruments", "a1.wav");
+        numberInstrument = Songs.getNameInstruments().indexOf(nameInstrument);
+
+        try {
+            soundId = soundPool.load( getFilesDir()+"/Instruments/"+nameInstrument, 1);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
     }
 
     protected void playToneFromTouch(View v, Drawable background) {
@@ -1264,6 +1245,28 @@ changeInstrument();
         return guitarTone;
 
 
+    }
+
+    public void cleanStrings(){ //vymazání všech oznacenych strun a dotyku
+
+        ImageButton [] fretchs = {string10, string11, string12, string13, string14, string20,
+                string21, string22, string23, string24, string30, string31, string32, string33,
+                string34, string40, string41, string42, string43, string44, string50, string51,
+                string52, string53, string54, string60, string61, string62, string63, string64};
+
+
+        ImageView [] strings = {Estring, Astring, Dstring, Gstring, Bstring, E2string};
+
+
+
+        for (ImageButton f : fretchs){
+            f.setBackgroundColor(getResources().getColor(android.R.color.transparent));
+        }
+
+
+        for (ImageView s : strings) {
+            s.getDrawable().clearColorFilter();
+        }
     }
 
 

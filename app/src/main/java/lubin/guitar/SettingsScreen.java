@@ -1,63 +1,98 @@
 package lubin.guitar;
 
+
+import android.content.Context;
+
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
-import android.support.v7.widget.Toolbar;
-import android.util.TypedValue;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
-import android.view.ViewGroup;
+import android.preference.ListPreference;
+import android.preference.Preference;
+import android.preference.PreferenceActivity;
+import android.preference.PreferenceFragment;
+import android.preference.PreferenceManager;
 
-public class SettingsScreen extends AppCompatPreferenceActivity {
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+
+import android.widget.Toast;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class SettingsScreen extends AppCompatActivity {
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setActionBar();
-        addPreferencesFromResource(R.xml.settings_screen);
 
-        int horizontalMargin = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 2, getResources().getDisplayMetrics());
-        int verticalMargin = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 2, getResources().getDisplayMetrics());
-        int topMargin = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, (int) getResources().getDimension(R.dimen.activity_vertical_margin) + 30, getResources().getDisplayMetrics());
-        getListView().setPadding(horizontalMargin, topMargin, horizontalMargin, verticalMargin);
+        getFragmentManager().beginTransaction().replace(android.R.id.content, new MyPreferenceFragment()).commit();
 
-
-    }
-
-
-
-    public void setActionBar(){
-
-        getLayoutInflater().inflate(R.layout.toolbar, (ViewGroup)findViewById(android.R.id.content));
-        Toolbar toolbar = (Toolbar)findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        this.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu_virtual, menu);
+    public boolean onSupportNavigateUp(){
+        finish();
         return true;
     }
 
+    public static class MyPreferenceFragment extends PreferenceFragment {
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item){
-        int id = item.getItemId();
-        if (id == android.R.id.home){
-            onBackPressed();
+        public static ListPreference listSongs;
+        public static ListPreference listInstruments;
+        public static Preference valueUser;
+
+        SharedPreferences settings;
+
+        @Override
+        public void onCreate(final Bundle savedInstanceState) {
+            super.onCreate(savedInstanceState);
+
+            settings = PreferenceManager.getDefaultSharedPreferences(getActivity());
+
+            addPreferencesFromResource(R.xml.settings_screen);
+
+            listSongs = (ListPreference) findPreference("list_songs");
+            listInstruments = (ListPreference) findPreference("list_instruments");
+
+            setListPreferenceData(listSongs, listInstruments, getActivity()); //naplneni preference listem pisni a nastroju
+
+            valueUser = (Preference) findPreference("value_user");
+            valueUser.setSummary(settings.getString("value_user", "0"));
         }
-        return super.onOptionsItemSelected(item);
+
     }
 
+    protected static void setListPreferenceData(ListPreference listSongs, ListPreference listInstruments, Context context) {  //naplnení preference listem
+        List<String> songsList = Songs.getSongsName(context);
 
 
+        CharSequence[] entriesSong = songsList.toArray(new CharSequence[songsList.size()]);
+        CharSequence[] entryValuesSong = songsList.toArray(new CharSequence[songsList.size()]);
+        listSongs.setEntries(entriesSong);
+        listSongs.setDefaultValue("1");
+        listSongs.setEntryValues(entryValuesSong);
+
+
+        List<String> instrumentList = Songs.getNameInstruments();
+        CharSequence[] entriesInstrument = instrumentList.toArray(new CharSequence[songsList.size()]);
+        CharSequence[] entryValuesInstrument = instrumentList.toArray(new CharSequence[songsList.size()]);
+        listInstruments.setEntries(entriesInstrument);
+        listInstruments.setDefaultValue("1");
+        listInstruments.setEntryValues(entryValuesInstrument);
+
+    }
 
 
 
 
 }
+
+
+
+
+

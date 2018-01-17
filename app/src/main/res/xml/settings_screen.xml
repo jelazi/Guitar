@@ -7,9 +7,36 @@
 
 
 <EditTextPreference
-    android:title="Edit Text"
-    android:key="user_name"
-    android:summary="st your user name"/>
+    android:title="Jméno kytaristy"
+    android:key="name_user"
+    android:summary="Karlík"
+    android:defaultValue="Karlík"
+    android:selectable="false"
+    />
+
+
+    <EditTextPreference
+        android:title="Množství peněz"
+        android:key="value_user"
+        android:summary="0"
+        android:defaultValue="0"
+        android:selectable="false"
+        />
+
+    <ListPreference
+        android:entries="@array/list_songs"
+        android:entryValues="@array/list_songs"
+        android:summary="Výběr písně"
+        android:key="list_songs"
+        android:title="@string/choice_Song" />
+
+
+    <ListPreference
+        android:entries="@array/list_instruments"
+        android:entryValues="@array/list_instruments"
+        android:summary="Výběr nástroje"
+        android:key="list_instruments"
+        android:title="@string/choice_instrument" />
 
 
 <SwitchPreference
@@ -24,12 +51,7 @@
         android:defaultValue="true"
         android:title="Switch Checked" />
 
-    <ListPreference
-        android:entries="@array/lists"
-        android:entryValues="@array/lists"
-        android:summary="this is list preference"
-        android:key="list_preference"
-        android:title="List preference" />
+
 
 
 </PreferenceScreen>

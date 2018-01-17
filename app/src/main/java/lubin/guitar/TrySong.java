@@ -3,12 +3,8 @@ package lubin.guitar;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.NavigationView;
-import android.support.v4.view.GravityCompat;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
+import android.preference.PreferenceManager;
 import android.support.v7.view.menu.MenuBuilder;
-import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -16,30 +12,28 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.lang.reflect.Proxy;
-
 import java.util.ArrayList;
-import java.util.Objects;
 
 
 public class TrySong extends VirtualGuitar
 
 {
     Button btnTryMusic; //tlacitko hraj skladbu
+    TextView nameUser;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-
-
         setContentView(R.layout.activity_try_song);
         createView();
         money = (TextView) findViewById(R.id.valueMoney);
-        money.setText(Integer.toString(Globals.getValueUser()));
 
+
+            money.setText(settings.getString("value_user", "0"));
+
+        nameUser = (TextView) findViewById(R.id.name_user);
 
         string14.setOnClickListener(stringPlayOnClickListener);
         string13.setOnClickListener(stringPlayOnClickListener);
@@ -76,11 +70,12 @@ public class TrySong extends VirtualGuitar
 
         this.setTitle(R.string.action_try_song);
 
+        nameUser.setText(settings.getString("name_user", null)); //jmeno uživatele dle nastavení
+        soundId = soundPool.load( getFilesDir()+"/Instruments/"+settings.getString("list_instruments", "a1.wav"), 1);
     }
 
-
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
+    public boolean onCreateOptionsMenu(Menu menu) { //vytvoreni menu
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu_try_song, menu);
         if(menu instanceof MenuBuilder){
@@ -93,7 +88,7 @@ public class TrySong extends VirtualGuitar
 
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item){
+    public boolean onOptionsItemSelected(MenuItem item){ //nastaveni akci menu
         int id = item.getItemId();
 
 
@@ -112,8 +107,8 @@ public class TrySong extends VirtualGuitar
 
                         } else {
                             playingSong = true;
-                            skladba = Songs.callByName(getApplicationContext(), Globals.getSongName());
-                            pokus = createMusicFromTones(skladba.getTones());
+                            skladba = Songs.callByName(getApplicationContext(), settings.getString("list_songs", "Pro_Elisku"));
+                            playingTones = createMusicFromTones(skladba.getTones());
                             item.setIcon(R.mipmap.pause_circle);
                             trytrySong();
                         }
@@ -121,9 +116,10 @@ public class TrySong extends VirtualGuitar
                 break;
 
             case R.id.settings:
-                soundPool.release();
-                Intent i = new Intent(TrySong.this, Settings.class);
+
+                Intent i = new Intent(TrySong.this, SettingsScreen.class);
                 startActivity(i);
+
                 break;
 
             case R.id.change_instrument:
@@ -131,13 +127,13 @@ public class TrySong extends VirtualGuitar
                 break;
 
             case R.id.preview_song:
-                soundPool.release();
+                //soundPool.release();
                 i = new Intent(TrySong.this, PreviewSong.class);
                 startActivity(i);
                 break;
 
             case R.id.play_chord:
-                soundPool.release();
+               // soundPool.release();
                 i = new Intent(TrySong.this, PlayAcord.class);
                 startActivity(i);
                 break;
@@ -145,30 +141,52 @@ public class TrySong extends VirtualGuitar
         return true;
     }
 
+    @Override
+    public void onResume(){ //aktualizace nastaveni hodnot ze SettingsScreen
+        super.onResume();
 
+        settings = PreferenceManager
+                .getDefaultSharedPreferences(this);
 
+        nameUser.setText(settings.getString("name_user", null));
 
-    View.OnClickListener stringPlayOnClickListener =
+        soundId = soundPool.load( getFilesDir()+"/Instruments/"+settings.getString("list_instruments", "a1.wav"), 1);
+
+        skladba = Songs.callByName(getApplicationContext(), settings.getString("list_songs", "Pro_Elisku"));
+
+        numberTone = 0;
+
+        cleanStrings();
+        btnTryMusic.setText("Zkus hrát");
+        btnTryMusic.setBackgroundResource(0);
+        playingSong = false;
+
+    }
+
+    View.OnClickListener stringPlayOnClickListener = //uder do struny
             new View.OnClickListener() {
 
                 @Override
                 public void onClick(View v) {
                     if (playingSong) {
                         if (playingTone.getStringValue() == (getToneFromTouch(v.getId()).getStringValue())) {
-                            playToneFromTouch(v, pokus.get(numberTone + 1).getStringTouch(), null);
-                            Globals.setValueUser(Globals.getValueUser() + 1);
-                            money.setText(Integer.toString(Globals.getValueUser()));
+                            playToneFromTouch(v, playingTones.get(numberTone + 1).getStringTouch(), null);
+                            int value = Integer.parseInt(settings.getString("value_user", "0")) + 1;
+                            settings.edit().putString("value_user", Integer.toString(value)).apply();
+                            money.setText(Integer.toString(value));
                             numberTone++;
                             playingTone.getStringImage().clearColorFilter();
                             //   playingTone.getStringTouch().setBackgroundResource(0);
-                            if (numberTone < pokus.size() - 1) {
+                            if (numberTone < playingTones.size() - 1) {
                                 trytrySong();
                             } else {
                                 playingSong = false;
                                 btnTryMusic.setText("Zkus hrát");
                                 btnTryMusic.setBackgroundResource(0);
+
                             }
                         } else {
+
                         }
                     } else {
                         playToneFromTouch(v, null);
@@ -177,10 +195,8 @@ public class TrySong extends VirtualGuitar
             };
 
 
-
-
     // zkouska skladby
-    View.OnClickListener trySong = new View.OnClickListener() {
+    View.OnClickListener trySong = new View.OnClickListener() { //tlacitko, zkus hrat
         @Override
         public void onClick(View view) {
             if (playingSong) {
@@ -188,33 +204,27 @@ public class TrySong extends VirtualGuitar
                 btnTryMusic.setText("Zkus hrát");
                 btnTryMusic.setBackgroundResource(android.R.drawable.btn_default);
                 playingTone.getStringImage().clearColorFilter();
-                //    playingTone.getStringTouch().setBackgroundResource(0);
+                cleanStrings();
+
             } else {
                 playingSong = true;
                 btnTryMusic.setText("Hrajeme...");
                 btnTryMusic.setBackgroundColor(0x800a33f5);
 
+                skladba = Songs.callByName(getApplicationContext(), settings.getString("list_songs", "Pro_Elisku"));
 
-                skladba = Songs.callByName(getApplicationContext(), Globals.getSongName());
-
-
-
-
-                pokus = createMusicFromTones(skladba.getTones());
+                playingTones = createMusicFromTones(skladba.getTones());
                 trytrySong();
             }
         }
-
-
-
-
     };
 
 
-    public void trytrySong() {
-        playingTone = pokus.get(numberTone);
+    public void trytrySong() { //skutecne zahrani tonu
+        playingTone = playingTones.get(numberTone);
         playingTone.getStringImage().setColorFilter(0x80ff0000);
         playingTone.getStringTouch().setBackgroundResource(R.drawable.touch);
+
     }
 
     ///vytvori skladbu
@@ -226,4 +236,7 @@ public class TrySong extends VirtualGuitar
         }
         return music;
     }
+
+
+
 }

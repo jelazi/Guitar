@@ -6,6 +6,7 @@ import android.media.AudioManager;
 import android.media.SoundPool;
 import android.os.Bundle;
 import android.os.Handler;
+import android.preference.PreferenceManager;
 import android.support.v7.view.menu.MenuBuilder;
 import android.view.KeyEvent;
 import android.view.Menu;
@@ -47,10 +48,6 @@ public class PreviewSong extends VirtualGuitar {
     ArrayList<GuitarTone> pokus = new ArrayList<>();
     TextView nameOfSongView;
 
-
-
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -77,15 +74,15 @@ public class PreviewSong extends VirtualGuitar {
         soundPool.setOnLoadCompleteListener(soundPoolOnLoadCompleteListener);
         //id zvuku
 
-        Globals.setInstrument(Songs.getNameInstruments().get(Globals.getNumberInstrument() - 1));
-        soundId = soundPool.load( getFilesDir()+"/Instruments/"+Globals.getInstrument(), 1);
+        //Globals.setInstrument(Songs.getNameInstruments().get(Globals.getNumberInstrument() - 1));
+        soundId = soundPool.load( getFilesDir()+"/Instruments/"+settings.getString("list_instruments", "a1.wav"), 1);
 
         tone = 0;
         normal_playback_rate = 0.5f;
 
         this.setTitle(R.string.action_preview_song);
 
-        nameOfSongView.setText(Globals.getSongName());
+        nameOfSongView.setText(settings.getString("list_songs", "Pro Elisku"));
 
     }
 
@@ -114,8 +111,7 @@ public class PreviewSong extends VirtualGuitar {
                 break;
 
             case R.id.settings:
-                soundPool.release();
-                Intent i = new Intent(PreviewSong.this, Settings.class);
+                Intent i = new Intent(PreviewSong.this, SettingsScreen.class);
                 startActivity(i);
                 break;
 
@@ -124,19 +120,32 @@ public class PreviewSong extends VirtualGuitar {
                 break;
 
             case R.id.try_song:
-                soundPool.release();
+               // soundPool.release();
                 i = new Intent(PreviewSong.this, TrySong.class);
                 startActivity(i);
                 break;
 
 
             case R.id.play_chord:
-                soundPool.release();
+              //  soundPool.release();
                 i = new Intent(PreviewSong.this, PlayAcord.class);
                 startActivity(i);
                 break;
         }
         return true;
+    }
+
+    @Override
+    public void onResume(){ //aktualizace nastaveni hodnot ze SettingsScreen
+        super.onResume();
+
+        settings = PreferenceManager
+                .getDefaultSharedPreferences(this);
+
+
+        soundId = soundPool.load( getFilesDir()+"/Instruments/"+settings.getString("list_instruments", "a1.wav"), 1);
+
+        nameOfSongView.setText(settings.getString("list_songs", "Pro Elisku"));
     }
 
 
@@ -151,7 +160,7 @@ public class PreviewSong extends VirtualGuitar {
         public void previewSong(){
 
             if (!isPlaying) {
-                skladba = Songs.callByName(getApplicationContext(), Globals.getSongName());
+                skladba = Songs.callByName(getApplicationContext(), settings.getString("list_songs", "Pro Elisku"));
 
             }
 
@@ -166,8 +175,6 @@ public class PreviewSong extends VirtualGuitar {
                 Intent i = new Intent(PreviewSong.this, PreviewSong.class);
                 finish();
                 startActivity(i);
-
-
             }
 
             isPlaying = true;

@@ -88,17 +88,6 @@ public class PlayAcord extends VirtualGuitar {
         showAkordOnBoard();
 
 
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
-        String string =  preferences.getString("string", null);
-
-        Toast.makeText(this,string,Toast.LENGTH_SHORT).show();
-
-        SharedPreferences.Editor editor = preferences.edit();
-        editor.putString("string", "cauky");
-        editor.apply();
-        string = preferences.getString("string", null);
-
-        Toast.makeText(this,string,Toast.LENGTH_SHORT).show();
 
         this.setTitle(R.string.action_play_chords);
     }
@@ -107,7 +96,7 @@ public class PlayAcord extends VirtualGuitar {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu_virtual, menu);
+        inflater.inflate(R.menu.menu_play_chords, menu);
         if(menu instanceof MenuBuilder){
             MenuBuilder m = (MenuBuilder) menu;
             //noinspection RestrictedApi
@@ -129,8 +118,7 @@ public class PlayAcord extends VirtualGuitar {
                 break;
 
             case R.id.settings:
-                soundPool.release();
-                Intent i = new Intent(PlayAcord.this, Settings.class);
+                Intent i = new Intent(PlayAcord.this, SettingsScreen.class);
                 startActivity(i);
                 break;
 
@@ -139,19 +127,33 @@ public class PlayAcord extends VirtualGuitar {
                 break;
 
             case R.id.try_song:
-                soundPool.release();
+               // soundPool.release();
                 i = new Intent(PlayAcord.this, TrySong.class);
                 startActivity(i);
                 break;
 
             case R.id.preview_song:
-                soundPool.release();
+              //  soundPool.release();
                 i = new Intent(PlayAcord.this, PreviewSong.class);
                 startActivity(i);
                 break;
 
         }
         return true;
+    }
+
+    @Override
+    public void onResume(){ //aktualizace nastaveni hodnot ze SettingsScreen
+        super.onResume();
+
+        settings = PreferenceManager
+                .getDefaultSharedPreferences(this);
+
+        soundId = soundPool.load( getFilesDir()+"/Instruments/"+settings.getString("list_instruments", "a1.wav"), 1);
+
+
+
+
     }
 
 

@@ -2,8 +2,6 @@
     <string name="app_name">Kytara</string>
     <string name="title_activity_settings_guitar">Nastavení</string>
 
-    <!-- Strings related to Settings -->
-
     <!-- Example General settings -->
     <string name="choice_Song">Vyber píseň</string>
 
@@ -16,11 +14,20 @@
     <string name="name_song">Jméno písně</string>
 
     <string name="choice_song">Vyber píseň</string>
+    <string name="choice_instrument">Vyber nástroj</string>
 
-    <string-array name="song">
+
+    <string-array name="list_songs">
         <item>Pro Elišku</item>
         <item>Ovčáci čtveráci</item>
         <item>Toccata D moll</item>
+    </string-array>
+
+
+    <string-array name="list_instruments">
+        <item>Kytara</item>
+        <item>Basa</item>
+        <item>Flétna</item>
     </string-array>
 
     <string-array name="pref_example_list_values">
@@ -104,36 +111,21 @@
         completions."
     </string>
     <string name="title_activity_drawer">drawer</string>
+    <string name="user_name">Karlík</string>
+
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
     <string name="action_settings">Nastavení</string>
-    <string name="action_change_instrument">Změň přehrávaný zvuk</string>
-    <string name="action_try_song">Vyzkoušej si zahrát píseň</string>
-    <string name="action_preview_song">Přehraj si píseň</string>
-    <string name="action_play_chords">Zahraj si akordy</string>
+    <string name="action_change_instrument">Změň zvuk</string>
+    <string name="action_try_song">Hraj píseň</string>
+    <string name="action_preview_song">Poslechni si píseň</string>
+    <string name="action_play_chords">Hraj akordy</string>
     <string name="action_play_pause_try_song">Zkus hrát</string>
 
 
-
-
     <string name="title_activity_settings2">Nastavení</string>
-
-
-    <string-array name="lists">
-        <item>Item one</item>
-        <item>Item two</item>
-        <item>Item three</item>
-        <item>Item four</item>
-        <item>Item fiveone</item>
-        <item>Item one</item>
-        <item>Item one</item>
-
-
-
-    </string-array>
-
 
 
 

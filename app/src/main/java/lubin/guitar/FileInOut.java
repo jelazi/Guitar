@@ -5,11 +5,14 @@ import android.content.ContentResolver;
 import android.content.ContentUris;
 import android.content.Context;
 import android.content.CursorLoader;
+import android.content.SharedPreferences;
 import android.content.res.AssetManager;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
+import android.preference.Preference;
+import android.preference.PreferenceManager;
 import android.provider.DocumentsContract;
 import android.provider.MediaStore;
 import android.provider.OpenableColumns;
@@ -43,11 +46,14 @@ import javax.xml.transform.stream.StreamResult;
 public class FileInOut {
 
     private Context context;
+    public static SharedPreferences settings;
 
 
     public FileInOut(Context current){
 
         this.context = current;
+        settings = PreferenceManager.getDefaultSharedPreferences(current);
+
     }
 
 
@@ -285,12 +291,7 @@ public class FileInOut {
             }
             j++;
         }
-
-
-
         return nameOut;
-
-
     }
 
 
@@ -304,15 +305,15 @@ public class FileInOut {
             Element aboutUser = doc.createElement("User");
 
             Element nameOfUser = doc.createElement("Name_of_User");
-            nameOfUser.appendChild(doc.createTextNode(Globals.getUserName()));
+            nameOfUser.appendChild(doc.createTextNode(settings.getString("name_user", "Karlík")));
             aboutUser.appendChild(nameOfUser);
 
             Element password = doc.createElement("Password");
-            password.appendChild(doc.createTextNode(Globals.getPass()));
+            password.appendChild(doc.createTextNode("pass"));
             aboutUser.appendChild(password);
 
             Element valueUser = doc.createElement("Value_User");
-            valueUser.appendChild(doc.createTextNode(Integer.toString(Globals.getValueUser())));
+            valueUser.appendChild(doc.createTextNode(settings.getString("value_user", "0")));
             aboutUser.appendChild(valueUser);
 
 
@@ -334,7 +335,7 @@ public class FileInOut {
 
 
                 DOMSource source = new DOMSource(doc);
-                StreamResult result = new StreamResult(new File(context.getFilesDir() + "/Users/" + nameWithoutDiacritic(Globals.getUserName())));
+                StreamResult result = new StreamResult(new File(context.getFilesDir() + "/Users/" + nameWithoutDiacritic(settings.getString("name_user", "Karlík"))));
                 transformer.transform(source, result);
             }
 

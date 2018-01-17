@@ -39,13 +39,13 @@
 
 
         <TextView
-            android:id="@+id/nameClient"
+            android:id="@+id/name_user"
             android:layout_width="0dip"
             android:layout_height="match_parent"
             android:layout_weight="20"
             android:textSize="35dp"
             android:textColor="#ff0080"
-            android:text="Karlík"
+            android:text="blabla"
 
             />
 

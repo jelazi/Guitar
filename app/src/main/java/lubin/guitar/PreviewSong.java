@@ -2,9 +2,12 @@ package lubin.guitar;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.graphics.drawable.Drawable;
 import android.media.AudioManager;
 import android.media.SoundPool;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.support.v7.view.menu.MenuBuilder;
@@ -23,6 +26,9 @@ import android.widget.Toast;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Timer;
+import java.util.TimerTask;
 
 // TODO při zmáčknutí tlačítka zpět se nezastaví hudba
 
@@ -41,21 +47,33 @@ public class PreviewSong extends VirtualGuitar {
     Tones tones = new Tones();
 
     boolean isPlaying = false;
+    boolean nextTone = false;
 
     Song skladba = new Song();
 
     ArrayList<Tone> tonySkladby = new ArrayList<>();
     ArrayList<GuitarTone> pokus = new ArrayList<>();
     TextView nameOfSongView;
+    ArrayList<Integer> streamIDs;
+
+    long[] delays;
+    long startTime;
+    int toneStop;
+
+    boolean stopBeforeTone;
+
+boolean animationbool = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
 
+
+
         setContentView(R.layout.activity_preview_song);
         createView();
-        btnplayMusic = (Button)findViewById(R.id.playMusic);
+        btnplayMusic = (Button) findViewById(R.id.playMusic);
         btnplayMusic.setOnClickListener(previewSong);
 
         audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
@@ -69,20 +87,36 @@ public class PreviewSong extends VirtualGuitar {
         //kvalita streamu
         int srcQuality = 0;
 
+
         soundPool = new SoundPool(maxStreams, streamType, srcQuality);
         //listener zvuku
         soundPool.setOnLoadCompleteListener(soundPoolOnLoadCompleteListener);
         //id zvuku
 
-        //Globals.setInstrument(Songs.getNameInstruments().get(Globals.getNumberInstrument() - 1));
-        soundId = soundPool.load( getFilesDir()+"/Instruments/"+settings.getString("list_instruments", "a1.wav"), 1);
+        if (!settings.getBoolean("new_intent", true)){
+            toneStop = settings.getInt("tone_stop", 0)+1;
+        }
+        else{
+            settings.edit().putInt("tone_stop", 0).apply();
+            toneStop = 0;
+        }
+
+        settings.edit().putBoolean("new_intent", true).apply();
+
+
+
+        soundId = soundPool.load(getFilesDir() + "/Instruments/" + settings.getString("list_instruments", "a1.wav"), 1);
 
         tone = 0;
         normal_playback_rate = 0.5f;
 
         this.setTitle(R.string.action_preview_song);
 
+
         nameOfSongView.setText(settings.getString("list_songs", "Pro Elisku"));
+
+
+
 
     }
 
@@ -90,44 +124,67 @@ public class PreviewSong extends VirtualGuitar {
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu_preview_song, menu);
-        if(menu instanceof MenuBuilder){
+        if (menu instanceof MenuBuilder) {
             MenuBuilder m = (MenuBuilder) menu;
-            //noinspection RestrictedApi
+
             m.setOptionalIconsVisible(true);
         }
         return true;
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data)
+    {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if(requestCode==1)
+        {
+            previewSong();
+
+        }
+    }
+
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item){
+    public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
 
 
-        switch(id)
-        {
+        switch (id) {
             case android.R.id.home:
                 onBackPressed();
                 break;
 
             case R.id.settings:
+                soundPool.release();
+                startActivity(new Intent(this, this.getClass())); //spusteni nove instance z duvodu zastaveni prehravani skladby, pokud je prave prehravana
+                overridePendingTransition(0, 0);
+                finish();
                 Intent i = new Intent(PreviewSong.this, SettingsScreen.class);
                 startActivity(i);
+
                 break;
 
             case R.id.change_instrument:
                 changeInstrument();
-                break;
+                soundPool.release();
+                settings.edit().putInt("tone_stop", toneStop).apply();
+                settings.edit().putBoolean("new_intent", false).apply();
+                startActivity(new Intent(this, this.getClass()));
+                overridePendingTransition(0, 0);
+                finish();
+
+            break;
 
             case R.id.try_song:
-               // soundPool.release();
+                soundPool.release();
                 i = new Intent(PreviewSong.this, TrySong.class);
                 startActivity(i);
                 break;
 
 
             case R.id.play_chord:
-              //  soundPool.release();
+                soundPool.release();
                 i = new Intent(PreviewSong.this, PlayAcord.class);
                 startActivity(i);
                 break;
@@ -136,16 +193,13 @@ public class PreviewSong extends VirtualGuitar {
     }
 
     @Override
-    public void onResume(){ //aktualizace nastaveni hodnot ze SettingsScreen
+    public void onResume() { //aktualizace nastaveni hodnot ze SettingsScreen
         super.onResume();
-
         settings = PreferenceManager
                 .getDefaultSharedPreferences(this);
-
-
-        soundId = soundPool.load( getFilesDir()+"/Instruments/"+settings.getString("list_instruments", "a1.wav"), 1);
-
+        soundId = soundPool.load(getFilesDir() + "/Instruments/" + settings.getString("list_instruments", "a1.wav"), 1);
         nameOfSongView.setText(settings.getString("list_songs", "Pro Elisku"));
+        stopBeforeTone = settings.getBoolean("stop_before_tone", false);
     }
 
 
@@ -155,59 +209,204 @@ public class PreviewSong extends VirtualGuitar {
         public void onClick(View view) {
 
             previewSong();
-        };
+        }
 
-        public void previewSong(){
+        ;
+    };
 
-            if (!isPlaying) {
-                skladba = Songs.callByName(getApplicationContext(), settings.getString("list_songs", "Pro Elisku"));
+    public void previewSong() {
 
+        Object obj = new Object();
+
+
+        if (!isPlaying) {
+            skladba = Songs.callByName(getApplicationContext(), settings.getString("list_songs", "Pro Elisku"));
+
+        }
+
+        tonySkladby = skladba.getTones();
+
+
+        pokus = createMusicFromTones(tonySkladby);
+        if (isPlaying) {
+
+            toneStop = getNumberTone(); //zjisteni tonu, na kterém se skoncilo
+
+            isPlaying = false;
+            this.btnplayMusic.setText("Hraj");
+
+            soundPool.release();
+
+            settings.edit().putInt("tone_stop", toneStop).apply();
+            settings.edit().putBoolean("new_intent", false).apply();
+
+
+            startActivity(new Intent(this, this.getClass()));
+            overridePendingTransition(0, 0);
+            finish();
+        }
+        else {
+
+
+            delays = new long[tonySkladby.size()];
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+
+
+                    startTime =  System.currentTimeMillis();
+
+                    int delay = 1000;
+                    for (int i = toneStop; i < tonySkladby.size(); i++) {
+                        if (isPlaying) {
+
+
+                            if (!(tonySkladby.get(i).nameTone.equals("silent"))) //neni to pomlka?
+                            {
+                                playToneWithDelay(pokus.get(i), delay);
+                            }
+
+                            if (i == tonySkladby.size() - 1) {
+                                new Handler().postDelayed(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        isPlaying = true;
+                                        btnplayMusic.setText("Zastav");
+
+                                    }
+                                }, delay + 1000);
+                            }
+                            delay = delay + tonySkladby.get(i).lenghtTone;
+                            delays[i] = Long.valueOf(delay);
+                        }
+                    }
+
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            isPlaying = false;
+                            btnplayMusic.setText("Hraj");
+                            toneStop = 0;
+                            settings.edit().putInt("tone_stop", toneStop).apply();
+
+
+                        }
+                    }, delay + 100);
+
+                }
+            }, 1000);
+
+
+
+
+
+/*        long expectedtime = System.currentTimeMillis();
+        for (int i = 0; i <= tonySkladby.size() - 1; i++) {
+            final GuitarTone tone = pokus.get(i);
+            final int lenghtTone = tonySkladby.get(i).lenghtTone;
+
+            if (i == 1) {
+                expectedtime += tonySkladby.get(0).lenghtTone;
             }
 
-            tonySkladby = skladba.getTones();
+            while (System.currentTimeMillis() < expectedtime) {
 
-            pokus = createMusicFromTones(tonySkladby);
-            if (isPlaying){
-
-                soundPool.release();
-                isPlaying = false;
-
-                Intent i = new Intent(PreviewSong.this, PreviewSong.class);
-                finish();
-                startActivity(i);
+                //Empty Loop
             }
+            expectedtime += (lenghtTone * 1.5);//Sample expectedtime += 1000; 1 second sleep
+            playTone(tone);
+        }*/
 
             isPlaying = true;
             btnplayMusic.setText("Zastav");
 
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    int delay = 1000;
-                    for (int i = 0; i <= tonySkladby.size() - 1; i++) {
-                        if (!(tonySkladby.get(i).nameTone.equals("silent"))) //neni to pomlka?
-                        {
-                            playTone(pokus.get(i), delay);
-                        }
+        /*try {
+            synchronized (obj) {
 
-                        if (i == tonySkladby.size() - 1){
-                            new Handler().postDelayed(new Runnable() {
-                                @Override
-                                public void run() {
-                                    btnplayMusic.setText("Přehraj");
-                                    isPlaying = false;
-                                }
-                            }, delay + 1000);
+
+
+
+                for (int i = 0; i <= tonySkladby.size() - 1; i++) {
+                    final GuitarTone tone = pokus.get(i);
+                    Shaking(tone.getStringImage());
+                    Touching(tone.getStringTouch());
+                        int lenghtTone = 0;
+                        if (i == 0) { //prodloužení čekání prvniho tonu
+                            lenghtTone = tonySkladby.get(i).lenghtTone + 100;
+                        } else {
+                            lenghtTone = tonySkladby.get(i).lenghtTone;
                         }
-                        delay = delay + tonySkladby.get(i).lenghtTone;
+                        playTone(tone);
+                        obj.wait(lenghtTone);
+                }
+                    }
+                    Intent i = new Intent(PreviewSong.this, PreviewSong.class);
+                    finish();
+                    startActivity(i);
+            } catch(InterruptedException ex){
+            }
+*/
+            }
+        }
+
+        private int getNumberTone(){ //zjisteni cisla tonu, na kterem se skoncilo
+
+            long difference = System.currentTimeMillis() - startTime - 490; //hodnota - pro vraceni tonu, ktery byl velmi rychle zahran a nemusel byt slysen
+
+
+            for (int i = 0; i < tonySkladby.size(); i++){
+                if (difference < delays[i]) {
+                    return i;
+
+                }
+            }
+
+            return 0;
+
+
+        }
+
+    // zahrani tonu bez zpozdeni
+    protected void playTone(GuitarTone guitarTone) {
+        final GuitarTone gtr = guitarTone;
+
+                float vol = audioManager.getStreamVolume(
+                        AudioManager.STREAM_MUSIC);
+                float maxVol = audioManager.getStreamMaxVolume(
+                        AudioManager.STREAM_MUSIC);
+                float leftVolume = vol / maxVol;
+                float rightVolume = vol / maxVol;
+                int priority = 1;
+                int no_loop = 0;
+
+                normal_playback_rate = gtr.getStringValue();
+                Shaking(gtr.getStringImage());
+                Touching(gtr.getStringTouch(), null);
+
+                if (stopBeforeTone){
+                    if (streamID != 0){ //zastavi ton, predchoziho
+                        soundPool.stop(streamID);
+                        streamID = 0;
                     }
                 }
-            }, 1000);
-        }
-    };
+
+
+
+                streamID = soundPool.play(soundId,
+                        leftVolume,
+                        rightVolume,
+                        priority,
+                        no_loop,
+                        normal_playback_rate);
+
+
+    }
+
+
+
 
     // zahrani tonu s volitelnym zpozdenim
-    public void playTone(GuitarTone guitarTone, int delay){
+    protected void playToneWithDelay(GuitarTone guitarTone, int delay) {
         final GuitarTone gtr = guitarTone;
 
         new Handler().postDelayed(new Runnable() {
@@ -223,19 +422,29 @@ public class PreviewSong extends VirtualGuitar {
                 int priority = 1;
                 int no_loop = 0;
 
-
                 normal_playback_rate = gtr.getStringValue();
                 Shaking(gtr.getStringImage());
-                Touching(gtr.getStringTouch());
+                Touching(gtr.getStringTouch(), null);
 
-                soundPool.play(soundId,
+                if (stopBeforeTone){
+                    if (streamID != 0){ //zastavi ton, predchoziho
+                        soundPool.stop(streamID);
+                        streamID = 0;
+                    }
+                }
+
+                streamID = soundPool.play(soundId,
                         leftVolume,
                         rightVolume,
                         priority,
                         no_loop,
                         normal_playback_rate);
-            }
+
+
+           }
         }, delay);
+
+
     }
 
     ///vytvori skladbu
@@ -254,17 +463,20 @@ public class PreviewSong extends VirtualGuitar {
 
         Animation animation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.blink);
         imgButton.startAnimation(animation);
+
         animation.setAnimationListener(new Animation.AnimationListener()
+
+
         {
-            boolean isBackground = false;
+
 
 
             @Override
             public void onAnimationStart(Animation animation) {
-                // if (imgButton == R.drawable.touch){
-                //        isBackground = true;
-                //}
+
                 imgButton.setBackgroundResource(R.drawable.touch);
+
+
             }
 
             @Override
@@ -273,13 +485,8 @@ public class PreviewSong extends VirtualGuitar {
             @Override
             public void onAnimationEnd(Animation animation)
             {
-                //if (isBackground){
-
-                //}
-                //else{
                 imgButton.setBackgroundResource(0);
-                //  }
-
+                nextTone = true;
 
             }
         });

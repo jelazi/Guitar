@@ -98,6 +98,9 @@ public abstract class VirtualGuitar extends AppCompatActivity {
     int numberInstrument = 0;
     String nameInstrument;
 
+    boolean stopBeforeTone;
+
+
 
 
 
@@ -110,6 +113,7 @@ public abstract class VirtualGuitar extends AppCompatActivity {
     ArrayList<ImageButton> imageButtons = new ArrayList<>();
     Toast mToast;
     SharedPreferences settings;
+    int streamID = 0;
 
 
     @Override
@@ -128,6 +132,8 @@ public abstract class VirtualGuitar extends AppCompatActivity {
 
         skladba = Songs.callByName(getApplicationContext(), settings.getString("list_songs", "Pro_Elisku"));
 
+        stopBeforeTone = settings.getBoolean("stop_before_tone", false);
+
 
 
 
@@ -145,6 +151,7 @@ public abstract class VirtualGuitar extends AppCompatActivity {
         //id zvuku
         tone = 0;
         normal_playback_rate = 0.5f;
+
 
          //
 
@@ -290,7 +297,7 @@ public abstract class VirtualGuitar extends AppCompatActivity {
 
 
     // zahrani tonu s volitelnym zpozdenim
-    protected void playTone(GuitarTone guitarTone, int delay) {
+    protected void playToneWithDelay(GuitarTone guitarTone, int delay) {
         final GuitarTone gtr = guitarTone;
 
         new Handler().postDelayed(new Runnable() {
@@ -309,6 +316,13 @@ public abstract class VirtualGuitar extends AppCompatActivity {
                 normal_playback_rate = gtr.getStringValue();
                 Shaking(gtr.getStringImage());
                 Touching(gtr.getStringTouch(), null);
+
+                if (stopBeforeTone){
+                    if (streamID != 0){ //zastavi ton, predchoziho
+                        soundPool.stop(streamID);
+                        streamID = 0;
+                    }
+                }
 
                 soundPool.play(soundId,
                         leftVolume,
@@ -639,13 +653,23 @@ public abstract class VirtualGuitar extends AppCompatActivity {
         int priority = 1;
         int no_loop = 0;
 
-        soundPool.play(soundId,
+        if (stopBeforeTone){
+            if (streamID != 0){ //zastavi ton, predchoziho
+                soundPool.stop(streamID);
+                streamID = 0;
+            }
+        }
+
+        streamID = soundPool.play(soundId,
                 leftVolume,
                 rightVolume,
                 priority,
                 no_loop,
                 normal_playback_rate);
     }
+
+
+
 
 
     protected void playToneFromTouch(View v, ImageButton nextButton, Drawable background) {
@@ -847,13 +871,21 @@ public abstract class VirtualGuitar extends AppCompatActivity {
         int priority = 1;
         int no_loop = 0;
 
-        soundPool.play(soundId,
+        if (stopBeforeTone){
+            if (streamID != 0){ //zastavi ton, predchoziho
+                soundPool.stop(streamID);
+                streamID = 0;
+            }
+        }
+
+        streamID = soundPool.play(soundId,
                 leftVolume,
                 rightVolume,
                 priority,
                 no_loop,
                 normal_playback_rate);
     }
+
 
 
     // vrati ton podle zmacknute struny

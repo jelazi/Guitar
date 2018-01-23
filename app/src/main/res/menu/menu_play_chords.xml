@@ -11,13 +11,13 @@
         android:id="@+id/change_instrument"
         android:orderInCategory="2"
         android:title="@string/action_change_instrument"
-        android:icon="@mipmap/guitar_acoustic"
+        android:icon="@mipmap/music_note"
         app:showAsAction="never" />
     <item
         android:id="@+id/try_song"
         android:orderInCategory="3"
         android:title="@string/action_try_song"
-        android:icon="@mipmap/guitar_acoustic"
+        android:icon="@mipmap/ic_guitar_pick"
         app:showAsAction="never" />
     <item
         android:id="@+id/preview_song"

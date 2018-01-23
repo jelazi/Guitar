@@ -160,6 +160,9 @@ public class TrySong extends VirtualGuitar
         btnTryMusic.setText("Zkus hrát");
         btnTryMusic.setBackgroundResource(0);
         playingSong = false;
+        stopBeforeTone = settings.getBoolean("stop_before_tone", false);
+
+
 
     }
 

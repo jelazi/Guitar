@@ -40,9 +40,10 @@
 
 
 <SwitchPreference
-    android:title="Switch Preference"
-    android:key="switch"
-    android:summary="Switch false" />
+    android:title="Hraní tonů"
+    android:key="stop_before_tone"
+    android:summary="Zamezit hrát více tonů naráz"
+     />
 
 
     <SwitchPreference

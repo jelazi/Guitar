@@ -63,6 +63,8 @@ public class SettingsScreen extends AppCompatActivity {
 
             valueUser = (Preference) findPreference("value_user");
             valueUser.setSummary(settings.getString("value_user", "0"));
+
+
         }
 
     }

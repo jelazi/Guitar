@@ -152,6 +152,7 @@ public class PlayAcord extends VirtualGuitar {
         soundId = soundPool.load( getFilesDir()+"/Instruments/"+settings.getString("list_instruments", "a1.wav"), 1);
 
 
+        stopBeforeTone = settings.getBoolean("stop_before_tone", false);
 
 
     }
@@ -212,6 +213,13 @@ public class PlayAcord extends VirtualGuitar {
                 normal_playback_rate = gtr.getStringValue();
                 Shaking(gtr.getStringImage());
                 Touching(gtr.getStringTouch(), gtr.getStringTouch().getBackground());
+
+                if (stopBeforeTone){
+                    if (streamID != 0){ //zastavi ton, predchoziho
+                        soundPool.stop(streamID);
+                        streamID = 0;
+                    }
+                }
 
 
                 soundPool.play(soundId,

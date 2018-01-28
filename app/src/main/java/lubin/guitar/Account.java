@@ -1,16 +1,33 @@
 package lubin.guitar;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
+
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+
+import java.io.File;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.transform.OutputKeys;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
 
 import lubin.guitar.R;
 
@@ -21,6 +38,11 @@ public class Account extends AppCompatActivity {
     ImageView img;
     EditText accountName;
     EditText accountPass;
+    User [] users;
+    SharedPreferences settings;
+
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,20 +57,36 @@ public class Account extends AppCompatActivity {
         accountPass = (EditText)findViewById(R.id.AccountPass);
         accountName.setOnClickListener(onClickSetName);
         accountPass.setOnClickListener(onClickSetPass);
+        users = FileInOut.getUsersFromXML();
+        settings = PreferenceManager.getDefaultSharedPreferences(this);
 
 
     }
 
-// TODO připravit účty v SQL
+
     View.OnClickListener openAccountListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
 
-            if (accountName.getText().toString().equals("Karlik") && accountPass.getText().toString().equals("pass")){
-                Intent i = new Intent(Account.this, TrySong.class);
-                startActivity(i);
+            for (User user : users){
+
+
+                if (accountName.getText().toString().equals(user.getName()) && accountPass.getText().toString().equals(user.getPass())){
+                    settings.edit().putString("value_user", Integer.toString(user.getValue())).apply();
+                    settings.edit().putString("name_user", user.getName()).apply();
+                    settings.edit().putString("list_instruments", user.getChoiceInstrumentName()).apply();
+                    settings.edit().putString("list_songs", user.getChoiceSongName()).apply();
+
+
+                    Intent i = new Intent(Account.this, TrySong.class);
+                    startActivity(i);
+                    return;
+
+                }
+
             }
-            else{
+
+
 //                new AlertDialog.Builder(Account.this)
 //                        .setTitle("Chyba")
 //                        .setMessage("Špatné jméno nebo heslo")
@@ -65,7 +103,7 @@ public class Account extends AppCompatActivity {
                 accountName.setText("");
                 accountPass.setText("");
 
-            }
+
 
 
 
@@ -87,6 +125,13 @@ public class Account extends AppCompatActivity {
 
         }
     };
+
+
+
+
+
+
+
 
 
 }

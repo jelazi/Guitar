@@ -138,6 +138,8 @@ public abstract class VirtualGuitar extends AppCompatActivity {
 
 
 
+
+
         audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
         //maximalni mnozstvi zaroven prehravanych zvuku
         int maxStreams = 4;

@@ -59,7 +59,7 @@ public class ChoiceAccount extends AppCompatActivity {
     View.OnClickListener runTeacher = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
-            Intent i = new Intent(ChoiceAccount.this, MainActivity.class);
+            Intent i = new Intent(ChoiceAccount.this, Teacher.class);
             startActivity(i);
 
         }

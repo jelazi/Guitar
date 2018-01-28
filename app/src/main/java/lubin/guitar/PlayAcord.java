@@ -220,16 +220,12 @@ public class PlayAcord extends VirtualGuitar {
                         streamID = 0;
                     }
                 }
-
-
                 soundPool.play(soundId,
                         leftVolume,
                         rightVolume,
                         priority,
                         no_loop,
                         normal_playback_rate);
-
-
             }
         }, delay);
 

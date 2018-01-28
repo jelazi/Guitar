@@ -31,6 +31,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -295,7 +296,7 @@ public class FileInOut {
     }
 
 
-    public static boolean setUserToXML(Context context){
+    public static boolean setUsersToXML(Context context){
 
         try{
             DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
@@ -345,6 +346,22 @@ public class FileInOut {
             Log.e("Error: ", e.getMessage());
         }
         return true;
+    }
+
+    public static User[] getUsersFromXML(){
+
+        ArrayList<User> users = new ArrayList<>();
+
+
+
+        User user1 = new User("Roman", 575, "pass", "Pro Elisku", "a1.wav", true);
+        users.add(user1);
+        User user2 = new User("Karlik", 59, "pass", "Ovcaci, ctveraci", "a1.wav", true);
+        users.add(user2);
+
+
+        return users.toArray(new User[users.size()]);
+
     }
 
 

@@ -25,8 +25,10 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         trySong = (Button) findViewById(R.id.trySong);
+        Intent draw = new Intent(MainActivity.this,  ChoiceAccount.class);
 
-        Intent draw = new Intent(MainActivity.this,  PreviewSong.class);
+        //
+        //Intent draw = new Intent(MainActivity.this,  PreviewSong.class);
         startActivity(draw);
 
     }

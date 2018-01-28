@@ -30,8 +30,7 @@ public class TrySong extends VirtualGuitar
         createView();
         money = (TextView) findViewById(R.id.valueMoney);
 
-
-            money.setText(settings.getString("value_user", "0"));
+        money.setText(settings.getString("value_user", "0"));
 
         nameUser = (TextView) findViewById(R.id.name_user);
 

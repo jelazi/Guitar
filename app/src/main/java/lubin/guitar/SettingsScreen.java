@@ -45,6 +45,7 @@ public class SettingsScreen extends AppCompatActivity {
         public static ListPreference listSongs;
         public static ListPreference listInstruments;
         public static Preference valueUser;
+        public static Preference nameUser;
 
         SharedPreferences settings;
 
@@ -57,12 +58,37 @@ public class SettingsScreen extends AppCompatActivity {
             addPreferencesFromResource(R.xml.settings_screen);
 
             listSongs = (ListPreference) findPreference("list_songs");
+            listSongs.setSummary(settings.getString("list_songs", "Pro Elisku"));
             listInstruments = (ListPreference) findPreference("list_instruments");
+            listInstruments.setSummary(settings.getString("list_instruments", "a1.wav"));
 
             setListPreferenceData(listSongs, listInstruments, getActivity()); //naplneni preference listem pisni a nastroju
 
             valueUser = (Preference) findPreference("value_user");
             valueUser.setSummary(settings.getString("value_user", "0"));
+
+            nameUser = (Preference) findPreference("name_user");
+            nameUser.setSummary(settings.getString("name_user", null));
+
+
+            listInstruments.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+                @Override
+                public boolean onPreferenceChange(Preference preference, Object newValue) {
+                    listInstruments.setSummary(newValue.toString());
+                    return true;
+
+                }
+            });
+
+
+            listSongs.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+                @Override
+                public boolean onPreferenceChange(Preference preference, Object newValue) {
+                    listSongs.setSummary(newValue.toString());
+                    return true;
+
+                }
+            });
 
 
         }

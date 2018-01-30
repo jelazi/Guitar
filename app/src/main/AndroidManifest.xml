@@ -37,7 +37,7 @@
             android:label="Zahraj si akordy"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".UserAccount"
+            android:name=".Account"
             android:label="Napiš jméno a heslo"
             android:screenOrientation="portrait" />
         <activity

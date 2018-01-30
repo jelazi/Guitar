@@ -37,14 +37,30 @@
             android:label="Zahraj si akordy"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".Account"
+            android:name=".UserAccount"
             android:label="Napiš jméno a heslo"
             android:screenOrientation="portrait" />
         <activity
             android:name=".SettingsScreen"
             android:label="Nastavení"
-            android:theme="@style/AppTheme" />
-        <activity android:name=".Teacher"></activity>
+            android:theme="@style/AppTheme"
+            android:screenOrientation="portrait" />
+
+        <activity android:name=".TeacherAccount"
+            android:label="Napište jméno a heslo"
+            android:theme="@style/AppTheme"
+            android:screenOrientation="portrait" />
+
+        <activity android:name=".Teacher"
+            android:label="Nastavení aplikace"
+            android:theme="@style/AppTheme"
+            android:screenOrientation="portrait" />
+
+        <activity android:name=".EditUser"
+            android:label="Editace uživatele"
+            android:theme="@style/AppTheme"
+            android:screenOrientation="portrait" />
+
     </application>
 
 </manifest>

@@ -1,18 +1,14 @@
 package lubin.guitar;
 
 
-import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
 import android.view.View;
-import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.ImageView;
-
-import lubin.guitar.R;
 
 public class ChoiceAccount extends AppCompatActivity {
 
@@ -54,7 +50,7 @@ public class ChoiceAccount extends AppCompatActivity {
     View.OnClickListener runGuitarist = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
-            Intent i = new Intent(ChoiceAccount.this, Account.class);
+            Intent i = new Intent(ChoiceAccount.this, UserAccount.class);
             startActivity(i);
 
         }
@@ -63,7 +59,7 @@ public class ChoiceAccount extends AppCompatActivity {
     View.OnClickListener runTeacher = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
-            Intent i = new Intent(ChoiceAccount.this, Teacher.class);
+            Intent i = new Intent(ChoiceAccount.this, TeacherAccount.class);
             startActivity(i);
 
         }

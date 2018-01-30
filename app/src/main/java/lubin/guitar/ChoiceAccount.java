@@ -41,7 +41,11 @@ public class ChoiceAccount extends AppCompatActivity {
         btnGuitarist = (Button) findViewById(R.id.button);
         btnTeacher = (Button) findViewById(R.id.button2);
         btnGuitarist.setOnClickListener(runGuitarist);
+
         btnTeacher.setOnClickListener(runTeacher);
+
+        img1.setOnClickListener(runGuitarist);
+        img2.setOnClickListener(runTeacher);
 
 
     }

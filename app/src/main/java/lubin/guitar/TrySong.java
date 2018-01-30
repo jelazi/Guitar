@@ -79,7 +79,6 @@ public class TrySong extends VirtualGuitar
         inflater.inflate(R.menu.menu_try_song, menu);
         if(menu instanceof MenuBuilder){
             MenuBuilder m = (MenuBuilder) menu;
-            //noinspection RestrictedApi
             m.setOptionalIconsVisible(true);
         }
         return true;

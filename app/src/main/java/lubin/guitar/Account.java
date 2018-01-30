@@ -9,6 +9,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
@@ -40,6 +41,7 @@ public class Account extends AppCompatActivity {
     EditText accountPass;
     User [] users;
     SharedPreferences settings;
+    File fileUser;
 
 
 
@@ -57,26 +59,68 @@ public class Account extends AppCompatActivity {
         accountPass = (EditText)findViewById(R.id.AccountPass);
         accountName.setOnClickListener(onClickSetName);
         accountPass.setOnClickListener(onClickSetPass);
-        users = FileInOut.getUsersFromXML();
+
+        fileUser = new File(getFilesDir()+"/users.xml");
+
+        if (!fileUser.exists()){ //vytvoreni defaultnich uzivatelu
+            FileInOut.setUsersToXML(this, FileInOut.createDefaultUsersForXML());
+        }
+
+        users = FileInOut.getUsersFromXML(fileUser); //nacteni uzivatelu
+
         settings = PreferenceManager.getDefaultSharedPreferences(this);
 
+        this.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+
+
+    }
+
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item){
+        int id = item.getItemId();
+
+
+        switch(id)
+        {
+            case android.R.id.home:
+                onBackPressed();
+                break;
+
+
+        }
+        return true;
     }
 
 
     View.OnClickListener openAccountListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
+            User beforeUser = new User(settings.getString("name_user", ""), Integer.parseInt(settings.getString("value_user", "0")), "pass", settings.getString("list_songs", "Pro Elisku"), settings.getString("list_instruments", "a1.wav"), settings.getBoolean("stop_before_tone", false) );
 
-            for (User user : users){
+
+            for (User user : users) {
+
+                if (beforeUser.getName().equals(user.getName()) && beforeUser.getValue() > user.getValue()) {
+
+                    FileInOut.applyChangeUserToXML(view.getContext(), fileUser, beforeUser);
+                    users = FileInOut.getUsersFromXML(fileUser); //nacteni uzivatelu
 
 
-                if (accountName.getText().toString().equals(user.getName()) && accountPass.getText().toString().equals(user.getPass())){
+                }
+            }
+
+
+          for (User user : users){
+
+
+                if (FileInOut.nameWithoutDiacritic(accountName.getText().toString().toLowerCase()).equals(FileInOut.nameWithoutDiacritic(user.getName().toLowerCase())) && accountPass.getText().toString().equals(user.getPass())){
+
                     settings.edit().putString("value_user", Integer.toString(user.getValue())).apply();
                     settings.edit().putString("name_user", user.getName()).apply();
                     settings.edit().putString("list_instruments", user.getChoiceInstrumentName()).apply();
                     settings.edit().putString("list_songs", user.getChoiceSongName()).apply();
-
 
                     Intent i = new Intent(Account.this, TrySong.class);
                     startActivity(i);
@@ -87,25 +131,9 @@ public class Account extends AppCompatActivity {
             }
 
 
-//                new AlertDialog.Builder(Account.this)
-//                        .setTitle("Chyba")
-//                        .setMessage("Špatné jméno nebo heslo")
-//                        .setNeutralButton("Znovu", new DialogInterface.OnClickListener() {
-//                            @Override
-//                            public void onClick(DialogInterface dialogInterface, int i) {
-//                            }
-//                        })
-//                        .setIcon(android.R.drawable.ic_dialog_alert)
-//                        .show();
-
-
                 Toast.makeText(Account.this, "Špatné jméno nebo heslo", Toast.LENGTH_SHORT).show();
                 accountName.setText("");
                 accountPass.setText("");
-
-
-
-
 
         }
     };

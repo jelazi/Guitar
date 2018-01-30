@@ -20,6 +20,8 @@ import android.util.Log;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
@@ -31,7 +33,11 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.lang.reflect.Array;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -269,65 +275,91 @@ public class FileInOut {
         String nameOut = "";
         String nameIn = name;
 
-        String withdiacritic = "áéěíóúůÁÉĚÍÓÚŮščřžťŠČŘŽŤ";
-        String withoutdiacritic = "aeeiouuAEEIOUUscrztSCRZT";
+        String withdiacritic = "áéěíóúůÁÉĚÍÓÚŮňďščřžťŇĎŠČŘŽŤ";
+        String withoutdiacritic = "aeeiouuAEEIOUUndscrztNDSCRZT";
 
-        int j = 0;
+
 
         for (char i : nameIn.toCharArray()){
+            int index = 0;
+            for (char j : withdiacritic.toCharArray()) {
 
-            if (withdiacritic.contains(String.valueOf(i))){
-                nameOut += withoutdiacritic.charAt(j);
 
-            }
-            else{
+                if (i == j) {
+                    nameOut += withoutdiacritic.charAt(index);
+                    break;
 
-                if (i == ' '){
-                    nameOut += '_';
                 }
-                else
-                {
+                index++;
+            }
+            if (index == withdiacritic.length()){
+                if (i == ' ') {
+                    nameOut += '_';
+                } else {
                     nameOut += i;
                 }
             }
-            j++;
+
+
+
+
+
+
+
         }
+
         return nameOut;
     }
 
 
-    public static boolean setUsersToXML(Context context){
+    public static boolean setUsersToXML(Context context, User[] users){
 
         try{
             DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
             DocumentBuilder db = dbf.newDocumentBuilder();
             Document doc = db.newDocument();
+            int ID = 0;
 
-            Element aboutUser = doc.createElement("User");
-
-            Element nameOfUser = doc.createElement("Name_of_User");
-            nameOfUser.appendChild(doc.createTextNode(settings.getString("name_user", "Karlík")));
-            aboutUser.appendChild(nameOfUser);
-
-            Element password = doc.createElement("Password");
-            password.appendChild(doc.createTextNode("pass"));
-            aboutUser.appendChild(password);
-
-            Element valueUser = doc.createElement("Value_User");
-            valueUser.appendChild(doc.createTextNode(settings.getString("value_user", "0")));
-            aboutUser.appendChild(valueUser);
+            Element allUsers = doc.createElement("Users");
 
 
-            doc.appendChild(aboutUser);
+            for (User user : users){
+
+                String passEncoded = FileInOut.encryption(user.getPass());
+
+                Element userID = doc.createElement("ID:_" + String.valueOf(ID));
 
 
-            File folder = new File(context.getFilesDir() + "/Users"); //vytvoreni slozky Users
-            boolean success = true;
-            if (!folder.exists()) {
-                success = folder.mkdir();
+                Element nameOfUser = doc.createElement("Name_of_User");
+                nameOfUser.appendChild(doc.createTextNode(user.getName()));
+                userID.appendChild(nameOfUser);
+
+                Element password = doc.createElement("Password");
+                password.appendChild(doc.createTextNode(passEncoded));
+                userID.appendChild(password);
+
+                Element valueUser = doc.createElement("Value_User");
+                valueUser.appendChild(doc.createTextNode(String.valueOf(user.getValue())));
+                userID.appendChild(valueUser);
+
+                Element choiceInstrument = doc.createElement("Choice_Instrument");
+                choiceInstrument.appendChild(doc.createTextNode(user.getChoiceInstrumentName()));
+                userID.appendChild(choiceInstrument);
+
+                Element choiceSong = doc.createElement("Choice_Song");
+                choiceSong.appendChild(doc.createTextNode(user.getChoiceSongName()));
+                userID.appendChild(choiceSong);
+
+
+
+
+                allUsers.appendChild(userID);
+
+                ID++;
             }
 
-            if (success){
+
+            doc.appendChild(allUsers);
 
                 TransformerFactory tf = TransformerFactory.newInstance();
                 Transformer transformer = tf.newTransformer();
@@ -336,9 +368,9 @@ public class FileInOut {
 
 
                 DOMSource source = new DOMSource(doc);
-                StreamResult result = new StreamResult(new File(context.getFilesDir() + "/Users/" + nameWithoutDiacritic(settings.getString("name_user", "Karlík"))));
+                StreamResult result = new StreamResult(new File(context.getFilesDir() + "/users.xml"));
                 transformer.transform(source, result);
-            }
+
 
         }
         catch (Exception e)
@@ -348,15 +380,96 @@ public class FileInOut {
         return true;
     }
 
-    public static User[] getUsersFromXML(){
+
+
+    public static User [] getUsersFromXML(File XML){
+
 
         ArrayList<User> users = new ArrayList<>();
 
 
 
-        User user1 = new User("Roman", 575, "pass", "Pro Elisku", "a1.wav", true);
+        try
+        {
+            DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+            DocumentBuilder db = dbf.newDocumentBuilder();
+            Document doc = db.parse(XML);
+
+            Node root = doc.getDocumentElement();
+            root.normalize();
+
+            NodeList allUser = root.getChildNodes();
+
+
+            for (int i = 0; i < allUser.getLength(); i++){
+
+
+                User user = new User("", 0, "", "", "", false);
+
+                Node node = allUser.item(i);
+
+                if (node.getNodeType() == Node.ELEMENT_NODE && node.getNodeName().contains("ID:_")) {
+
+                    NodeList nodeList = allUser.item(i).getChildNodes();
+                    user.setName(nodeList.item(1).getTextContent());
+                    user.setPass(decryption(nodeList.item(3).getTextContent()));
+                    user.setValue(Integer.parseInt(nodeList.item(5).getTextContent()));
+                    user.setChoiceInstrumentName(nodeList.item(7).getTextContent());
+                    user.setChoiceSongName(nodeList.item(9).getTextContent());
+
+                    users.add(user);
+                }
+            }
+        }
+        catch (Exception e)
+        {
+            Log.e("Error: ", e.getMessage());
+
+        }
+        return users.toArray(new User[users.size()]);
+    }
+
+
+    public static boolean applyChangeUserToXML(Context context, File XML, User user){
+        User[] users = getUsersFromXML(XML);
+        boolean change = false;
+
+        for (User u : users){
+
+            if (u.getName().equals(user.getName())){
+                u.setPass(user.getPass());
+                u.setValue(user.getValue());
+                u.setChoiceSongName(user.getChoiceSongName());
+                u.setChoiceInstrumentName(user.getChoiceInstrumentName());
+                change = true;
+                break;
+            }
+
+        }
+
+        if (!change){
+            ArrayList <User> listUsers = new ArrayList<>(Arrays.asList(users));
+            listUsers.add(user);
+            return setUsersToXML(context, listUsers.toArray(new User[listUsers.size()]));
+        }
+
+
+        return setUsersToXML(context, users);
+
+
+
+
+    }
+
+    public static User[] createDefaultUsersForXML(){
+
+        ArrayList<User> users = new ArrayList<>();
+
+
+
+        User user1 = new User("Roman", 0, "pass", "Ovcaci, ctveraci", "a1.wav", true);
         users.add(user1);
-        User user2 = new User("Karlik", 59, "pass", "Ovcaci, ctveraci", "a1.wav", true);
+        User user2 = new User("Karlik", 0, "pass", "Pro Elisku", "a1.wav", true);
         users.add(user2);
 
 
@@ -399,4 +512,29 @@ public class FileInOut {
         return name;
     }
 
+
+
+    public static String encryption(String strNormalText){
+        String seedValue = "MyGuitarPass";
+        String normalTextEnc="";
+        try {
+            normalTextEnc = AESHelper.encrypt(seedValue, strNormalText);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return normalTextEnc;
+    }
+
+
+
+    public static String decryption(String strEncryptedText){
+        String seedValue = "MyGuitarPass";
+        String strDecryptedText="";
+        try {
+            strDecryptedText = AESHelper.decrypt(seedValue, strEncryptedText);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return strDecryptedText;
+    }
 }

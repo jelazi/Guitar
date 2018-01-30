@@ -130,7 +130,7 @@ public abstract class VirtualGuitar extends AppCompatActivity {
         Songs.fillSongs(this);
         fillInstrument();
 
-        skladba = Songs.callByName(getApplicationContext(), settings.getString("list_songs", "Pro_Elisku"));
+        skladba = Songs.callByName(getApplicationContext(), settings.getString("list_songs", "Pro Elisku"));
 
         stopBeforeTone = settings.getBoolean("stop_before_tone", false);
 

@@ -323,6 +323,7 @@ public class Songs {
 
     public static boolean setSongToXML(Context context, Song song){
 
+
         try{
             DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
             DocumentBuilder db = dbf.newDocumentBuilder();

@@ -14,10 +14,10 @@
 
     />
     <EditTextPreference
-        android:title="Jméno kytaristy"
+        android:title="Heslo kytaristy"
         android:key="pass_user"
         android:summary="pass"
-        android:defaultValue="pass"
+        android:defaultValue=""
 
         />
 

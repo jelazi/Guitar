@@ -11,6 +11,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Edtování uživatele"
-        tools:layout_editor_absoluteX="79dp"
-        tools:layout_editor_absoluteY="80dp" />
+        tools:layout_editor_absoluteX="40dp"
+        tools:layout_editor_absoluteY="64dp" />
 </android.support.constraint.ConstraintLayout>

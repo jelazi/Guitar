@@ -12,9 +12,11 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.AnimationUtils;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import org.w3c.dom.Document;
@@ -37,8 +39,8 @@ public class Account extends AppCompatActivity {
 
     Button btnAcc;
     ImageView img;
-    EditText accountName;
     EditText accountPass;
+    Spinner nameSpinner;
     User [] users;
     SharedPreferences settings;
     File fileUser;
@@ -55,18 +57,29 @@ public class Account extends AppCompatActivity {
         img = (ImageView)findViewById(R.id.AccGuitarist);
         android.view.animation.Animation animation1= AnimationUtils.loadAnimation(getApplicationContext(), R.anim.zoom);
         img.startAnimation(animation1);
-        accountName = (EditText)findViewById(R.id.AccountName);
         accountPass = (EditText)findViewById(R.id.AccountPass);
-        accountName.setOnClickListener(onClickSetName);
+        nameSpinner = (Spinner) findViewById(R.id.Spinner01);
         accountPass.setOnClickListener(onClickSetPass);
 
         fileUser = new File(getFilesDir()+"/users.xml");
+
+
 
         if (!fileUser.exists()){ //vytvoreni defaultnich uzivatelu
             FileInOut.setUsersToXML(this, FileInOut.createDefaultUsersForXML());
         }
 
         users = FileInOut.getUsersFromXML(fileUser); //nacteni uzivatelu
+
+        String[] arraySpinner = FileInOut.getNameOfUsers(users);
+
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
+                android.R.layout.simple_spinner_item, arraySpinner);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        nameSpinner.setAdapter(adapter);
+
+
 
         settings = PreferenceManager.getDefaultSharedPreferences(this);
 
@@ -81,14 +94,11 @@ public class Account extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item){
         int id = item.getItemId();
 
-
         switch(id)
         {
             case android.R.id.home:
                 onBackPressed();
                 break;
-
-
         }
         return true;
     }
@@ -106,8 +116,6 @@ public class Account extends AppCompatActivity {
 
                     FileInOut.applyChangeUserToXML(view.getContext(), fileUser, beforeUser);
                     users = FileInOut.getUsersFromXML(fileUser); //nacteni uzivatelu
-
-
                 }
             }
 
@@ -115,7 +123,7 @@ public class Account extends AppCompatActivity {
           for (User user : users){
 
 
-                if (FileInOut.nameWithoutDiacritic(accountName.getText().toString().toLowerCase()).equals(FileInOut.nameWithoutDiacritic(user.getName().toLowerCase())) && accountPass.getText().toString().equals(user.getPass())){
+                if (FileInOut.nameWithoutDiacritic(nameSpinner.getSelectedItem().toString().toLowerCase()).equals(FileInOut.nameWithoutDiacritic(user.getName().toLowerCase())) && accountPass.getText().toString().equals(user.getPass())){
 
                     settings.edit().putString("value_user", Integer.toString(user.getValue())).apply();
                     settings.edit().putString("name_user", user.getName()).apply();
@@ -132,7 +140,7 @@ public class Account extends AppCompatActivity {
 
 
                 Toast.makeText(Account.this, "Špatné jméno nebo heslo", Toast.LENGTH_SHORT).show();
-                accountName.setText("");
+                nameSpinner.setSelection(0);
                 accountPass.setText("");
 
         }

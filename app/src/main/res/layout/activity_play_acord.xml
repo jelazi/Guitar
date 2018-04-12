@@ -15,87 +15,67 @@
 
         android:layout_width="fill_parent"
         android:layout_height="0dip"
-        android:layout_weight="10"
+        android:layout_weight="20"
         android:background="@null"
         android:orientation="horizontal">
 
 
         <Button
-            android:id="@+id/firstChord"
+            android:id="@+id/leftChord"
             android:layout_width="0dip"
             android:layout_height="match_parent"
-            android:layout_weight="20"
+            android:layout_weight="15"
             android:text="Fdur" />
 
-        <Button
-            android:id="@+id/secondChord"
+
+        <LinearLayout
+
+
             android:layout_width="0dip"
             android:layout_height="match_parent"
-            android:layout_weight="20"
-            android:text="Cdur" />
+            android:layout_weight="30"
+            android:background="@null"
+            android:orientation="vertical">
+
+            <Button
+                android:id="@+id/upChord"
+                android:layout_width="match_parent"
+                android:layout_height="0dip"
+                android:layout_weight="50"
+                android:text="Cdur" />
+
+            <Button
+                android:id="@+id/bottomChord"
+                android:layout_width="match_parent"
+                android:layout_height="0dip"
+                android:layout_weight="50"
+                android:text="Cdur" />
+
+
+
+        </LinearLayout>
+
+
         <Button
-            android:id="@+id/thirdChord"
+            android:id="@+id/rightChord"
             android:layout_width="0dip"
             android:layout_height="match_parent"
-            android:layout_weight="20"
+            android:layout_weight="15"
             android:text="Gdur" />
-
-
-
-    </LinearLayout>
-
-    <LinearLayout
-
-
-        android:layout_width="fill_parent"
-        android:layout_height="0dip"
-        android:layout_weight="10"
-        android:background="@null"
-        android:orientation="horizontal">
-
-
-        <TextView
-            android:id="@+id/nameClient"
-            android:layout_width="0dip"
-            android:layout_height="match_parent"
-            android:layout_weight="20"
-            android:textSize="35dp"
-            android:textColor="#ff0080"
-            android:text="Karlík"
-
-            />
-
-        <TextView
-            android:id="@+id/textMoney"
-            android:layout_width="0dip"
-            android:layout_height="match_parent"
-            android:layout_weight="20"
-            android:textSize="25dp"
-            android:textColor="#e4941b"
-            android:text="hraje"
-            android:textAlignment="center"
-
-            />
-        <TextView
-            android:id="@+id/akordValue"
-            android:layout_width="0dip"
-            android:layout_height="match_parent"
-            android:layout_weight="20"
-            android:textSize="20dp"
-            android:textColor="#e4941b"
-            android:text="volne struny"
-
-            />
 
         <ImageView
 
             android:layout_width="0dip"
             android:layout_height="match_parent"
             android:src="@drawable/guitarist"
-            android:layout_weight="10"
+            android:layout_weight="15"
             />
 
+
+
     </LinearLayout>
+
+
 
 
 

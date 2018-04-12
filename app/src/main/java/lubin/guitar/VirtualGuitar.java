@@ -100,6 +100,8 @@ public abstract class VirtualGuitar extends AppCompatActivity {
 
     boolean stopBeforeTone;
 
+    String nameUser;
+
 
 
 
@@ -134,9 +136,7 @@ public abstract class VirtualGuitar extends AppCompatActivity {
 
         stopBeforeTone = settings.getBoolean("stop_before_tone", false);
 
-
-
-
+        nameUser = settings.getString("name_user", null);
 
 
 

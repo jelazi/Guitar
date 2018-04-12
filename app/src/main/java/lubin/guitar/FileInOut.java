@@ -38,6 +38,7 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -378,6 +379,27 @@ public class FileInOut {
             Log.e("Error: ", e.getMessage());
         }
         return true;
+    }
+
+    public static String[] getNameOfUsers (User [] users) {
+
+        List<String> names = new ArrayList<String>();
+        for (User user : users){
+
+            names.add(user.getName());
+
+        }
+
+        String[] nameArray = new String[names.size()];
+        names.toArray(nameArray);
+
+
+        return nameArray;
+
+
+
+
+
     }
 
 

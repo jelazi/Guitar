@@ -28,14 +28,17 @@ import java.util.Arrays;
 
 public class PlayAcord extends VirtualGuitar {
 
-    Button firstChord;
-    Button secondChord;
-    Button thirdChord;
+    Button leftChord;
+    Button rightChord;
+    Button upChord;
+    Button bottomChord;
     int akordNumber;
-    String[] chords = {"Cdur", "Gdur", "Ddur", "Adur", "Edur", "Bdur", "Fdur"};
+    String[] chordsDur = {"Cdur", "Gdur", "Ddur", "Adur", "Edur", "Bdur", "Fdur"};
+    String[] chordsMol = {"Cmi", "Gmi", "Dmi", "Ami", "Emi", "Bmi", "Fmi"};
+    String nameChord;
 
-    ArrayList<String> akords = new ArrayList<String>(Arrays.asList(chords));
-    TextView akordName;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,17 +78,21 @@ public class PlayAcord extends VirtualGuitar {
         string61.setOnTouchListener(stringPlayOnTouchListener);
         string60.setOnTouchListener(stringPlayOnTouchListener);
 
-        firstChord = (Button) findViewById(R.id.firstChord);
-        firstChord.setOnClickListener(btnChangeAkord);
-        secondChord = (Button) findViewById(R.id.secondChord);
-        secondChord.setOnClickListener(btnChangeAkord);
-        thirdChord = (Button) findViewById(R.id.thirdChord);
-        thirdChord.setOnClickListener(btnChangeAkord);
+        leftChord = (Button) findViewById(R.id.leftChord);
+        leftChord.setOnClickListener(btnChangeAkord);
+        rightChord = (Button) findViewById(R.id.rightChord);
+        rightChord.setOnClickListener(btnChangeAkord);
+        upChord = (Button) findViewById(R.id.upChord);
+        upChord.setOnClickListener(btnChangeAkord);
+        bottomChord = (Button) findViewById(R.id.bottomChord);
+        bottomChord.setOnClickListener(btnChangeAkord);
 
         akordNumber = 0;
-        akordName = (TextView) findViewById(R.id.akordValue);
-        akordName.setText("Volné struny");
+
+
         showAkordOnBoard();
+        nameChord = "Volné struny";
+
 
 
 
@@ -337,7 +344,9 @@ public class PlayAcord extends VirtualGuitar {
         guitarTones[4] = Btone;
         guitarTones[5] = E2tone;
         guitarStringValue = tones.getAkord(nameChord);
-        akordName.setText(nameChord);
+
+        this.nameChord = nameChord;
+        this.setTitle(nameUser + " hraje " + this.nameChord);
 
 
 
@@ -434,12 +443,26 @@ public class PlayAcord extends VirtualGuitar {
         @Override
         public void onClick(View view) {
 
+            //TODO dodelat akordy - není to správně
+
 
             String nameChord = ((Button) view).getText().toString();
 
             ChangeChord(nameChord);
+            ArrayList<String> akordsVert = new ArrayList<String>();
+            ArrayList<String> akordsHor = new ArrayList<String>();
 
-            int numberChord = akords.indexOf(nameChord);
+
+            if (nameChord.contains("dur")){
+                akordsVert = new ArrayList<String>(Arrays.asList(chordsMol));
+                akordsHor = new ArrayList<String>(Arrays.asList(chordsDur));
+            } else {
+                akordsHor = new ArrayList<String>(Arrays.asList(chordsMol));
+                akordsVert = new ArrayList<String>(Arrays.asList(chordsDur));
+            }
+
+
+            int numberChord = akordsVert.indexOf(nameChord);
             int numberChordBefore = 0;
             int numberChordAfter = 0;
             if (numberChord == 0){
@@ -457,9 +480,10 @@ public class PlayAcord extends VirtualGuitar {
             {
                 numberChordAfter = numberChord+1;
             }
-            secondChord.setText(nameChord);
-            firstChord.setText(akords.get(numberChordBefore));
-            thirdChord.setText(akords.get(numberChordAfter));
+            upChord.setText(akordsVert.get(numberChordBefore));
+            bottomChord.setText(akordsVert.get(numberChordBefore));
+            leftChord.setText(akordsHor.get(numberChordBefore));
+            rightChord.setText(akordsHor.get(numberChordAfter));
 
 
         }

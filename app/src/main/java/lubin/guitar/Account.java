@@ -65,9 +65,9 @@ public class Account extends AppCompatActivity {
 
 
 
-        if (!fileUser.exists()){ //vytvoreni defaultnich uzivatelu
+       // if (!fileUser.exists()){ //vytvoreni defaultnich uzivatelu
             FileInOut.setUsersToXML(this, FileInOut.createDefaultUsersForXML());
-        }
+       // }
 
         users = FileInOut.getUsersFromXML(fileUser); //nacteni uzivatelu
 

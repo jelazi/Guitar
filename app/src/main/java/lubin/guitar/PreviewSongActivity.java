@@ -1,5 +1,6 @@
 package lubin.guitar;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.media.AudioManager;
@@ -60,9 +61,6 @@ boolean animationbool = false;
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-
-
-
         setContentView(R.layout.activity_preview_song);
         createView();
         btnplayMusic = (Button) findViewById(R.id.playMusic);
@@ -79,13 +77,12 @@ boolean animationbool = false;
         //kvalita streamu
         int srcQuality = 0;
 
-
         soundPool = new SoundPool(maxStreams, streamType, srcQuality);
         //listener zvuku
         soundPool.setOnLoadCompleteListener(soundPoolOnLoadCompleteListener);
         //id zvuku
 
-        if (!settings.getBoolean("new_intent", true)){
+        if (!settings.getBoolean("new_intent", true)) {
             toneStop = settings.getInt("tone_stop", 0)+1;
         }
         else{
@@ -106,12 +103,9 @@ boolean animationbool = false;
 
 
         nameOfSongView.setText(settings.getString("list_songs", "Pro Elisku"));
-
-
-
-
     }
 
+    @SuppressLint("RestrictedApi")
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
@@ -129,8 +123,7 @@ boolean animationbool = false;
     {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if(requestCode==1)
-        {
+        if(requestCode==1) {
             previewSong();
 
         }

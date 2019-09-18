@@ -50,7 +50,7 @@ public class ChoiceAccountActivity extends AppCompatActivity {
     View.OnClickListener runGuitarist = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
-            Intent i = new Intent(ChoiceAccountActivity.this, Account.class);
+            Intent i = new Intent(ChoiceAccountActivity.this, AccountActivity.class);
             startActivity(i);
 
         }
@@ -59,7 +59,7 @@ public class ChoiceAccountActivity extends AppCompatActivity {
     View.OnClickListener runTeacher = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
-            Intent i = new Intent(ChoiceAccountActivity.this, TeacherAccount.class);
+            Intent i = new Intent(ChoiceAccountActivity.this, TeacherAccountActivity.class);
             startActivity(i);
 
         }

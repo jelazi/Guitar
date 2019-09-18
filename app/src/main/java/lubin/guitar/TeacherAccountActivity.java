@@ -13,7 +13,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-public class TeacherAccount extends AppCompatActivity {
+public class TeacherAccountActivity extends AppCompatActivity {
     SharedPreferences settings;
     Button btnAcc;
     ImageView img;

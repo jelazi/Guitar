@@ -40,8 +40,3 @@ public class SettingsScreenActivity extends AppCompatActivity {
         return true;
     }
 }
-
-
-
-
-

@@ -10,6 +10,8 @@ import android.widget.Button;
 public class TeacherActivity extends AppCompatActivity {
 
     Button editUser;
+    Button recordSound;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -18,7 +20,21 @@ public class TeacherActivity extends AppCompatActivity {
         this.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         editUser = (Button) findViewById(R.id.edit_user);
-        editUser.setOnClickListener(editUserListener);
+        editUser.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(view.getContext(), EditUserActivity.class);
+                startActivity(i);
+            }
+        });
+        recordSound = (Button) findViewById(R.id.record_sound_btn);
+        recordSound.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(view.getContext(), WavRecorderActivity.class);
+                startActivity(i);
+            }
+        });
 
     }
 
@@ -36,13 +52,6 @@ public class TeacherActivity extends AppCompatActivity {
         return true;
     }
 
-    View.OnClickListener editUserListener = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
 
-            Intent i = new Intent(v.getContext(), EditUserActivity.class);
-            startActivity(i);
 
-        }
-    };
 }

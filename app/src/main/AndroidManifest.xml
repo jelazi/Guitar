@@ -1,10 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="lubin.guitar">
-
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
         android:allowBackup="true"
@@ -20,6 +17,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".WavRecorderActivity"
+            android:label="Nahraj zvuk"
+            android:screenOrientation="portrait" />
+
         <activity
             android:name=".PreviewSongActivity"
             android:label="Přehraj skladbu"
@@ -37,30 +39,34 @@
             android:label="Zahraj si akordy"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".Account"
+            android:name=".AccountActivity"
             android:label="Napiš jméno a heslo"
             android:screenOrientation="portrait" />
         <activity
             android:name=".SettingsScreenActivity"
             android:label="Nastavení"
-            android:theme="@style/AppTheme"
-            android:screenOrientation="portrait" />
-
-        <activity android:name=".TeacherAccount"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".TeacherAccountActivity"
             android:label="Napište jméno a heslo"
-            android:theme="@style/AppTheme"
-            android:screenOrientation="portrait" />
-
-        <activity android:name=".TeacherActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".TeacherActivity"
             android:label="Nastavení aplikace"
-            android:theme="@style/AppTheme"
-            android:screenOrientation="portrait" />
-
-        <activity android:name=".EditUserActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".EditUserActivity"
             android:label="Editace uživatele"
-            android:theme="@style/AppTheme"
-            android:screenOrientation="portrait" />
-
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme" />
     </application>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
+
+
 
 </manifest>

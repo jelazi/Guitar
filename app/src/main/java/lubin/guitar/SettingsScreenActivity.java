@@ -20,7 +20,7 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SettingsScreen extends AppCompatActivity {
+public class SettingsScreenActivity extends AppCompatActivity {
 
 
     @Override

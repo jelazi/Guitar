@@ -7,7 +7,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 
-public class Teacher extends AppCompatActivity {
+public class TeacherActivity extends AppCompatActivity {
 
     Button editUser;
 
@@ -27,14 +27,11 @@ public class Teacher extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item){
         int id = item.getItemId();
 
-
         switch(id)
         {
             case android.R.id.home:
                 onBackPressed();
                 break;
-
-
         }
         return true;
     }
@@ -43,15 +40,9 @@ public class Teacher extends AppCompatActivity {
         @Override
         public void onClick(View v) {
 
-            Intent i = new Intent(v.getContext(), EditUser.class);
+            Intent i = new Intent(v.getContext(), EditUserActivity.class);
             startActivity(i);
 
         }
     };
-
-
-
-
-
-
 }

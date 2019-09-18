@@ -12,14 +12,14 @@ import android.support.v7.app.AppCompatActivity;
 
 import java.util.List;
 
-public class EditUser extends AppCompatActivity {
+public class EditUserActivity extends AppCompatActivity {
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        getFragmentManager().beginTransaction().replace(android.R.id.content, new MyPreferenceFragment()).commit();
+        getFragmentManager().beginTransaction().replace(android.R.id.content, new EditUserPreferenceFragment()).commit();
 
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -32,26 +32,7 @@ public class EditUser extends AppCompatActivity {
         return true;
     }
 
-    public static class MyPreferenceFragment extends PreferenceFragment {
 
-
-        SharedPreferences settings;
-
-        @Override
-        public void onCreate(final Bundle savedInstanceState) {
-            super.onCreate(savedInstanceState);
-
-            settings = PreferenceManager.getDefaultSharedPreferences(getActivity());
-
-            addPreferencesFromResource(R.xml.edit_user);
-
-
-
-
-
-        }
-
-    }
 
 
 

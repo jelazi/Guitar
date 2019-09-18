@@ -1,14 +1,10 @@
 package lubin.guitar;
 
-import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.AnimationUtils;
@@ -19,20 +15,7 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-
 import java.io.File;
-
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.transform.OutputKeys;
-import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerFactory;
-import javax.xml.transform.dom.DOMSource;
-import javax.xml.transform.stream.StreamResult;
-
-import lubin.guitar.R;
 
 public class Account extends AppCompatActivity {
 
@@ -67,6 +50,7 @@ public class Account extends AppCompatActivity {
 
        // if (!fileUser.exists()){ //vytvoreni defaultnich uzivatelu
             FileInOut.setUsersToXML(this, FileInOut.createDefaultUsersForXML());
+
        // }
 
         users = FileInOut.getUsersFromXML(fileUser); //nacteni uzivatelu
@@ -130,7 +114,7 @@ public class Account extends AppCompatActivity {
                     settings.edit().putString("list_instruments", user.getChoiceInstrumentName()).apply();
                     settings.edit().putString("list_songs", user.getChoiceSongName()).apply();
 
-                    Intent i = new Intent(Account.this, TrySong.class);
+                    Intent i = new Intent(Account.this, TrySongActivity.class);
                     startActivity(i);
                     return;
 
@@ -147,12 +131,7 @@ public class Account extends AppCompatActivity {
     };
 
 
-    View.OnClickListener onClickSetName = new View.OnClickListener(){
-        @Override
-        public void onClick(View view){
-            //accountName.setText("");
-        }
-    };
+
 
     View.OnClickListener onClickSetPass = new View.OnClickListener(){
         @Override

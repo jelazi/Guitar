@@ -25,10 +25,10 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         trySong = (Button) findViewById(R.id.trySong);
-        Intent draw = new Intent(MainActivity.this,  ChoiceAccount.class);
+        Intent draw = new Intent(MainActivity.this,  ChoiceAccountActivity.class);
 
         //
-        //Intent draw = new Intent(MainActivity.this,  PreviewSong.class);
+        //Intent draw = new Intent(MainActivity.this,  PreviewSongActivity.class);
         startActivity(draw);
 
     }
@@ -55,25 +55,25 @@ public class MainActivity extends AppCompatActivity {
 
             case R.id.settings:
 
-                Intent i = new Intent(this, SettingsScreen.class);
+                Intent i = new Intent(this, SettingsScreenActivity.class);
                 startActivity(i);
                 break;
 
             case R.id.try_song:
                // soundPool.release();
-                i = new Intent(this, TrySong.class);
+                i = new Intent(this, TrySongActivity.class);
                 startActivity(i);
                 break;
 
             case R.id.preview_song:
                 //soundPool.release();
-                i = new Intent(this, PreviewSong.class);
+                i = new Intent(this, PreviewSongActivity.class);
                 startActivity(i);
                 break;
 
             case R.id.play_chord:
                // soundPool.release();
-                i = new Intent(this, PlayAcord.class);
+                i = new Intent(this, PlayAcordActivity.class);
                 startActivity(i);
                 break;
         }

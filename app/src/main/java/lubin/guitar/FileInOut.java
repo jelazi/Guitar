@@ -300,13 +300,6 @@ public class FileInOut {
                     nameOut += i;
                 }
             }
-
-
-
-
-
-
-
         }
 
         return nameOut;

@@ -21,19 +21,19 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".PreviewSong"
+            android:name=".PreviewSongActivity"
             android:label="Přehraj skladbu"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".TrySong"
+            android:name=".TrySongActivity"
             android:label="Zkus hrát"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ChoiceAccount"
+            android:name=".ChoiceAccountActivity"
             android:label="Vyber účet"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".PlayAcord"
+            android:name=".PlayAcordActivity"
             android:label="Zahraj si akordy"
             android:screenOrientation="portrait" />
         <activity
@@ -41,7 +41,7 @@
             android:label="Napiš jméno a heslo"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".SettingsScreen"
+            android:name=".SettingsScreenActivity"
             android:label="Nastavení"
             android:theme="@style/AppTheme"
             android:screenOrientation="portrait" />
@@ -51,12 +51,12 @@
             android:theme="@style/AppTheme"
             android:screenOrientation="portrait" />
 
-        <activity android:name=".Teacher"
+        <activity android:name=".TeacherActivity"
             android:label="Nastavení aplikace"
             android:theme="@style/AppTheme"
             android:screenOrientation="portrait" />
 
-        <activity android:name=".EditUser"
+        <activity android:name=".EditUserActivity"
             android:label="Editace uživatele"
             android:theme="@style/AppTheme"
             android:screenOrientation="portrait" />

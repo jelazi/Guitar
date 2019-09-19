@@ -26,25 +26,39 @@
 
 
     <TextView
+        android:id="@+id/title_mic"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="16dp"
         android:gravity="center"
         android:paddingBottom="8dp"
-        android:text="click microphone to record"
+        android:text="Jméno souboru:"
         android:textAppearance="?android:textAppearanceMedium"
-        android:textColor="@android:color/black"/>
-    <Button
-        android:id="@+id/pauseResumeButton"
-        android:layout_width="wrap_content"
+        android:textColor="@android:color/black" />
+
+
+    <EditText
+        android:id="@+id/name_file"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:text="Name" />
+
+    <TextView
+        android:id="@+id/countdown"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:text="record"/>
+        android:gravity="center"
+        android:textSize="36sp"
+        android:textStyle="bold" />
 
     <LinearLayout
         android:id="@+id/containerView"
         android:layout_width="wrap_content"
+        android:layout_gravity="center_horizontal"
         android:layout_height="300dp"
         android:layout_weight="1"
         android:gravity="center"
@@ -52,32 +66,42 @@
 
       <ImageView
           android:id="@+id/recordButton"
-          android:layout_width="50dp"
-          android:layout_height="50dp"
+          android:layout_width="200dp"
+          android:layout_height="97dp"
+          android:layout_gravity="center_horizontal"
+          android:gravity="center"
           android:src="@drawable/ic_microphone" />
 
-      <ImageView
-          android:id="@+id/stopButton"
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content"
-          android:layout_marginTop="40dp"
-          android:paddingBottom="5dp"
-          android:src="@drawable/ic_stop" />
+      <TextView
+          android:id="@+id/textView2"
+          android:layout_width="match_parent"
+          android:layout_height="92dp"
+          android:text="Po odpočítání nahraje zvuk v délce 1/2 sekundy"
+          android:gravity="bottom"
+          />
+
+
     </LinearLayout>
 
 
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
-      <CheckBox
-          android:id="@+id/skipSilence"
+        android:orientation="horizontal" >
+
+      <Button
+          android:id="@+id/play_btn"
           android:layout_width="wrap_content"
           android:layout_height="wrap_content"
-          android:checked="false"
-          android:text="skip silence"/>
+          android:layout_weight="1"
+          android:text="Přehrát" />
 
-
+      <Button
+          android:id="@+id/save_btn"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_weight="1"
+          android:text="Uložit" />
     </LinearLayout>
 
   </LinearLayout>

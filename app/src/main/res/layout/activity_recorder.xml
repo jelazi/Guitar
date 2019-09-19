@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+  <LinearLayout
+      android:id="@+id/main_screen"
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      android:background="@null"
+      android:baselineAligned="false"
+      android:clickable="false"
+      android:orientation="vertical"
+      android:padding="16dp">
+    <!--<TextView-->
+    <!--android:id="@+id/timerView"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:gravity="center"-->
+    <!--android:paddingBottom="5dp"-->
+    <!--android:text="00:00:00"-->
+    <!--android:textColor="@android:color/black"-->
+    <!--android:textSize="55sp"-->
+    <!--android:textStyle="bold"/>-->
+
+
+    <TextView
+        android:id="@+id/title_mic"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="16dp"
+        android:gravity="center"
+        android:paddingBottom="8dp"
+        android:text="Jméno souboru:"
+        android:textAppearance="?android:textAppearanceMedium"
+        android:textColor="@android:color/black" />
+
+
+    <EditText
+        android:id="@+id/name_file"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:text="Name" />
+
+    <TextView
+        android:id="@+id/countdown"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:gravity="center"
+        android:textSize="36sp"
+        android:textStyle="bold" />
+
+    <LinearLayout
+        android:id="@+id/containerView"
+        android:layout_width="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_height="300dp"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:orientation="vertical">
+
+      <ImageView
+          android:id="@+id/recordButton"
+          android:layout_width="200dp"
+          android:layout_height="97dp"
+          android:layout_gravity="center_horizontal"
+          android:gravity="center"
+          android:src="@drawable/ic_microphone" />
+
+      <TextView
+          android:id="@+id/textView2"
+          android:layout_width="match_parent"
+          android:layout_height="92dp"
+          android:text="Po odpočítání nahraje zvuk v délce 1/2 sekundy"
+          android:gravity="bottom"
+          />
+
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" >
+
+      <Button
+          android:id="@+id/play_btn"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_weight="1"
+          android:text="Přehrát" />
+
+      <Button
+          android:id="@+id/save_btn"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_weight="1"
+          android:text="Uložit" />
+    </LinearLayout>
+
+  </LinearLayout>
+</LinearLayout>

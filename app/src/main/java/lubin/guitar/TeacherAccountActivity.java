@@ -13,7 +13,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-public class TeacherAccount extends AppCompatActivity {
+public class TeacherAccountActivity extends AppCompatActivity {
     SharedPreferences settings;
     Button btnAcc;
     ImageView img;
@@ -38,8 +38,6 @@ public class TeacherAccount extends AppCompatActivity {
 
         settings = PreferenceManager.getDefaultSharedPreferences(this);
         this.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
-
     }
 
 
@@ -47,15 +45,11 @@ public class TeacherAccount extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item){
         int id = item.getItemId();
-
-
         switch(id)
         {
             case android.R.id.home:
                 onBackPressed();
                 break;
-
-
         }
         return true;
     }
@@ -66,16 +60,14 @@ public class TeacherAccount extends AppCompatActivity {
 
                 if (FileInOut.nameWithoutDiacritic(accountName.getText().toString().toLowerCase()).equals("pavla") && accountPass.getText().toString().equals("pass"))
                 {
-                    Intent i = new Intent(view.getContext(), Teacher.class);
+                    Intent i = new Intent(view.getContext(), TeacherActivity.class);
                     startActivity(i);
                     return;
-
                 }
 
             Toast.makeText(view.getContext(), "Špatné jméno nebo heslo", Toast.LENGTH_SHORT).show();
             accountName.setText("");
             accountPass.setText("");
-
         }
     };
 

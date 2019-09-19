@@ -300,13 +300,6 @@ public class FileInOut {
                     nameOut += i;
                 }
             }
-
-
-
-
-
-
-
         }
 
         return nameOut;
@@ -535,7 +528,7 @@ public class FileInOut {
     }
 
 
-
+//TODO - vyhazuje chybu - nepreklada
     public static String encryption(String strNormalText){
         String seedValue = "MyGuitarPass";
         String normalTextEnc="";

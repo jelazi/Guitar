@@ -7,9 +7,11 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 
-public class Teacher extends AppCompatActivity {
+public class TeacherActivity extends AppCompatActivity {
 
     Button editUser;
+    Button recordSound;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -18,7 +20,21 @@ public class Teacher extends AppCompatActivity {
         this.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         editUser = (Button) findViewById(R.id.edit_user);
-        editUser.setOnClickListener(editUserListener);
+        editUser.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(view.getContext(), EditUserActivity.class);
+                startActivity(i);
+            }
+        });
+        recordSound = (Button) findViewById(R.id.record_sound_btn);
+        recordSound.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(view.getContext(), WavRecorderActivity.class);
+                startActivity(i);
+            }
+        });
 
     }
 
@@ -27,30 +43,14 @@ public class Teacher extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item){
         int id = item.getItemId();
 
-
         switch(id)
         {
             case android.R.id.home:
                 onBackPressed();
                 break;
-
-
         }
         return true;
     }
-
-    View.OnClickListener editUserListener = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-
-            Intent i = new Intent(v.getContext(), EditUser.class);
-            startActivity(i);
-
-        }
-    };
-
-
-
 
 
 

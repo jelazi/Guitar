@@ -19,6 +19,7 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -96,13 +97,7 @@ public abstract class VirtualGuitarActivity extends AppCompatActivity {
     boolean stopBeforeTone;
 
     String nameUser;
-
-
-
-
-
     Song skladba = new Song();
-
 
     ArrayList<Tone> tonySkladby = new ArrayList<>();
     ArrayList<GuitarTone> playingTones = new ArrayList<>();
@@ -111,6 +106,8 @@ public abstract class VirtualGuitarActivity extends AppCompatActivity {
     Toast mToast;
     SharedPreferences settings;
     int streamID = 0;
+
+
 
 
     @Override
@@ -132,9 +129,6 @@ public abstract class VirtualGuitarActivity extends AppCompatActivity {
         stopBeforeTone = settings.getBoolean("stop_before_tone", false);
 
         nameUser = settings.getString("name_user", null);
-
-
-
         audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
         //maximalni mnozstvi zaroven prehravanych zvuku
         int maxStreams = 4;
@@ -149,12 +143,7 @@ public abstract class VirtualGuitarActivity extends AppCompatActivity {
         tone = 0;
         normal_playback_rate = 0.5f;
 
-
-         //
-
-
         this.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
     }
 
 

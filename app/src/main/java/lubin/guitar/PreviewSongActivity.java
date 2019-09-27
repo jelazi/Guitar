@@ -19,6 +19,7 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -54,6 +55,7 @@ public class PreviewSongActivity extends VirtualGuitarActivity {
     int toneStop;
 
     boolean stopBeforeTone;
+    RelativeLayout layoutBackGround;
 
 boolean animationbool = false;
 
@@ -63,6 +65,8 @@ boolean animationbool = false;
 
         setContentView(R.layout.activity_preview_song);
         createView();
+        layoutBackGround = (RelativeLayout) findViewById(R.id.layoutBackground);
+        layoutBackGround.setBackgroundResource(R.drawable.rosewood2);
         btnplayMusic = (Button) findViewById(R.id.playMusic);
         btnplayMusic.setOnClickListener(previewSong);
 

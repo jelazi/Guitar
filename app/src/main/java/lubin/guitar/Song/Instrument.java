@@ -1,4 +1,4 @@
-package lubin.guitar;
+package lubin.guitar.Song;
 
 import java.io.File;
 

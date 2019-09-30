@@ -15,12 +15,19 @@
 
 
         <ImageView
-            android:id="@+id/fret2"
+            android:id="@+id/fret1"
             android:layout_width="fill_parent"
             android:layout_height="0dip"
             android:layout_weight="15"
             android:src="@drawable/fret2"
+            />
 
+        <ImageView
+            android:id="@+id/fret2"
+            android:layout_width="fill_parent"
+            android:layout_height="0dip"
+            android:layout_weight="20"
+            android:src="@drawable/fret"
 
             />
 
@@ -35,15 +42,6 @@
 
         <ImageView
             android:id="@+id/fret4"
-            android:layout_width="fill_parent"
-            android:layout_height="0dip"
-            android:layout_weight="20"
-            android:src="@drawable/fret"
-
-            />
-
-        <ImageView
-            android:id="@+id/fret5"
             android:layout_width="fill_parent"
             android:layout_height="0dip"
             android:layout_weight="20"

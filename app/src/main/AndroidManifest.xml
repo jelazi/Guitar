@@ -18,28 +18,28 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".WavRecorderActivity"
+            android:name=".Teacher.WavRecorderActivity"
             android:label="Nahraj zvuk"
             android:screenOrientation="portrait" />
 
         <activity
-            android:name=".quitarActivity.PreviewSongActivity"
+            android:name=".GuitarActivity.PreviewSongActivity"
             android:label="Přehraj skladbu"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".quitarActivity.TrySongActivity"
+            android:name=".GuitarActivity.TrySongActivity"
             android:label="Zkus hrát"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".account.ChoiceAccountActivity"
+            android:name=".Account.ChoiceAccountActivity"
             android:label="Vyber účet"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".quitarActivity.PlayAcordActivity"
+            android:name=".GuitarActivity.PlayAcordActivity"
             android:label="Zahraj si akordy"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".account.AccountActivity"
+            android:name=".Account.AccountActivity"
             android:label="Napiš jméno a heslo"
             android:screenOrientation="portrait" />
         <activity
@@ -48,12 +48,12 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
         <activity
-            android:name=".TeacherAccountActivity"
+            android:name=".Teacher.TeacherAccountActivity"
             android:label="Napište jméno a heslo"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
         <activity
-            android:name=".TeacherActivity"
+            android:name=".Teacher.TeacherActivity"
             android:label="Nastavení aplikace"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />

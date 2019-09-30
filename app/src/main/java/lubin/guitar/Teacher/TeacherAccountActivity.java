@@ -1,4 +1,4 @@
-package lubin.guitar;
+package lubin.guitar.Teacher;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -12,6 +12,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
+
+import lubin.guitar.Files.FileInOut;
+import lubin.guitar.R;
 
 public class TeacherAccountActivity extends AppCompatActivity {
     SharedPreferences settings;

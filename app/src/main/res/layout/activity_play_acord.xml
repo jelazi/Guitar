@@ -73,7 +73,7 @@
 
     </LinearLayout>
 
-    <include layout="@layout/guitar_layout" />
+    <include layout="@layout/fretboard_layout" />
 </LinearLayout>
 
 

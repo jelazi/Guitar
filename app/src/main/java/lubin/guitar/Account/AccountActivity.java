@@ -1,4 +1,4 @@
-package lubin.guitar.account;
+package lubin.guitar.Account;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -17,9 +17,9 @@ import android.widget.Toast;
 
 import java.io.File;
 
-import lubin.guitar.FileInOut;
+import lubin.guitar.Files.FileInOut;
 import lubin.guitar.R;
-import lubin.guitar.quitarActivity.TrySongActivity;
+import lubin.guitar.GuitarActivity.TrySongActivity;
 import lubin.guitar.User;
 
 public class AccountActivity extends AppCompatActivity {

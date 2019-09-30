@@ -1,4 +1,4 @@
-package lubin.guitar.quitarActivity;
+package lubin.guitar.GuitarActivity;
 
 
 import android.annotation.SuppressLint;
@@ -15,11 +15,11 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
-import lubin.guitar.GuitarTone;
+import lubin.guitar.Song.GuitarTone;
 import lubin.guitar.R;
 import lubin.guitar.Settings.SettingsScreenActivity;
-import lubin.guitar.Songs;
-import lubin.guitar.Tone;
+import lubin.guitar.Song.Songs;
+import lubin.guitar.Song.Tone;
 
 
 public class TrySongActivity extends VirtualGuitarActivity
@@ -34,6 +34,7 @@ public class TrySongActivity extends VirtualGuitarActivity
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_try_song);
+        addFretboard();
         createView();
         money = (TextView) findViewById(R.id.valueMoney);
 

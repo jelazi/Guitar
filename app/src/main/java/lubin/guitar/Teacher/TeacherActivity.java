@@ -1,4 +1,4 @@
-package lubin.guitar;
+package lubin.guitar.Teacher;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -9,7 +9,6 @@ import android.widget.Button;
 
 import lubin.guitar.EditUserActivity;
 import lubin.guitar.R;
-import lubin.guitar.WavRecorderActivity;
 
 public class TeacherActivity extends AppCompatActivity {
 

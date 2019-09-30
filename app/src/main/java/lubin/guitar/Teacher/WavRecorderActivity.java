@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package lubin.guitar;
+package lubin.guitar.Teacher;
 
 import android.content.Context;
 import android.content.DialogInterface;
@@ -23,7 +23,6 @@ import android.media.MediaRecorder;
 import android.media.SoundPool;
 import android.os.Bundle;
 import android.os.CountDownTimer;
-import android.os.Environment;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -31,8 +30,6 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -45,6 +42,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.channels.FileChannel;
 
+import lubin.guitar.R;
 import omrecorder.AudioChunk;
 import omrecorder.AudioRecordConfig;
 import omrecorder.OmRecorder;

@@ -11,7 +11,7 @@ import android.preference.PreferenceManager;
 import java.util.List;
 
 import lubin.guitar.R;
-import lubin.guitar.Songs;
+import lubin.guitar.Song.Songs;
 
 public class SettingsPreferenceFragment extends PreferenceFragment {
 

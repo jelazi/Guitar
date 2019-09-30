@@ -1,20 +1,12 @@
-package lubin.guitar;
+package lubin.guitar.Files;
 
-import android.app.Activity;
 import android.content.ContentResolver;
-import android.content.ContentUris;
 import android.content.Context;
-import android.content.CursorLoader;
 import android.content.SharedPreferences;
 import android.content.res.AssetManager;
 import android.database.Cursor;
 import android.net.Uri;
-import android.os.Build;
-import android.os.Environment;
-import android.preference.Preference;
 import android.preference.PreferenceManager;
-import android.provider.DocumentsContract;
-import android.provider.MediaStore;
 import android.provider.OpenableColumns;
 import android.util.Log;
 
@@ -22,10 +14,6 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
-import java.io.Console;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -33,14 +21,9 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.lang.reflect.Array;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -49,6 +32,9 @@ import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
+
+import lubin.guitar.AESHelper;
+import lubin.guitar.User;
 
 
 public class FileInOut {

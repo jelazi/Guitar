@@ -1,4 +1,4 @@
-package lubin.guitar.quitarActivity;
+package lubin.guitar.GuitarActivity;
 
 import android.content.Context;
 import android.content.Intent;
@@ -19,19 +19,21 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
 
-import lubin.guitar.FileInOut;
-import lubin.guitar.GuitarTone;
+import lubin.guitar.Files.FileInOut;
+import lubin.guitar.Settings.Fretboard;
+import lubin.guitar.Song.GuitarTone;
 import lubin.guitar.R;
 import lubin.guitar.Settings.SettingsScreenActivity;
-import lubin.guitar.Song;
-import lubin.guitar.Songs;
-import lubin.guitar.Tone;
-import lubin.guitar.Tones;
+import lubin.guitar.Song.Song;
+import lubin.guitar.Song.Songs;
+import lubin.guitar.Song.Tone;
+import lubin.guitar.Song.Tones;
 
 
 public abstract class VirtualGuitarActivity extends AppCompatActivity {
@@ -115,7 +117,7 @@ public abstract class VirtualGuitarActivity extends AppCompatActivity {
     SharedPreferences settings;
     int streamID = 0;
 
-
+    Fretboard fretboard;
 
 
 
@@ -158,8 +160,26 @@ public abstract class VirtualGuitarActivity extends AppCompatActivity {
 
 
 
-    protected void addGuitarLayout () {
+    protected void addFretboard() {
+        RelativeLayout layoutBackGround = (RelativeLayout) findViewById(R.id.layoutBackground);
+        fretboard = new Fretboard(layoutBackGround, this);
 
+        ImageView fret1 = (ImageView) findViewById(R.id.fret1);
+        ImageView fret2 = (ImageView) findViewById(R.id.fret2);
+        ImageView fret3 = (ImageView) findViewById(R.id.fret3);
+        ImageView fret4 = (ImageView) findViewById(R.id.fret4);
+        fretboard.addFretImages(fret1, fret2, fret3, fret4);
+
+        ImageView Estring = (ImageView) findViewById(R.id.Estring);
+        ImageView Astring = (ImageView) findViewById(R.id.Astring);
+        ImageView Dstring = (ImageView) findViewById(R.id.Dstring);
+        ImageView Gstring = (ImageView) findViewById(R.id.Gstring);
+        ImageView Bstring = (ImageView) findViewById(R.id.Bstring);
+        ImageView E2tring = (ImageView) findViewById(R.id.E2string);
+        fretboard.addStringImages(Estring, Astring, Dstring, Gstring, Bstring, E2tring);
+
+        fretboard.changeBackGround(R.drawable.rosewood2);
+        fretboard.changeFretsImages(R.drawable.fret2);
     }
 
     @Override

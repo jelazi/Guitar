@@ -1,18 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-
-
-<EditTextPreference
-    android:title="Jméno kytaristy"
-    android:key="name_user"
-    android:summary="Karlík"
-    android:defaultValue="Karlík"
-    android:selectable="false"
-    />
+    <EditTextPreference
+        android:title="Jméno kytaristy"
+        android:key="name_user"
+        android:summary="Karlík"
+        android:defaultValue="Karlík"
+        android:selectable="false"
+        />
 
 
     <EditTextPreference
@@ -28,7 +25,8 @@
         android:entryValues="@array/list_songs"
         android:summary="Výběr písně"
         android:key="list_songs"
-        android:title="@string/choice_Song" />
+        android:title="@string/choice_Song"
+        />
 
 
     <ListPreference
@@ -36,23 +34,22 @@
         android:entryValues="@array/list_instruments"
         android:summary="Výběr nástroje"
         android:key="list_instruments"
-        android:title="@string/choice_instrument" />
+        android:title="@string/choice_instrument"
+        />
 
 
-<SwitchPreference
-    android:title="Hraní tonů"
-    android:key="stop_before_tone"
-    android:summary="Zamezit hrát více tonů naráz"
-     />
+    <SwitchPreference
+        android:title="Hraní tonů"
+        android:key="stop_before_tone"
+        android:summary="Zamezit hrát více tonů naráz"
+        />
 
 
     <SwitchPreference
         android:key="switch_active"
         android:summary="thsi switch is active"
         android:defaultValue="true"
-        android:title="Switch Checked" />
-
-
-
+        android:title="Switch Checked"
+        />
 
 </PreferenceScreen>

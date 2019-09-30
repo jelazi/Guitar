@@ -11,10 +11,10 @@ import android.view.MenuItem;
 import android.widget.Button;
 
 import lubin.guitar.Settings.SettingsScreenActivity;
-import lubin.guitar.account.ChoiceAccountActivity;
-import lubin.guitar.quitarActivity.PlayAcordActivity;
-import lubin.guitar.quitarActivity.PreviewSongActivity;
-import lubin.guitar.quitarActivity.TrySongActivity;
+import lubin.guitar.Account.ChoiceAccountActivity;
+import lubin.guitar.GuitarActivity.PlayAcordActivity;
+import lubin.guitar.GuitarActivity.PreviewSongActivity;
+import lubin.guitar.GuitarActivity.TrySongActivity;
 
 
 public class MainActivity extends AppCompatActivity {

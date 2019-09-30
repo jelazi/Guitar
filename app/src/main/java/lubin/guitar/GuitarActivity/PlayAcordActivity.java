@@ -1,4 +1,4 @@
-package lubin.guitar.quitarActivity;
+package lubin.guitar.GuitarActivity;
 
 
 import android.annotation.SuppressLint;
@@ -23,7 +23,7 @@ import android.widget.ImageButton;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import lubin.guitar.GuitarTone;
+import lubin.guitar.Song.GuitarTone;
 import lubin.guitar.R;
 import lubin.guitar.Settings.SettingsScreenActivity;
 
@@ -46,6 +46,7 @@ public class PlayAcordActivity extends VirtualGuitarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_play_acord);
+        addFretboard();
         createView();
 
 

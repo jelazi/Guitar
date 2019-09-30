@@ -1,4 +1,4 @@
-package lubin.guitar.quitarActivity;
+package lubin.guitar.GuitarActivity;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -19,18 +19,17 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.ImageButton;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
 
-import lubin.guitar.GuitarTone;
+import lubin.guitar.Song.GuitarTone;
 import lubin.guitar.R;
 import lubin.guitar.Settings.SettingsScreenActivity;
-import lubin.guitar.Song;
-import lubin.guitar.Songs;
-import lubin.guitar.Tone;
-import lubin.guitar.Tones;
+import lubin.guitar.Song.Song;
+import lubin.guitar.Song.Songs;
+import lubin.guitar.Song.Tone;
+import lubin.guitar.Song.Tones;
 
 // TODO při zmáčknutí tlačítka zpět se nezastaví hudba
 
@@ -51,7 +50,7 @@ public class PreviewSongActivity extends VirtualGuitarActivity {
     boolean isPlaying = false;
     boolean nextTone = false;
 
-    Song skladba = new Song();
+    Song song = new Song();
 
     ArrayList<Tone> tonySkladby = new ArrayList<>();
     ArrayList<GuitarTone> pokus = new ArrayList<>();
@@ -63,7 +62,7 @@ public class PreviewSongActivity extends VirtualGuitarActivity {
     int toneStop;
 
     boolean stopBeforeTone;
-    RelativeLayout layoutBackGround;
+
 
 boolean animationbool = false;
 
@@ -73,8 +72,7 @@ boolean animationbool = false;
 
         setContentView(R.layout.activity_preview_song);
         createView();
-        layoutBackGround = (RelativeLayout) findViewById(R.id.layoutBackground);
-        layoutBackGround.setBackgroundResource(R.drawable.rosewood2);
+        addFretboard();
         btnplayMusic = (Button) findViewById(R.id.playMusic);
         btnplayMusic.setOnClickListener(previewSong);
 
@@ -217,11 +215,11 @@ boolean animationbool = false;
 
 
         if (!isPlaying) {
-            skladba = Songs.callByName(getApplicationContext(), settings.getString("list_songs", "Pro Elisku"));
+            song = Songs.callByName(getApplicationContext(), settings.getString("list_songs", "Pro Elisku"));
 
         }
 
-        tonySkladby = skladba.getTones();
+        tonySkladby = song.getTones();
 
 
         pokus = createMusicFromTones(tonySkladby);

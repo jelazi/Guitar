@@ -1,4 +1,4 @@
-package lubin.guitar;
+package lubin.guitar.Settings;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -9,6 +9,9 @@ import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
 
 import java.util.List;
+
+import lubin.guitar.R;
+import lubin.guitar.Songs;
 
 public class SettingsPreferenceFragment extends PreferenceFragment {
 

@@ -7,6 +7,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 
+import lubin.guitar.EditUserActivity;
+import lubin.guitar.R;
+import lubin.guitar.WavRecorderActivity;
+
 public class TeacherActivity extends AppCompatActivity {
 
     Button editUser;

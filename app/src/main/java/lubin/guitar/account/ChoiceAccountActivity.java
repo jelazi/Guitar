@@ -1,4 +1,4 @@
-package lubin.guitar;
+package lubin.guitar.account;
 
 
 import android.content.Intent;
@@ -9,6 +9,9 @@ import android.view.View;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.ImageView;
+
+import lubin.guitar.R;
+import lubin.guitar.TeacherAccountActivity;
 
 public class ChoiceAccountActivity extends AppCompatActivity {
 

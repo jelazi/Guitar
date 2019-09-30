@@ -23,27 +23,27 @@
             android:screenOrientation="portrait" />
 
         <activity
-            android:name=".PreviewSongActivity"
+            android:name=".quitarActivity.PreviewSongActivity"
             android:label="Přehraj skladbu"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".TrySongActivity"
+            android:name=".quitarActivity.TrySongActivity"
             android:label="Zkus hrát"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ChoiceAccountActivity"
+            android:name=".account.ChoiceAccountActivity"
             android:label="Vyber účet"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".PlayAcordActivity"
+            android:name=".quitarActivity.PlayAcordActivity"
             android:label="Zahraj si akordy"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".AccountActivity"
+            android:name=".account.AccountActivity"
             android:label="Napiš jméno a heslo"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".SettingsScreenActivity"
+            android:name=".Settings.SettingsScreenActivity"
             android:label="Nastavení"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />

@@ -1,4 +1,4 @@
-package lubin.guitar;
+package lubin.guitar.account;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -17,6 +17,11 @@ import android.widget.Toast;
 
 import java.io.File;
 
+import lubin.guitar.FileInOut;
+import lubin.guitar.R;
+import lubin.guitar.quitarActivity.TrySongActivity;
+import lubin.guitar.User;
+
 public class AccountActivity extends AppCompatActivity {
 
 
@@ -24,7 +29,7 @@ public class AccountActivity extends AppCompatActivity {
     ImageView img;
     EditText accountPass;
     Spinner nameSpinner;
-    User [] users;
+    User[] users;
     SharedPreferences settings;
     File fileUser;
 

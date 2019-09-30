@@ -1,6 +1,7 @@
-package lubin.guitar;
+package lubin.guitar.quitarActivity;
 
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.media.AudioManager;
@@ -21,6 +22,10 @@ import android.widget.ImageButton;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+
+import lubin.guitar.GuitarTone;
+import lubin.guitar.R;
+import lubin.guitar.Settings.SettingsScreenActivity;
 
 
 public class PlayAcordActivity extends VirtualGuitarActivity {
@@ -97,6 +102,7 @@ public class PlayAcordActivity extends VirtualGuitarActivity {
     }
 
 
+    @SuppressLint("RestrictedApi")
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
@@ -186,13 +192,9 @@ public class PlayAcordActivity extends VirtualGuitarActivity {
                     break;
                 }
             }
-
             // gdt.onTouchEvent(motionEvent);
-
             return true;
         }
-
-
     };
 
 
@@ -496,123 +498,123 @@ public class PlayAcordActivity extends VirtualGuitarActivity {
         newStrings = oldStrings;
 
         for (int i = 0; i <= 5; i++) {
-            if (oldStrings[i].getStringValue() == tones.string14) {
+            if (oldStrings[i].getStringValue() == tones.getString14()) {
                 newStrings[i].setStringImage(Estring);
                 newStrings[i].setStringTouch(this.string14);
             }
-            if (oldStrings[i].getStringValue() == tones.string13) {
+            if (oldStrings[i].getStringValue() == tones.getString13()) {
                 newStrings[i].setStringImage(Estring);
                 newStrings[i].setStringTouch(this.string13);
             }
-            if (oldStrings[i].getStringValue() == tones.string12) {
+            if (oldStrings[i].getStringValue() == tones.getString12()) {
                 newStrings[i].setStringImage(Estring);
                 newStrings[i].setStringTouch(this.string12);
             }
-            if (oldStrings[i].getStringValue() == tones.string11) {
+            if (oldStrings[i].getStringValue() == tones.getString11()) {
                 newStrings[i].setStringImage(Estring);
                 newStrings[i].setStringTouch(this.string11);
             }
-            if (oldStrings[i].getStringValue() == tones.string10) {
+            if (oldStrings[i].getStringValue() == tones.getString10()) {
                 newStrings[i].setStringImage(Estring);
                 newStrings[i].setStringTouch(this.string10);
             }
-            if (oldStrings[i].getStringValue() == tones.string24) {
+            if (oldStrings[i].getStringValue() == tones.getString24()) {
                 newStrings[i].setStringImage(Astring);
                 newStrings[i].setStringTouch(this.string24);
             }
-            if (oldStrings[i].getStringValue() == tones.string23) {
+            if (oldStrings[i].getStringValue() == tones.getString23()) {
                 newStrings[i].setStringImage(Astring);
                 newStrings[i].setStringTouch(this.string23);
             }
-            if (oldStrings[i].getStringValue() == tones.string22) {
+            if (oldStrings[i].getStringValue() == tones.getString22()) {
                 newStrings[i].setStringImage(Astring);
                 newStrings[i].setStringTouch(this.string22);
             }
-            if (oldStrings[i].getStringValue() == tones.string21) {
+            if (oldStrings[i].getStringValue() == tones.getString21()) {
                 newStrings[i].setStringImage(Astring);
                 newStrings[i].setStringTouch(this.string21);
             }
-            if (oldStrings[i].getStringValue() == tones.string20) {
+            if (oldStrings[i].getStringValue() == tones.getString20()) {
                 newStrings[i].setStringImage(Astring);
                 newStrings[i].setStringTouch(this.string20);
             }
-            if (oldStrings[i].getStringValue() == tones.string34) {
+            if (oldStrings[i].getStringValue() == tones.getString34()) {
                 newStrings[i].setStringImage(Dstring);
                 newStrings[i].setStringTouch(this.string34);
             }
-            if (oldStrings[i].getStringValue() == tones.string33) {
+            if (oldStrings[i].getStringValue() == tones.getString33()) {
                 newStrings[i].setStringImage(Dstring);
                 newStrings[i].setStringTouch(this.string33);
             }
-            if (oldStrings[i].getStringValue() == tones.string32) {
+            if (oldStrings[i].getStringValue() == tones.getString32()) {
                 newStrings[i].setStringImage(Dstring);
                 newStrings[i].setStringTouch(this.string32);
             }
-            if (oldStrings[i].getStringValue() == tones.string31) {
+            if (oldStrings[i].getStringValue() == tones.getString31()) {
                 newStrings[i].setStringImage(Dstring);
                 newStrings[i].setStringTouch(this.string31);
             }
-            if (oldStrings[i].getStringValue() == tones.string30) {
+            if (oldStrings[i].getStringValue() == tones.getString30()) {
                 newStrings[i].setStringImage(Dstring);
                 newStrings[i].setStringTouch(this.string30);
             }
-            if (oldStrings[i].getStringValue() == tones.string44 && oldStrings[i] == Gtone) {
+            if (oldStrings[i].getStringValue() == tones.getString44() && oldStrings[i] == Gtone) {
                 newStrings[i].setStringImage(Gstring);
                 newStrings[i].setStringTouch(this.string44);
             }
-            if (oldStrings[i].getStringValue() == tones.string43) {
+            if (oldStrings[i].getStringValue() == tones.getString43()) {
                 newStrings[i].setStringImage(Gstring);
                 newStrings[i].setStringTouch(this.string43);
             }
-            if (oldStrings[i].getStringValue() == tones.string42) {
+            if (oldStrings[i].getStringValue() == tones.getString42()) {
                 newStrings[i].setStringImage(Gstring);
                 newStrings[i].setStringTouch(this.string42);
             }
-            if (oldStrings[i].getStringValue() == tones.string41) {
+            if (oldStrings[i].getStringValue() == tones.getString41()) {
                 newStrings[i].setStringImage(Gstring);
                 newStrings[i].setStringTouch(this.string41);
             }
-            if (oldStrings[i].getStringValue() == tones.string40) {
+            if (oldStrings[i].getStringValue() == tones.getString40()) {
                 newStrings[i].setStringImage(Gstring);
                 newStrings[i].setStringTouch(this.string40);
             }
-            if (oldStrings[i].getStringValue() == tones.string54) {
+            if (oldStrings[i].getStringValue() == tones.getString54()) {
                 newStrings[i].setStringImage(Bstring);
                 newStrings[i].setStringTouch(this.string54);
             }
-            if (oldStrings[i].getStringValue() == tones.string53) {
+            if (oldStrings[i].getStringValue() == tones.getString53()) {
                 newStrings[i].setStringImage(Bstring);
                 newStrings[i].setStringTouch(this.string53);
             }
-            if (oldStrings[i].getStringValue() == tones.string52) {
+            if (oldStrings[i].getStringValue() == tones.getString52()) {
                 newStrings[i].setStringImage(Bstring);
                 newStrings[i].setStringTouch(this.string52);
             }
-            if (oldStrings[i].getStringValue() == tones.string51) {
+            if (oldStrings[i].getStringValue() == tones.getString51()) {
                 newStrings[i].setStringImage(Bstring);
                 newStrings[i].setStringTouch(this.string51);
             }
-            if (oldStrings[i].getStringValue() == tones.string50) {
+            if (oldStrings[i].getStringValue() == tones.getString50()) {
                 newStrings[i].setStringImage(Bstring);
                 newStrings[i].setStringTouch(this.string50);
             }
-            if (oldStrings[i].getStringValue() == tones.string64) {
+            if (oldStrings[i].getStringValue() == tones.getString64()) {
                 newStrings[i].setStringImage(E2string);
                 newStrings[i].setStringTouch(this.string64);
             }
-            if (oldStrings[i].getStringValue() == tones.string63) {
+            if (oldStrings[i].getStringValue() == tones.getString63()) {
                 newStrings[i].setStringImage(E2string);
                 newStrings[i].setStringTouch(this.string63);
             }
-            if (oldStrings[i].getStringValue() == tones.string62) {
+            if (oldStrings[i].getStringValue() == tones.getString62()) {
                 newStrings[i].setStringImage(E2string);
                 newStrings[i].setStringTouch(this.string62);
             }
-            if (oldStrings[i].getStringValue() == tones.string61) {
+            if (oldStrings[i].getStringValue() == tones.getString61()) {
                 newStrings[i].setStringImage(E2string);
                 newStrings[i].setStringTouch(this.string61);
             }
-            if (oldStrings[i].getStringValue() == tones.string60) {
+            if (oldStrings[i].getStringValue() == tones.getString60()) {
                 newStrings[i].setStringImage(E2string);
                 newStrings[i].setStringTouch(this.string60);
             }

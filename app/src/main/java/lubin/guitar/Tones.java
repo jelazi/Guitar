@@ -9,7 +9,7 @@ import android.widget.Switch;
 
 
 
-final class Tones {
+final public class Tones {
 
 //    modulace tonu
     final float string64 = 1.443f;

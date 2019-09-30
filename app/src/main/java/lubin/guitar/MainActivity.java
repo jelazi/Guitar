@@ -10,6 +10,12 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.Button;
 
+import lubin.guitar.Settings.SettingsScreenActivity;
+import lubin.guitar.account.ChoiceAccountActivity;
+import lubin.guitar.quitarActivity.PlayAcordActivity;
+import lubin.guitar.quitarActivity.PreviewSongActivity;
+import lubin.guitar.quitarActivity.TrySongActivity;
+
 
 public class MainActivity extends AppCompatActivity {
 

@@ -1,4 +1,4 @@
-package lubin.guitar;
+package lubin.guitar.quitarActivity;
 
 import android.content.Context;
 import android.content.Intent;
@@ -19,11 +19,19 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+
+import lubin.guitar.FileInOut;
+import lubin.guitar.GuitarTone;
+import lubin.guitar.R;
+import lubin.guitar.Settings.SettingsScreenActivity;
+import lubin.guitar.Song;
+import lubin.guitar.Songs;
+import lubin.guitar.Tone;
+import lubin.guitar.Tones;
 
 
 public abstract class VirtualGuitarActivity extends AppCompatActivity {
@@ -110,6 +118,8 @@ public abstract class VirtualGuitarActivity extends AppCompatActivity {
 
 
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -148,7 +158,9 @@ public abstract class VirtualGuitarActivity extends AppCompatActivity {
 
 
 
+    protected void addGuitarLayout () {
 
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

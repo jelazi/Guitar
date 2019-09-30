@@ -1,4 +1,4 @@
-package lubin.guitar;
+package lubin.guitar.quitarActivity;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -23,6 +23,14 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+
+import lubin.guitar.GuitarTone;
+import lubin.guitar.R;
+import lubin.guitar.Settings.SettingsScreenActivity;
+import lubin.guitar.Song;
+import lubin.guitar.Songs;
+import lubin.guitar.Tone;
+import lubin.guitar.Tones;
 
 // TODO při zmáčknutí tlačítka zpět se nezastaví hudba
 

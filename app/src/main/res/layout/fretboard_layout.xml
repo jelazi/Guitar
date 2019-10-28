@@ -19,8 +19,7 @@
             android:layout_width="fill_parent"
             android:layout_height="0dip"
             android:layout_weight="15"
-            android:src="@drawable/fret2"
-            />
+            android:src="@drawable/fret2" />
 
         <ImageView
             android:id="@+id/fret2"

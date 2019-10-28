@@ -1,0 +1,18 @@
+package lubin.guitar.Files;
+
+public enum DialogType {
+    DISCONNECT,
+    CLOSE_CLIENT,
+    ERASE_SERVER,
+    SAVE_SERVER,
+    NEW_SERVER,
+    TEST_SERVER,
+    NEW_NAME_SERVER,
+    EMPTY_SERVER,
+    NO_SAVE,
+    WRONG_NAME_SERVER,
+    NO_ACTIVE,
+    PASS_ADMIN,
+    FILE_DIALOG_NORMAL,
+    FILE_DIALOG_MULTI
+}

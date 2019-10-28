@@ -78,6 +78,7 @@ public class TeacherAccountActivity extends AppCompatActivity {
         @Override
         public void onClick(View view) {
             String correctName = FileInOut.nameWithoutDiacritic(accountName.getText().toString().toLowerCase());
+            String nameWithoutDiacritic = FileInOut.nameWithoutDiacritic(name.toLowerCase());
             String correctPass = accountPass.getText().toString();
 
             if (createName) { //new name and password teacher
@@ -91,7 +92,7 @@ public class TeacherAccountActivity extends AppCompatActivity {
                 createName = false;
                 btnAcc.setText("Přihlas se");
             } else {
-                if (correctName.equals(name) && correctPass.equals(pass)) {
+                if (correctName.equals(nameWithoutDiacritic) && correctPass.equals(pass)) {
                     Intent i = new Intent(view.getContext(), TeacherActivity.class);
                     startActivity(i);
                     return;

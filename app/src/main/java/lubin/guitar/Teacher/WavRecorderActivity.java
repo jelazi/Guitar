@@ -67,6 +67,8 @@ public class WavRecorderActivity extends AppCompatActivity {
   int soundId;
   Button playBtn;
   Button saveBtn;
+  Button changeName;
+  Button changePass;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {

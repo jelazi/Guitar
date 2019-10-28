@@ -22,6 +22,9 @@ public class TeacherAccountActivity extends AppCompatActivity {
     ImageView img;
     EditText accountName;
     EditText accountPass;
+    String name;
+    String pass;
+    boolean createName;
 
 
     @Override
@@ -40,7 +43,20 @@ public class TeacherAccountActivity extends AppCompatActivity {
         img.setOnClickListener(openAccountListener);
 
         settings = PreferenceManager.getDefaultSharedPreferences(this);
+        name = settings.getString("nameTeacher", "");
+        pass = settings.getString("passTeacher", "");
+        if (name.equals("")) { //is empty nameTeacher, passTeacher
+            btnAcc.setText("Vytvořit");
+            createName = true;
+        } else {
+            createName = false;
+            btnAcc.setText("Přihlas se");
+        }
         this.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+
+
+
     }
 
 
@@ -58,19 +74,32 @@ public class TeacherAccountActivity extends AppCompatActivity {
     }
 
     View.OnClickListener openAccountListener = new View.OnClickListener() {
+
         @Override
         public void onClick(View view) {
+            String correctName = FileInOut.nameWithoutDiacritic(accountName.getText().toString().toLowerCase());
+            String correctPass = accountPass.getText().toString();
 
-                if (FileInOut.nameWithoutDiacritic(accountName.getText().toString().toLowerCase()).equals("pavla") && accountPass.getText().toString().equals("pass"))
-                {
+            if (createName) { //new name and password teacher
+                SharedPreferences.Editor editor = settings.edit();
+                editor.putString("nameTeacher", correctName);
+                editor.putString("passTeacher", correctPass);
+                editor.commit();
+                name = settings.getString("nameTeacher", "");
+                pass = settings.getString("passTeacher", "");
+                Toast.makeText(view.getContext(), "Nové heslo a jméno uloženo", Toast.LENGTH_SHORT).show();
+                createName = false;
+                btnAcc.setText("Přihlas se");
+            } else {
+                if (correctName.equals(name) && correctPass.equals(pass)) {
                     Intent i = new Intent(view.getContext(), TeacherActivity.class);
                     startActivity(i);
                     return;
                 }
-
-            Toast.makeText(view.getContext(), "Špatné jméno nebo heslo", Toast.LENGTH_SHORT).show();
-            accountName.setText("");
-            accountPass.setText("");
+                Toast.makeText(view.getContext(), "Špatné jméno nebo heslo", Toast.LENGTH_SHORT).show();
+                accountName.setText("");
+                accountPass.setText("");
+            }
         }
     };
 

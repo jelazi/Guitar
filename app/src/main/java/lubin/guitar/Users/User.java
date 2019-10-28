@@ -1,28 +1,35 @@
-package lubin.guitar;
+package lubin.guitar.Users;
 
 //Trida uzivatele
 
 public class User {
 
     private String name;
-    private int value;
+    private int coins;
     private String pass;
     private String choiceSongName;
     private String choiceInstrumentName;
     private boolean choiceMultiTone;
+    private int ID;
 
 
-    public User(String name, int value, String pass, String choiceSongName, String choiceInstrumentName, boolean choiceMultiTone){
-
+    public User(String name, int coins, String pass, String choiceSongName, String choiceInstrumentName, boolean choiceMultiTone){
         this.name = name;
-        this.value = value;
+        this.coins = coins;
         this.pass = pass;
         this.choiceSongName = choiceSongName;
         this.choiceInstrumentName = choiceInstrumentName;
         this.choiceMultiTone = choiceMultiTone;
-
+        this.ID = SingletonManagerUsers.getNewID();
     }
 
+    public int getID() {
+        return ID;
+    }
+
+    public void setID(int ID) {
+        this.ID = ID;
+    }
 
     public String getName() {
         return name;
@@ -32,12 +39,12 @@ public class User {
         this.name = name;
     }
 
-    public int getValue() {
-        return value;
+    public int getCoins() {
+        return coins;
     }
 
-    public void setValue(int value) {
-        this.value = value;
+    public void setCoins(int coins) {
+        this.coins = coins;
     }
 
 

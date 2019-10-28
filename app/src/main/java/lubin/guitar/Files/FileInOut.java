@@ -34,7 +34,7 @@ import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
 import lubin.guitar.AESHelper;
-import lubin.guitar.User;
+import lubin.guitar.Users.User;
 
 
 public class FileInOut {
@@ -319,7 +319,7 @@ public class FileInOut {
                 userID.appendChild(password);
 
                 Element valueUser = doc.createElement("Value_User");
-                valueUser.appendChild(doc.createTextNode(String.valueOf(user.getValue())));
+                valueUser.appendChild(doc.createTextNode(String.valueOf(user.getCoins())));
                 userID.appendChild(valueUser);
 
                 Element choiceInstrument = doc.createElement("Choice_Instrument");
@@ -371,24 +371,13 @@ public class FileInOut {
 
         String[] nameArray = new String[names.size()];
         names.toArray(nameArray);
-
-
         return nameArray;
-
-
-
-
-
     }
 
 
 
     public static User [] getUsersFromXML(File XML){
-
-
         ArrayList<User> users = new ArrayList<>();
-
-
 
         try
         {
@@ -414,7 +403,7 @@ public class FileInOut {
                     NodeList nodeList = allUser.item(i).getChildNodes();
                     user.setName(nodeList.item(1).getTextContent());
                     user.setPass(decryption(nodeList.item(3).getTextContent()));
-                    user.setValue(Integer.parseInt(nodeList.item(5).getTextContent()));
+                    user.setCoins(Integer.parseInt(nodeList.item(5).getTextContent()));
                     user.setChoiceInstrumentName(nodeList.item(7).getTextContent());
                     user.setChoiceSongName(nodeList.item(9).getTextContent());
 
@@ -439,7 +428,7 @@ public class FileInOut {
 
             if (u.getName().equals(user.getName())){
                 u.setPass(user.getPass());
-                u.setValue(user.getValue());
+                u.setCoins(user.getCoins());
                 u.setChoiceSongName(user.getChoiceSongName());
                 u.setChoiceInstrumentName(user.getChoiceInstrumentName());
                 change = true;

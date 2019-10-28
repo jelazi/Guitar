@@ -58,7 +58,7 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
         <activity
-            android:name=".EditUserActivity"
+            android:name=".Users.EditUserActivity"
             android:label="Editace uživatele"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />

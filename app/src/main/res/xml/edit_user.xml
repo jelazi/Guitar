@@ -18,19 +18,19 @@
         android:key="pass_user"
         android:summary="pass"
         android:defaultValue=""
-
         />
 
 
     <EditTextPreference
         android:title="Množství peněz"
-        android:key="value_user"
+        android:key="coin_user"
+        android:inputType="number"
         android:summary="0"
         android:defaultValue="0"
 
         />
 
-    <ListPreference
+    <CheckBoxPreference
         android:entries="@array/list_songs"
         android:entryValues="@array/list_songs"
         android:summary="Výběr písně"
@@ -38,7 +38,7 @@
         android:title="@string/choice_Song" />
 
 
-    <ListPreference
+    <CheckBoxPreference
         android:entries="@array/list_instruments"
         android:entryValues="@array/list_instruments"
         android:summary="Výběr nástroje"
@@ -51,15 +51,5 @@
     android:key="stop_before_tone"
     android:summary="Zamezit hrát více tonů naráz"
      />
-
-
-    <SwitchPreference
-        android:key="switch_active"
-        android:summary="thsi switch is active"
-        android:defaultValue="true"
-        android:title="Switch Checked" />
-
-
-
 
 </PreferenceScreen>

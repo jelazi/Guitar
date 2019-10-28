@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.AnimationUtils;
@@ -16,11 +17,13 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import java.io.File;
+import java.util.List;
 
 import lubin.guitar.Files.FileInOut;
 import lubin.guitar.R;
 import lubin.guitar.GuitarActivity.TrySongActivity;
-import lubin.guitar.User;
+import lubin.guitar.Users.SingletonManagerUsers;
+import lubin.guitar.Users.User;
 
 public class AccountActivity extends AppCompatActivity {
 
@@ -29,9 +32,10 @@ public class AccountActivity extends AppCompatActivity {
     ImageView img;
     EditText accountPass;
     Spinner nameSpinner;
-    User[] users;
+    List<String>nameUsers;
     SharedPreferences settings;
     File fileUser;
+    User currentUser;
 
 
     @Override
@@ -54,12 +58,12 @@ public class AccountActivity extends AppCompatActivity {
 
        // }
 
-        users = FileInOut.getUsersFromXML(fileUser); //nacteni uzivatelu
-
-        String[] arraySpinner = FileInOut.getNameOfUsers(users);
+        nameUsers = SingletonManagerUsers.getListNamesUsers(); //nacteni uzivatelu
+        String[] arrayUsers = new String[nameUsers.size()];
+        nameUsers.toArray(arrayUsers);
 
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
-                android.R.layout.simple_spinner_item, arraySpinner);
+                android.R.layout.simple_spinner_item, arrayUsers);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         nameSpinner.setAdapter(adapter);
 
@@ -85,42 +89,23 @@ public class AccountActivity extends AppCompatActivity {
     View.OnClickListener openAccountListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
-            User beforeUser = new User(settings.getString("name_user", ""), Integer.parseInt(settings.getString("value_user", "0")), "pass", settings.getString("list_songs", "Pro Elisku"), settings.getString("list_instruments", "a1.wav"), settings.getBoolean("stop_before_tone", false) );
+            currentUser = SingletonManagerUsers.getUserByName(nameSpinner.getSelectedItem().toString());
 
+                if (currentUser.getPass().equals(accountPass.getText().toString())){
 
-            for (User user : users) {
-
-                if (beforeUser.getName().equals(user.getName()) && beforeUser.getValue() > user.getValue()) {
-
-                    FileInOut.applyChangeUserToXML(view.getContext(), fileUser, beforeUser);
-                    users = FileInOut.getUsersFromXML(fileUser); //nacteni uzivatelu
-                }
-            }
-
-
-          for (User user : users){
-
-
-                if (FileInOut.nameWithoutDiacritic(nameSpinner.getSelectedItem().toString().toLowerCase()).equals(FileInOut.nameWithoutDiacritic(user.getName().toLowerCase())) && accountPass.getText().toString().equals(user.getPass())){
-
-                    settings.edit().putString("value_user", Integer.toString(user.getValue())).apply();
-                    settings.edit().putString("name_user", user.getName()).apply();
-                    settings.edit().putString("list_instruments", user.getChoiceInstrumentName()).apply();
-                    settings.edit().putString("list_songs", user.getChoiceSongName()).apply();
+                    settings.edit().putString("value_user", Integer.toString(currentUser.getCoins())).apply();
+                    settings.edit().putString("name_user", currentUser.getName()).apply();
+                    settings.edit().putString("list_instruments", currentUser.getChoiceInstrumentName()).apply();
+                    settings.edit().putString("list_songs", currentUser.getChoiceSongName()).apply();
 
                     Intent i = new Intent(AccountActivity.this, TrySongActivity.class);
                     startActivity(i);
                     return;
 
                 }
-
-            }
-
-
                 Toast.makeText(AccountActivity.this, "Špatné jméno nebo heslo", Toast.LENGTH_SHORT).show();
                 nameSpinner.setSelection(0);
                 accountPass.setText("");
-
         }
     };
 

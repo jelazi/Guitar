@@ -2,6 +2,8 @@ package lubin.guitar.Account;
 
 
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
@@ -12,6 +14,7 @@ import android.widget.ImageView;
 
 import lubin.guitar.R;
 import lubin.guitar.Teacher.TeacherAccountActivity;
+import lubin.guitar.Users.SingletonManagerUsers;
 
 public class ChoiceAccountActivity extends AppCompatActivity {
 
@@ -20,11 +23,14 @@ public class ChoiceAccountActivity extends AppCompatActivity {
     ImageView img2;
     Button btnGuitarist;
     Button btnTeacher;
+    SharedPreferences settings;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_choice_account);
+        settings = PreferenceManager.getDefaultSharedPreferences(this);
+        SingletonManagerUsers.createSingletonManagerUsers(settings);
 
         img1 = (ImageView) findViewById(R.id.imgGuitarist);
         img2 = (ImageView) findViewById(R.id.imgTeacher);

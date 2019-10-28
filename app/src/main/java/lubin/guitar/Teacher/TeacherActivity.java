@@ -9,13 +9,18 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import lubin.guitar.EditUserActivity;
+import java.util.List;
+
+import lubin.guitar.Users.EditUserActivity;
 import lubin.guitar.Files.DialogType;
 import lubin.guitar.R;
+import lubin.guitar.Users.SingletonManagerUsers;
+import lubin.guitar.Users.User;
 
 public class TeacherActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -24,6 +29,7 @@ public class TeacherActivity extends AppCompatActivity implements View.OnClickLi
     Button editName;
     Button editPass;
     SharedPreferences settings;
+    List<String> listUsers;
 
 
     @Override
@@ -40,6 +46,7 @@ public class TeacherActivity extends AppCompatActivity implements View.OnClickLi
         editName = (Button) findViewById(R.id.change_name_teacher);
         editName.setOnClickListener(this);
         editPass = (Button) findViewById(R.id.change_pass_teacher);
+        editPass.setOnClickListener(this);
 
     }
 
@@ -63,8 +70,7 @@ public class TeacherActivity extends AppCompatActivity implements View.OnClickLi
     @Override
     public void onClick(View view) {
         if (view == editUser) {
-            Intent i = new Intent(view.getContext(), EditUserActivity.class);
-            startActivity(i);
+            showDialog(DialogType.CHOICE_USER_ACCOUNT);
             return;
         }
         if (view == recordSound) {
@@ -73,11 +79,11 @@ public class TeacherActivity extends AppCompatActivity implements View.OnClickLi
             return;
         }
         if (view == editName) {
-            showDialog(DialogType.CHANGETEACHERNAME);
+            showDialog(DialogType.CHANGE_TEACHER_NAME);
             return;
         }
         if (view == editPass) {
-            showDialog(DialogType.CHANGETEACHERPASS);
+            showDialog(DialogType.CHANGE_TEACHER_PASS);
             return;
         }
     }
@@ -85,7 +91,7 @@ public class TeacherActivity extends AppCompatActivity implements View.OnClickLi
     public void showDialog(DialogType dialogType) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         switch (dialogType) {
-            case CHANGETEACHERNAME: {
+            case CHANGE_TEACHER_NAME: {
                 builder.setMessage("Nové jméno");
                 final EditText edittext = new EditText(this);
                 edittext.setText(settings.getString("nameTeacher", ""));
@@ -108,13 +114,14 @@ public class TeacherActivity extends AppCompatActivity implements View.OnClickLi
                 });
                 break;
             }
-            case CHANGETEACHERPASS: {
+            case CHANGE_TEACHER_PASS: {
                     builder.setMessage("Nové heslo");
                     final EditText edittext = new EditText(this);
                     edittext.setText(settings.getString("passTeacher", ""));
                     edittext.setSelectAllOnFocus(true);
                     builder.setView(edittext);
                     edittext.requestFocus();
+
                     builder.setPositiveButton("Uložit", new DialogInterface.OnClickListener(){
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
@@ -131,12 +138,39 @@ public class TeacherActivity extends AppCompatActivity implements View.OnClickLi
                     });
                 break;
             }
+            case CHOICE_USER_ACCOUNT: {
+                User user = new User("testName2", 30, "pass", "Pro Elišku", "01.vaw", true);
+                SingletonManagerUsers.addUser(user);
+                listUsers = SingletonManagerUsers.getListNamesUsers();
+                String[] arrayUsers = new String[listUsers.size()];
+                listUsers.toArray(arrayUsers);
+
+                builder.setTitle("Vyberte uživatele");
+
+                builder.setItems(arrayUsers, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        openAcount(listUsers.get(which));
+                    }
+                });
+
+
+                break;
+
+            }
             default: {
 
             }
         }
-        builder.show();
+        AlertDialog dialog = builder.create();
+        dialog.show();
 
+    }
+
+    private void openAcount (String userName) {
+        Intent i = new Intent(this, EditUserActivity.class);
+        i.putExtra("user_name", userName);
+        startActivity(i);
     }
 
     private void setPreferences (String namePreference, String valuePreference) {

@@ -2,23 +2,25 @@ package lubin.guitar.Users;
 
 //Trida uzivatele
 
+import java.util.List;
+
 public class User {
 
     private String name;
     private int coins;
     private String pass;
-    private String choiceSongName;
-    private String choiceInstrumentName;
+    private List<String> allowedSongs;
+    private List<String> allowedInstruments;
     private boolean choiceMultiTone;
     private int ID;
 
 
-    public User(String name, int coins, String pass, String choiceSongName, String choiceInstrumentName, boolean choiceMultiTone){
+    public User(String name, int coins, String pass, List<String>  allowedSongs, List<String>  allowedInstruments, boolean choiceMultiTone){
         this.name = name;
         this.coins = coins;
         this.pass = pass;
-        this.choiceSongName = choiceSongName;
-        this.choiceInstrumentName = choiceInstrumentName;
+        this.allowedSongs = allowedSongs;
+        this.allowedInstruments = allowedInstruments;
         this.choiceMultiTone = choiceMultiTone;
         this.ID = SingletonManagerUsers.getNewID();
     }
@@ -57,21 +59,20 @@ public class User {
         this.pass = pass;
     }
 
-
-    public String getChoiceSongName() {
-        return choiceSongName;
+    public List<String> getAllowedSongs() {
+        return allowedSongs;
     }
 
-    public void setChoiceSongName(String choiceSongName) {
-        this.choiceSongName = choiceSongName;
+    public void setAllowedSongs(List<String> allowedSongs) {
+        this.allowedSongs = allowedSongs;
     }
 
-    public String getChoiceInstrumentName() {
-        return choiceInstrumentName;
+    public List<String> getAllowedInstruments() {
+        return allowedInstruments;
     }
 
-    public void setChoiceInstrumentName(String choiceInstrumentName) {
-        this.choiceInstrumentName = choiceInstrumentName;
+    public void setAllowedInstruments(List<String> allowedInstruments) {
+        this.allowedInstruments = allowedInstruments;
     }
 
     public boolean isChoiceMultiTone() {

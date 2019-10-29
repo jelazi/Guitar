@@ -322,17 +322,6 @@ public class FileInOut {
                 valueUser.appendChild(doc.createTextNode(String.valueOf(user.getCoins())));
                 userID.appendChild(valueUser);
 
-                Element choiceInstrument = doc.createElement("Choice_Instrument");
-                choiceInstrument.appendChild(doc.createTextNode(user.getChoiceInstrumentName()));
-                userID.appendChild(choiceInstrument);
-
-                Element choiceSong = doc.createElement("Choice_Song");
-                choiceSong.appendChild(doc.createTextNode(user.getChoiceSongName()));
-                userID.appendChild(choiceSong);
-
-
-
-
                 allUsers.appendChild(userID);
 
                 ID++;
@@ -394,20 +383,20 @@ public class FileInOut {
             for (int i = 0; i < allUser.getLength(); i++){
 
 
-                User user = new User("", 0, "", "", "", false);
+       //         User user = new User("", 0, "", "", "", false);
 
                 Node node = allUser.item(i);
 
                 if (node.getNodeType() == Node.ELEMENT_NODE && node.getNodeName().contains("ID:_")) {
 
                     NodeList nodeList = allUser.item(i).getChildNodes();
-                    user.setName(nodeList.item(1).getTextContent());
+               /*     user.setName(nodeList.item(1).getTextContent());
                     user.setPass(decryption(nodeList.item(3).getTextContent()));
                     user.setCoins(Integer.parseInt(nodeList.item(5).getTextContent()));
                     user.setChoiceInstrumentName(nodeList.item(7).getTextContent());
                     user.setChoiceSongName(nodeList.item(9).getTextContent());
 
-                    users.add(user);
+                    users.add(user);*/
                 }
             }
         }
@@ -429,8 +418,8 @@ public class FileInOut {
             if (u.getName().equals(user.getName())){
                 u.setPass(user.getPass());
                 u.setCoins(user.getCoins());
-                u.setChoiceSongName(user.getChoiceSongName());
-                u.setChoiceInstrumentName(user.getChoiceInstrumentName());
+              //  u.setChoiceSongName(user.getChoiceSongName());
+             //   u.setChoiceInstrumentName(user.getChoiceInstrumentName());
                 change = true;
                 break;
             }
@@ -457,10 +446,10 @@ public class FileInOut {
 
 
 
-        User user1 = new User("Roman", 0, "pass", "Ovcaci, ctveraci", "a1.wav", true);
-        users.add(user1);
-        User user2 = new User("Karlik", 0, "pass", "Pro Elisku", "a1.wav", true);
-        users.add(user2);
+     //   User user1 = new User("Roman", 0, "pass", "Ovcaci, ctveraci", "a1.wav", true);
+      //  users.add(user1);
+     //   User user2 = new User("Karlik", 0, "pass", "Pro Elisku", "a1.wav", true);
+     //   users.add(user2);
 
 
         return users.toArray(new User[users.size()]);

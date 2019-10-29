@@ -14,6 +14,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import lubin.guitar.Users.EditUserActivity;
@@ -139,7 +141,9 @@ public class TeacherActivity extends AppCompatActivity implements View.OnClickLi
                 break;
             }
             case CHOICE_USER_ACCOUNT: {
-                User user = new User("testName2", 30, "pass", "Pro Elišku", "01.vaw", true);
+                List<String> listSongs = Arrays.asList("song1", "song2", "song3");
+                List<String> listInstruments = Arrays.asList("instrument1", "instrument2", "instrument3");
+                User user = new User("testName2", 30, "pass", listSongs, listInstruments, true); //test
                 SingletonManagerUsers.addUser(user);
                 listUsers = SingletonManagerUsers.getListNamesUsers();
                 String[] arrayUsers = new String[listUsers.size()];
@@ -153,7 +157,6 @@ public class TeacherActivity extends AppCompatActivity implements View.OnClickLi
                         openAcount(listUsers.get(which));
                     }
                 });
-
 
                 break;
 

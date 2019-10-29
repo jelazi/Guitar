@@ -79,6 +79,7 @@ public class TrySongActivity extends VirtualGuitarActivity
 
         nameUser.setText(settings.getString("name_user", null)); //jmeno uživatele dle nastavení
         soundId = soundPool.load( getFilesDir()+"/Instruments/"+settings.getString("list_instruments", "a1.wav"), 1);
+
     }
 
     @SuppressLint("RestrictedApi")
@@ -159,18 +160,13 @@ public class TrySongActivity extends VirtualGuitarActivity
 
         soundId = soundPool.load( getFilesDir()+"/Instruments/"+settings.getString("list_instruments", "a1.wav"), 1);
 
-        skladba = Songs.callByName(getApplicationContext(), settings.getString("list_songs", "Pro_Elisku"));
-
+         skladba = Songs.callByName(getApplicationContext(), settings.getString("list_songs", "Pro_Elisku"));
         numberTone = 0;
-
         cleanStrings();
         btnTryMusic.setText("Zkus hrát");
         btnTryMusic.setBackgroundResource(0);
         playingSong = false;
         stopBeforeTone = settings.getBoolean("stop_before_tone", false);
-
-
-
     }
 
     View.OnClickListener stringPlayOnClickListener = //uder do struny
@@ -246,7 +242,4 @@ public class TrySongActivity extends VirtualGuitarActivity
         }
         return music;
     }
-
-
-
 }

@@ -54,7 +54,7 @@ public class AccountActivity extends AppCompatActivity {
         fileUser = new File(getFilesDir()+"/users.xml");
 
        // if (!fileUser.exists()){ //vytvoreni defaultnich uzivatelu
-            FileInOut.setUsersToXML(this, FileInOut.createDefaultUsersForXML());
+        //FIXME    FileInOut.setUsersToXML(this, FileInOut.createDefaultUsersForXML());
 
        // }
 
@@ -95,8 +95,8 @@ public class AccountActivity extends AppCompatActivity {
 
                     settings.edit().putString("value_user", Integer.toString(currentUser.getCoins())).apply();
                     settings.edit().putString("name_user", currentUser.getName()).apply();
-                    settings.edit().putString("list_instruments", currentUser.getChoiceInstrumentName()).apply();
-                    settings.edit().putString("list_songs", currentUser.getChoiceSongName()).apply();
+         //TODO           settings.edit().putString("list_instruments", currentUser.getAllowedInstruments()).apply();
+         //TODO           settings.edit().putString("list_songs", currentUser.getChoiceSongName()).apply();
 
                     Intent i = new Intent(AccountActivity.this, TrySongActivity.class);
                     startActivity(i);

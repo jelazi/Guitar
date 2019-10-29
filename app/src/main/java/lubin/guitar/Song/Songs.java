@@ -57,16 +57,14 @@ public class Songs {
                 Songs.nameInstruments.add(file.getName());
             }
 
-        }catch (Exception e){
+        } catch (Exception e){
             e.getMessage();
         }
 
     }
 
     public static ArrayList<String> getSongsName(Context context){
-
         Songs.fillSongs(context);
-
         return Songs.nameSongs;
     }
 
@@ -85,11 +83,10 @@ public class Songs {
 
 
     public static Song callByName(Context context, String name) {
-
         fillSongs(context);
-
-        Songs.song = Songs.listSongs.get(Songs.nameSongs.indexOf(name));
-
+        int index = Songs.nameSongs.indexOf(name);
+        if (index < 0) index = 0;
+        Songs.song = Songs.listSongs.get(index);
         return Songs.song;
     }
 

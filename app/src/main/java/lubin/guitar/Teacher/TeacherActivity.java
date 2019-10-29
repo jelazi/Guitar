@@ -49,11 +49,7 @@ public class TeacherActivity extends AppCompatActivity implements View.OnClickLi
         editName.setOnClickListener(this);
         editPass = (Button) findViewById(R.id.change_pass_teacher);
         editPass.setOnClickListener(this);
-
     }
-
-
-
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item){
@@ -143,7 +139,11 @@ public class TeacherActivity extends AppCompatActivity implements View.OnClickLi
             case CHOICE_USER_ACCOUNT: {
                 List<String> listSongs = Arrays.asList("song1", "song2", "song3");
                 List<String> listInstruments = Arrays.asList("instrument1", "instrument2", "instrument3");
-                User user = new User("testName2", 30, "pass", listSongs, listInstruments, true); //test
+                List<String> listFrets = Arrays.asList("fret1", "fret2", "fret3");
+
+                List<String> listBackgrounds = Arrays.asList("background1", "background2", "background3");
+
+                User user = new User("testName2", 30, "pass", listSongs, listInstruments, listFrets, listBackgrounds, true); //test
                 SingletonManagerUsers.addUser(user);
                 listUsers = SingletonManagerUsers.getListNamesUsers();
                 String[] arrayUsers = new String[listUsers.size()];
@@ -167,7 +167,6 @@ public class TeacherActivity extends AppCompatActivity implements View.OnClickLi
         }
         AlertDialog dialog = builder.create();
         dialog.show();
-
     }
 
     private void openAcount (String userName) {
@@ -183,5 +182,4 @@ public class TeacherActivity extends AppCompatActivity implements View.OnClickLi
         Toast.makeText(this, valuePreference + " uloženo jako nové jméno.", Toast.LENGTH_SHORT).show();
 
     }
-
 }

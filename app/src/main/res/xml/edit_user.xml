@@ -30,19 +30,33 @@
 
         />
 
-    <CheckBoxPreference
+    <Preference
         android:entries="@array/list_songs"
         android:entryValues="@array/list_songs"
-        android:summary="Výběr písně"
+        android:summary="Povolené písně"
         android:key="list_songs"
-        android:title="@string/choice_Song" />
+        android:title="Povolené písně" />
 
 
-    <CheckBoxPreference
+    <Preference
         android:entries="@array/list_instruments"
         android:entryValues="@array/list_instruments"
-        android:summary="Výběr nástroje"
+        android:summary="Povolené nástroje"
         android:key="list_instruments"
+        android:title="Povolené nástroje" />
+
+    <Preference
+        android:entries="@array/list_instruments"
+        android:entryValues="@array/list_instruments"
+        android:summary="Povolené pražce"
+        android:key="list_frets"
+        android:title="Povolené pražce" />
+
+    <Preference
+        android:entries="@array/list_instruments"
+        android:entryValues="@array/list_instruments"
+        android:summary="Povolené pozadí kytary"
+        android:key="list_backgrounds"
         android:title="@string/choice_instrument" />
 
 

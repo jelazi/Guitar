@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.preference.CheckBoxPreference;
 import android.preference.EditTextPreference;
 import android.preference.ListPreference;
+import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
 import android.preference.SwitchPreference;
@@ -19,8 +20,10 @@ public class EditUserPreferenceFragment extends PreferenceFragment {
     EditTextPreference preferenceNameUser;
     EditTextPreference preferencePassUser;
     EditTextPreference preferenceCoinUser;
-    CheckBoxPreference preferenceListSongs;
-    CheckBoxPreference preferenceListInstruments;
+    Preference preferenceListSongs;
+    Preference preferenceListInstruments;
+    Preference preferenceListFrets;
+    Preference preferenceListBackgrounds;
     SwitchPreference preferenceStopBeforeTone;
     User currentUser;
 
@@ -39,9 +42,48 @@ public class EditUserPreferenceFragment extends PreferenceFragment {
         preferenceNameUser = (EditTextPreference) findPreference("name_user");
         preferencePassUser = (EditTextPreference) findPreference("pass_user");
         preferenceCoinUser = (EditTextPreference) findPreference("coin_user");
-        preferenceListSongs = (CheckBoxPreference) findPreference("list_songs");
-        preferenceListInstruments = (CheckBoxPreference) findPreference("list_instruments");
+        preferenceListSongs = (Preference) findPreference("list_songs");
+        preferenceListSongs.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(Preference preference) {
+                showDialog(preferenceListSongs);
+
+                return true;
+            }
+        });
+        preferenceListInstruments = (Preference) findPreference("list_instruments");
+        preferenceListInstruments.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(Preference preference) {
+                showDialog(preferenceListInstruments);
+
+                return true;
+            }
+        });
+        preferenceListFrets = (Preference) findPreference("list_frets");
+        preferenceListFrets.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(Preference preference) {
+                showDialog(preferenceListFrets);
+
+                return true;
+            }
+        });
+        preferenceListBackgrounds = (Preference) findPreference("list_backgrounds");
+        preferenceListBackgrounds.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(Preference preference) {
+                showDialog(preferenceListBackgrounds);
+                return true;
+            }
+        });
+
         preferenceStopBeforeTone = (SwitchPreference) findPreference("stop_before_tone");
+    }
+
+
+    protected void showDialog (Preference preference) {
+        Log.d("blabla", preference.toString());
     }
 
 

@@ -11,16 +11,20 @@ public class User {
     private String pass;
     private List<String> allowedSongs;
     private List<String> allowedInstruments;
+    private List<String> allowedFrets;
+    private List<String> allowedBackgrounds;
     private boolean choiceMultiTone;
     private int ID;
 
 
-    public User(String name, int coins, String pass, List<String>  allowedSongs, List<String>  allowedInstruments, boolean choiceMultiTone){
+    public User(String name, int coins, String pass, List<String>  allowedSongs, List<String>  allowedInstruments, List<String>  allowedFrets, List<String>  allowedBackgrounds, boolean choiceMultiTone){
         this.name = name;
         this.coins = coins;
         this.pass = pass;
         this.allowedSongs = allowedSongs;
         this.allowedInstruments = allowedInstruments;
+        this.allowedFrets = allowedFrets;
+        this.allowedBackgrounds = allowedBackgrounds;
         this.choiceMultiTone = choiceMultiTone;
         this.ID = SingletonManagerUsers.getNewID();
     }
@@ -49,7 +53,21 @@ public class User {
         this.coins = coins;
     }
 
+    public List<String> getAllowedFrets() {
+        return allowedFrets;
+    }
 
+    public void setAllowedFrets(List<String> allowedFrets) {
+        this.allowedFrets = allowedFrets;
+    }
+
+    public List<String> getAllowedBackgrounds() {
+        return allowedBackgrounds;
+    }
+
+    public void setAllowedBackgrounds(List<String> allowedBackgrounds) {
+        this.allowedBackgrounds = allowedBackgrounds;
+    }
 
     public String getPass() {
         return pass;

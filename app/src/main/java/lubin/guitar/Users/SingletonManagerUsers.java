@@ -1,5 +1,6 @@
 package lubin.guitar.Users;
 
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.util.Log;
 
@@ -9,11 +10,14 @@ import java.util.List;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
+import lubin.guitar.Song.Songs;
+
 public class SingletonManagerUsers {
     public static List<User> listUsers;
     private static SharedPreferences sharedPreferences;
     private static String lastNameUser;
     private static int newID;
+    private static User currentUser;
 
 
     public static void createSingletonManagerUsers(SharedPreferences sharedPref) {
@@ -27,7 +31,6 @@ public class SingletonManagerUsers {
             saveToSharedPreferences(sharedPref);
 
         }
-
         rearangeUsers(sharedPref);
         lastNameUser = sharedPref.getString("lastNameUser", "");
 
@@ -68,6 +71,91 @@ public class SingletonManagerUsers {
         return listNamesUsers;
     }
 
+    public static boolean [] getCheckedDataCurrentUser(ArrayList<String> listSongs, UserList userList) {
+        switch (userList) {
+            case FRETSLIST: {
+                break;
+            }
+            case SONGSLIST: {
+                boolean [] checkedSongs = new boolean[listSongs.size()];
+                for (int i = 0; i < checkedSongs.length; i++) {
+                    String nameSong = listSongs.get(i);
+                    if (currentUser.getAllowedSongs().contains(nameSong)) checkedSongs[i] = true;
+                }
+                return checkedSongs;
+            }
+            case BACKGROUNDSLIST: {
+                break;
+            }
+            case INSTRUMENTSLIST: {
+                break;
+            }
+            default: {
+
+            }
+
+        }
+        return null;
+    }
+
+    public static ArrayList<String> getWrongDataCurrentUser(Context context, UserList userList) {
+        switch (userList) {
+            case FRETSLIST: {
+                break;
+            }
+            case SONGSLIST: {
+                Songs.fillSongs(context);
+                ArrayList<String> realNameSongs = Songs.getNameSongs();
+                ArrayList<String> nameSongsCurrentUser = (ArrayList<String>) currentUser.getAllowedSongs();
+                ArrayList<String> wrongSongs = new ArrayList<>();
+                for (String nameSongsUser : nameSongsCurrentUser) {
+                    if (!realNameSongs.contains(nameSongsUser)) wrongSongs.add(nameSongsUser);
+                }
+                return wrongSongs;
+            }
+            case BACKGROUNDSLIST: {
+                break;
+            }
+            case INSTRUMENTSLIST: {
+                break;
+            }
+            default: {
+
+            }
+
+        }
+        return null;
+
+    }
+
+    public static void eraseWrongDataCurrentUser(Context context, UserList userList) {
+        switch (userList) {
+            case FRETSLIST: {
+                break;
+            }
+            case SONGSLIST: {
+                ArrayList<String> wrongSongs = getWrongDataCurrentUser(context, UserList.SONGSLIST);
+                ArrayList<String> rightSongs = new ArrayList<>();
+                for (int i = 0; i < currentUser.getAllowedSongs().size();i++) {
+                    if (!wrongSongs.contains(currentUser.getAllowedSongs().get(i))) {
+                        rightSongs.add(currentUser.getAllowedSongs().get(i));
+                    }
+                }
+                currentUser.setAllowedSongs(rightSongs);
+                changeUser(currentUser);
+                break;
+            }
+            case BACKGROUNDSLIST: {
+                break;
+            }
+            case INSTRUMENTSLIST: {
+                break;
+            }
+            default: {
+            }
+        }
+    }
+
 
     public static int getNewID() {
         if (listUsers == null || listUsers.size() == 0) {
@@ -93,6 +181,13 @@ public class SingletonManagerUsers {
             return;
         }
         listUsers.add(user);
+        saveToSharedPreferences(sharedPreferences);
+    }
+
+    public static void changeUser (User user) {
+        User newUser = new User(user);
+        listUsers.remove(user);
+        listUsers.add(newUser);
         saveToSharedPreferences(sharedPreferences);
     }
 
@@ -154,6 +249,11 @@ public class SingletonManagerUsers {
 
     }
 
+    public static User getCurrentUser() {
+        return currentUser;
+    }
 
-
+    public static void setCurrentUser(User currentUser) {
+        SingletonManagerUsers.currentUser = currentUser;
+    }
 }

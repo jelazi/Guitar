@@ -29,6 +29,18 @@ public class User {
         this.ID = SingletonManagerUsers.getNewID();
     }
 
+    public User (User anotherUser) {
+        this.name = anotherUser.name;
+        this.coins = anotherUser.coins;
+        this.pass = anotherUser.pass;
+        this.allowedSongs = anotherUser.allowedSongs;
+        this.allowedInstruments = anotherUser.allowedInstruments;
+        this.allowedFrets = anotherUser.allowedFrets;
+        this.allowedBackgrounds = anotherUser.allowedBackgrounds;
+        this.choiceMultiTone = anotherUser.choiceMultiTone;
+        this.ID = anotherUser.ID;
+    }
+
     public int getID() {
         return ID;
     }

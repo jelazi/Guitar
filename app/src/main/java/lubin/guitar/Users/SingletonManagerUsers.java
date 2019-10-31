@@ -71,15 +71,15 @@ public class SingletonManagerUsers {
         return listNamesUsers;
     }
 
-    public static boolean [] getCheckedDataCurrentUser(ArrayList<String> listSongs, UserList userList) {
+    public static boolean [] getCheckedDataCurrentUser(ArrayList<String> list, UserList userList) {
         switch (userList) {
             case FRETSLIST: {
                 break;
             }
             case SONGSLIST: {
-                boolean [] checkedSongs = new boolean[listSongs.size()];
+                boolean [] checkedSongs = new boolean[list.size()];
                 for (int i = 0; i < checkedSongs.length; i++) {
-                    String nameSong = listSongs.get(i);
+                    String nameSong = list.get(i);
                     if (currentUser.getAllowedSongs().contains(nameSong)) checkedSongs[i] = true;
                 }
                 return checkedSongs;
@@ -88,7 +88,12 @@ public class SingletonManagerUsers {
                 break;
             }
             case INSTRUMENTSLIST: {
-                break;
+                boolean [] checkedInstruments = new boolean[list.size()];
+                for (int i = 0; i < checkedInstruments.length; i++) {
+                    String nameInstrument = list.get(i);
+                    if (currentUser.getAllowedInstruments().contains(nameInstrument)) checkedInstruments[i] = true;
+                }
+                return checkedInstruments;
             }
             default: {
 
@@ -117,7 +122,14 @@ public class SingletonManagerUsers {
                 break;
             }
             case INSTRUMENTSLIST: {
-                break;
+                Songs.fillSongs(context);
+                ArrayList<String> realNameInstruments = Songs.getNameInstruments();
+                ArrayList<String> nameInstrumentsCurrentUser = (ArrayList<String>) currentUser.getAllowedInstruments();
+                ArrayList<String> wrongInstruments = new ArrayList<>();
+                for (String nameInstrumentsUser : nameInstrumentsCurrentUser) {
+                    if (!realNameInstruments.contains(nameInstrumentsUser)) wrongInstruments.add(nameInstrumentsUser);
+                }
+                return wrongInstruments;
             }
             default: {
 
@@ -149,6 +161,15 @@ public class SingletonManagerUsers {
                 break;
             }
             case INSTRUMENTSLIST: {
+                ArrayList<String> wrongInstruments = getWrongDataCurrentUser(context, UserList.INSTRUMENTSLIST);
+                ArrayList<String> rightInstruments = new ArrayList<>();
+                for (int i = 0; i < currentUser.getAllowedInstruments().size();i++) {
+                    if (!wrongInstruments.contains(currentUser.getAllowedInstruments().get(i))) {
+                        rightInstruments.add(currentUser.getAllowedInstruments().get(i));
+                    }
+                }
+                currentUser.setAllowedInstruments(rightInstruments);
+                changeUser(currentUser);
                 break;
             }
             default: {

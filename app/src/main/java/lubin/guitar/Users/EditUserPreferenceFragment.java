@@ -56,7 +56,7 @@ public class EditUserPreferenceFragment extends PreferenceFragment {
         preferenceListInstruments.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             @Override
             public boolean onPreferenceClick(Preference preference) {
-                showList(preferenceListInstruments);
+                controlWrongAllowData(preferenceListInstruments);
 
                 return true;
             }
@@ -98,7 +98,12 @@ public class EditUserPreferenceFragment extends PreferenceFragment {
             }
         }
         if (preference == preferenceListInstruments) {
-
+            ArrayList<String> wrongData = SingletonManagerUsers.getWrongDataCurrentUser(getActivity(), UserList.INSTRUMENTSLIST);
+            if (wrongData.isEmpty()) {
+                showList(preferenceListInstruments);
+            } else {
+                showAlertWrongData(preferenceListInstruments, wrongData);
+            }
         }
     }
 
@@ -126,15 +131,23 @@ public class EditUserPreferenceFragment extends PreferenceFragment {
                     SingletonManagerUsers.eraseWrongDataCurrentUser(getActivity(), UserList.SONGSLIST);
                 }
             });
-            builder.setNegativeButton("Ponechat", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    showList(preferenceListSongs);
-                }
-            });
         }
         if (preference == preferenceListInstruments) {
-
+            builder.setTitle("Špatné názvy nástrojů");
+            String listString = "";
+            for (String s : wrongData)
+            {
+                listString += s + "\t";
+            }
+            String message = "Našli jsme tyto špatně zapsané jména nástrojů: " + listString;
+            builder.setMessage(message);
+            builder.setPositiveButton("Vymazat", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    showList(preferenceListInstruments);
+                    SingletonManagerUsers.eraseWrongDataCurrentUser(getActivity(), UserList.INSTRUMENTSLIST);
+                }
+            });
         }
         AlertDialog dialog = builder.create();
         dialog.show();
@@ -202,10 +215,13 @@ public class EditUserPreferenceFragment extends PreferenceFragment {
             });
         }
         if (preference == preferenceListInstruments) {
-            builder.setTitle("Možné nástroje");
-            String[] animals = {"horse", "cow", "camel", "sheep", "goat"};
-            boolean[] checkedItems = {true, false, false, true, false};
-            builder.setMultiChoiceItems(animals, checkedItems, new DialogInterface.OnMultiChoiceClickListener() {
+            builder.setTitle("Možné Nástroje");
+            Songs.fillSongs(getActivity());
+            final ArrayList<String> listInstruments = Songs.getNameInstruments();
+            String[] allInstruments = new String[listInstruments.size()];
+            listInstruments.toArray(allInstruments);
+            final boolean[] checkedInstruments = SingletonManagerUsers.getCheckedDataCurrentUser(listInstruments, UserList.INSTRUMENTSLIST);
+            builder.setMultiChoiceItems(allInstruments, checkedInstruments, new DialogInterface.OnMultiChoiceClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which, boolean isChecked) {
                 }
@@ -213,7 +229,14 @@ public class EditUserPreferenceFragment extends PreferenceFragment {
             builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-
+                    ArrayList<String>namesSelectedInstruments = new ArrayList<>();
+                    for (int i = 0; i < listInstruments.size();i ++) {
+                        if (checkedInstruments[i]) {
+                            namesSelectedInstruments.add(listInstruments.get(i));
+                        }
+                    }
+                    currentUser.setAllowedInstruments(namesSelectedInstruments);
+                    SingletonManagerUsers.changeUser(currentUser);
                 }
             });
         }

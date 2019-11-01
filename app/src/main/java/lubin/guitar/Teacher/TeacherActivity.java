@@ -18,6 +18,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import lubin.guitar.TypeMessage;
 import lubin.guitar.Users.EditUserActivity;
 import lubin.guitar.Files.DialogType;
 import lubin.guitar.R;
@@ -137,14 +138,6 @@ public class TeacherActivity extends AppCompatActivity implements View.OnClickLi
                 break;
             }
             case CHOICE_USER_ACCOUNT: {
-                List<String> listSongs = Arrays.asList("Pro Elisku", "song2", "song3");
-                List<String> listInstruments = Arrays.asList("instrument1", "instrument2", "instrument3");
-                List<String> listFrets = Arrays.asList("fret1", "fret2", "fret3");
-
-                List<String> listBackgrounds = Arrays.asList("background1", "background2", "background3");
-
-                User user = new User("testName", 30, "pass", listSongs, listInstruments, listFrets, listBackgrounds, true); //test
-                SingletonManagerUsers.addUser(user);
                 listUsers = SingletonManagerUsers.getListNamesUsers();
                 String[] arrayUsers = new String[listUsers.size()];
                 listUsers.toArray(arrayUsers);
@@ -161,6 +154,27 @@ public class TeacherActivity extends AppCompatActivity implements View.OnClickLi
                 break;
 
             }
+            case NEW_USER: {
+                builder.setTitle("Jméno uživatele:");
+                final EditText editText = new EditText(this);
+                builder.setView(editText);
+                builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        boolean isUniqueNameUser = SingletonManagerUsers.isUniqueNameUser(editText.getText().toString());
+                        if (isUniqueNameUser) {
+                            dialog.dismiss();
+                            String newName = editText.getText().toString();
+                            SingletonManagerUsers.createNewUser(newName);
+                            openAcount(newName);
+                        } else {
+                            showDialog(DialogType.NEW_USER);
+                            Toast.makeText(TeacherActivity.this, "Nepovolené jméno", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+                break;
+            }
             default: {
 
             }
@@ -170,10 +184,18 @@ public class TeacherActivity extends AppCompatActivity implements View.OnClickLi
     }
 
     private void openAcount (String userName) {
-        Intent i = new Intent(this, EditUserActivity.class);
-        i.putExtra("user_name", userName);
-        startActivity(i);
+        if (!userName.equals("New User")) {
+            Intent i = new Intent(this, EditUserActivity.class);
+            i.putExtra("user_name", userName);
+            startActivity(i);
+        } else {
+            showDialog(DialogType.NEW_USER);
+        }
+
     }
+
+
+
 
     private void setPreferences (String namePreference, String valuePreference) {
         SharedPreferences.Editor editor = settings.edit();

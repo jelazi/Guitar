@@ -12,7 +12,10 @@ import android.support.v7.app.AlertDialog;
 import android.util.Log;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
+import lubin.guitar.Files.FileManager;
 import lubin.guitar.R;
 import lubin.guitar.Song.Songs;
 
@@ -65,7 +68,7 @@ public class EditUserPreferenceFragment extends PreferenceFragment {
         preferenceListFrets.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             @Override
             public boolean onPreferenceClick(Preference preference) {
-                showList(preferenceListFrets);
+                controlWrongAllowData(preferenceListFrets);
 
                 return true;
             }
@@ -74,7 +77,7 @@ public class EditUserPreferenceFragment extends PreferenceFragment {
         preferenceListBackgrounds.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             @Override
             public boolean onPreferenceClick(Preference preference) {
-                showList(preferenceListBackgrounds);
+                controlWrongAllowData(preferenceListBackgrounds);
                 return true;
             }
         });
@@ -82,15 +85,28 @@ public class EditUserPreferenceFragment extends PreferenceFragment {
         preferenceStopBeforeTone = (SwitchPreference) findPreference("stop_before_tone");
     }
 
+
+
+
     protected void controlWrongAllowData (Preference preference) {
         if (preference == preferenceListBackgrounds) {
-
+            List<String> wrongData = SingletonManagerUsers.getWrongDataCurrentUser(getActivity(), UserList.BACKGROUNDSLIST);
+            if (wrongData.isEmpty()) {
+                showList(preferenceListBackgrounds);
+            } else {
+                showAlertWrongData(preferenceListBackgrounds, wrongData);
+            }
         }
         if (preference == preferenceListFrets) {
-
+            List<String> wrongData = SingletonManagerUsers.getWrongDataCurrentUser(getActivity(), UserList.FRETSLIST);
+            if (wrongData.isEmpty()) {
+                showList(preferenceListFrets);
+            } else {
+                showAlertWrongData(preferenceListFrets, wrongData);
+            }
         }
         if (preference == preferenceListSongs) {
-            ArrayList<String> wrongData = SingletonManagerUsers.getWrongDataCurrentUser(getActivity(), UserList.SONGSLIST);
+            List<String> wrongData = SingletonManagerUsers.getWrongDataCurrentUser(getActivity(), UserList.SONGSLIST);
             if (wrongData.isEmpty()) {
                 showList(preferenceListSongs);
             } else {
@@ -98,7 +114,7 @@ public class EditUserPreferenceFragment extends PreferenceFragment {
             }
         }
         if (preference == preferenceListInstruments) {
-            ArrayList<String> wrongData = SingletonManagerUsers.getWrongDataCurrentUser(getActivity(), UserList.INSTRUMENTSLIST);
+            List<String> wrongData = SingletonManagerUsers.getWrongDataCurrentUser(getActivity(), UserList.INSTRUMENTSLIST);
             if (wrongData.isEmpty()) {
                 showList(preferenceListInstruments);
             } else {
@@ -107,16 +123,44 @@ public class EditUserPreferenceFragment extends PreferenceFragment {
         }
     }
 
-    protected void showAlertWrongData (Preference preference, ArrayList<String> wrongData) {
+    protected void showAlertWrongData (Preference preference, List<String> wrongData) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         if (preference == preferenceListBackgrounds) {
-
+            builder.setTitle("Špatné jména pozadí");
+            String listString = "";
+            for (String s : wrongData)
+            {
+                listString += s + "\t";
+            }
+            String message = "Našli jsme tyto špatně zapsané jména pozadí: " + listString;
+            builder.setMessage(message);
+            builder.setPositiveButton("Vymazat", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    showList(preferenceListBackgrounds);
+                    SingletonManagerUsers.eraseWrongDataCurrentUser(getActivity(), UserList.BACKGROUNDSLIST);
+                }
+            });
         }
         if (preference == preferenceListFrets) {
-
+            builder.setTitle("Špatné jména pražců");
+            String listString = "";
+            for (String s : wrongData)
+            {
+                listString += s + "\t";
+            }
+            String message = "Našli jsme tyto špatně zapsané jména pražců: " + listString;
+            builder.setMessage(message);
+            builder.setPositiveButton("Vymazat", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    showList(preferenceListFrets);
+                    SingletonManagerUsers.eraseWrongDataCurrentUser(getActivity(), UserList.FRETSLIST);
+                }
+            });
         }
         if (preference == preferenceListSongs) {
-            builder.setTitle("Špatné jména");
+            builder.setTitle("Špatné jména písní");
             String listString = "";
             for (String s : wrongData)
             {
@@ -158,9 +202,12 @@ public class EditUserPreferenceFragment extends PreferenceFragment {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         if (preference == preferenceListBackgrounds) {
             builder.setTitle("Možné pozadí");
-            String[] animals = {"horse", "cow", "camel", "sheep", "goat"};
-            boolean[] checkedItems = {true, false, false, true, false};
-            builder.setMultiChoiceItems(animals, checkedItems, new DialogInterface.OnMultiChoiceClickListener() {
+            FileManager.loadData(getActivity());
+            final ArrayList<String> listBackgrounds = FileManager.getNameBackgrounds();
+            String[] allBackgrounds = new String[listBackgrounds.size()];
+            listBackgrounds.toArray(allBackgrounds);
+            final boolean[] checkedBackground = SingletonManagerUsers.getCheckedDataCurrentUser(listBackgrounds, UserList.BACKGROUNDSLIST);
+            builder.setMultiChoiceItems(allBackgrounds, checkedBackground, new DialogInterface.OnMultiChoiceClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which, boolean isChecked) {
                 }
@@ -168,15 +215,25 @@ public class EditUserPreferenceFragment extends PreferenceFragment {
             builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-
+                    ArrayList<String>namesSelectedBackgrounds = new ArrayList<>();
+                    for (int i = 0; i < listBackgrounds.size();i ++) {
+                        if (checkedBackground[i]) {
+                            namesSelectedBackgrounds.add(listBackgrounds.get(i));
+                        }
+                    }
+                    currentUser.setAllowedBackgrounds(namesSelectedBackgrounds);
+                    SingletonManagerUsers.changeUser(currentUser);
                 }
             });
         }
         if (preference == preferenceListFrets) {
             builder.setTitle("Možné pražce");
-            String[] animals = {"horse", "cow", "camel", "sheep", "goat"};
-            boolean[] checkedItems = {true, false, false, true, false};
-            builder.setMultiChoiceItems(animals, checkedItems, new DialogInterface.OnMultiChoiceClickListener() {
+            FileManager.loadData(getActivity());
+            final ArrayList<String> listFrets = FileManager.getNameFrets();
+            String[] allFrets = new String[listFrets.size()];
+            listFrets.toArray(allFrets);
+            final boolean[] checkedFrets = SingletonManagerUsers.getCheckedDataCurrentUser(listFrets, UserList.FRETSLIST);
+            builder.setMultiChoiceItems(allFrets, checkedFrets, new DialogInterface.OnMultiChoiceClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which, boolean isChecked) {
                 }
@@ -184,14 +241,21 @@ public class EditUserPreferenceFragment extends PreferenceFragment {
             builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-
+                    ArrayList<String>namesSelectedFrets = new ArrayList<>();
+                    for (int i = 0; i < listFrets.size();i ++) {
+                        if (checkedFrets[i]) {
+                            namesSelectedFrets.add(listFrets.get(i));
+                        }
+                    }
+                    currentUser.setAllowedFrets(namesSelectedFrets);
+                    SingletonManagerUsers.changeUser(currentUser);
                 }
             });
         }
         if (preference == preferenceListSongs) {
             builder.setTitle("Možné písně");
-            Songs.fillSongs(getActivity());
-            final ArrayList<String> listSongs = Songs.getNameSongs();
+            FileManager.loadData(getActivity());
+            final ArrayList<String> listSongs = FileManager.getNameSongs();
             String[] allSongs = new String[listSongs.size()];
             listSongs.toArray(allSongs);
             final boolean[] checkedSongs = SingletonManagerUsers.getCheckedDataCurrentUser(listSongs, UserList.SONGSLIST);

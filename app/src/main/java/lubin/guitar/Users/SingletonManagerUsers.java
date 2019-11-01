@@ -6,10 +6,12 @@ import android.util.Log;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
+import lubin.guitar.Files.FileManager;
 import lubin.guitar.Song.Songs;
 
 public class SingletonManagerUsers {
@@ -53,12 +55,12 @@ public class SingletonManagerUsers {
         }
         return null;
     }
-
     public static User getUserByName (String name) {
         if (listUsers == null || listUsers.size() == 0) return null;
         for (User user :listUsers) {
             if (user.getName().equals(name)) return user;
         }
+
         return null;
     }
 
@@ -68,13 +70,19 @@ public class SingletonManagerUsers {
         for (User user :listUsers) {
             listNamesUsers.add(user.getName());
         }
+        listNamesUsers.add("New User");
         return listNamesUsers;
     }
 
     public static boolean [] getCheckedDataCurrentUser(ArrayList<String> list, UserList userList) {
         switch (userList) {
             case FRETSLIST: {
-                break;
+                boolean [] checkedFrets = new boolean[list.size()];
+                for (int i = 0; i < checkedFrets.length; i++) {
+                    String nameFret = list.get(i);
+                    if (currentUser.getAllowedFrets().contains(nameFret)) checkedFrets[i] = true;
+                }
+                return checkedFrets;
             }
             case SONGSLIST: {
                 boolean [] checkedSongs = new boolean[list.size()];
@@ -85,7 +93,12 @@ public class SingletonManagerUsers {
                 return checkedSongs;
             }
             case BACKGROUNDSLIST: {
-                break;
+                boolean [] checkedBackground = new boolean[list.size()];
+                for (int i = 0; i < checkedBackground.length; i++) {
+                    String nameBackground = list.get(i);
+                    if (currentUser.getAllowedFrets().contains(nameBackground)) checkedBackground[i] = true;
+                }
+                return checkedBackground;
             }
             case INSTRUMENTSLIST: {
                 boolean [] checkedInstruments = new boolean[list.size()];
@@ -103,51 +116,84 @@ public class SingletonManagerUsers {
         return null;
     }
 
-    public static ArrayList<String> getWrongDataCurrentUser(Context context, UserList userList) {
+    public static List<String> getWrongDataCurrentUser(Context context, UserList userList) {
         switch (userList) {
             case FRETSLIST: {
-                break;
+                FileManager.loadData(context);
+                List<String> realNameFrets = FileManager.getNameFrets();
+                List<String> nameFretsCurrentUser = currentUser.getAllowedFrets();
+                List<String> wrongFrets = new ArrayList<>();
+                for (String nameFretUser : nameFretsCurrentUser) {
+                    if (!realNameFrets.contains(nameFretUser)) wrongFrets.add(nameFretUser);
+                }
+                return wrongFrets;
             }
             case SONGSLIST: {
-                Songs.fillSongs(context);
-                ArrayList<String> realNameSongs = Songs.getNameSongs();
-                ArrayList<String> nameSongsCurrentUser = (ArrayList<String>) currentUser.getAllowedSongs();
-                ArrayList<String> wrongSongs = new ArrayList<>();
+                FileManager.loadData(context);
+                List<String> realNameSongs = FileManager.getNameSongs();
+                List<String> nameSongsCurrentUser = currentUser.getAllowedSongs();
+                List<String> wrongSongs = new ArrayList<>();
                 for (String nameSongsUser : nameSongsCurrentUser) {
                     if (!realNameSongs.contains(nameSongsUser)) wrongSongs.add(nameSongsUser);
                 }
                 return wrongSongs;
             }
             case BACKGROUNDSLIST: {
-                break;
+                FileManager.loadData(context);
+                List<String> realNameBackgrounds = FileManager.getNameBackgrounds();
+                List<String> nameBackgroundsCurrentUser = currentUser.getAllowedBackgrounds();
+                List<String> wrongBackgrounds = new ArrayList<>();
+                for (String nameBackgroundUser : nameBackgroundsCurrentUser) {
+                    if (!realNameBackgrounds.contains(nameBackgroundUser)) wrongBackgrounds.add(nameBackgroundUser);
+                }
+                return wrongBackgrounds;
             }
             case INSTRUMENTSLIST: {
-                Songs.fillSongs(context);
-                ArrayList<String> realNameInstruments = Songs.getNameInstruments();
-                ArrayList<String> nameInstrumentsCurrentUser = (ArrayList<String>) currentUser.getAllowedInstruments();
-                ArrayList<String> wrongInstruments = new ArrayList<>();
+                FileManager.loadData(context);
+                List<String> realNameInstruments = FileManager.getNameInstruments();
+                List<String> nameInstrumentsCurrentUser = currentUser.getAllowedInstruments();
+                List<String> wrongInstruments = new ArrayList<>();
                 for (String nameInstrumentsUser : nameInstrumentsCurrentUser) {
                     if (!realNameInstruments.contains(nameInstrumentsUser)) wrongInstruments.add(nameInstrumentsUser);
                 }
                 return wrongInstruments;
             }
             default: {
-
             }
-
         }
         return null;
+
+    }
+
+    public static void createNewUser (String nameUser) {
+        List<String> listSongs = Arrays.asList();
+        List<String> listInstruments = Arrays.asList();
+        List<String> listFrets = Arrays.asList();
+        List<String> listBackgrounds = Arrays.asList();
+
+        User user = new User(nameUser, 0, "", listSongs, listInstruments, listFrets, listBackgrounds, true);
+        addUser(user);
+        saveToSharedPreferences(sharedPreferences);
 
     }
 
     public static void eraseWrongDataCurrentUser(Context context, UserList userList) {
         switch (userList) {
             case FRETSLIST: {
+                List<String> wrongFrets = getWrongDataCurrentUser(context, UserList.FRETSLIST);
+                List<String> rightFrets = new ArrayList<>();
+                for (int i = 0; i < currentUser.getAllowedFrets().size(); i++) {
+                    if (!wrongFrets.contains(currentUser.getAllowedFrets().get(i))) {
+                        rightFrets.add(currentUser.getAllowedFrets().get(i));
+                    }
+                }
+                currentUser.setAllowedFrets(rightFrets);
+                changeUser(currentUser);
                 break;
             }
             case SONGSLIST: {
-                ArrayList<String> wrongSongs = getWrongDataCurrentUser(context, UserList.SONGSLIST);
-                ArrayList<String> rightSongs = new ArrayList<>();
+                List<String> wrongSongs = getWrongDataCurrentUser(context, UserList.SONGSLIST);
+                List<String> rightSongs = new ArrayList<>();
                 for (int i = 0; i < currentUser.getAllowedSongs().size();i++) {
                     if (!wrongSongs.contains(currentUser.getAllowedSongs().get(i))) {
                         rightSongs.add(currentUser.getAllowedSongs().get(i));
@@ -158,10 +204,19 @@ public class SingletonManagerUsers {
                 break;
             }
             case BACKGROUNDSLIST: {
+                List<String> wrongBackgrounds = getWrongDataCurrentUser(context, UserList.BACKGROUNDSLIST);
+                List<String> rightBackgrounds = new ArrayList<>();
+                for (int i = 0; i < currentUser.getAllowedBackgrounds().size();i++) {
+                    if (!wrongBackgrounds.contains(currentUser.getAllowedBackgrounds().get(i))) {
+                        rightBackgrounds.add(currentUser.getAllowedBackgrounds().get(i));
+                    }
+                }
+                currentUser.setAllowedBackgrounds(rightBackgrounds);
+                changeUser(currentUser);
                 break;
             }
             case INSTRUMENTSLIST: {
-                ArrayList<String> wrongInstruments = getWrongDataCurrentUser(context, UserList.INSTRUMENTSLIST);
+                List<String> wrongInstruments = getWrongDataCurrentUser(context, UserList.INSTRUMENTSLIST);
                 ArrayList<String> rightInstruments = new ArrayList<>();
                 for (int i = 0; i < currentUser.getAllowedInstruments().size();i++) {
                     if (!wrongInstruments.contains(currentUser.getAllowedInstruments().get(i))) {

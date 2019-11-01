@@ -12,6 +12,7 @@ import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.ImageView;
 
+import lubin.guitar.Files.FileManager;
 import lubin.guitar.R;
 import lubin.guitar.Teacher.TeacherAccountActivity;
 import lubin.guitar.Users.SingletonManagerUsers;
@@ -29,6 +30,7 @@ public class ChoiceAccountActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_choice_account);
+        FileManager.init(getApplicationContext());
         settings = PreferenceManager.getDefaultSharedPreferences(this);
         SingletonManagerUsers.createSingletonManagerUsers(settings);
 

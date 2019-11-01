@@ -115,7 +115,7 @@ public class TrySongActivity extends VirtualGuitarActivity
 
                         } else {
                             playingSong = true;
-                            skladba = Songs.callByName(getApplicationContext(), settings.getString("list_songs", "Pro_Elisku"));
+                            skladba = Songs.callByName(getApplicationContext(), settings.getString("list_songs", "song1.xml"));
                             playingTones = createMusicFromTones(skladba.getTones());
                             item.setIcon(R.mipmap.pause_circle);
                             trytrySong();
@@ -160,7 +160,7 @@ public class TrySongActivity extends VirtualGuitarActivity
 
         soundId = soundPool.load( getFilesDir()+"/Instruments/"+settings.getString("list_instruments", "a1.wav"), 1);
 
-         skladba = Songs.callByName(getApplicationContext(), settings.getString("list_songs", "Pro_Elisku"));
+         skladba = Songs.callByName(getApplicationContext(), settings.getString("list_songs", "song1.xml"));
         numberTone = 0;
         cleanStrings();
         btnTryMusic.setText("Zkus hrát");
@@ -217,7 +217,7 @@ public class TrySongActivity extends VirtualGuitarActivity
                 btnTryMusic.setText("Hrajeme...");
                 btnTryMusic.setBackgroundColor(0x800a33f5);
 
-                skladba = Songs.callByName(getApplicationContext(), settings.getString("list_songs", "Pro_Elisku"));
+                skladba = Songs.callByName(getApplicationContext(), settings.getString("list_songs", "song1.xml"));
 
                 playingTones = createMusicFromTones(skladba.getTones());
                 trytrySong();

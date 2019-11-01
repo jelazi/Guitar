@@ -2,6 +2,7 @@ package lubin.guitar.Users;
 
 //Trida uzivatele
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class User {
@@ -41,6 +42,7 @@ public class User {
         this.ID = anotherUser.ID;
     }
 
+
     public int getID() {
         return ID;
     }
@@ -66,6 +68,7 @@ public class User {
     }
 
     public List<String> getAllowedFrets() {
+        if (allowedFrets == null) allowedFrets = new ArrayList<>();
         return allowedFrets;
     }
 
@@ -74,6 +77,7 @@ public class User {
     }
 
     public List<String> getAllowedBackgrounds() {
+        if (allowedBackgrounds == null) allowedBackgrounds = new ArrayList<>();
         return allowedBackgrounds;
     }
 
@@ -90,6 +94,7 @@ public class User {
     }
 
     public List<String> getAllowedSongs() {
+        if (allowedSongs == null) allowedSongs = new ArrayList<>();
         return allowedSongs;
     }
 
@@ -98,6 +103,7 @@ public class User {
     }
 
     public List<String> getAllowedInstruments() {
+        if (allowedInstruments == null) allowedInstruments = new ArrayList<>();
         return allowedInstruments;
     }
 

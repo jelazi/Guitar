@@ -66,7 +66,10 @@ public class SingletonManagerUsers {
 
     public static List<String> getListNamesUsers () {
         List <String> listNamesUsers = new ArrayList<String>();
-        if (listUsers == null || listUsers.size() == 0) return listNamesUsers;
+        if (listUsers == null || listUsers.size() == 0) {
+            listNamesUsers.add("New User");
+            return listNamesUsers;
+        }
         for (User user :listUsers) {
             listNamesUsers.add(user.getName());
         }
@@ -96,7 +99,7 @@ public class SingletonManagerUsers {
                 boolean [] checkedBackground = new boolean[list.size()];
                 for (int i = 0; i < checkedBackground.length; i++) {
                     String nameBackground = list.get(i);
-                    if (currentUser.getAllowedFrets().contains(nameBackground)) checkedBackground[i] = true;
+                    if (currentUser.getAllowedBackgrounds().contains(nameBackground)) checkedBackground[i] = true;
                 }
                 return checkedBackground;
             }
@@ -174,7 +177,6 @@ public class SingletonManagerUsers {
         User user = new User(nameUser, 0, "", listSongs, listInstruments, listFrets, listBackgrounds, true);
         addUser(user);
         saveToSharedPreferences(sharedPreferences);
-
     }
 
     public static void eraseWrongDataCurrentUser(Context context, UserList userList) {
@@ -262,7 +264,22 @@ public class SingletonManagerUsers {
 
     public static void changeUser (User user) {
         User newUser = new User(user);
-        listUsers.remove(user);
+        int id = user.getID();
+        int index = -1;
+        for (int i = 0; i < listUsers.size();i++) {
+            if (listUsers.get(i).getID() == id) {
+                index = i;
+            } else {
+                Log.e("Error", "User doesnt exists");
+                return;
+            }
+        }
+        if (index >= 0) {
+            listUsers.remove(index);
+        } else {
+            Log.e("Error", "problem users id");
+            return;
+        }
         listUsers.add(newUser);
         saveToSharedPreferences(sharedPreferences);
     }

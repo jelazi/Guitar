@@ -10,16 +10,17 @@ import android.preference.PreferenceManager;
 import android.preference.SwitchPreference;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
+import android.widget.Toast;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import lubin.guitar.Files.FileManager;
 import lubin.guitar.R;
 import lubin.guitar.Song.Songs;
 
-public class EditUserPreferenceFragment extends PreferenceFragment {
+public class EditUserPreferenceFragment extends PreferenceFragment implements
+        SharedPreferences.OnSharedPreferenceChangeListener{
     SharedPreferences settings;
     EditTextPreference preferenceNameUser;
     EditTextPreference preferencePassUser;
@@ -83,6 +84,42 @@ public class EditUserPreferenceFragment extends PreferenceFragment {
         });
 
         preferenceStopBeforeTone = (SwitchPreference) findPreference("stop_before_tone");
+    }
+
+    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences,
+                                          String key) {
+        Preference pref = findPreference(key);
+        if (pref == preferenceNameUser) {
+           String newName = preferenceNameUser.getText();
+           if (SingletonManagerUsers.isUniqueNameUser(newName)) {
+               currentUser.setName(newName);
+               preferenceNameUser.setSummary(newName);
+           } else {
+               Toast.makeText(getActivity(), "Nepoolené jméno", Toast.LENGTH_SHORT).show();
+               return;
+           }
+        }
+        if (pref == preferencePassUser) {
+            String newPass = preferencePassUser.getText();
+            currentUser.setPass(newPass);
+            preferencePassUser.setSummary(newPass);
+        }
+        if (pref == preferenceCoinUser) {
+            boolean isCorrect = android.text.TextUtils.isDigitsOnly(preferenceCoinUser.getText());
+            if (isCorrect) {
+                int newCoinValue = Integer.parseInt(preferenceCoinUser.getText());
+                currentUser.setCoins(newCoinValue);
+                preferenceCoinUser.setSummary(preferenceCoinUser.getText());
+            } else {
+                Toast.makeText(getActivity(), "Špatné číslo", Toast.LENGTH_SHORT).show();
+                return;
+            }
+        }
+        if (pref == preferenceStopBeforeTone) {
+            currentUser.setChoiceMultiTone(preferenceStopBeforeTone.isChecked());
+        }
+        SingletonManagerUsers.changeUser(currentUser);
+
     }
 
 
@@ -321,8 +358,14 @@ public class EditUserPreferenceFragment extends PreferenceFragment {
             Log.e("something problem", "problem with current User data");
             return;
         }
+        PreferenceManager.getDefaultSharedPreferences(getActivity())
+                .registerOnSharedPreferenceChangeListener(this);
         preferenceNameUser.setSummary(currentUser.getName());
+        preferenceNameUser.setText(currentUser.getName());
         preferencePassUser.setSummary(currentUser.getPass());
+        preferencePassUser.setText(currentUser.getPass());
         preferenceCoinUser.setSummary(String.valueOf(currentUser.getCoins()));
+        preferenceCoinUser.setText(String.valueOf(currentUser.getCoins()));
+        preferenceStopBeforeTone.setChecked(currentUser.isChoiceMultiTone());
     }
 }

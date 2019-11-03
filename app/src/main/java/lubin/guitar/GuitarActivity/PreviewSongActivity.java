@@ -104,13 +104,12 @@ boolean animationbool = false;
 
 
 
-        soundId = soundPool.load(getFilesDir() + "/Instruments/" + settings.getString("list_instruments", "a1.wav"), 1);
+        soundId = soundPool.load(getFilesDir() + "/Instruments/" + currentUser.getCurrentNameInstrument(), 1);
 
         tone = 0;
         normal_playback_rate = 0.5f;
 
         this.setTitle(R.string.action_preview_song);
-
 
         nameOfSongView.setText(settings.getString("list_songs", "Pro Elisku"));
     }

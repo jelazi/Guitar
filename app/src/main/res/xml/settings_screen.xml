@@ -6,36 +6,36 @@
     <EditTextPreference
         android:title="Jméno kytaristy"
         android:key="name_user"
-        android:summary="Karlík"
-        android:defaultValue="Karlík"
-        android:selectable="false"
+        android:summary="karlik"
+
         />
 
 
     <EditTextPreference
         android:title="Množství peněz"
-        android:key="value_user"
+        android:key="coin_user"
         android:summary="0"
-        android:defaultValue="0"
-        android:selectable="false"
         />
 
-    <ListPreference
-        android:entries="@array/list_songs"
-        android:entryValues="@array/list_songs"
-        android:summary="Výběr písně"
-        android:key="list_songs"
-        android:title="@string/choice_Song"
-        />
+    <Preference
+        android:summary=""
+        android:key="current_song"
+        android:title="Právě používaná píseň" />
 
+    <Preference
+        android:summary=""
+        android:key="current_instrument"
+        android:title="Právě používaný nástroj" />
 
-    <ListPreference
-        android:entries="@array/list_instruments"
-        android:entryValues="@array/list_instruments"
-        android:summary="Výběr nástroje"
-        android:key="list_instruments"
-        android:title="@string/choice_instrument"
-        />
+    <Preference
+        android:summary=""
+        android:key="current_fret"
+        android:title="Právě používaný pražec" />
+
+    <Preference
+        android:summary=""
+        android:key="current_background"
+        android:title="Právě používané pozadí kytary" />
 
 
     <SwitchPreference
@@ -45,11 +45,5 @@
         />
 
 
-    <SwitchPreference
-        android:key="switch_active"
-        android:summary="thsi switch is active"
-        android:defaultValue="true"
-        android:title="Switch Checked"
-        />
 
 </PreferenceScreen>

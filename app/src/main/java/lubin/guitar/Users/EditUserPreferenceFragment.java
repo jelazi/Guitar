@@ -51,7 +51,7 @@ public class EditUserPreferenceFragment extends PreferenceFragment implements
         preferenceNameUser = (EditTextPreference) findPreference("name_user");
         preferencePassUser = (EditTextPreference) findPreference("pass_user");
         preferenceCoinUser = (EditTextPreference) findPreference("coin_user");
-        preferenceListSongs = (Preference) findPreference("list_songs");
+        preferenceListSongs = findPreference("list_songs");
         preferenceListSongs.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             @Override
             public boolean onPreferenceClick(Preference preference) {

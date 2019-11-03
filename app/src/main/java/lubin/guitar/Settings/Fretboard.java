@@ -1,6 +1,7 @@
 package lubin.guitar.Settings;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
@@ -52,15 +53,15 @@ public class Fretboard {
         this.E2string = E2string;
     }
 
-    public void changeBackGround(int resId) {
-        this.layoutBackGround.setBackgroundResource(resId);
+    public void changeBackGround(Drawable d) {
+        this.layoutBackGround.setBackground(d);
     }
 
-    public void changeFretsImages(int resId) {
-        this.fret1.setImageResource(resId);
-        this.fret2.setImageResource(resId);
-        this.fret3.setImageResource(resId);
-        this.fret4.setImageResource(resId);
+    public void changeFretsImages(Drawable d) {
+        this.fret1.setImageDrawable(d);
+        this.fret2.setImageDrawable(d);
+        this.fret3.setImageDrawable(d);
+        this.fret4.setImageDrawable(d);
     }
 
     public void changeStringImages (int resId) {

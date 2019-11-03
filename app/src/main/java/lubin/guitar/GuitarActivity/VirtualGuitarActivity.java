@@ -3,6 +3,9 @@ package lubin.guitar.GuitarActivity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.media.AudioManager;
 import android.media.SoundPool;
@@ -23,6 +26,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.File;
 import java.util.ArrayList;
 
 import lubin.guitar.Files.FileManager;
@@ -87,7 +91,6 @@ public abstract class VirtualGuitarActivity extends AppCompatActivity {
 
     float normal_playback_rate;
 
-
     Tones tones = new Tones();
 
     GuitarTone Etone;
@@ -96,7 +99,6 @@ public abstract class VirtualGuitarActivity extends AppCompatActivity {
     GuitarTone Gtone;
     GuitarTone Btone;
     GuitarTone E2tone;
-
 
     TextView money;
     boolean playingSong = false;
@@ -107,7 +109,6 @@ public abstract class VirtualGuitarActivity extends AppCompatActivity {
 
     boolean stopBeforeTone;
 
-    String nameUser;
     Song currentSong = new Song();
 
     ArrayList<Tone> tonySkladby = new ArrayList<>();
@@ -121,6 +122,7 @@ public abstract class VirtualGuitarActivity extends AppCompatActivity {
     Fretboard fretboard;
     User currentUser;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -128,9 +130,6 @@ public abstract class VirtualGuitarActivity extends AppCompatActivity {
 
         settings = PreferenceManager.getDefaultSharedPreferences(this);
         currentUser = SingletonManagerUsers.getCurrentUser();
-
-     //   FileInOut.copyFromAssets(this, "Instruments", getFilesDir()+"/Instruments/");
-     //   FileInOut.copyFromAssets(this, "Songs", getFilesDir()+"/Songs/");
 
         Songs.fillSongs(this);
         fillInstrument();
@@ -156,27 +155,32 @@ public abstract class VirtualGuitarActivity extends AppCompatActivity {
     }
 
 
+    @Override
+    protected void onResume () {
+        super.onResume();
+        redrawFretboard();
+    }
+
 
     protected void addFretboard() {
         RelativeLayout layoutBackGround = (RelativeLayout) findViewById(R.id.layoutBackground);
         fretboard = new Fretboard(layoutBackGround, this);
 
-        ImageView fret1 = (ImageView) findViewById(R.id.fret1);
-        ImageView fret2 = (ImageView) findViewById(R.id.fret2);
-        ImageView fret3 = (ImageView) findViewById(R.id.fret3);
-        ImageView fret4 = (ImageView) findViewById(R.id.fret4);
+        ImageView fret1 = findViewById(R.id.fret1);
+        ImageView fret2 = findViewById(R.id.fret2);
+        ImageView fret3 = findViewById(R.id.fret3);
+        ImageView fret4 = findViewById(R.id.fret4);
         fretboard.addFretImages(fret1, fret2, fret3, fret4);
 
-        ImageView Estring = (ImageView) findViewById(R.id.Estring);
-        ImageView Astring = (ImageView) findViewById(R.id.Astring);
-        ImageView Dstring = (ImageView) findViewById(R.id.Dstring);
-        ImageView Gstring = (ImageView) findViewById(R.id.Gstring);
-        ImageView Bstring = (ImageView) findViewById(R.id.Bstring);
-        ImageView E2tring = (ImageView) findViewById(R.id.E2string);
+        ImageView Estring = findViewById(R.id.Estring);
+        ImageView Astring = findViewById(R.id.Astring);
+        ImageView Dstring = findViewById(R.id.Dstring);
+        ImageView Gstring = findViewById(R.id.Gstring);
+        ImageView Bstring = findViewById(R.id.Bstring);
+        ImageView E2tring = findViewById(R.id.E2string);
         fretboard.addStringImages(Estring, Astring, Dstring, Gstring, Bstring, E2tring);
+        redrawFretboard();
 
-        fretboard.changeBackGround(R.drawable.rosewood2);
-        fretboard.changeFretsImages(R.drawable.fret2);
     }
 
     @Override
@@ -232,44 +236,44 @@ public abstract class VirtualGuitarActivity extends AppCompatActivity {
     //vytvari tlacitka
     protected void createView() {
 
-        string14 = (ImageButton) findViewById(R.id.imageButton14);
-        string13 = (ImageButton) findViewById(R.id.imageButton13);
-        string12 = (ImageButton) findViewById(R.id.imageButton12);
-        string11 = (ImageButton) findViewById(R.id.imageButton11);
-        string10 = (ImageButton) findViewById(R.id.imageButton10);
-        string24 = (ImageButton) findViewById(R.id.imageButton24);
-        string23 = (ImageButton) findViewById(R.id.imageButton23);
-        string22 = (ImageButton) findViewById(R.id.imageButton22);
-        string21 = (ImageButton) findViewById(R.id.imageButton21);
-        string20 = (ImageButton) findViewById(R.id.imageButton20);
-        string34 = (ImageButton) findViewById(R.id.imageButton34);
-        string33 = (ImageButton) findViewById(R.id.imageButton33);
-        string32 = (ImageButton) findViewById(R.id.imageButton32);
-        string31 = (ImageButton) findViewById(R.id.imageButton31);
-        string30 = (ImageButton) findViewById(R.id.imageButton30);
-        string44 = (ImageButton) findViewById(R.id.imageButton44);
-        string43 = (ImageButton) findViewById(R.id.imageButton43);
-        string42 = (ImageButton) findViewById(R.id.imageButton42);
-        string41 = (ImageButton) findViewById(R.id.imageButton41);
-        string40 = (ImageButton) findViewById(R.id.imageButton40);
-        string54 = (ImageButton) findViewById(R.id.imageButton54);
-        string53 = (ImageButton) findViewById(R.id.imageButton53);
-        string52 = (ImageButton) findViewById(R.id.imageButton52);
-        string51 = (ImageButton) findViewById(R.id.imageButton51);
-        string50 = (ImageButton) findViewById(R.id.imageButton50);
-        string64 = (ImageButton) findViewById(R.id.imageButton64);
-        string63 = (ImageButton) findViewById(R.id.imageButton63);
-        string62 = (ImageButton) findViewById(R.id.imageButton62);
-        string61 = (ImageButton) findViewById(R.id.imageButton61);
-        string60 = (ImageButton) findViewById(R.id.imageButton60);
+        string14 = findViewById(R.id.imageButton14);
+        string13 = findViewById(R.id.imageButton13);
+        string12 = findViewById(R.id.imageButton12);
+        string11 = findViewById(R.id.imageButton11);
+        string10 = findViewById(R.id.imageButton10);
+        string24 = findViewById(R.id.imageButton24);
+        string23 = findViewById(R.id.imageButton23);
+        string22 = findViewById(R.id.imageButton22);
+        string21 = findViewById(R.id.imageButton21);
+        string20 = findViewById(R.id.imageButton20);
+        string34 = findViewById(R.id.imageButton34);
+        string33 = findViewById(R.id.imageButton33);
+        string32 = findViewById(R.id.imageButton32);
+        string31 = findViewById(R.id.imageButton31);
+        string30 = findViewById(R.id.imageButton30);
+        string44 = findViewById(R.id.imageButton44);
+        string43 = findViewById(R.id.imageButton43);
+        string42 = findViewById(R.id.imageButton42);
+        string41 = findViewById(R.id.imageButton41);
+        string40 = findViewById(R.id.imageButton40);
+        string54 = findViewById(R.id.imageButton54);
+        string53 = findViewById(R.id.imageButton53);
+        string52 = findViewById(R.id.imageButton52);
+        string51 = findViewById(R.id.imageButton51);
+        string50 = findViewById(R.id.imageButton50);
+        string64 = findViewById(R.id.imageButton64);
+        string63 = findViewById(R.id.imageButton63);
+        string62 = findViewById(R.id.imageButton62);
+        string61 = findViewById(R.id.imageButton61);
+        string60 = findViewById(R.id.imageButton60);
 
 
-        Estring = (ImageView) findViewById(R.id.Estring); //obrazky strun
-        Astring = (ImageView) findViewById(R.id.Astring);
-        Dstring = (ImageView) findViewById(R.id.Dstring);
-        Gstring = (ImageView) findViewById(R.id.Gstring);
-        Bstring = (ImageView) findViewById(R.id.Bstring);
-        E2string = (ImageView) findViewById(R.id.E2string);
+        Estring =  findViewById(R.id.Estring); //obrazky strun
+        Astring =  findViewById(R.id.Astring);
+        Dstring =  findViewById(R.id.Dstring);
+        Gstring =  findViewById(R.id.Gstring);
+        Bstring =  findViewById(R.id.Bstring);
+        E2string = findViewById(R.id.E2string);
 
 
         E2tone = new GuitarTone((ImageButton) findViewById(R.id.imageButton60), tones.getString60(), E2string);
@@ -407,15 +411,27 @@ public abstract class VirtualGuitarActivity extends AppCompatActivity {
     }
 
 
+    protected void redrawFretboard () {
+        File currentBackgound = new  File(this.getFilesDir()+"/Backgrounds/" + currentUser.getCurrentNameBackground());
+        Drawable d;
+        if(currentBackgound.exists()){
+            Bitmap myBitmap = BitmapFactory.decodeFile(currentBackgound.getAbsolutePath());
+            d = new BitmapDrawable(getResources(), myBitmap);
+            fretboard.changeBackGround(d);
+        }
 
+        File currentFret = new  File(this.getFilesDir()+"/Frets/" + currentUser.getCurrentNameFret());
+        if(currentFret.exists()){
+            Bitmap myBitmap = BitmapFactory.decodeFile(currentFret.getAbsolutePath());
+            d = new BitmapDrawable(getResources(), myBitmap);
+            fretboard.changeFretsImages(d);
+        }
+
+    }
 
     protected void changeInstrument (){ //zmena nastroje na zaklade slozky Instruments
-
-        Songs.fillSongs(this);
         fillInstrument();
-
-
-        int lenght= Songs.getNameInstruments().size();
+        int lenght= currentUser.getAllowedInstruments().size();
 
         if (numberInstrument + 1 < lenght) {
             numberInstrument++;
@@ -423,10 +439,10 @@ public abstract class VirtualGuitarActivity extends AppCompatActivity {
             numberInstrument = 0;
         }
 
-        settings.edit().putString("list_instruments", Songs.getNameInstruments().get(numberInstrument)).apply();;
-
+        settings.edit().putString("list_instruments", currentUser.getAllowedInstruments().get(numberInstrument)).apply();
+        currentUser.setCurrentNameInstrument(currentUser.getAllowedInstruments().get(numberInstrument));
+        SingletonManagerUsers.changeUser(currentUser);
         fillInstrument();
-
 
         try {
             mToast.cancel();
@@ -434,25 +450,17 @@ public abstract class VirtualGuitarActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
-
-        mToast = Toast.makeText(this,"Zvuk kytary změněn na: " + nameInstrument.substring(0, nameInstrument.length()-4),Toast.LENGTH_SHORT);
-
+        mToast = Toast.makeText(this,"Zvuk kytary změněn na: " + currentUser.getCurrentNameInstrument(), Toast.LENGTH_SHORT);
         mToast.show();
-
-
-
-            mToast = Toast.makeText(this,"Hudba: " + settings.getString("list_songs", null),Toast.LENGTH_SHORT);
-            mToast.show();
-
-
-
+        mToast = Toast.makeText(this,"Hudba: " + currentUser.getCurrentNameSong(), Toast.LENGTH_SHORT);
+        mToast.show();
     }
 
 
     protected void fillInstrument(){
 
-        nameInstrument = settings.getString("list_instruments", "a1.wav");
-        numberInstrument = Songs.getNameInstruments().indexOf(nameInstrument);
+        nameInstrument = currentUser.getCurrentNameInstrument();
+        numberInstrument = currentUser.getAllowedInstruments().indexOf(nameInstrument);
 
         try {
             soundId = soundPool.load( getFilesDir()+"/Instruments/"+nameInstrument, 1);

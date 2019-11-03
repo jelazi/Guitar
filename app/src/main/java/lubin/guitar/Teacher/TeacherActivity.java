@@ -9,21 +9,18 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import java.util.ArrayList;
-import java.util.Arrays;
+
 import java.util.List;
 
-import lubin.guitar.TypeMessage;
+
 import lubin.guitar.Users.EditUserActivity;
 import lubin.guitar.Files.DialogType;
 import lubin.guitar.R;
 import lubin.guitar.Users.SingletonManagerUsers;
-import lubin.guitar.Users.User;
 
 public class TeacherActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -138,7 +135,7 @@ public class TeacherActivity extends AppCompatActivity implements View.OnClickLi
                 break;
             }
             case CHOICE_USER_ACCOUNT: {
-                listUsers = SingletonManagerUsers.getListNamesUsers();
+                listUsers = SingletonManagerUsers.getListNamesUsers(true);
                 String[] arrayUsers = new String[listUsers.size()];
                 listUsers.toArray(arrayUsers);
 

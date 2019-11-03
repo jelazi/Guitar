@@ -346,9 +346,7 @@ public class PlayAcordActivity extends VirtualGuitarActivity {
         guitarStringValue = tones.getAkord(nameChord);
 
         this.nameChord = nameChord;
-        this.setTitle(nameUser + " hraje " + this.nameChord);
-
-
+        this.setTitle(currentUser.getName() + " hraje " + this.nameChord);
 
         for (int i = 0; i <= 5; i++) {
             guitarTones[i].setStringValue(guitarStringValue[i]);

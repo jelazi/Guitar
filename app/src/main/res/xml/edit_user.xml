@@ -31,33 +31,41 @@
         />
 
     <Preference
-        android:entries="@array/list_songs"
-        android:entryValues="@array/list_songs"
-        android:summary="Povolené písně"
         android:key="list_songs"
         android:title="Povolené písně" />
 
+    <Preference
+        android:summary=""
+        android:key="current_song"
+        android:title="Právě používaná píseň" />
+
 
     <Preference
-        android:entries="@array/list_instruments"
-        android:entryValues="@array/list_instruments"
-        android:summary="Povolené nástroje"
         android:key="list_instruments"
         android:title="Povolené nástroje" />
 
     <Preference
-        android:entries="@array/list_instruments"
-        android:entryValues="@array/list_instruments"
-        android:summary="Povolené pražce"
+        android:summary=""
+        android:key="current_instrument"
+        android:title="Právě používaný nástroj" />
+
+    <Preference
         android:key="list_frets"
         android:title="Povolené pražce" />
 
     <Preference
-        android:entries="@array/list_instruments"
-        android:entryValues="@array/list_instruments"
-        android:summary="Povolené pozadí kytary"
+        android:summary=""
+        android:key="current_fret"
+        android:title="Právě používaný pražec" />
+
+    <Preference
         android:key="list_backgrounds"
-        android:title="@string/choice_instrument" />
+        android:title="Povolené pozadí kytary" />
+
+    <Preference
+        android:summary=""
+        android:key="current_background"
+        android:title="Právě používané pozadí kytary" />
 
 
 <SwitchPreference

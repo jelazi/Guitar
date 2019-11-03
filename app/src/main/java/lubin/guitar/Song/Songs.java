@@ -82,8 +82,7 @@ public class Songs {
 
 
 
-    public static Song callByName(Context context, String name) {
-        fillSongs(context);
+    public static Song getSongByName(Context context, String name) {
         int index = Songs.nameSongs.indexOf(name);
         if (index < 0) index = 0;
         Songs.song = Songs.listSongs.get(index);

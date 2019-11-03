@@ -29,6 +29,10 @@ public class EditUserPreferenceFragment extends PreferenceFragment implements
     Preference preferenceListInstruments;
     Preference preferenceListFrets;
     Preference preferenceListBackgrounds;
+    Preference preferenceCurrentSong;
+    Preference preferenceCurrentInstrument;
+    Preference preferenceCurrentFret;
+    Preference preferenceCurrentBackground;
     SwitchPreference preferenceStopBeforeTone;
     User currentUser;
 
@@ -79,6 +83,38 @@ public class EditUserPreferenceFragment extends PreferenceFragment implements
             @Override
             public boolean onPreferenceClick(Preference preference) {
                 controlWrongAllowData(preferenceListBackgrounds);
+                return true;
+            }
+        });
+        preferenceCurrentSong = findPreference("current_song");
+        preferenceCurrentSong.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(Preference preference) {
+                showList(preferenceCurrentSong);
+                return true;
+            }
+        });
+        preferenceCurrentInstrument = findPreference("current_instrument");
+        preferenceCurrentInstrument.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(Preference preference) {
+                showList(preferenceCurrentInstrument);
+                return true;
+            }
+        });
+        preferenceCurrentFret = findPreference("current_fret");
+        preferenceCurrentFret.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(Preference preference) {
+                showList(preferenceCurrentFret);
+                return true;
+            }
+        });
+        preferenceCurrentBackground = findPreference("current_background");
+        preferenceCurrentBackground.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(Preference preference) {
+                showList(preferenceCurrentBackground);
                 return true;
             }
         });
@@ -317,8 +353,8 @@ public class EditUserPreferenceFragment extends PreferenceFragment implements
         }
         if (preference == preferenceListInstruments) {
             builder.setTitle("Možné Nástroje");
-            Songs.fillSongs(getActivity());
-            final ArrayList<String> listInstruments = Songs.getNameInstruments();
+            FileManager.loadData(getActivity());
+            final ArrayList<String> listInstruments = FileManager.getNameInstruments();
             String[] allInstruments = new String[listInstruments.size()];
             listInstruments.toArray(allInstruments);
             final boolean[] checkedInstruments = SingletonManagerUsers.getCheckedDataCurrentUser(listInstruments, UserList.INSTRUMENTSLIST);
@@ -338,6 +374,158 @@ public class EditUserPreferenceFragment extends PreferenceFragment implements
                     }
                     currentUser.setAllowedInstruments(namesSelectedInstruments);
                     SingletonManagerUsers.changeUser(currentUser);
+                }
+            });
+        }
+        if (preference == preferenceCurrentSong) {
+            builder.setTitle("Právě používaná píseň");
+            final List<String> listAllowedSongs = currentUser.getAllowedSongs();
+            final String[] allAllowedSongs = new String[listAllowedSongs.size()];
+            listAllowedSongs.toArray(allAllowedSongs);
+            final int[] checkItem = {0};
+            if (listAllowedSongs.contains(currentUser.getCurrentNameSong())) {
+                for (int i = 0; i < listAllowedSongs.size(); i++) {
+                    if (listAllowedSongs.get(i).equals(currentUser.getCurrentNameSong())) {
+                        checkItem[0] = i;
+                        break;
+                    }
+                }
+            } else {
+                checkItem[0] = 0;
+            }
+            builder.setSingleChoiceItems(
+                    allAllowedSongs,
+                    checkItem[0],
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int item) {
+                            checkItem[0] = item;
+                        }
+                    }
+            );
+            builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    String nameCurrentSong = "";
+                    nameCurrentSong = listAllowedSongs.get(checkItem[0]);
+                    if (!nameCurrentSong.isEmpty()) {
+                        currentUser.setCurrentNameSong(nameCurrentSong);
+                        SingletonManagerUsers.changeUser(currentUser);
+                        preferenceCurrentSong.setSummary(currentUser.getCurrentNameSong());
+                    }
+                }
+            });
+        }
+        if (preference == preferenceCurrentInstrument) {
+            builder.setTitle("Právě používaný nástroj");
+            final List<String> listAllowedInstruments = currentUser.getAllowedInstruments();
+            final String[] allAllowedInstruments = new String[listAllowedInstruments.size()];
+            listAllowedInstruments.toArray(allAllowedInstruments);
+            final int[] checkItem = {0};
+            if (listAllowedInstruments.contains(currentUser.getCurrentNameInstrument())) {
+                for (int i = 0; i < listAllowedInstruments.size(); i++) {
+                    if (listAllowedInstruments.get(i).equals(currentUser.getCurrentNameInstrument())) {
+                        checkItem[0] = i;
+                        break;
+                    }
+                }
+            } else {
+                checkItem[0] = 0;
+            }
+            builder.setSingleChoiceItems(
+                    allAllowedInstruments,
+                    checkItem[0],
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int item) {
+                            checkItem[0] = item;
+                        }
+                    }
+            );
+            builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    String nameCurrentInstrument = "";
+                    nameCurrentInstrument = listAllowedInstruments.get(checkItem[0]);
+                    if (!nameCurrentInstrument.isEmpty()) {
+                        currentUser.setCurrentNameInstrument(nameCurrentInstrument);
+                        SingletonManagerUsers.changeUser(currentUser);
+                        preferenceCurrentInstrument.setSummary(currentUser.getCurrentNameInstrument());
+                    }
+                }
+            });
+        }
+        if (preference == preferenceCurrentFret) {
+            builder.setTitle("Právě používaný pražec");
+            final List<String> listAllowedFrets = currentUser.getAllowedFrets();
+            final String[] allAllowedFrets = new String[listAllowedFrets.size()];
+            listAllowedFrets.toArray(allAllowedFrets);
+            final int[] checkItem = {0};
+            if (listAllowedFrets.contains(currentUser.getCurrentNameFret())) {
+                for (int i = 0; i < listAllowedFrets.size(); i++) {
+                    if (listAllowedFrets.get(i).equals(currentUser.getCurrentNameFret())) {
+                        checkItem[0] = i;
+                        break;
+                    }
+                }
+            } else {
+                checkItem[0] = 0;
+            }
+            builder.setSingleChoiceItems(
+                    allAllowedFrets,
+                    checkItem[0],
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int item) {
+                            checkItem[0] = item;
+                        }
+                    }
+            );
+            builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    String nameCurrentFret = "";
+                    nameCurrentFret = listAllowedFrets.get(checkItem[0]);
+                    if (!nameCurrentFret.isEmpty()) {
+                        currentUser.setCurrentNameFret(nameCurrentFret);
+                        SingletonManagerUsers.changeUser(currentUser);
+                        preferenceCurrentFret.setSummary(currentUser.getCurrentNameFret());
+                    }
+                }
+            });
+        }
+        if (preference == preferenceCurrentBackground) {
+            builder.setTitle("Právě používané pozadí kytary");
+            final List<String> listAllowedBackground = currentUser.getAllowedBackgrounds();
+            final String[] allAllowedBackgrounds = new String[listAllowedBackground.size()];
+            listAllowedBackground.toArray(allAllowedBackgrounds);
+            final int[] checkItem = {0};
+            if (listAllowedBackground.contains(currentUser.getCurrentNameBackground())) {
+                for (int i = 0; i < listAllowedBackground.size(); i++) {
+                    if (listAllowedBackground.get(i).equals(currentUser.getCurrentNameBackground())) {
+                        checkItem[0] = i;
+                        break;
+                    }
+                }
+            } else {
+                checkItem[0] = 0;
+            }
+            builder.setSingleChoiceItems(
+                    allAllowedBackgrounds,
+                    checkItem[0],
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int item) {
+                            checkItem[0] = item;
+                        }
+                    }
+            );
+            builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    String nameCurrentBackground = "";
+                    nameCurrentBackground = listAllowedBackground.get(checkItem[0]);
+                    if (!nameCurrentBackground.isEmpty()) {
+                        currentUser.setCurrentNameBackground(nameCurrentBackground);
+                        SingletonManagerUsers.changeUser(currentUser);
+                        preferenceCurrentBackground.setSummary(currentUser.getCurrentNameBackground());
+                    }
                 }
             });
         }
@@ -366,6 +554,10 @@ public class EditUserPreferenceFragment extends PreferenceFragment implements
         preferencePassUser.setText(currentUser.getPass());
         preferenceCoinUser.setSummary(String.valueOf(currentUser.getCoins()));
         preferenceCoinUser.setText(String.valueOf(currentUser.getCoins()));
+        preferenceCurrentSong.setSummary(currentUser.getCurrentNameSong());
+        preferenceCurrentInstrument.setSummary(currentUser.getCurrentNameInstrument());
+        preferenceCurrentFret.setSummary(currentUser.getCurrentNameFret());
+        preferenceCurrentBackground.setSummary(currentUser.getCurrentNameBackground());
         preferenceStopBeforeTone.setChecked(currentUser.isChoiceMultiTone());
     }
 }

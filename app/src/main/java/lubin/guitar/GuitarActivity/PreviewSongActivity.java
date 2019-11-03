@@ -215,7 +215,7 @@ boolean animationbool = false;
 
 
         if (!isPlaying) {
-            song = Songs.callByName(getApplicationContext(), settings.getString("list_songs", "Pro Elisku"));
+            song = Songs.getSongByName(getApplicationContext(), settings.getString("list_songs", "Pro Elisku"));
 
         }
 

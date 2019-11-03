@@ -58,7 +58,7 @@ public class AccountActivity extends AppCompatActivity {
 
        // }
 
-        nameUsers = SingletonManagerUsers.getListNamesUsers(); //nacteni uzivatelu
+        nameUsers = SingletonManagerUsers.getListNamesUsers(false); //nacteni uzivatelu
         String[] arrayUsers = new String[nameUsers.size()];
         nameUsers.toArray(arrayUsers);
 
@@ -92,7 +92,7 @@ public class AccountActivity extends AppCompatActivity {
             currentUser = SingletonManagerUsers.getUserByName(nameSpinner.getSelectedItem().toString());
 
                 if (currentUser.getPass().equals(accountPass.getText().toString())){
-
+                    SingletonManagerUsers.setCurrentUser(currentUser);
                     settings.edit().putString("value_user", Integer.toString(currentUser.getCoins())).apply();
                     settings.edit().putString("name_user", currentUser.getName()).apply();
          //TODO           settings.edit().putString("list_instruments", currentUser.getAllowedInstruments()).apply();

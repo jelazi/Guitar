@@ -25,7 +25,7 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 
-import lubin.guitar.Files.FileInOut;
+import lubin.guitar.Files.FileManager;
 import lubin.guitar.Settings.Fretboard;
 import lubin.guitar.Song.GuitarTone;
 import lubin.guitar.R;
@@ -34,6 +34,8 @@ import lubin.guitar.Song.Song;
 import lubin.guitar.Song.Songs;
 import lubin.guitar.Song.Tone;
 import lubin.guitar.Song.Tones;
+import lubin.guitar.Users.SingletonManagerUsers;
+import lubin.guitar.Users.User;
 
 
 public abstract class VirtualGuitarActivity extends AppCompatActivity {
@@ -78,7 +80,6 @@ public abstract class VirtualGuitarActivity extends AppCompatActivity {
     ImageView E2string;
 
 
-
     SoundPool soundPool; //zvuk
     AudioManager audioManager;
     int soundId;
@@ -107,7 +108,7 @@ public abstract class VirtualGuitarActivity extends AppCompatActivity {
     boolean stopBeforeTone;
 
     String nameUser;
-    Song skladba = new Song();
+    Song currentSong = new Song();
 
     ArrayList<Tone> tonySkladby = new ArrayList<>();
     ArrayList<GuitarTone> playingTones = new ArrayList<>();
@@ -118,9 +119,7 @@ public abstract class VirtualGuitarActivity extends AppCompatActivity {
     int streamID = 0;
 
     Fretboard fretboard;
-
-
-
+    User currentUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -128,19 +127,17 @@ public abstract class VirtualGuitarActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         settings = PreferenceManager.getDefaultSharedPreferences(this);
+        currentUser = SingletonManagerUsers.getCurrentUser();
 
-
-        FileInOut.copyFromAssets(this, "Instruments", getFilesDir()+"/Instruments/");
-        FileInOut.copyFromAssets(this, "Songs", getFilesDir()+"/Songs/");
+     //   FileInOut.copyFromAssets(this, "Instruments", getFilesDir()+"/Instruments/");
+     //   FileInOut.copyFromAssets(this, "Songs", getFilesDir()+"/Songs/");
 
         Songs.fillSongs(this);
         fillInstrument();
 
-        skladba = Songs.callByName(getApplicationContext(), settings.getString("list_songs", "Pro Elisku"));
+        currentSong = Songs.getSongByName(this, currentUser.getAllowedSongs().get(0));
+        stopBeforeTone = !currentUser.isChoiceMultiTone();
 
-        stopBeforeTone = settings.getBoolean("stop_before_tone", false);
-
-        nameUser = settings.getString("name_user", null);
         audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
         //maximalni mnozstvi zaroven prehravanych zvuku
         int maxStreams = 4;
@@ -231,8 +228,6 @@ public abstract class VirtualGuitarActivity extends AppCompatActivity {
         }
         return true;
     }
-
-
 
     //vytvari tlacitka
     protected void createView() {
@@ -416,19 +411,14 @@ public abstract class VirtualGuitarActivity extends AppCompatActivity {
 
     protected void changeInstrument (){ //zmena nastroje na zaklade slozky Instruments
 
-
         Songs.fillSongs(this);
-
-
         fillInstrument();
+
 
         int lenght= Songs.getNameInstruments().size();
 
-
         if (numberInstrument + 1 < lenght) {
-
             numberInstrument++;
-
         } else {
             numberInstrument = 0;
         }

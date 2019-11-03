@@ -64,16 +64,20 @@ public class SingletonManagerUsers {
         return null;
     }
 
-    public static List<String> getListNamesUsers () {
+    public static List<String> getListNamesUsers (boolean withNewUser) {
         List <String> listNamesUsers = new ArrayList<String>();
         if (listUsers == null || listUsers.size() == 0) {
-            listNamesUsers.add("New User");
+            if (withNewUser) {
+                listNamesUsers.add("New User");
+            }
             return listNamesUsers;
         }
         for (User user :listUsers) {
             listNamesUsers.add(user.getName());
         }
-        listNamesUsers.add("New User");
+        if (withNewUser) {
+            listNamesUsers.add("New User");
+        }
         return listNamesUsers;
     }
 

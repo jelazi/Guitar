@@ -34,16 +34,21 @@ public class FileManager {
     private static File[] fieldFileInstruments;
     private static File[] fieldFileFrets;
     private static File[] fieldFileBackgrounds;
+    private static File[] fieldFileStrings;
     private static ArrayList<Song> listSongs = new ArrayList<>(); //seznam vsech songu nahranych do songs
     private static ArrayList<String> nameSongs = new ArrayList<>(); //seznam jmen vsech songu nahranych do songs
     private static ArrayList<String> nameInstruments = new ArrayList<>(); //seznam jmen vsech instrumentu
     private static ArrayList<String> nameFrets;
     private static ArrayList<String> nameBackgrounds;
+    private static ArrayList<String> nameStrings;
+
     private static Song song;
     private static File dirSongs;
     private static File dirInstruments;
     private static File dirFrets;
     private static File dirBackgrounds;
+    private static File dirStrings;
+
     private static Context context;
     private static Song ThisSong;
 
@@ -53,6 +58,8 @@ public class FileManager {
             FileManager.fieldFileInstruments = dirInstruments.listFiles();
             FileManager.fieldFileFrets = dirFrets.listFiles();
             FileManager.fieldFileBackgrounds = dirBackgrounds.listFiles();
+            FileManager.fieldFileStrings = dirStrings.listFiles();
+
             FileManager.copyDataFromResource();
 
             for (File file : fieldFilesSongs){
@@ -77,6 +84,11 @@ public class FileManager {
                     FileManager.nameBackgrounds.add(file.getName());
                 }
             }
+            for (File file : fieldFileStrings){
+                if (!FileManager.nameStrings.contains(file.getName())) {
+                    FileManager.nameStrings.add(file.getName());
+                }
+            }
         } catch (Exception e){
             e.getMessage();
         }
@@ -89,6 +101,8 @@ public class FileManager {
         FileManager.nameInstruments = new ArrayList<>();
         FileManager.nameBackgrounds = new ArrayList<>();
         FileManager.nameFrets = new ArrayList<>();
+        FileManager.nameStrings = new ArrayList<>();
+
         ThisSong = new Song();
         song =  new Song("Ovcaci, ctveraci");
         dirSongs = new File (context.getFilesDir()+"/Songs/");
@@ -113,6 +127,12 @@ public class FileManager {
         if (!dirBackgrounds.exists()) {
             if (!dirBackgrounds.mkdirs()) {
                 Log.e("Error :: ", "Problem creating dirBackgrounds");
+            }
+        }
+        dirStrings = new File (context.getFilesDir()+"/Strings/");
+        if (!dirStrings.exists()) {
+            if (!dirStrings.mkdirs()) {
+                Log.e("Error :: ", "Problem creating dirStrings");
             }
         }
         loadData(context);
@@ -150,6 +170,17 @@ public class FileManager {
             copyFiletoTarget(R.drawable.rosewood, dirBackgrounds.toString(), "/rosewood.png");
             copyFiletoTarget(R.drawable.rosewood2, dirBackgrounds.toString(), "/rosewood2.png");
             FileManager.fieldFileBackgrounds = dirBackgrounds.listFiles();
+        }
+        if (fieldFileStrings == null || fieldFileStrings.length == 0) {
+            File dirDefault = new File (context.getFilesDir()+"/Strings/defaultStrings/");
+            dirDefault.mkdir();
+            copyFiletoTarget(R.drawable.string1, dirBackgrounds.toString(), "/defaultStrings/string1.png");
+            copyFiletoTarget(R.drawable.string2, dirBackgrounds.toString(), "/defaultStrings/string2.png");
+            copyFiletoTarget(R.drawable.string3, dirBackgrounds.toString(), "/defaultStrings/string3.png");
+            copyFiletoTarget(R.drawable.string4, dirBackgrounds.toString(), "/defaultStrings/string4.png");
+            copyFiletoTarget(R.drawable.string5, dirBackgrounds.toString(), "/defaultStrings/string5.png");
+            copyFiletoTarget(R.drawable.string6, dirBackgrounds.toString(), "/defaultStrings/string6.png");
+            FileManager.fieldFileStrings = dirStrings.listFiles();
         }
     }
 
@@ -327,5 +358,13 @@ public class FileManager {
 
     public static void setNameInstruments(ArrayList<String> nameInstruments) {
         FileManager.nameInstruments = nameInstruments;
+    }
+
+    public static ArrayList<String> getNameStrings() {
+        return nameStrings;
+    }
+
+    public static void setNameStrings(ArrayList<String> nameStrings) {
+        FileManager.nameStrings = nameStrings;
     }
 }

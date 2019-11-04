@@ -29,10 +29,14 @@ public class EditUserPreferenceFragment extends PreferenceFragment implements
     Preference preferenceListInstruments;
     Preference preferenceListFrets;
     Preference preferenceListBackgrounds;
+    Preference preferenceListStrings;
+
     Preference preferenceCurrentSong;
     Preference preferenceCurrentInstrument;
     Preference preferenceCurrentFret;
     Preference preferenceCurrentBackground;
+    Preference preferenceCurrentString;
+
     SwitchPreference preferenceStopBeforeTone;
     User currentUser;
 
@@ -78,6 +82,14 @@ public class EditUserPreferenceFragment extends PreferenceFragment implements
                 return true;
             }
         });
+        preferenceListStrings = (Preference) findPreference("list_strings");
+        preferenceListStrings.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(Preference preference) {
+                controlWrongAllowData(preferenceListStrings);
+                return true;
+            }
+        });
         preferenceListBackgrounds = (Preference) findPreference("list_backgrounds");
         preferenceListBackgrounds.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             @Override
@@ -118,6 +130,15 @@ public class EditUserPreferenceFragment extends PreferenceFragment implements
                 return true;
             }
         });
+        preferenceCurrentString = findPreference("current_string");
+        preferenceCurrentString.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(Preference preference) {
+                showList(preferenceCurrentString);
+                return true;
+            }
+        });
+
 
         preferenceStopBeforeTone = (SwitchPreference) findPreference("stop_before_tone");
     }
@@ -127,11 +148,11 @@ public class EditUserPreferenceFragment extends PreferenceFragment implements
         Preference pref = findPreference(key);
         if (pref == preferenceNameUser) {
            String newName = preferenceNameUser.getText();
-           if (SingletonManagerUsers.isUniqueNameUser(newName)) {
+           if (SingletonManagerUsers.isUniqueNameUser(newName, currentUser.getID())) {
                currentUser.setName(newName);
                preferenceNameUser.setSummary(newName);
            } else {
-               Toast.makeText(getActivity(), "Nepoolené jméno", Toast.LENGTH_SHORT).show();
+               Toast.makeText(getActivity(), "Nepovolené jméno", Toast.LENGTH_SHORT).show();
                return;
            }
         }
@@ -194,6 +215,14 @@ public class EditUserPreferenceFragment extends PreferenceFragment implements
                 showAlertWrongData(preferenceListInstruments, wrongData);
             }
         }
+        if (preference == preferenceListStrings) {
+            List<String> wrongData = SingletonManagerUsers.getWrongDataCurrentUser(getActivity(), UserList.STRINGSLIST);
+            if (wrongData.isEmpty()) {
+                showList(preferenceListStrings);
+            } else {
+                showAlertWrongData(preferenceListStrings, wrongData);
+            }
+        }
     }
 
     protected void showAlertWrongData (Preference preference, List<String> wrongData) {
@@ -201,8 +230,7 @@ public class EditUserPreferenceFragment extends PreferenceFragment implements
         if (preference == preferenceListBackgrounds) {
             builder.setTitle("Špatné jména pozadí");
             String listString = "";
-            for (String s : wrongData)
-            {
+            for (String s : wrongData) {
                 listString += s + "\t";
             }
             String message = "Našli jsme tyto špatně zapsané jména pozadí: " + listString;
@@ -218,8 +246,7 @@ public class EditUserPreferenceFragment extends PreferenceFragment implements
         if (preference == preferenceListFrets) {
             builder.setTitle("Špatné jména pražců");
             String listString = "";
-            for (String s : wrongData)
-            {
+            for (String s : wrongData) {
                 listString += s + "\t";
             }
             String message = "Našli jsme tyto špatně zapsané jména pražců: " + listString;
@@ -235,8 +262,7 @@ public class EditUserPreferenceFragment extends PreferenceFragment implements
         if (preference == preferenceListSongs) {
             builder.setTitle("Špatné jména písní");
             String listString = "";
-            for (String s : wrongData)
-            {
+            for (String s : wrongData) {
                 listString += s + "\t";
             }
             String message = "Našli jsme tyto špatně zapsané jména písní: " + listString;
@@ -252,8 +278,7 @@ public class EditUserPreferenceFragment extends PreferenceFragment implements
         if (preference == preferenceListInstruments) {
             builder.setTitle("Špatné názvy nástrojů");
             String listString = "";
-            for (String s : wrongData)
-            {
+            for (String s : wrongData) {
                 listString += s + "\t";
             }
             String message = "Našli jsme tyto špatně zapsané jména nástrojů: " + listString;
@@ -263,6 +288,22 @@ public class EditUserPreferenceFragment extends PreferenceFragment implements
                 public void onClick(DialogInterface dialog, int which) {
                     showList(preferenceListInstruments);
                     SingletonManagerUsers.eraseWrongDataCurrentUser(getActivity(), UserList.INSTRUMENTSLIST);
+                }
+            });
+        }
+        if (preference == preferenceListStrings) {
+            builder.setTitle("Špatné názvy strun");
+            String listString = "";
+            for (String s : wrongData) {
+                listString += s + "\t";
+            }
+            String message = "Našli jsme tyto špatně zapsané jména strun: " + listString;
+            builder.setMessage(message);
+            builder.setPositiveButton("Vymazat", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    showList(preferenceListStrings);
+                    SingletonManagerUsers.eraseWrongDataCurrentUser(getActivity(), UserList.STRINGSLIST);
                 }
             });
         }
@@ -373,6 +414,32 @@ public class EditUserPreferenceFragment extends PreferenceFragment implements
                         }
                     }
                     currentUser.setAllowedInstruments(namesSelectedInstruments);
+                    SingletonManagerUsers.changeUser(currentUser);
+                }
+            });
+        }
+        if (preference == preferenceListStrings) {
+            builder.setTitle("Možné struny");
+            FileManager.loadData(getActivity());
+            final ArrayList<String> listStrings = FileManager.getNameStrings();
+            String[] allStrings = new String[listStrings.size()];
+            listStrings.toArray(allStrings);
+            final boolean[] checkedStrings = SingletonManagerUsers.getCheckedDataCurrentUser(listStrings, UserList.STRINGSLIST);
+            builder.setMultiChoiceItems(allStrings, checkedStrings, new DialogInterface.OnMultiChoiceClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which, boolean isChecked) {
+                }
+            });
+            builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    ArrayList<String>namesSelectedStrings = new ArrayList<>();
+                    for (int i = 0; i < listStrings.size();i ++) {
+                        if (checkedStrings[i]) {
+                            namesSelectedStrings.add(listStrings.get(i));
+                        }
+                    }
+                    currentUser.setAllowedStrings(namesSelectedStrings);
                     SingletonManagerUsers.changeUser(currentUser);
                 }
             });
@@ -529,6 +596,44 @@ public class EditUserPreferenceFragment extends PreferenceFragment implements
                 }
             });
         }
+        if (preference == preferenceCurrentString) {
+            builder.setTitle("Právě používané struny");
+            final List<String> listAllowedStrings = currentUser.getAllowedStrings();
+            final String[] allAllowedStrings = new String[listAllowedStrings.size()];
+            listAllowedStrings.toArray(allAllowedStrings);
+            final int[] checkItem = {0};
+            if (listAllowedStrings.contains(currentUser.getCurrentNameString())) {
+                for (int i = 0; i < listAllowedStrings.size(); i++) {
+                    if (listAllowedStrings.get(i).equals(currentUser.getCurrentNameString())) {
+                        checkItem[0] = i;
+                        break;
+                    }
+                }
+            } else {
+                checkItem[0] = 0;
+            }
+            builder.setSingleChoiceItems(
+                    allAllowedStrings,
+                    checkItem[0],
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int item) {
+                            checkItem[0] = item;
+                        }
+                    }
+            );
+            builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    String nameCurrentString = "";
+                    nameCurrentString = listAllowedStrings.get(checkItem[0]);
+                    if (!nameCurrentString.isEmpty()) {
+                        currentUser.setCurrentNameString(nameCurrentString);
+                        SingletonManagerUsers.changeUser(currentUser);
+                        preferenceCurrentString.setSummary(currentUser.getCurrentNameString());
+                    }
+                }
+            });
+        }
 
         builder.setNegativeButton("Cancel", null);
         AlertDialog dialog = builder.create();
@@ -558,6 +663,7 @@ public class EditUserPreferenceFragment extends PreferenceFragment implements
         preferenceCurrentInstrument.setSummary(currentUser.getCurrentNameInstrument());
         preferenceCurrentFret.setSummary(currentUser.getCurrentNameFret());
         preferenceCurrentBackground.setSummary(currentUser.getCurrentNameBackground());
+        preferenceCurrentString.setSummary(currentUser.getCurrentNameString());
         preferenceStopBeforeTone.setChecked(currentUser.isChoiceMultiTone());
     }
 }

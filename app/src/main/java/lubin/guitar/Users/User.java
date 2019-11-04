@@ -18,15 +18,17 @@ public class User {
     private List<String> allowedInstruments;
     private List<String> allowedFrets;
     private List<String> allowedBackgrounds;
+    private List<String> allowedStrings;
     private String currentNameSong;
     private String currentNameInstrument;
     private String currentNameFret;
     private String currentNameBackground;
+    private String currentNameString;
     private boolean choiceMultiTone;
     private int ID;
 
 
-    public User(String name, int coins, String pass, List<String>  allowedSongs, List<String>  allowedInstruments, List<String>  allowedFrets, List<String>  allowedBackgrounds, boolean choiceMultiTone){
+    public User(String name, int coins, String pass, List<String>  allowedSongs, List<String>  allowedInstruments, List<String>  allowedFrets, List<String>  allowedBackgrounds, List<String> allowedStrings, boolean choiceMultiTone){
         this.name = name;
         this.coins = coins;
         this.pass = pass;
@@ -34,12 +36,14 @@ public class User {
         this.allowedInstruments = allowedInstruments;
         this.allowedFrets = allowedFrets;
         this.allowedBackgrounds = allowedBackgrounds;
+        this.allowedStrings = allowedStrings;
         this.choiceMultiTone = choiceMultiTone;
         this.ID = SingletonManagerUsers.getNewID();
         String nameSong;
         String nameInstrument;
         String nameFret;
         String nameBackground;
+        String nameString;
         if (allowedSongs != null && allowedSongs.size() > 0) {
             nameSong = allowedSongs.get(0);
         } else {
@@ -64,11 +68,17 @@ public class User {
             Log.e("Error", "allowedBackgrounds is broken");
             nameBackground = "";
         }
+        if (allowedStrings != null && allowedStrings.size() > 0) {
+            nameString = allowedStrings.get(0);
+        } else {
+            Log.e("Error", "allowedStrings is broken");
+            nameString = "";
+        }
         this.currentNameSong = nameSong;
         this.currentNameInstrument = nameInstrument;
         this.currentNameFret = nameFret;
         this.currentNameBackground = nameBackground;
-
+        this.currentNameString = nameString;
     }
 
     public User (User anotherUser) {
@@ -85,6 +95,7 @@ public class User {
         this.currentNameInstrument = anotherUser.currentNameInstrument;
         this.currentNameFret = anotherUser.currentNameFret;
         this.currentNameBackground = anotherUser.currentNameBackground;
+        this.currentNameString = anotherUser.currentNameString;
     }
 
 
@@ -115,6 +126,8 @@ public class User {
 
     public List<String> getAllowedFrets() {
         if (allowedFrets == null) allowedFrets = new ArrayList<>();
+        if (allowedFrets.isEmpty()) setAllowedFrets(allowedFrets);
+
         return allowedFrets;
     }
 
@@ -124,6 +137,7 @@ public class User {
                 Log.e("Error", "nameFrets is empty or null");
                 return;
             }
+            allowedFrets = new ArrayList<>(allowedFrets);
 
             allowedFrets.add(FileManager.getNameFrets().get(0));
         }
@@ -132,6 +146,8 @@ public class User {
 
     public List<String> getAllowedBackgrounds() {
         if (allowedBackgrounds == null) allowedBackgrounds = new ArrayList<>();
+        if (allowedBackgrounds.isEmpty()) setAllowedBackgrounds(allowedBackgrounds);
+
         return allowedBackgrounds;
     }
 
@@ -141,6 +157,7 @@ public class User {
                 Log.e("Error", "nameBackground is empty or null");
                 return;
             }
+            allowedBackgrounds = new ArrayList<>(allowedBackgrounds);
 
             allowedBackgrounds.add(FileManager.getNameBackgrounds().get(0));
         }
@@ -158,15 +175,19 @@ public class User {
     public List<String> getAllowedSongs() {
 
         if (allowedSongs == null) allowedSongs = new ArrayList<>();
+        if (allowedSongs.isEmpty()) setAllowedSongs(allowedSongs);
+
         return allowedSongs;
     }
 
     public void setAllowedSongs(List<String> allowedSongs) {
+
         if (allowedSongs.isEmpty()) {
             if (FileManager.getNameSongs() == null || FileManager.getNameSongs().isEmpty()) {
                 Log.e("Error", "nameSongs is empty or null");
                 return;
             }
+            allowedSongs = new ArrayList<>(allowedSongs);
             allowedSongs.add(FileManager.getNameSongs().get(0));
         }
         this.allowedSongs = allowedSongs;
@@ -174,6 +195,8 @@ public class User {
 
     public List<String> getAllowedInstruments() {
         if (allowedInstruments == null) allowedInstruments = new ArrayList<>();
+        if (allowedInstruments.isEmpty()) setAllowedInstruments(allowedInstruments);
+
         return allowedInstruments;
     }
 
@@ -183,9 +206,30 @@ public class User {
                 Log.e("Error", "nameInstruments is empty or null");
                 return;
             }
+            allowedInstruments = new ArrayList<>(allowedInstruments);
+
             allowedInstruments.add(FileManager.getNameInstruments().get(0));
         }
         this.allowedInstruments = allowedInstruments;
+    }
+
+    public List<String> getAllowedStrings() {
+        if (allowedStrings == null) allowedStrings = new ArrayList<>();
+        if (allowedStrings.isEmpty()) setAllowedStrings(allowedStrings);
+        return allowedStrings;
+    }
+
+    public void setAllowedStrings(List<String> allowedStrings) {
+        if (allowedStrings.isEmpty()) {
+            if (FileManager.getNameStrings() == null || FileManager.getNameStrings().isEmpty()) {
+                Log.e("Error", "nameInstruments is empty or null");
+                return;
+            }
+            allowedStrings = new ArrayList<>(allowedStrings);
+
+            allowedStrings.add(FileManager.getNameStrings().get(0));
+        }
+        this.allowedStrings = allowedStrings;
     }
 
     public boolean isChoiceMultiTone() {
@@ -197,6 +241,7 @@ public class User {
     }
 
     public String getCurrentNameSong() {
+        if (currentNameSong.isEmpty()) currentNameSong = getAllowedSongs().get(0);
         return currentNameSong;
     }
 
@@ -209,6 +254,7 @@ public class User {
     }
 
     public String getCurrentNameInstrument() {
+        if (currentNameInstrument.isEmpty()) currentNameInstrument = getAllowedInstruments().get(0);
         return currentNameInstrument;
     }
 
@@ -222,6 +268,8 @@ public class User {
     }
 
     public String getCurrentNameFret() {
+
+        if (currentNameFret.isEmpty()) currentNameFret = getAllowedFrets().get(0);
         return currentNameFret;
     }
 
@@ -236,6 +284,8 @@ public class User {
     }
 
     public String getCurrentNameBackground() {
+        if (currentNameBackground.isEmpty()) currentNameBackground = getAllowedBackgrounds().get(0);
+
         return currentNameBackground;
     }
 
@@ -244,6 +294,20 @@ public class User {
             this.currentNameBackground = currentNameBackground;
         } else {
             Log.e("Error", "allowedBackgrounds not contains this currentNameBackground.");
+        }
+    }
+
+    public String getCurrentNameString() {
+        if (currentNameString.isEmpty()) currentNameString = getAllowedStrings().get(0);
+
+        return currentNameString;
+    }
+
+    public void setCurrentNameString(String currentNameString) {
+        if (allowedStrings.contains(currentNameString)) {
+            this.currentNameString = currentNameString;
+        } else {
+            Log.e("Error", "allowedStrings not contains this currentNameString.");
         }
     }
 }

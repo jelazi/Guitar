@@ -64,12 +64,12 @@ public class Fretboard {
         this.fret4.setImageDrawable(d);
     }
 
-    public void changeStringImages (int resId) {
-        this.Estring.setImageResource(resId);
-        this.Astring.setImageResource(resId);
-        this.Dstring.setImageResource(resId);
-        this.Gstring.setImageResource(resId);
-        this.Bstring.setImageResource(resId);
-        this.E2string.setImageResource(resId);
+    public void changeStringImages (Drawable s1, Drawable s2, Drawable s3, Drawable s4, Drawable s5, Drawable s6) {
+        this.Estring.setImageDrawable(s1);
+        this.Astring.setImageDrawable(s2);
+        this.Dstring.setImageDrawable(s3);
+        this.Gstring.setImageDrawable(s4);
+        this.Bstring.setImageDrawable(s5);
+        this.E2string.setImageDrawable(s6);
     }
 }

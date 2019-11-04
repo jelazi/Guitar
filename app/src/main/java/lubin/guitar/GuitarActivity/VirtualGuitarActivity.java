@@ -75,14 +75,12 @@ public abstract class VirtualGuitarActivity extends AppCompatActivity {
     ImageButton string61;
     ImageButton string60;
 
-
     ImageView Estring;
     ImageView Astring;
     ImageView Dstring;
     ImageView Gstring;
     ImageView Bstring;
     ImageView E2string;
-
 
     SoundPool soundPool; //zvuk
     AudioManager audioManager;
@@ -425,6 +423,36 @@ public abstract class VirtualGuitarActivity extends AppCompatActivity {
             Bitmap myBitmap = BitmapFactory.decodeFile(currentFret.getAbsolutePath());
             d = new BitmapDrawable(getResources(), myBitmap);
             fretboard.changeFretsImages(d);
+        }
+
+        Drawable s1;
+        Drawable s2;
+        Drawable s3;
+        Drawable s4;
+        Drawable s5;
+        Drawable s6;
+
+        File currentString1 = new  File(this.getFilesDir()+"/Strings/" + currentUser.getCurrentNameString() + "/string1.png");
+        File currentString2 = new  File(this.getFilesDir()+"/Strings/" + currentUser.getCurrentNameString() + "/string2.png");
+        File currentString3 = new  File(this.getFilesDir()+"/Strings/" + currentUser.getCurrentNameString() + "/string3.png");
+        File currentString4 = new  File(this.getFilesDir()+"/Strings/" + currentUser.getCurrentNameString() + "/string4.png");
+        File currentString5 = new  File(this.getFilesDir()+"/Strings/" + currentUser.getCurrentNameString() + "/string5.png");
+        File currentString6 = new  File(this.getFilesDir()+"/Strings/" + currentUser.getCurrentNameString() + "/string6.png");
+        if(currentString1.exists() && currentString2.exists() && currentString3.exists() && currentString4.exists() && currentString5.exists() && currentString6.exists()){
+            Bitmap bitmap1 = BitmapFactory.decodeFile(currentString1.getAbsolutePath());
+            Bitmap bitmap2 = BitmapFactory.decodeFile(currentString2.getAbsolutePath());
+            Bitmap bitmap3 = BitmapFactory.decodeFile(currentString3.getAbsolutePath());
+            Bitmap bitmap4 = BitmapFactory.decodeFile(currentString4.getAbsolutePath());
+            Bitmap bitmap5 = BitmapFactory.decodeFile(currentString5.getAbsolutePath());
+            Bitmap bitmap6 = BitmapFactory.decodeFile(currentString6.getAbsolutePath());
+            s1 = new BitmapDrawable(getResources(), bitmap1);
+            s2 = new BitmapDrawable(getResources(), bitmap2);
+            s3 = new BitmapDrawable(getResources(), bitmap3);
+            s4 = new BitmapDrawable(getResources(), bitmap4);
+            s5 = new BitmapDrawable(getResources(), bitmap5);
+            s6 = new BitmapDrawable(getResources(), bitmap6);
+
+            fretboard.changeStringImages(s1, s2, s3, s4, s5, s6);
         }
 
     }

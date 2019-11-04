@@ -47,6 +47,15 @@ public class SingletonManagerUsers {
         return true;
     }
 
+    public static boolean isUniqueNameUser (String nameUser, int ID) {
+        if (nameUser.equals("")) return false;
+        if (listUsers == null || listUsers.size() == 0) return true;
+        for (User user : listUsers) {
+            if (user.getName().equals(nameUser) && user.getID() != ID) return false;
+        }
+        return true;
+    }
+
     public static User getUserByID (int id) {
         for (User user : listUsers) {
             if (user.getID() == id) {
@@ -115,6 +124,14 @@ public class SingletonManagerUsers {
                 }
                 return checkedInstruments;
             }
+            case STRINGSLIST: {
+                boolean [] checkedStrings = new boolean[list.size()];
+                for (int i = 0; i < checkedStrings.length; i++) {
+                    String nameString = list.get(i);
+                    if (currentUser.getAllowedStrings().contains(nameString)) checkedStrings[i] = true;
+                }
+                return checkedStrings;
+            }
             default: {
 
             }
@@ -165,6 +182,16 @@ public class SingletonManagerUsers {
                 }
                 return wrongInstruments;
             }
+            case STRINGSLIST: {
+                FileManager.loadData(context);
+                List<String> realNameStrings = FileManager.getNameStrings();
+                List<String> nameStringsCurrentUser = currentUser.getAllowedStrings();
+                List<String> wrongStrings = new ArrayList<>();
+                for (String nameStringsUser : nameStringsCurrentUser) {
+                    if (!realNameStrings.contains(nameStringsUser)) wrongStrings.add(nameStringsUser);
+                }
+                return wrongStrings;
+            }
             default: {
             }
         }
@@ -177,13 +204,14 @@ public class SingletonManagerUsers {
         List<String> listInstruments = Arrays.asList();
         List<String> listFrets = Arrays.asList();
         List<String> listBackgrounds = Arrays.asList();
+        List<String> listStrings = Arrays.asList();
 
-        User user = new User(nameUser, 0, "", listSongs, listInstruments, listFrets, listBackgrounds, true);
+        User user = new User(nameUser, 0, "", listSongs, listInstruments, listFrets, listBackgrounds, listStrings, true);
         addUser(user);
         saveToSharedPreferences(sharedPreferences);
     }
 
-    public static void eraseWrongDataCurrentUser(Context context, UserList userList) {
+    public static void eraseWrongDataCurrentUser (Context context, UserList userList) {
         switch (userList) {
             case FRETSLIST: {
                 List<String> wrongFrets = getWrongDataCurrentUser(context, UserList.FRETSLIST);
@@ -233,6 +261,18 @@ public class SingletonManagerUsers {
                 changeUser(currentUser);
                 break;
             }
+            case STRINGSLIST: {
+                List<String> wrongStrings = getWrongDataCurrentUser(context, UserList.STRINGSLIST);
+                ArrayList<String> rightStrings = new ArrayList<>();
+                for (int i = 0; i < currentUser.getAllowedStrings().size();i++) {
+                    if (!wrongStrings.contains(currentUser.getAllowedStrings().get(i))) {
+                        rightStrings.add(currentUser.getAllowedStrings().get(i));
+                    }
+                }
+                currentUser.setAllowedInstruments(rightStrings);
+                changeUser(currentUser);
+                break;
+            }
             default: {
             }
         }
@@ -273,10 +313,12 @@ public class SingletonManagerUsers {
         for (int i = 0; i < listUsers.size();i++) {
             if (listUsers.get(i).getID() == id) {
                 index = i;
-            } else {
-                Log.e("Error", "User doesnt exists");
-                return;
+                break;
             }
+        }
+        if (index == -1) {
+            Log.e("Error", "User doesnt exists");
+            return;
         }
         if (index >= 0) {
             listUsers.remove(index);

@@ -67,6 +67,15 @@
         android:key="current_background"
         android:title="Právě používané pozadí kytary" />
 
+    <Preference
+        android:key="list_strings"
+        android:title="Povolené struny" />
+
+    <Preference
+        android:summary=""
+        android:key="current_string"
+        android:title="Právě používané struny" />
+
 
 <SwitchPreference
     android:title="Hraní tonů"

@@ -26,6 +26,8 @@ public class SettingsPreferenceFragment extends PreferenceFragment {
     Preference preferenceCurrentInstrument;
     Preference preferenceCurrentFret;
     Preference preferenceCurrentBackground;
+    Preference preferenceCurrentString;
+
     SwitchPreference preferenceStopBeforeTone;
     User currentUser;
     SharedPreferences settings;
@@ -74,6 +76,14 @@ public class SettingsPreferenceFragment extends PreferenceFragment {
             @Override
             public boolean onPreferenceClick(Preference preference) {
                 showList(preferenceCurrentBackground);
+                return true;
+            }
+        });
+        preferenceCurrentString = findPreference("current_string");
+        preferenceCurrentString.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(Preference preference) {
+                showList(preferenceCurrentString);
                 return true;
             }
         });
@@ -248,6 +258,44 @@ public class SettingsPreferenceFragment extends PreferenceFragment {
                         currentUser.setCurrentNameBackground(nameCurrentBackground);
                         SingletonManagerUsers.changeUser(currentUser);
                         preferenceCurrentBackground.setSummary(currentUser.getCurrentNameBackground());
+                    }
+                }
+            });
+        }
+        if (preference == preferenceCurrentString) {
+            builder.setTitle("Právě používané struny");
+            final List<String> listAllowedStrings = currentUser.getAllowedStrings();
+            final String[] allAllowedStrings = new String[listAllowedStrings.size()];
+            listAllowedStrings.toArray(allAllowedStrings);
+            final int[] checkItem = {0};
+            if (listAllowedStrings.contains(currentUser.getCurrentNameString())) {
+                for (int i = 0; i < listAllowedStrings.size(); i++) {
+                    if (listAllowedStrings.get(i).equals(currentUser.getCurrentNameString())) {
+                        checkItem[0] = i;
+                        break;
+                    }
+                }
+            } else {
+                checkItem[0] = 0;
+            }
+            builder.setSingleChoiceItems(
+                    allAllowedStrings,
+                    checkItem[0],
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int item) {
+                            checkItem[0] = item;
+                        }
+                    }
+            );
+            builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    String nameCurrentString = "";
+                    nameCurrentString = listAllowedStrings.get(checkItem[0]);
+                    if (!nameCurrentString.isEmpty()) {
+                        currentUser.setCurrentNameString(nameCurrentString);
+                        SingletonManagerUsers.changeUser(currentUser);
+                        preferenceCurrentString.setSummary(currentUser.getCurrentNameString());
                     }
                 }
             });

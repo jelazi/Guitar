@@ -297,6 +297,12 @@ public class SingletonManagerUsers {
         return true;
     }
 
+    public static boolean removeUser (User user) {
+        listUsers.remove(user);
+        saveToSharedPreferences(sharedPreferences);
+        return true;
+    }
+
     public static void addUser (User user) {
         if (isUserID(user.getID()) || isUserName(user.getName())) {
             System.out.println("id or name already exists");

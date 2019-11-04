@@ -7,6 +7,7 @@ import android.preference.PreferenceManager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -21,6 +22,7 @@ import lubin.guitar.Users.EditUserActivity;
 import lubin.guitar.Files.DialogType;
 import lubin.guitar.R;
 import lubin.guitar.Users.SingletonManagerUsers;
+import lubin.guitar.Users.User;
 
 public class TeacherActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -28,8 +30,10 @@ public class TeacherActivity extends AppCompatActivity implements View.OnClickLi
     Button recordSound;
     Button editName;
     Button editPass;
+    Button eraseUser;
     SharedPreferences settings;
     List<String> listUsers;
+    String userForErase;
 
 
     @Override
@@ -47,6 +51,8 @@ public class TeacherActivity extends AppCompatActivity implements View.OnClickLi
         editName.setOnClickListener(this);
         editPass = (Button) findViewById(R.id.change_pass_teacher);
         editPass.setOnClickListener(this);
+        eraseUser = (Button) findViewById(R.id.erase_user);
+        eraseUser.setOnClickListener(this);
     }
 
     @Override
@@ -80,6 +86,10 @@ public class TeacherActivity extends AppCompatActivity implements View.OnClickLi
         }
         if (view == editPass) {
             showDialog(DialogType.CHANGE_TEACHER_PASS);
+            return;
+        }
+        if (view == eraseUser) {
+            showDialog(DialogType.ERASE_USER);
             return;
         }
     }
@@ -151,6 +161,38 @@ public class TeacherActivity extends AppCompatActivity implements View.OnClickLi
                 break;
 
             }
+            case ERASE_USER: {
+                listUsers = SingletonManagerUsers.getListNamesUsers(true);
+                String[] arrayUsers = new String[listUsers.size()];
+                listUsers.toArray(arrayUsers);
+
+                builder.setTitle("Vymazat uživatele");
+
+                builder.setItems(arrayUsers, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        userForErase = listUsers.get(which);
+                        showDialog(DialogType.CONFIRM_ERASE_USER);
+                    }
+                });
+
+                break;
+
+            }
+            case CONFIRM_ERASE_USER: {
+                builder.setTitle("Vymazání uživatele " + userForErase);
+                builder.setMessage("Opravdu chcete vymazat uživatele " + userForErase + "?");
+                builder.setPositiveButton("Ano", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        eraseAcount(userForErase);
+                    }
+                });
+                builder.setNegativeButton("Ne", null);
+
+                break;
+
+            }
             case NEW_USER: {
                 builder.setTitle("Jméno uživatele:");
                 final EditText editText = new EditText(this);
@@ -189,6 +231,13 @@ public class TeacherActivity extends AppCompatActivity implements View.OnClickLi
             showDialog(DialogType.NEW_USER);
         }
 
+    }
+
+    private void eraseAcount (String userName) {
+        User user = SingletonManagerUsers.getUserByName(userName);
+        if (!SingletonManagerUsers.removeUser(user)) {
+            Log.e("Error:", "problem whit removing user:" + userName);
+        }
     }
 
 

@@ -27,7 +27,13 @@
             android:id="@+id/edit_user"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Edtování uživatele" />
+            android:text="Editování uživatele" />
+
+        <Button
+            android:id="@+id/erase_user"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Vymazání uživatele" />
 
         <Button
             android:id="@+id/record_sound_btn"

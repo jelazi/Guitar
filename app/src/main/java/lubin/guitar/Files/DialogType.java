@@ -6,5 +6,7 @@ public enum DialogType {
     FILE_DIALOG_NORMAL,
     FILE_DIALOG_MULTI,
     CHOICE_USER_ACCOUNT,
-    NEW_USER
+    NEW_USER,
+    ERASE_USER,
+    CONFIRM_ERASE_USER
 }

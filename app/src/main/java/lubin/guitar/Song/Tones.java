@@ -1,6 +1,5 @@
 package lubin.guitar.Song;
 
-import android.widget.Switch;
 
 /**
  * Created by Lubin on 23.4.2017.
@@ -84,7 +83,7 @@ final public class Tones {
         float[] akordString = new float[6];
 
         switch (akord){
-            case "Cdur":{
+            case "C":{
                 akordString[0] = G2;
                 akordString[1] = C3;
                 akordString[2] = E3;
@@ -93,7 +92,7 @@ final public class Tones {
                 akordString[5] = E4;
                 break;
             }
-            case "Ddur":{
+            case "D":{
                 akordString[0] = silent;
                 akordString[1] = silent;
                 akordString[2] = D3;
@@ -102,7 +101,7 @@ final public class Tones {
                 akordString[5] = Fis4;
                 break;
             }
-            case "Edur":{
+            case "E":{
                 akordString[0] = E2;
                 akordString[1] = B2;
                 akordString[2] = E3;
@@ -112,7 +111,7 @@ final public class Tones {
                 break;
 
             }
-            case "Fdur":{
+            case "F":{
                 akordString[0] = F2;
                 akordString[1] = C3;
                 akordString[2] = F3;
@@ -121,7 +120,7 @@ final public class Tones {
                 akordString[5] = F4;
                 break;
             }
-            case "Gdur":{
+            case "G":{
                 akordString[0] = G2;
                 akordString[1] = B2;
                 akordString[2] = D3;
@@ -131,7 +130,7 @@ final public class Tones {
                 break;
 
             }
-            case "Adur":{
+            case "A":{
                 akordString[0] = silent;
                 akordString[1] = A2;
                 akordString[2] = E3;
@@ -140,7 +139,7 @@ final public class Tones {
                 akordString[5] = E4;
                 break;
             }
-            case "Bdur":{
+            case "B":{
                 akordString[0] = silent;
                 akordString[1] = Ais2;
                 akordString[2] = F3;
@@ -149,10 +148,28 @@ final public class Tones {
                 akordString[5] = F4;
                 break;
             }
-            case "Cmi":{
-                akordString[0] = E2;
+            case "Ami":{
+                akordString[0] = silent;
                 akordString[1] = A2;
+                akordString[2] = E3;
+                akordString[3] = A3;
+                akordString[4] = C4;
+                akordString[5] = E4;
+                break;
+            }
+            case "Dmi":{
+                akordString[0] = silent;
+                akordString[1] = silent;
                 akordString[2] = D3;
+                akordString[3] = A3;
+                akordString[4] = D4;
+                akordString[5] = F4;
+                break;
+            }
+            case "Emi":{
+                akordString[0] = E2;
+                akordString[1] = B2;
+                akordString[2] = E3;
                 akordString[3] = G3;
                 akordString[4] = B3;
                 akordString[5] = E4;

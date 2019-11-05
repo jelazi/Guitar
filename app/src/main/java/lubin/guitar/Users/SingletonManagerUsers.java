@@ -40,6 +40,7 @@ public class SingletonManagerUsers {
 
     public static boolean isUniqueNameUser (String nameUser) {
         if (nameUser.equals("")) return false;
+        if (nameUser.equals("New User")) return false;
         if (listUsers == null || listUsers.size() == 0) return true;
         for (User user : listUsers) {
             if (user.getName().equals(nameUser)) return false;
@@ -49,6 +50,7 @@ public class SingletonManagerUsers {
 
     public static boolean isUniqueNameUser (String nameUser, int ID) {
         if (nameUser.equals("")) return false;
+        if (nameUser.equals("New User")) return false;
         if (listUsers == null || listUsers.size() == 0) return true;
         for (User user : listUsers) {
             if (user.getName().equals(nameUser) && user.getID() != ID) return false;

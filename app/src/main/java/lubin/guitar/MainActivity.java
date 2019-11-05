@@ -10,6 +10,11 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.Button;
 
+import com.leff.midi.MidiFile;
+
+import java.io.File;
+import java.io.IOException;
+
 import lubin.guitar.Settings.SettingsScreenActivity;
 import lubin.guitar.Account.ChoiceAccountActivity;
 import lubin.guitar.GuitarActivity.PlayAcordActivity;
@@ -29,6 +34,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
 
         trySong = (Button) findViewById(R.id.trySong);
         Intent draw = new Intent(MainActivity.this,  ChoiceAccountActivity.class);

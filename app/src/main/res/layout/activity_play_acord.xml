@@ -21,47 +21,47 @@
 
 
         <Button
-            android:id="@+id/leftChord"
+            android:id="@+id/chord1"
             android:layout_width="0dip"
             android:layout_height="match_parent"
             android:layout_weight="15"
-            android:text="Fdur" />
-
-
-        <LinearLayout
-
-
-            android:layout_width="0dip"
-            android:layout_height="match_parent"
-            android:layout_weight="30"
-            android:background="@null"
-            android:orientation="vertical">
-
-            <Button
-                android:id="@+id/upChord"
-                android:layout_width="match_parent"
-                android:layout_height="0dip"
-                android:layout_weight="50"
-                android:text="Cdur" />
-
-            <Button
-                android:id="@+id/bottomChord"
-                android:layout_width="match_parent"
-                android:layout_height="0dip"
-                android:layout_weight="50"
-                android:text="Cdur" />
-
-
-
-        </LinearLayout>
+            android:text="" />
 
 
         <Button
-            android:id="@+id/rightChord"
+            android:id="@+id/chord2"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="15"
+            android:text="" />
+
+        <Button
+            android:id="@+id/chord3"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="15"
+            android:text="" />
+
+        <Button
+            android:id="@+id/chord4"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="15"
+            android:text="" />
+
+        <Button
+            android:id="@+id/chord5"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="15"
+            android:text="" />
+
+        <Button
+            android:id="@+id/chord6"
             android:layout_width="0dip"
             android:layout_height="match_parent"
             android:layout_weight="15"
-            android:text="Gdur" />
+            android:text="" />
 
         <ImageView
 

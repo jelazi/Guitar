@@ -21,8 +21,8 @@ import android.widget.Button;
 import android.widget.ImageButton;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
+import lubin.guitar.Song.Tonalities;
 import lubin.guitar.Song.GuitarTone;
 import lubin.guitar.R;
 import lubin.guitar.Settings.SettingsScreenActivity;
@@ -30,25 +30,39 @@ import lubin.guitar.Settings.SettingsScreenActivity;
 
 public class PlayAcordActivity extends VirtualGuitarActivity {
 
-    Button leftChord;
-    Button rightChord;
-    Button upChord;
-    Button bottomChord;
+    Button chord1;
+    Button chord2;
+    Button chord3;
+    Button chord4;
+    Button chord5;
+    Button chord6;
     int akordNumber;
-    String[] chordsDur = {"Cdur", "Gdur", "Ddur", "Adur", "Edur", "Bdur", "Fdur"};
-    String[] chordsMol = {"Cmi", "Gmi", "Dmi", "Ami", "Emi", "Bmi", "Fmi"};
-    String nameChord;
+    String currentChord;
+    ArrayList<String> currentTonality;
+    ArrayList<ArrayList<String>> allTonality;
+    int tonalityNumber;
 
 
 
 
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_play_acord);
         addFretboard();
         createView();
+        Tonalities.initTonality();
 
+        allTonality = new ArrayList<>();
+        allTonality.add(Tonalities.getCtonality());
+        allTonality.add(Tonalities.getDtonality());
+        allTonality.add(Tonalities.getEtonality());
+        allTonality.add(Tonalities.getFtonality());
+        allTonality.add(Tonalities.getGtonality());
+        allTonality.add(Tonalities.getAtonality());
+        allTonality.add(Tonalities.getBtonality());
+        tonalityNumber = 0;
 
         string14.setOnTouchListener(stringPlayOnTouchListener);
         string13.setOnTouchListener(stringPlayOnTouchListener);
@@ -81,25 +95,38 @@ public class PlayAcordActivity extends VirtualGuitarActivity {
         string61.setOnTouchListener(stringPlayOnTouchListener);
         string60.setOnTouchListener(stringPlayOnTouchListener);
 
-        leftChord = (Button) findViewById(R.id.leftChord);
-        leftChord.setOnClickListener(btnChangeAkord);
-        rightChord = (Button) findViewById(R.id.rightChord);
-        rightChord.setOnClickListener(btnChangeAkord);
-        upChord = (Button) findViewById(R.id.upChord);
-        upChord.setOnClickListener(btnChangeAkord);
-        bottomChord = (Button) findViewById(R.id.bottomChord);
-        bottomChord.setOnClickListener(btnChangeAkord);
+        chord1 = findViewById(R.id.chord1);
+        chord2 = findViewById(R.id.chord2);
+        chord3 = findViewById(R.id.chord3);
+        chord4 = findViewById(R.id.chord4);
+        chord5 = findViewById(R.id.chord5);
+        chord6 = findViewById(R.id.chord6);
+
+        chord1.setOnClickListener(btnChangeAkord);
+        chord2.setOnClickListener(btnChangeAkord);
+        chord3.setOnClickListener(btnChangeAkord);
+        chord4.setOnClickListener(btnChangeAkord);
+        chord5.setOnClickListener(btnChangeAkord);
+        chord6.setOnClickListener(btnChangeAkord);
 
         akordNumber = 0;
+        fillnameChords();
 
-
+        currentChord = "Volné struny";
         showAkordOnBoard();
-        nameChord = "Volné struny";
-
-
-
 
         this.setTitle(R.string.action_play_chords);
+    }
+
+
+    public void fillnameChords () {
+        currentTonality = allTonality.get(tonalityNumber);
+        chord1.setText(currentTonality.get(0));
+        chord2.setText(currentTonality.get(1));
+        chord3.setText(currentTonality.get(2));
+        chord4.setText(currentTonality.get(3));
+        chord5.setText(currentTonality.get(4));
+        chord6.setText(currentTonality.get(5));
     }
 
 
@@ -120,7 +147,6 @@ public class PlayAcordActivity extends VirtualGuitarActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item){
         int id = item.getItemId();
-
 
         switch(id)
         {
@@ -148,7 +174,9 @@ public class PlayAcordActivity extends VirtualGuitarActivity {
                 i = new Intent(PlayAcordActivity.this, PreviewSongActivity.class);
                 startActivity(i);
                 break;
-
+            case R.id.change_tonality:
+                changeTonality();
+                break;
         }
         return true;
     }
@@ -162,10 +190,28 @@ public class PlayAcordActivity extends VirtualGuitarActivity {
 
         soundId = soundPool.load( getFilesDir()+"/Instruments/"+settings.getString("list_instruments", "a1.wav"), 1);
 
-
         stopBeforeTone = settings.getBoolean("stop_before_tone", false);
+    }
 
+    public void changeTonality () {
+        if (tonalityNumber == 6) {
+            tonalityNumber = 0;
+        } else {
+            tonalityNumber++;
+        }
+        akordNumber = 0;
+        fillnameChords();
 
+        currentChord = "Volné struny";
+        ChangeChord(currentChord);
+        showAkordOnBoard();
+
+        chord1.setEnabled(true);
+        chord2.setEnabled(true);
+        chord3.setEnabled(true);
+        chord4.setEnabled(true);
+        chord5.setEnabled(true);
+        chord6.setEnabled(true);
     }
 
 
@@ -345,8 +391,7 @@ public class PlayAcordActivity extends VirtualGuitarActivity {
         guitarTones[5] = E2tone;
         guitarStringValue = tones.getAkord(nameChord);
 
-        this.nameChord = nameChord;
-        this.setTitle(currentUser.getName() + " hraje " + this.nameChord);
+        this.setTitle(currentUser.getName() + " hraje " + nameChord);
 
         for (int i = 0; i <= 5; i++) {
             guitarTones[i].setStringValue(guitarStringValue[i]);
@@ -432,7 +477,6 @@ public class PlayAcordActivity extends VirtualGuitarActivity {
             string64.setEnabled(true);
         }
         showAkordOnBoard();
-
     }
 
 
@@ -445,45 +489,16 @@ public class PlayAcordActivity extends VirtualGuitarActivity {
 
 
             String nameChord = ((Button) view).getText().toString();
+            chord1.setEnabled(view != chord1);
+            chord2.setEnabled(view != chord2);
+            chord3.setEnabled(view != chord3);
+            chord4.setEnabled(view != chord4);
+            chord5.setEnabled(view != chord5);
+            chord6.setEnabled(view != chord6);
 
             ChangeChord(nameChord);
-            ArrayList<String> akordsVert = new ArrayList<String>();
-            ArrayList<String> akordsHor = new ArrayList<String>();
 
-
-            if (nameChord.contains("dur")){
-                akordsVert = new ArrayList<String>(Arrays.asList(chordsMol));
-                akordsHor = new ArrayList<String>(Arrays.asList(chordsDur));
-            } else {
-                akordsHor = new ArrayList<String>(Arrays.asList(chordsMol));
-                akordsVert = new ArrayList<String>(Arrays.asList(chordsDur));
-            }
-
-
-            int numberChord = akordsVert.indexOf(nameChord);
-            int numberChordBefore = 0;
-            int numberChordAfter = 0;
-            if (numberChord == 0){
-                numberChordBefore = 6;
-            }
-            else
-            {
-                numberChordBefore = numberChord-1;
-            }
-
-            if (numberChord == 6){
-                numberChordAfter = 0;
-            }
-            else
-            {
-                numberChordAfter = numberChord+1;
-            }
-            upChord.setText(akordsVert.get(numberChordBefore));
-            bottomChord.setText(akordsVert.get(numberChordBefore));
-            leftChord.setText(akordsHor.get(numberChordBefore));
-            rightChord.setText(akordsHor.get(numberChordAfter));
-
-
+            showAkordOnBoard();
         }
 
     };

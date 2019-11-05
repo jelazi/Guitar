@@ -2,26 +2,32 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
-        android:id="@+id/settings"
+        android:id="@+id/change_tonality"
         android:orderInCategory="1"
+        android:title="Změň tóninu"
+        android:icon="@mipmap/guitar_acoustic"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/settings"
+        android:orderInCategory="2"
         android:title="@string/action_settings"
         android:icon="@mipmap/settings"
         app:showAsAction="never" />
     <item
         android:id="@+id/change_instrument"
-        android:orderInCategory="2"
+        android:orderInCategory="3"
         android:title="@string/action_change_instrument"
         android:icon="@mipmap/music_note"
         app:showAsAction="never" />
     <item
         android:id="@+id/try_song"
-        android:orderInCategory="3"
+        android:orderInCategory="4"
         android:title="@string/action_try_song"
         android:icon="@mipmap/ic_guitar_pick"
         app:showAsAction="never" />
     <item
         android:id="@+id/preview_song"
-        android:orderInCategory="4"
+        android:orderInCategory="5"
         android:title="@string/action_preview_song"
         android:icon="@mipmap/guitar_acoustic"
         app:showAsAction="never" />

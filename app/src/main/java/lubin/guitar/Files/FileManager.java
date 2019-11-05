@@ -3,6 +3,8 @@ package lubin.guitar.Files;
 import android.content.Context;
 import android.util.Log;
 
+import com.leff.midi.MidiFile;
+
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -35,12 +37,14 @@ public class FileManager {
     private static File[] fieldFileFrets;
     private static File[] fieldFileBackgrounds;
     private static File[] fieldFileStrings;
+    private static File[] fieldFileMidi;
     private static ArrayList<Song> listSongs = new ArrayList<>(); //seznam vsech songu nahranych do songs
     private static ArrayList<String> nameSongs = new ArrayList<>(); //seznam jmen vsech songu nahranych do songs
     private static ArrayList<String> nameInstruments = new ArrayList<>(); //seznam jmen vsech instrumentu
     private static ArrayList<String> nameFrets;
     private static ArrayList<String> nameBackgrounds;
     private static ArrayList<String> nameStrings;
+    private static ArrayList<String> nameMidi;
 
     private static Song song;
     private static File dirSongs;
@@ -48,6 +52,7 @@ public class FileManager {
     private static File dirFrets;
     private static File dirBackgrounds;
     private static File dirStrings;
+    private static File dirMidi;
 
     private static Context context;
     private static Song ThisSong;
@@ -59,6 +64,7 @@ public class FileManager {
             FileManager.fieldFileFrets = dirFrets.listFiles();
             FileManager.fieldFileBackgrounds = dirBackgrounds.listFiles();
             FileManager.fieldFileStrings = dirStrings.listFiles();
+            FileManager.fieldFileMidi = dirMidi.listFiles();
 
             FileManager.copyDataFromResource();
 
@@ -135,6 +141,12 @@ public class FileManager {
                 Log.e("Error :: ", "Problem creating dirStrings");
             }
         }
+        dirMidi = new File (context.getFilesDir()+"/Midi/");
+        if (!dirMidi.exists()) {
+            if (!dirMidi.mkdirs()) {
+                Log.e("Error :: ", "Problem creating dirMidi");
+            }
+        }
         loadData(context);
     }
 
@@ -182,6 +194,21 @@ public class FileManager {
             copyFiletoTarget(R.drawable.string6, dirBackgrounds.toString(), "/defaultStrings/string6.png");
             FileManager.fieldFileStrings = dirStrings.listFiles();
         }
+
+        if (fieldFileMidi == null || fieldFileMidi.length == 0) {
+            copyFiletoTarget(R.raw.ovcaci_ctveraci, dirMidi.toString(), "/ovcaci_ctveraci.mid");
+        }
+
+        File input = new File(context.getFilesDir()+"/Midi/ovcaci_ctveraci.mid");
+        MidiFile midi;
+        try {
+            midi = new MidiFile(input);
+            Log.d("Debug", "bla");
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        Log.d("Debug", "bla");
     }
 
     public static void copyFiletoTarget(int resourceId, String targetDir, String targetName){

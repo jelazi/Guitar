@@ -154,7 +154,7 @@ public class TeacherActivity extends AppCompatActivity implements View.OnClickLi
                 builder.setItems(arrayUsers, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        openAcount(listUsers.get(which));
+                        openAccount(listUsers.get(which));
                     }
                 });
 
@@ -185,7 +185,7 @@ public class TeacherActivity extends AppCompatActivity implements View.OnClickLi
                 builder.setPositiveButton("Ano", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        eraseAcount(userForErase);
+                        eraseAccount(userForErase);
                     }
                 });
                 builder.setNegativeButton("Ne", null);
@@ -205,7 +205,7 @@ public class TeacherActivity extends AppCompatActivity implements View.OnClickLi
                             dialog.dismiss();
                             String newName = editText.getText().toString();
                             SingletonManagerUsers.createNewUser(newName);
-                            openAcount(newName);
+                            openAccount(newName);
                         } else {
                             showDialog(DialogType.NEW_USER);
                             Toast.makeText(TeacherActivity.this, "Nepovolené jméno", Toast.LENGTH_SHORT).show();
@@ -222,7 +222,7 @@ public class TeacherActivity extends AppCompatActivity implements View.OnClickLi
         dialog.show();
     }
 
-    private void openAcount (String userName) {
+    private void openAccount(String userName) {
         if (!userName.equals("New User")) {
             Intent i = new Intent(this, EditUserActivity.class);
             i.putExtra("user_name", userName);
@@ -233,7 +233,7 @@ public class TeacherActivity extends AppCompatActivity implements View.OnClickLi
 
     }
 
-    private void eraseAcount (String userName) {
+    private void eraseAccount(String userName) {
         User user = SingletonManagerUsers.getUserByName(userName);
         if (!SingletonManagerUsers.removeUser(user)) {
             Log.e("Error:", "problem whit removing user:" + userName);

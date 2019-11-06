@@ -10,4 +10,9 @@ public class Tone {
         this.lenghtTone = lenghtTone;
         this.nameTone = nameTone;
     }
+
+    public Tone(Tone otherTone) {
+        this.lenghtTone = otherTone.lenghtTone;
+        this.nameTone = otherTone.nameTone;
+    }
 }

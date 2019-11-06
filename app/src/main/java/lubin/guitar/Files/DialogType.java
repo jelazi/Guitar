@@ -8,5 +8,6 @@ public enum DialogType {
     CHOICE_USER_ACCOUNT,
     NEW_USER,
     ERASE_USER,
-    CONFIRM_ERASE_USER
+    CONFIRM_ERASE_USER,
+    WRITE_SONG
 }

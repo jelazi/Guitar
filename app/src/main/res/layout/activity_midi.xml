@@ -37,6 +37,18 @@
             android:layout_height="wrap_content"
             android:text="Stop Midi" />
 
+        <Button
+            android:id="@+id/read_midi"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Read Midi" />
+
+        <Button
+            android:id="@+id/write_midi"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Write Midi" />
+
     </LinearLayout>
 
 </android.support.constraint.ConstraintLayout>

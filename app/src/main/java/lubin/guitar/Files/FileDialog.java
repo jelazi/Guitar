@@ -73,12 +73,12 @@ public class FileDialog {
             builder = new AlertDialog.Builder(activity);
 
 
-            TextView titleView = new TextView(SingletonCurrentActivity.getCurrentActivity());
+            TextView titleView = new TextView(activity);
             titleView.setText(title);
-            titleView.setBackgroundColor(SingletonCurrentActivity.getCurrentActivity().getResources().getColor(R.color.colorPrimary));
+            titleView.setBackgroundColor(activity.getResources().getColor(R.color.colorPrimary));
             titleView.setPadding(10, 10, 10, 10);
             titleView.setGravity(Gravity.CENTER);
-            titleView.setTextColor(SingletonCurrentActivity.getCurrentActivity().getResources().getColor(R.color.colorWhite));
+            titleView.setTextColor(activity.getResources().getColor(R.color.colorWhite));
             titleView.setTextSize(30);
 
             builder.setCustomTitle(titleView);
@@ -118,12 +118,12 @@ public class FileDialog {
                     uncheckedFilesNames.add(fileList[i]);
                 }
             }
-            TextView titleView = new TextView(SingletonCurrentActivity.getCurrentActivity());
+            TextView titleView = new TextView(activity);
             titleView.setText(title);
-            titleView.setBackgroundColor(SingletonCurrentActivity.getCurrentActivity().getResources().getColor(R.color.colorPrimary));
+            titleView.setBackgroundColor(activity.getResources().getColor(R.color.colorPrimary));
             titleView.setPadding(10, 10, 10, 10);
             titleView.setGravity(Gravity.CENTER);
-            titleView.setTextColor(SingletonCurrentActivity.getCurrentActivity().getResources().getColor(R.color.colorWhite));
+            titleView.setTextColor(activity.getResources().getColor(R.color.colorWhite));
             titleView.setTextSize(30);
 
             builder.setCustomTitle(titleView);
@@ -242,7 +242,8 @@ public class FileDialog {
         this.currentPath = path;
         List<String> r = new ArrayList<String>();
         if (path.exists()) {
-            //  if (path.getParentFile() != null) r.add(PARENT_DIR);
+
+            if (path.getParentFile() != null) r.add(PARENT_DIR);
             FilenameFilter filter = new FilenameFilter() {
                 public boolean accept(File dir, String filename) {
                     File sel = new File(dir, filename);

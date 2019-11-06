@@ -40,6 +40,12 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Nahrávání zvuků" />
+
+        <Button
+            android:id="@+id/midi_player"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Nahrávání midi" />
     </LinearLayout>
 
 </android.support.constraint.ConstraintLayout>

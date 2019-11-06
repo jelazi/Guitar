@@ -25,6 +25,7 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
+import lubin.guitar.Midi.MidiSong;
 import lubin.guitar.R;
 import lubin.guitar.Song.Song;
 import lubin.guitar.Song.Tone;
@@ -198,17 +199,6 @@ public class FileManager {
         if (fieldFileMidi == null || fieldFileMidi.length == 0) {
             copyFiletoTarget(R.raw.ovcaci_ctveraci, dirMidi.toString(), "/ovcaci_ctveraci.mid");
         }
-
-        File input = new File(context.getFilesDir()+"/Midi/ovcaci_ctveraci.mid");
-        MidiFile midi;
-        try {
-            midi = new MidiFile(input);
-            Log.d("Debug", "bla");
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        Log.d("Debug", "bla");
     }
 
     public static void copyFiletoTarget(int resourceId, String targetDir, String targetName){

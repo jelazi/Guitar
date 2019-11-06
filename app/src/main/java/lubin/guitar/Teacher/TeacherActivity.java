@@ -18,6 +18,7 @@ import android.widget.Toast;
 import java.util.List;
 
 
+import lubin.guitar.Midi.MidiActivity;
 import lubin.guitar.Users.EditUserActivity;
 import lubin.guitar.Files.DialogType;
 import lubin.guitar.R;
@@ -31,6 +32,7 @@ public class TeacherActivity extends AppCompatActivity implements View.OnClickLi
     Button editName;
     Button editPass;
     Button eraseUser;
+    Button midiPlayer;
     SharedPreferences settings;
     List<String> listUsers;
     String userForErase;
@@ -53,6 +55,8 @@ public class TeacherActivity extends AppCompatActivity implements View.OnClickLi
         editPass.setOnClickListener(this);
         eraseUser = (Button) findViewById(R.id.erase_user);
         eraseUser.setOnClickListener(this);
+        midiPlayer = findViewById(R.id.midi_player);
+        midiPlayer.setOnClickListener(this);
     }
 
     @Override
@@ -90,6 +94,11 @@ public class TeacherActivity extends AppCompatActivity implements View.OnClickLi
         }
         if (view == eraseUser) {
             showDialog(DialogType.ERASE_USER);
+            return;
+        }
+        if (view == midiPlayer) {
+            Intent i = new Intent(view.getContext(), MidiActivity.class);
+            startActivity(i);
             return;
         }
     }

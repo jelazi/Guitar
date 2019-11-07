@@ -36,7 +36,6 @@ public class Fretboard {
         this.E2string = new ImageView(context);
     }
 
-
     public void addFretImages(ImageView fret1, ImageView fret2, ImageView fret3, ImageView fret4) {
         this.fret1 = fret1;
         this.fret2 = fret2;

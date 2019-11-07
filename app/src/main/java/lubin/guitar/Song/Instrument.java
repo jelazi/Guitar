@@ -1,33 +1,23 @@
 package lubin.guitar.Song;
 
-import java.io.File;
-
 /**
  * Trida instrument vytvari hraci nastroj.
  */
 
 public class Instrument {
-
-
     String name = "Kytara";
     String fileName = "a1.wav";
     int price = 0;
     boolean usePermited = true;
 
-
-
-    public Instrument(){
-
-
+    public Instrument() {
     }
 
     public Instrument(String name, String fileName, int price, boolean usePermited){
-
         this.name = name;
         this.fileName = fileName;
         this.price = price;
         this.usePermited = usePermited;
-
     }
 
 

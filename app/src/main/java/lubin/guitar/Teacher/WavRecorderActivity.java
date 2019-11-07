@@ -67,8 +67,6 @@ public class WavRecorderActivity extends AppCompatActivity {
   int soundId;
   Button playBtn;
   Button saveBtn;
-  Button changeName;
-  Button changePass;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -76,9 +74,9 @@ public class WavRecorderActivity extends AppCompatActivity {
     setContentView(R.layout.activity_recorder);
     this.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     getSupportActionBar().setTitle("Možnost nahrávání");
-    countdownText = (TextView) findViewById(R.id.countdown);
-    nameFile = (EditText) findViewById(R.id.name_file);
-    playBtn =  (Button) findViewById(R.id.play_btn);
+    countdownText = findViewById(R.id.countdown);
+    nameFile = findViewById(R.id.name_file);
+    playBtn =  findViewById(R.id.play_btn);
     playBtn.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View view) {
@@ -86,7 +84,7 @@ public class WavRecorderActivity extends AppCompatActivity {
       }
     });
     playBtn.setEnabled(false);
-    saveBtn = (Button) findViewById(R.id.save_btn);
+    saveBtn = findViewById(R.id.save_btn);
     saveBtn.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View view) {
@@ -99,7 +97,7 @@ public class WavRecorderActivity extends AppCompatActivity {
     });
     saveBtn.setEnabled(false);
     isRecording = false;
-    recordButton = (ImageView) findViewById(R.id.recordButton);
+    recordButton = findViewById(R.id.recordButton);
     recordButton.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View view) {

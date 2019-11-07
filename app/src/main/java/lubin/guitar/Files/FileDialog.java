@@ -16,8 +16,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import lubin.guitar.R;
-import lubin.guitar.SingletonCurrentActivity;
-
 
 public class FileDialog {
     private static final String PARENT_DIR = "..";
@@ -37,7 +35,6 @@ public class FileDialog {
     private String fileEndsWith;
     private File initialPath;
     AlertDialog.Builder builder;
-    String title;
     DialogType dialogType;
     public ArrayList<String> checkedFilesNames;
     public ArrayList<String> uncheckedFilesNames;

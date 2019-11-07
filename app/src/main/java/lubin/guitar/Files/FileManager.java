@@ -3,8 +3,6 @@ package lubin.guitar.Files;
 import android.content.Context;
 import android.util.Log;
 
-import com.leff.midi.MidiFile;
-
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -25,11 +23,9 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
-import lubin.guitar.Midi.MidiSong;
 import lubin.guitar.R;
 import lubin.guitar.Song.Song;
 import lubin.guitar.Song.Tone;
-
 
 public class FileManager {
 
@@ -229,8 +225,7 @@ public class FileManager {
 
         Song song = new Song();
 
-        try
-        {
+        try {
             DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
             DocumentBuilder db = dbf.newDocumentBuilder();
             Document doc = db.parse(XML);
@@ -262,17 +257,15 @@ public class FileManager {
                 }
             }
         }
-        catch (Exception e)
-        {
+        catch (Exception e) {
 
         }
         return song;
     }
 
-    public static boolean setSongToXML(Context context, Song song){
+    public static boolean setSongToXML(Context context, Song song) {
 
-
-        try{
+        try {
             DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
             DocumentBuilder db = dbf.newDocumentBuilder();
             Document doc = db.newDocument();
@@ -293,7 +286,7 @@ public class FileManager {
 
             Element tones = doc.createElement("Tones");
 
-            for (Tone tone : song.getTones()){
+            for (Tone tone : song.getTones()) {
 
                 Element nameTone = doc.createElement("NameTone");
                 nameTone.appendChild(doc.createTextNode(tone.nameTone));
@@ -306,9 +299,7 @@ public class FileManager {
             }
 
             aboutSong.appendChild(tones);
-
             doc.appendChild(aboutSong);
-
 
             File folder = new File(context.getFilesDir() + "/Songs"); //vytvoreni slozky Songs
             boolean success = true;
@@ -330,8 +321,7 @@ public class FileManager {
             }
 
         }
-        catch (Exception e)
-        {
+        catch (Exception e) {
             Log.e("Error: ", e.getMessage());
         }
         return true;

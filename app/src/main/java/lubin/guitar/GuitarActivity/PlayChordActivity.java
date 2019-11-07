@@ -42,9 +42,6 @@ public class PlayChordActivity extends VirtualGuitarActivity {
     ArrayList<ArrayList<String>> allTonality;
     int tonalityNumber;
 
-
-
-
     @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -304,14 +301,12 @@ public class PlayChordActivity extends VirtualGuitarActivity {
             @Override
             public void onAnimationRepeat(Animation animation) {
 
-
             }
 
             @Override
             public void onAnimationEnd(Animation animation) {
                 eraseAkordOnBoard();
                 showAkordOnBoard();
-
             }
         });
     }
@@ -344,8 +339,6 @@ public class PlayChordActivity extends VirtualGuitarActivity {
         if (E2tone.getStringValue() != 0) {
             E2tone.getStringTouch().setBackgroundResource(R.drawable.touchakord);
         }
-
-
     }
 
     // vymaze oznaceni strun akordu
@@ -479,14 +472,10 @@ public class PlayChordActivity extends VirtualGuitarActivity {
         showAkordOnBoard();
     }
 
-
     //zmacknute tlacitko zmen akord
     OnClickListener btnChangeAkord = new OnClickListener() {
         @Override
         public void onClick(View view) {
-
-            //TODO dodelat akordy - není to správně
-
 
             String nameChord = ((Button) view).getText().toString();
             chord1.setEnabled(view != chord1);
@@ -500,11 +489,7 @@ public class PlayChordActivity extends VirtualGuitarActivity {
 
             showAkordOnBoard();
         }
-
     };
-
-
-
 
     //naplni struny podle akordu
     public GuitarTone[] FillStringsValue(GuitarTone[] oldStrings) {
@@ -959,18 +944,13 @@ public class PlayChordActivity extends VirtualGuitarActivity {
                 guitarTone.setStringValue(0);
                 guitarTone.setStringTouch(string10);
                 break;
-
             }
             default: {
                 guitarTone.setStringImage(Estring);
                 guitarTone.setStringValue(0);
                 guitarTone.setStringTouch(string10);
             }
-
         }
-
         return guitarTone;
-
     }
-
 }

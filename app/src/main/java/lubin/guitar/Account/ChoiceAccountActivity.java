@@ -18,8 +18,6 @@ import lubin.guitar.Teacher.TeacherAccountActivity;
 import lubin.guitar.Users.SingletonManagerUsers;
 
 public class ChoiceAccountActivity extends AppCompatActivity {
-
-
     ImageView img1;
     ImageView img2;
     Button btnGuitarist;
@@ -34,27 +32,23 @@ public class ChoiceAccountActivity extends AppCompatActivity {
         settings = PreferenceManager.getDefaultSharedPreferences(this);
         SingletonManagerUsers.createSingletonManagerUsers(settings);
 
-        img1 = (ImageView) findViewById(R.id.imgGuitarist);
-        img2 = (ImageView) findViewById(R.id.imgTeacher);
+        img1 = findViewById(R.id.imgGuitarist);
+        img2 = findViewById(R.id.imgTeacher);
 
         android.view.animation.Animation animation1 = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.zoom);
-
 
         img1.startAnimation(animation1);
         android.view.animation.Animation animation2 = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.zoom);
         img2.startAnimation(animation2);
 
-
-        btnGuitarist = (Button) findViewById(R.id.button);
-        btnTeacher = (Button) findViewById(R.id.button2);
+        btnGuitarist = findViewById(R.id.button);
+        btnTeacher = findViewById(R.id.button2);
         btnGuitarist.setOnClickListener(runGuitarist);
 
         btnTeacher.setOnClickListener(runTeacher);
 
         img1.setOnClickListener(runGuitarist);
         img2.setOnClickListener(runTeacher);
-
-
     }
 
 
@@ -75,6 +69,5 @@ public class ChoiceAccountActivity extends AppCompatActivity {
 
         }
     };
-
 }
 

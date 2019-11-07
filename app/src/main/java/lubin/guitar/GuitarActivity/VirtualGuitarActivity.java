@@ -1310,8 +1310,6 @@ public abstract class VirtualGuitarActivity extends AppCompatActivity {
         }
 
         return guitarTone;
-
-
     }
 
     public void cleanStrings(){ //vymazání všech oznacenych strun a dotyku

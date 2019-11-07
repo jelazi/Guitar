@@ -19,9 +19,7 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
-//TODO vytvorit tuto moznost tridy
 //trida - pri vytvoreni nahraje vsechny pisne z xml
-
 
 public class Songs {
 
@@ -68,9 +66,6 @@ public class Songs {
         return Songs.nameSongs;
     }
 
-
-
-
     public static int getNumberInstrument(String name){
 
         //fillSongs();
@@ -80,8 +75,6 @@ public class Songs {
         return index;
     }
 
-
-
     public static Song getSongByName(Context context, String name) {
         int index = Songs.nameSongs.indexOf(name);
         if (index < 0) index = 0;
@@ -89,14 +82,11 @@ public class Songs {
         return Songs.song;
     }
 
-
-
     public static Song getSongFromXML(File XML){
 
         Song song = new Song();
 
-        try
-        {
+        try {
             DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
             DocumentBuilder db = dbf.newDocumentBuilder();
             Document doc = db.parse(XML);
@@ -135,11 +125,9 @@ public class Songs {
         return song;
     }
 
-
     public static boolean setSongToXML(Context context, Song song){
 
-
-        try{
+        try {
             DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
             DocumentBuilder db = dbf.newDocumentBuilder();
             Document doc = db.newDocument();
@@ -183,22 +171,18 @@ public class Songs {
                 success = folder.mkdir();
             }
 
-            if (success){
-
+            if (success) {
                 TransformerFactory tf = TransformerFactory.newInstance();
                 Transformer transformer = tf.newTransformer();
                 transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "2");
                 transformer.setOutputProperty(OutputKeys.INDENT, "yes");
 
-
                 DOMSource source = new DOMSource(doc);
                 StreamResult result = new StreamResult(new File(context.getFilesDir() + "/Songs/" + song.nameWithoutDiacritic()));
                 transformer.transform(source, result);
             }
-
         }
-        catch (Exception e)
-        {
+        catch (Exception e) {
             Log.e("Error: ", e.getMessage());
         }
         return true;
@@ -209,9 +193,6 @@ public class Songs {
     }
 
     public static ArrayList<String> getNameInstruments() {
-
-        //Songs.fillSongs(context);
-
         return Songs.nameInstruments;
     }
 
@@ -228,7 +209,6 @@ public class Songs {
     }
 
     public static ArrayList<String> getNameSongs() {
-
         return Songs.nameSongs;
     }
 
@@ -237,7 +217,6 @@ public class Songs {
     }
 
     public static void setNameInstruments(ArrayList<String> nameInstruments) {
-
         Songs.nameInstruments = nameInstruments;
     }
 

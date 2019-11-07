@@ -38,7 +38,6 @@ public class AccountActivity extends AppCompatActivity {
     Spinner nameSpinner;
     List<String>nameUsers;
     SharedPreferences settings;
-    File fileUser;
     User currentUser;
     List<String> listActivity;
 
@@ -55,13 +54,6 @@ public class AccountActivity extends AppCompatActivity {
         accountPass = (EditText)findViewById(R.id.AccountPass);
         nameSpinner = (Spinner) findViewById(R.id.Spinner01);
         accountPass.setOnClickListener(onClickSetPass);
-
-        fileUser = new File(getFilesDir()+"/users.xml");
-
-       // if (!fileUser.exists()){ //vytvoreni defaultnich uzivatelu
-        //FIXME    FileInOut.setUsersToXML(this, FileInOut.createDefaultUsersForXML());
-
-       // }
 
         nameUsers = SingletonManagerUsers.getListNamesUsers(false); //nacteni uzivatelu
         String[] arrayUsers = new String[nameUsers.size()];

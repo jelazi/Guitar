@@ -225,10 +225,6 @@ final public class Tones {
         return chordString;
     }
 
-
-
-
-
     public float getString14() {
         return string14;
     }

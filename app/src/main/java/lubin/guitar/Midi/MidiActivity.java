@@ -87,9 +87,6 @@ public class MidiActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
-
-
-
     protected void showDialog(DialogType dialogType) {
         if (dialogType == DialogType.FILE_DIALOG_NORMAL) {
             FileDialog fileDialog = new FileDialog(this, Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), DialogType.FILE_DIALOG_NORMAL);
@@ -140,9 +137,7 @@ public class MidiActivity extends AppCompatActivity implements View.OnClickListe
             });
             AlertDialog dialog = builder.create();
             dialog.show();
-
         }
-
     }
 
     protected  void testSong () {
@@ -209,6 +204,4 @@ public class MidiActivity extends AppCompatActivity implements View.OnClickListe
             return true;
         }
     }
-
-
 }

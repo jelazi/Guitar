@@ -1,12 +1,8 @@
 package lubin.guitar.Midi;
 
 import android.content.Context;
-import android.icu.text.UnicodeSetSpanner;
-import android.media.JetPlayer;
 import android.media.MediaPlayer;
 import android.net.Uri;
-import android.os.Environment;
-import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
 
@@ -15,7 +11,6 @@ import com.leff.midi.MidiTrack;
 import com.leff.midi.event.MidiEvent;
 import com.leff.midi.event.NoteOn;
 import com.leff.midi.event.meta.Tempo;
-import com.leff.midi.examples.EventPrinter;
 import com.leff.midi.util.MetronomeTick;
 import com.leff.midi.util.MidiEventListener;
 import com.leff.midi.util.MidiProcessor;
@@ -25,7 +20,6 @@ import java.io.IOException;
 import java.util.List;
 
 import lubin.guitar.Files.FileManager;
-import lubin.guitar.R;
 import lubin.guitar.Song.Song;
 import lubin.guitar.Song.Songs;
 import lubin.guitar.Song.Tone;
@@ -165,7 +159,6 @@ public class MidiSong {
         }
     }
 
-
     public void writeMidi (Context context, String songName, String authorName) {
         song.setNameOfSong(songName);
         song.setAuthorOfSong(authorName);
@@ -176,10 +169,8 @@ public class MidiSong {
         Songs.fillSongs(context);
     }
 
-
-
     private String getNameToneByValue (int value) {
-        String name = "silent";
+        String name;
         switch (value) {
             case 52 : {
                 name = "E2";
@@ -301,7 +292,6 @@ public class MidiSong {
                 name = "silent";
                 break;
             }
-
         }
         return name;
     }
@@ -324,8 +314,7 @@ public class MidiSong {
         processor.start();
     }
 
-    public class EventPrinter implements MidiEventListener
-    {
+    public class EventPrinter implements MidiEventListener {
         private String mLabel;
 
         public EventPrinter(String label)
@@ -336,34 +325,27 @@ public class MidiSong {
         @Override
         public void onStart(boolean fromBeginning)
         {
-            if(fromBeginning)
-            {
+            if(fromBeginning) {
                 Log.d( "Debug", mLabel + " Started!");
             }
-            else
-            {
+            else {
                 Log.d( "Debug",mLabel + " resumed");
             }
         }
 
         @Override
-        public void onEvent(MidiEvent event, long ms)
-        {
+        public void onEvent(MidiEvent event, long ms) {
             Log.d( "Debug",mLabel + " received event: " + event);
         }
 
         @Override
-        public void onStop(boolean finished)
-        {
-            if(finished)
-            {
+        public void onStop(boolean finished) {
+            if(finished) {
                 Log.d( "Debug",mLabel + " Finished!");
             }
-            else
-            {
+            else {
                 Log.d( "Debug",mLabel + " paused");
             }
         }
     }
-
 }

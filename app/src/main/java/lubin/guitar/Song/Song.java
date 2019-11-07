@@ -13,9 +13,7 @@ public class Song  {
     private String authorOfSong = "Unknown";
     private ArrayList<Tone> tones = new ArrayList<>();
 
-    public Song() {
-    }
-
+    public Song() { }
 
     public Song(String nameOfSong) {
         this.nameOfSong = nameOfSong;
@@ -48,7 +46,6 @@ public class Song  {
 
     }
 
-
     public String nameWithoutDiacritic (){ //vrati String bez diakritiky z názvu písne s diakritikou
         String nameOut = "";
         String nameIn = getNameOfSong();
@@ -61,11 +58,10 @@ public class Song  {
                 nameOut += withoutdiacritic.charAt(j);
             }
             else {
-                if (i == ' '){
+                if (i == ' ') {
                     nameOut += '_';
                 }
-                else
-                {
+                else {
                     nameOut += i;
                 }
             }

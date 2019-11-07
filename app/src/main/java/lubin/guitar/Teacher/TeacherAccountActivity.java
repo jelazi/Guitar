@@ -53,10 +53,6 @@ public class TeacherAccountActivity extends AppCompatActivity {
             btnAcc.setText("Přihlas se");
         }
         this.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
-
-
-
     }
 
 

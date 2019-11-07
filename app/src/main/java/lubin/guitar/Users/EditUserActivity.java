@@ -1,18 +1,8 @@
 package lubin.guitar.Users;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.widget.EditText;
-import android.widget.Toast;
-
-import java.util.ArrayList;
-
-import lubin.guitar.Account.AccountActivity;
-import lubin.guitar.TypeMessage;
-
 
 public class EditUserActivity extends AppCompatActivity {
 

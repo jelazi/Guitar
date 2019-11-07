@@ -157,7 +157,6 @@ public class PreviewSongActivity extends VirtualGuitarActivity {
 
         if(requestCode==1) {
             previewSong();
-
         }
     }
 

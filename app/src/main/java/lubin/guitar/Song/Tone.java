@@ -18,5 +18,4 @@ public class Tone {
         this.lenghtTone = otherTone.lenghtTone;
         this.nameTone = otherTone.nameTone;
     }
-
 }

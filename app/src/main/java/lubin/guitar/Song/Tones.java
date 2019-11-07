@@ -79,113 +79,150 @@ final public class Tones {
 
 
 // vrátí zpět struny akordu
-    public float[] getAkord(String akord){
-        float[] akordString = new float[6];
+    public float[] getAkord(String chord){
+        float[] chordString = new float[6];
 
-        switch (akord){
+        switch (chord){
             case "C":{
-                akordString[0] = G2;
-                akordString[1] = C3;
-                akordString[2] = E3;
-                akordString[3] = G3;
-                akordString[4] = C4;
-                akordString[5] = E4;
+                chordString[0] = G2;
+                chordString[1] = C3;
+                chordString[2] = E3;
+                chordString[3] = G3;
+                chordString[4] = C4;
+                chordString[5] = E4;
                 break;
             }
             case "D":{
-                akordString[0] = silent;
-                akordString[1] = silent;
-                akordString[2] = D3;
-                akordString[3] = A3;
-                akordString[4] = D4;
-                akordString[5] = Fis4;
+                chordString[0] = silent;
+                chordString[1] = silent;
+                chordString[2] = D3;
+                chordString[3] = A3;
+                chordString[4] = D4;
+                chordString[5] = Fis4;
                 break;
             }
             case "E":{
-                akordString[0] = E2;
-                akordString[1] = B2;
-                akordString[2] = E3;
-                akordString[3] = Gis3;
-                akordString[4] = B3;
-                akordString[5] = E4;
+                chordString[0] = E2;
+                chordString[1] = B2;
+                chordString[2] = E3;
+                chordString[3] = Gis3;
+                chordString[4] = B3;
+                chordString[5] = E4;
                 break;
 
             }
             case "F":{
-                akordString[0] = F2;
-                akordString[1] = C3;
-                akordString[2] = F3;
-                akordString[3] = A3;
-                akordString[4] = C4;
-                akordString[5] = F4;
+                chordString[0] = F2;
+                chordString[1] = C3;
+                chordString[2] = F3;
+                chordString[3] = A3;
+                chordString[4] = C4;
+                chordString[5] = F4;
                 break;
             }
             case "G":{
-                akordString[0] = G2;
-                akordString[1] = B2;
-                akordString[2] = D3;
-                akordString[3] = G3;
-                akordString[4] = B3;
-                akordString[5] = G4;
+                chordString[0] = G2;
+                chordString[1] = B2;
+                chordString[2] = D3;
+                chordString[3] = G3;
+                chordString[4] = B3;
+                chordString[5] = G4;
                 break;
 
             }
             case "A":{
-                akordString[0] = silent;
-                akordString[1] = A2;
-                akordString[2] = E3;
-                akordString[3] = A3;
-                akordString[4] = Cis4;
-                akordString[5] = E4;
+                chordString[0] = silent;
+                chordString[1] = A2;
+                chordString[2] = E3;
+                chordString[3] = A3;
+                chordString[4] = Cis4;
+                chordString[5] = E4;
                 break;
             }
             case "B":{
-                akordString[0] = silent;
-                akordString[1] = Ais2;
-                akordString[2] = F3;
-                akordString[3] = Ais3;
-                akordString[4] = D4;
-                akordString[5] = F4;
+                chordString[0] = silent;
+                chordString[1] = Ais2;
+                chordString[2] = F3;
+                chordString[3] = Ais3;
+                chordString[4] = D4;
+                chordString[5] = F4;
                 break;
             }
             case "Ami":{
-                akordString[0] = silent;
-                akordString[1] = A2;
-                akordString[2] = E3;
-                akordString[3] = A3;
-                akordString[4] = C4;
-                akordString[5] = E4;
+                chordString[0] = silent;
+                chordString[1] = A2;
+                chordString[2] = E3;
+                chordString[3] = A3;
+                chordString[4] = C4;
+                chordString[5] = E4;
                 break;
             }
             case "Dmi":{
-                akordString[0] = silent;
-                akordString[1] = silent;
-                akordString[2] = D3;
-                akordString[3] = A3;
-                akordString[4] = D4;
-                akordString[5] = F4;
+                chordString[0] = silent;
+                chordString[1] = silent;
+                chordString[2] = D3;
+                chordString[3] = A3;
+                chordString[4] = D4;
+                chordString[5] = F4;
                 break;
             }
             case "Emi":{
-                akordString[0] = E2;
-                akordString[1] = B2;
-                akordString[2] = E3;
-                akordString[3] = G3;
-                akordString[4] = B3;
-                akordString[5] = E4;
+                chordString[0] = E2;
+                chordString[1] = B2;
+                chordString[2] = E3;
+                chordString[3] = G3;
+                chordString[4] = B3;
+                chordString[5] = E4;
                 break;
             }
+            case "Fismi":{
+                chordString[0] = Fis2;
+                chordString[1] = Cis3;
+                chordString[2] = Fis3;
+                chordString[3] = A3;
+                chordString[4] = Cis4;
+                chordString[5] = Fis4;
+                break;
+            }
+            case "Gmi":{
+                chordString[0] = G2;
+                chordString[1] = D3;
+                chordString[2] = Gis3;
+                chordString[3] = Ais3;
+                chordString[4] = D4;
+                chordString[5] = G4;
+                break;
+            }
+            case "Bmi":{
+                chordString[0] = silent;
+                chordString[1] = B2;
+                chordString[2] = Fis3;
+                chordString[3] = B3;
+                chordString[4] = D4;
+                chordString[5] = Fis4;
+                break;
+            }
+            case "Cmi":{
+                chordString[0] = silent;
+                chordString[1] = C3;
+                chordString[2] = G3;
+                chordString[3] = C4;
+                chordString[4] = Dis4;
+                chordString[5] = G4;
+                break;
+            }
+
             default:{
-                akordString[0] = E2;
-                akordString[1] = A2;
-                akordString[2] = D3;
-                akordString[3] = G3;
-                akordString[4] = B3;
-                akordString[5] = E4;
+                chordString[0] = E2;
+                chordString[1] = A2;
+                chordString[2] = D3;
+                chordString[3] = G3;
+                chordString[4] = B3;
+                chordString[5] = E4;
                 break;
             }
         }
-        return akordString;
+        return chordString;
     }
 
 

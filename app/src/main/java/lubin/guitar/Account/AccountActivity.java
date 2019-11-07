@@ -1,11 +1,12 @@
 package lubin.guitar.Account;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.AnimationUtils;
@@ -17,9 +18,12 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 
-import lubin.guitar.Files.FileInOut;
+import lubin.guitar.Files.DialogType;
+import lubin.guitar.GuitarActivity.PlayChordActivity;
+import lubin.guitar.GuitarActivity.PreviewSongActivity;
 import lubin.guitar.R;
 import lubin.guitar.GuitarActivity.TrySongActivity;
 import lubin.guitar.Users.SingletonManagerUsers;
@@ -36,6 +40,7 @@ public class AccountActivity extends AppCompatActivity {
     SharedPreferences settings;
     File fileUser;
     User currentUser;
+    List<String> listActivity;
 
 
     @Override
@@ -85,6 +90,50 @@ public class AccountActivity extends AppCompatActivity {
         return true;
     }
 
+    protected void showDialog (DialogType dialogType) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        if (dialogType == DialogType.CHOICE_ACTIVITY) {
+            listActivity = new ArrayList<>();
+            listActivity.add("Hrát akordy");
+            listActivity.add("Poslechnout si píseň");
+            listActivity.add("Vyzkoušet hrát píseň");
+
+            String[] arrayUsers = new String[listActivity.size()];
+            listActivity.toArray(arrayUsers);
+
+            builder.setTitle("Vyberte aktivitu");
+
+            builder.setItems(arrayUsers, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    openActivity(listActivity.get(which));
+                }
+            });
+
+        }
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }
+
+    protected void openActivity (String activityName) {
+        Intent i = new Intent(AccountActivity.this, PlayChordActivity.class);
+        switch (activityName) {
+            case "Hrát akordy" : {
+                i = new Intent(AccountActivity.this, PlayChordActivity.class);
+                break;
+            }
+            case "Poslechnout si píseň" : {
+                i = new Intent(AccountActivity.this, PreviewSongActivity.class);
+                break;
+            }
+            case "Vyzkoušet hrát píseň" : {
+                i = new Intent(AccountActivity.this, TrySongActivity.class);
+                break;
+            }
+        }
+        startActivity(i);
+    }
+
 
     View.OnClickListener openAccountListener = new View.OnClickListener() {
         @Override
@@ -95,11 +144,8 @@ public class AccountActivity extends AppCompatActivity {
                     SingletonManagerUsers.setCurrentUser(currentUser);
                     settings.edit().putString("value_user", Integer.toString(currentUser.getCoins())).apply();
                     settings.edit().putString("name_user", currentUser.getName()).apply();
-         //TODO           settings.edit().putString("list_instruments", currentUser.getAllowedInstruments()).apply();
-         //TODO           settings.edit().putString("list_songs", currentUser.getChoiceSongName()).apply();
 
-                    Intent i = new Intent(AccountActivity.this, TrySongActivity.class);
-                    startActivity(i);
+                showDialog(DialogType.CHOICE_ACTIVITY);
                     return;
 
                 }
@@ -119,7 +165,6 @@ public class AccountActivity extends AppCompatActivity {
 
         }
     };
-
 
 
 

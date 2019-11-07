@@ -12,7 +12,7 @@ import android.widget.Button;
 
 import lubin.guitar.Settings.SettingsScreenActivity;
 import lubin.guitar.Account.ChoiceAccountActivity;
-import lubin.guitar.GuitarActivity.PlayAcordActivity;
+import lubin.guitar.GuitarActivity.PlayChordActivity;
 import lubin.guitar.GuitarActivity.PreviewSongActivity;
 import lubin.guitar.GuitarActivity.TrySongActivity;
 
@@ -80,7 +80,7 @@ public class MainActivity extends AppCompatActivity {
 
             case R.id.play_chord:
                // soundPool.release();
-                i = new Intent(this, PlayAcordActivity.class);
+                i = new Intent(this, PlayChordActivity.class);
                 startActivity(i);
                 break;
         }

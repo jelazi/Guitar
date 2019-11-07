@@ -144,7 +144,7 @@ public class TrySongActivity extends VirtualGuitarActivity
 
             case R.id.play_chord:
                // soundPool.release();
-                i = new Intent(TrySongActivity.this, PlayAcordActivity.class);
+                i = new Intent(TrySongActivity.this, PlayChordActivity.class);
                 startActivity(i);
                 break;
         }

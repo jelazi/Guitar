@@ -28,7 +28,7 @@ import lubin.guitar.R;
 import lubin.guitar.Settings.SettingsScreenActivity;
 
 
-public class PlayAcordActivity extends VirtualGuitarActivity {
+public class PlayChordActivity extends VirtualGuitarActivity {
 
     Button chord1;
     Button chord2;
@@ -155,7 +155,7 @@ public class PlayAcordActivity extends VirtualGuitarActivity {
                 break;
 
             case R.id.settings_menu:
-                Intent i = new Intent(PlayAcordActivity.this, SettingsScreenActivity.class);
+                Intent i = new Intent(PlayChordActivity.this, SettingsScreenActivity.class);
                 startActivity(i);
                 break;
 
@@ -165,13 +165,13 @@ public class PlayAcordActivity extends VirtualGuitarActivity {
 
             case R.id.try_song:
                // soundPool.release();
-                i = new Intent(PlayAcordActivity.this, TrySongActivity.class);
+                i = new Intent(PlayChordActivity.this, TrySongActivity.class);
                 startActivity(i);
                 break;
 
             case R.id.preview_song:
               //  soundPool.release();
-                i = new Intent(PlayAcordActivity.this, PreviewSongActivity.class);
+                i = new Intent(PlayChordActivity.this, PreviewSongActivity.class);
                 startActivity(i);
                 break;
             case R.id.change_tonality:

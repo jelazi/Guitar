@@ -28,7 +28,6 @@ import lubin.guitar.Song.GuitarTone;
 import lubin.guitar.R;
 import lubin.guitar.Settings.SettingsScreenActivity;
 import lubin.guitar.Song.Song;
-import lubin.guitar.Song.Songs;
 import lubin.guitar.Song.Tone;
 import lubin.guitar.Song.Tones;
 import lubin.guitar.Users.SingletonManagerUsers;
@@ -227,7 +226,7 @@ public class PreviewSongActivity extends VirtualGuitarActivity {
 
             case R.id.play_chord:
                 soundPool.release();
-                i = new Intent(PreviewSongActivity.this, PlayAcordActivity.class);
+                i = new Intent(PreviewSongActivity.this, PlayChordActivity.class);
                 startActivity(i);
                 break;
         }

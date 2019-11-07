@@ -223,7 +223,7 @@ public abstract class VirtualGuitarActivity extends AppCompatActivity {
 
             case R.id.play_chord:
                // soundPool.release();
-                i = new Intent(VirtualGuitarActivity.this, PlayAcordActivity.class);
+                i = new Intent(VirtualGuitarActivity.this, PlayChordActivity.class);
                 startActivity(i);
                 break;
         }

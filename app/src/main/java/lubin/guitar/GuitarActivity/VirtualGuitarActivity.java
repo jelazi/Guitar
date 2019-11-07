@@ -494,7 +494,6 @@ public abstract class VirtualGuitarActivity extends AppCompatActivity {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
     }
 
     protected void playToneFromTouch(View v, Drawable background) {
@@ -711,10 +710,6 @@ public abstract class VirtualGuitarActivity extends AppCompatActivity {
                 normal_playback_rate);
     }
 
-
-
-
-
     protected void playToneFromTouch(View v, ImageButton nextButton, Drawable background) {
         switch (v.getId()) {
             case R.id.imageButton14: {
@@ -929,8 +924,6 @@ public abstract class VirtualGuitarActivity extends AppCompatActivity {
                 normal_playback_rate);
     }
 
-
-
     // vrati ton podle zmacknute struny
     protected GuitarTone getToneFromTouch(int imageButtonId) {
         GuitarTone guitarTone = new GuitarTone(string10, tones.getString10(), Estring);
@@ -1115,7 +1108,6 @@ public abstract class VirtualGuitarActivity extends AppCompatActivity {
             guitarTone.setStringTouch(string60);
             return guitarTone;
         }
-
         return guitarTone;
     }
 
@@ -1325,24 +1317,15 @@ public abstract class VirtualGuitarActivity extends AppCompatActivity {
     public void cleanStrings(){ //vymazání všech oznacenych strun a dotyku
 
         ImageButton [] fretchs = {string10, string11, string12, string13, string14, string20,
-                string21, string22, string23, string24, string30, string31, string32, string33,
-                string34, string40, string41, string42, string43, string44, string50, string51,
-                string52, string53, string54, string60, string61, string62, string63, string64};
-
+                string21, string22, string23, string24, string30, string31, string32, string33,string34, string40, string41, string42, string43, string44, string50, string51, string52, string53, string54, string60, string61, string62, string63, string64};
 
         ImageView [] strings = {Estring, Astring, Dstring, Gstring, Bstring, E2string};
 
-
-
-        for (ImageButton f : fretchs){
+        for (ImageButton f : fretchs) {
             f.setBackgroundColor(getResources().getColor(android.R.color.transparent));
         }
-
-
         for (ImageView s : strings) {
             s.getDrawable().clearColorFilter();
         }
     }
-
-
 }

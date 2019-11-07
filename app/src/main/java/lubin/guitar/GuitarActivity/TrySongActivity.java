@@ -21,28 +21,21 @@ import lubin.guitar.Settings.SettingsScreenActivity;
 import lubin.guitar.Song.Songs;
 import lubin.guitar.Song.Tone;
 
-
-public class TrySongActivity extends VirtualGuitarActivity
-
-{
+public class TrySongActivity extends VirtualGuitarActivity {
     Button btnTryMusic; //tlacitko hraj skladbu
     TextView nameUser;
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-
         setContentView(R.layout.activity_try_song);
         addFretboard();
         createView();
-        money = (TextView) findViewById(R.id.valueMoney);
-
+        money = findViewById(R.id.valueMoney);
         money.setText(settings.getString("value_user", "0"));
 
-        nameUser = (TextView) findViewById(R.id.name_user);
+        nameUser = findViewById(R.id.name_user);
 
         string14.setOnClickListener(stringPlayOnClickListener);
         string13.setOnClickListener(stringPlayOnClickListener);
@@ -74,8 +67,8 @@ public class TrySongActivity extends VirtualGuitarActivity
         string62.setOnClickListener(stringPlayOnClickListener);
         string61.setOnClickListener(stringPlayOnClickListener);
         string60.setOnClickListener(stringPlayOnClickListener);
-        btnTryMusic = (Button) findViewById(R.id.tryMusic); //prirazeni tlacitka - Hraj skladbu
-        btnTryMusic.setOnClickListener(trySong); //listener tlacitka - Hraj skladbu
+        btnTryMusic = findViewById(R.id.tryMusic);
+        btnTryMusic.setOnClickListener(trySong);
 
         this.setTitle(R.string.action_try_song);
 
@@ -102,8 +95,7 @@ public class TrySongActivity extends VirtualGuitarActivity
         int id = item.getItemId();
 
 
-        switch(id)
-        {
+        switch(id) {
             case android.R.id.home:
                 onBackPressed();
                 break;
@@ -114,22 +106,18 @@ public class TrySongActivity extends VirtualGuitarActivity
                             playingSong = false;
                             playingTone.getStringImage().clearColorFilter();
                             item.setIcon(R.mipmap.play_circle);
-
                         } else {
                             playingSong = true;
                             currentSong = Songs.getSongByName(getApplicationContext(), settings.getString("list_songs", "song1.xml"));
                             playingTones = createMusicFromTones(currentSong.getTones());
                             item.setIcon(R.mipmap.pause_circle);
-                            trytrySong();
+                            tryRealSong();
                         }
-
                 break;
 
             case R.id.settings_menu:
-
                 Intent i = new Intent(TrySongActivity.this, SettingsScreenActivity.class);
                 startActivity(i);
-
                 break;
 
             case R.id.change_instrument:
@@ -137,13 +125,11 @@ public class TrySongActivity extends VirtualGuitarActivity
                 break;
 
             case R.id.preview_song:
-                //soundPool.release();
                 i = new Intent(TrySongActivity.this, PreviewSongActivity.class);
                 startActivity(i);
                 break;
 
             case R.id.play_chord:
-               // soundPool.release();
                 i = new Intent(TrySongActivity.this, PlayChordActivity.class);
                 startActivity(i);
                 break;
@@ -186,7 +172,7 @@ public class TrySongActivity extends VirtualGuitarActivity
                             playingTone.getStringImage().clearColorFilter();
                             //   playingTone.getStringTouch().setBackgroundResource(0);
                             if (numberTone < playingTones.size() - 1) {
-                                trytrySong();
+                                tryRealSong();
                             } else {
                                 playingSong = false;
                                 btnTryMusic.setText("Zkus hrát");
@@ -222,13 +208,13 @@ public class TrySongActivity extends VirtualGuitarActivity
                 currentSong = Songs.getSongByName(getApplicationContext(), settings.getString("list_songs", "song1.xml"));
 
                 playingTones = createMusicFromTones(currentSong.getTones());
-                trytrySong();
+                tryRealSong();
             }
         }
     };
 
 
-    public void trytrySong() { //skutecne zahrani tonu
+    public void tryRealSong() { //skutecne zahrani tonu
         playingTone = playingTones.get(numberTone);
         playingTone.getStringImage().setColorFilter(0x80ff0000);
         playingTone.getStringTouch().setBackgroundResource(R.drawable.touch);

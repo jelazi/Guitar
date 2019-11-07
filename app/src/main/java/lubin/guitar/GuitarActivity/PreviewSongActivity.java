@@ -21,6 +21,7 @@ import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -28,40 +29,30 @@ import lubin.guitar.Song.GuitarTone;
 import lubin.guitar.R;
 import lubin.guitar.Settings.SettingsScreenActivity;
 import lubin.guitar.Song.Song;
+import lubin.guitar.Song.Songs;
 import lubin.guitar.Song.Tone;
 import lubin.guitar.Song.Tones;
 import lubin.guitar.Users.SingletonManagerUsers;
 
-// TODO při zmáčknutí tlačítka zpět se nezastaví hudba
-
-
 public class PreviewSongActivity extends VirtualGuitarActivity {
 
     Button btnplayMusic;
-
     SoundPool soundPool; //zvuk
     AudioManager audioManager;
     int soundId;
     int tone; //druh tonu
-
     float normal_playback_rate;
-
     Tones tones = new Tones();
-
     boolean isPlaying = false;
     boolean nextTone = false;
-
     Song song = new Song();
-
     ArrayList<Tone> tonySkladby = new ArrayList<>();
     ArrayList<GuitarTone> pokus = new ArrayList<>();
     TextView nameOfSongView;
     ArrayList<Integer> streamIDs;
-
     long[] delays;
     long startTime;
     int toneStop;
-
     boolean stopBeforeTone;
     boolean isTest;
     Song songForTesting;
@@ -71,29 +62,23 @@ public class PreviewSongActivity extends VirtualGuitarActivity {
     MenuItem changeInstrument;
     MenuItem trySong;
     MenuItem playChord;
-
+    Intent intent;
 
     boolean animationbool = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Intent intent = getIntent();
+        intent = getIntent();
         isTest = intent.getBooleanExtra("is_test", false);
         nameSongForTesting = intent.getStringExtra("name_test_song");
-
         setContentView(R.layout.activity_preview_song);
         createView();
         addFretboard();
         btnplayMusic = (Button) findViewById(R.id.playMusic);
         btnplayMusic.setOnClickListener(previewSong);
-
         audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
-
         nameOfSongView = (TextView) findViewById(R.id.nameSong);
-
-
-
         //maximalni mnozstvi zaroven prehravanych zvuku
         int maxStreams = 4;
         //audiostream v audiomanageru
@@ -113,21 +98,12 @@ public class PreviewSongActivity extends VirtualGuitarActivity {
             settings.edit().putInt("tone_stop", 0).apply();
             toneStop = 0;
         }
-
         settings.edit().putBoolean("new_intent", true).apply();
-
-
-
         soundId = soundPool.load(getFilesDir() + "/Instruments/" + currentUser.getCurrentNameInstrument(), 1);
-
         tone = 0;
         normal_playback_rate = 0.5f;
-
         this.setTitle(R.string.action_preview_song);
-
         nameOfSongView.setText(settings.getString("list_songs", "Pro Elisku"));
-
-
     }
 
     @SuppressLint("RestrictedApi")
@@ -185,14 +161,17 @@ public class PreviewSongActivity extends VirtualGuitarActivity {
         }
     }
 
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-
+        if (isPlaying) {
+            Toast.makeText(this, "Nejdříve zastav píseň.", Toast.LENGTH_SHORT).show();
+            return true;
+        }
 
         switch (id) {
             case android.R.id.home:
+
                 onBackPressed();
                 break;
 
@@ -233,16 +212,15 @@ public class PreviewSongActivity extends VirtualGuitarActivity {
         return true;
     }
 
-
-
     @Override
     public void onResume() { //aktualizace nastaveni hodnot ze SettingsScreenActivity
         super.onResume();
         settings = PreferenceManager
                 .getDefaultSharedPreferences(this);
-        soundId = soundPool.load(getFilesDir() + "/Instruments/" + settings.getString("list_instruments", "a1.wav"), 1);
-        nameOfSongView.setText(settings.getString("list_songs", "Pro Elisku"));
-        stopBeforeTone = settings.getBoolean("stop_before_tone", false);
+        soundId = soundPool.load(getFilesDir() + "/Instruments/" + currentUser.getCurrentNameInstrument(), 1);
+        nameOfSongView.setText(currentUser.getCurrentNameSong());
+        stopBeforeTone = false;
+        currentSong = Songs.getSongByName(this, currentUser.getCurrentNameSong());
         if (isTest) {
             setActivityForTest();
         }
@@ -253,64 +231,44 @@ public class PreviewSongActivity extends VirtualGuitarActivity {
     OnClickListener previewSong = new OnClickListener() {
         @Override
         public void onClick(View view) {
-
             previewSong();
         }
-
-        ;
     };
 
     public void previewSong() {
-
         Object obj = new Object();
-
 
         if (!isPlaying) {
             song = currentSong;
         }
 
         tonySkladby = song.getTones();
-
-
         pokus = createMusicFromTones(tonySkladby);
+
         if (isPlaying) {
-
             toneStop = getNumberTone(); //zjisteni tonu, na kterém se skoncilo
-
             isPlaying = false;
             this.btnplayMusic.setText("Hraj");
-
             soundPool.release();
-
             settings.edit().putInt("tone_stop", toneStop).apply();
             settings.edit().putBoolean("new_intent", false).apply();
-
-
-            startActivity(new Intent(this, this.getClass()));
+            startActivity(intent);
             overridePendingTransition(0, 0);
             finish();
         }
         else {
-
-
             delays = new long[tonySkladby.size()];
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
-
-
                     startTime =  System.currentTimeMillis();
-
                     int delay = 1000;
+
                     for (int i = toneStop; i < tonySkladby.size(); i++) {
                         if (isPlaying) {
-
-
-                            if (!(tonySkladby.get(i).nameTone.equals("silent"))) //neni to pomlka?
-                            {
+                            if (!(tonySkladby.get(i).nameTone.equals("silent"))) { //neni to pomlka?
                                 playToneWithDelay(pokus.get(i), delay);
                             }
-
                             if (i == tonySkladby.size() - 1) {
                                 new Handler().postDelayed(new Runnable() {
                                     @Override
@@ -333,82 +291,24 @@ public class PreviewSongActivity extends VirtualGuitarActivity {
                             btnplayMusic.setText("Hraj");
                             toneStop = 0;
                             settings.edit().putInt("tone_stop", toneStop).apply();
-
-
                         }
                     }, delay + 100);
-
                 }
             }, 1000);
-
-
-
-
-
-/*        long expectedtime = System.currentTimeMillis();
-        for (int i = 0; i <= tonySkladby.size() - 1; i++) {
-            final GuitarTone tone = pokus.get(i);
-            final int lenghtTone = tonySkladby.get(i).lenghtTone;
-
-            if (i == 1) {
-                expectedtime += tonySkladby.get(0).lenghtTone;
-            }
-
-            while (System.currentTimeMillis() < expectedtime) {
-
-                //Empty Loop
-            }
-            expectedtime += (lenghtTone * 1.5);//Sample expectedtime += 1000; 1 second sleep
-            playTone(tone);
-        }*/
-
             isPlaying = true;
             btnplayMusic.setText("Zastav");
-
-        /*try {
-            synchronized (obj) {
-
-
-
-
-                for (int i = 0; i <= tonySkladby.size() - 1; i++) {
-                    final GuitarTone tone = pokus.get(i);
-                    Shaking(tone.getStringImage());
-                    Touching(tone.getStringTouch());
-                        int lenghtTone = 0;
-                        if (i == 0) { //prodloužení čekání prvniho tonu
-                            lenghtTone = tonySkladby.get(i).lenghtTone + 100;
-                        } else {
-                            lenghtTone = tonySkladby.get(i).lenghtTone;
-                        }
-                        playTone(tone);
-                        obj.wait(lenghtTone);
-                }
-                    }
-                    Intent i = new Intent(PreviewSongActivity.this, PreviewSongActivity.class);
-                    finish();
-                    startActivity(i);
-            } catch(InterruptedException ex){
-            }
-*/
             }
         }
 
         private int getNumberTone(){ //zjisteni cisla tonu, na kterem se skoncilo
 
             long difference = System.currentTimeMillis() - startTime - 490; //hodnota - pro vraceni tonu, ktery byl velmi rychle zahran a nemusel byt slysen
-
-
             for (int i = 0; i < tonySkladby.size(); i++){
                 if (difference < delays[i]) {
                     return i;
-
                 }
             }
-
             return 0;
-
-
         }
 
     // zahrani tonu bez zpozdeni
@@ -435,20 +335,13 @@ public class PreviewSongActivity extends VirtualGuitarActivity {
                     }
                 }
 
-
-
                 streamID = soundPool.play(soundId,
                         leftVolume,
                         rightVolume,
                         priority,
                         no_loop,
                         normal_playback_rate);
-
-
     }
-
-
-
 
     // zahrani tonu s volitelnym zpozdenim
     protected void playToneWithDelay(GuitarTone guitarTone, int delay) {
@@ -488,8 +381,6 @@ public class PreviewSongActivity extends VirtualGuitarActivity {
 
            }
         }, delay);
-
-
     }
 
     ///vytvori skladbu
@@ -509,40 +400,26 @@ public class PreviewSongActivity extends VirtualGuitarActivity {
         Animation animation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.blink);
         imgButton.startAnimation(animation);
 
-        animation.setAnimationListener(new Animation.AnimationListener()
-
-
-        {
-
-
-
+        animation.setAnimationListener(new Animation.AnimationListener() {
             @Override
             public void onAnimationStart(Animation animation) {
-
                 imgButton.setBackgroundResource(R.drawable.touch);
-
-
             }
 
             @Override
             public void onAnimationRepeat(Animation animation) { }
 
             @Override
-            public void onAnimationEnd(Animation animation)
-            {
+            public void onAnimationEnd(Animation animation) {
                 imgButton.setBackgroundResource(0);
                 nextTone = true;
-
             }
         });
     }
 
-
     @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event)
-    {
-        if ((keyCode == KeyEvent.KEYCODE_BACK))
-        {
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if ((keyCode == KeyEvent.KEYCODE_BACK)) {
              soundPool.release();
         }
         return super.onKeyDown(keyCode, event);

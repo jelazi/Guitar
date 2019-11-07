@@ -27,6 +27,7 @@ import java.util.List;
 import lubin.guitar.Files.FileManager;
 import lubin.guitar.R;
 import lubin.guitar.Song.Song;
+import lubin.guitar.Song.Songs;
 import lubin.guitar.Song.Tone;
 
 public class MidiSong {
@@ -172,6 +173,7 @@ public class MidiSong {
             song.setNameOfSong(fileSong.getName());
         }
         FileManager.setSongToXML(context, song);
+        Songs.fillSongs(context);
     }
 
 

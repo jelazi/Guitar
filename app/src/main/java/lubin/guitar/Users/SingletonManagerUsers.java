@@ -12,6 +12,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import lubin.guitar.Files.FileManager;
+import lubin.guitar.Song.Song;
 import lubin.guitar.Song.Songs;
 
 public class SingletonManagerUsers {
@@ -20,6 +21,7 @@ public class SingletonManagerUsers {
     private static String lastNameUser;
     private static int newID;
     private static User currentUser;
+    private static Song currentSong;
 
 
     public static void createSingletonManagerUsers(SharedPreferences sharedPref) {
@@ -56,6 +58,17 @@ public class SingletonManagerUsers {
             if (user.getName().equals(nameUser) && user.getID() != ID) return false;
         }
         return true;
+    }
+
+    public static User getAdminUser () {
+        List<String> listSongs = FileManager.getNameSongs();
+        List<String> listInstruments = FileManager.getNameInstruments();
+        List<String> listFrets = FileManager.getNameFrets();
+        List<String> listBackgrounds = FileManager.getNameBackgrounds();
+        List<String> listStrings = FileManager.getNameStrings();
+
+        User admin = new User("admin", 1000, "", listSongs, listInstruments, listFrets, listBackgrounds, listStrings, true);
+        return admin;
     }
 
     public static User getUserByID (int id) {
@@ -402,5 +415,13 @@ public class SingletonManagerUsers {
 
     public static void setCurrentUser(User currentUser) {
         SingletonManagerUsers.currentUser = currentUser;
+    }
+
+    public static Song getCurrentSong() {
+        return currentSong;
+    }
+
+    public static void setCurrentSong(Song currentSong) {
+        SingletonManagerUsers.currentSong = currentSong;
     }
 }

@@ -154,7 +154,7 @@ public class PlayAcordActivity extends VirtualGuitarActivity {
                 onBackPressed();
                 break;
 
-            case R.id.settings:
+            case R.id.settings_menu:
                 Intent i = new Intent(PlayAcordActivity.this, SettingsScreenActivity.class);
                 startActivity(i);
                 break;

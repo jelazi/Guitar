@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.support.v7.view.menu.MenuBuilder;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -30,6 +31,7 @@ import lubin.guitar.Song.Song;
 import lubin.guitar.Song.Songs;
 import lubin.guitar.Song.Tone;
 import lubin.guitar.Song.Tones;
+import lubin.guitar.Users.SingletonManagerUsers;
 
 // TODO při zmáčknutí tlačítka zpět se nezastaví hudba
 
@@ -62,13 +64,24 @@ public class PreviewSongActivity extends VirtualGuitarActivity {
     int toneStop;
 
     boolean stopBeforeTone;
+    boolean isTest;
+    Song songForTesting;
+    String nameSongForTesting;
+
+    MenuItem settingsMenu;
+    MenuItem changeInstrument;
+    MenuItem trySong;
+    MenuItem playChord;
 
 
-boolean animationbool = false;
+    boolean animationbool = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Intent intent = getIntent();
+        isTest = intent.getBooleanExtra("is_test", false);
+        nameSongForTesting = intent.getStringExtra("name_test_song");
 
         setContentView(R.layout.activity_preview_song);
         createView();
@@ -79,6 +92,8 @@ boolean animationbool = false;
         audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
 
         nameOfSongView = (TextView) findViewById(R.id.nameSong);
+
+
 
         //maximalni mnozstvi zaroven prehravanych zvuku
         int maxStreams = 4;
@@ -112,6 +127,8 @@ boolean animationbool = false;
         this.setTitle(R.string.action_preview_song);
 
         nameOfSongView.setText(settings.getString("list_songs", "Pro Elisku"));
+
+
     }
 
     @SuppressLint("RestrictedApi")
@@ -124,7 +141,38 @@ boolean animationbool = false;
 
             m.setOptionalIconsVisible(true);
         }
+        if (isTest) {
+            setMenuForTest(menu);
+        }
         return true;
+    }
+
+    protected void setMenuForTest (Menu menu) {
+        settingsMenu = menu.findItem(R.id.settings_menu);
+        changeInstrument = menu.findItem(R.id.change_instrument);
+        trySong = menu.findItem(R.id.try_song);
+        playChord = menu.findItem(R.id.play_chord);
+        settingsMenu.setVisible(false);
+        changeInstrument.setVisible(false);
+        trySong.setVisible(false);
+        playChord.setVisible(false);
+    }
+
+    protected void setActivityForTest() {
+
+        if (nameSongForTesting.isEmpty()) {
+            Log.e("Error:", "problem with intent");
+            return;
+        } else {
+            nameOfSongView.setText(nameSongForTesting);
+        }
+        songForTesting = SingletonManagerUsers.getCurrentSong();
+        if (songForTesting == null || songForTesting.getTones().size() == 0) {
+            Log.e("Error:", "problem with songForTesting");
+            return;
+        } else {
+            currentSong = songForTesting;
+        }
     }
 
     @Override
@@ -149,7 +197,7 @@ boolean animationbool = false;
                 onBackPressed();
                 break;
 
-            case R.id.settings:
+            case R.id.settings_menu:
                 soundPool.release();
                 startActivity(new Intent(this, this.getClass())); //spusteni nove instance z duvodu zastaveni prehravani skladby, pokud je prave prehravana
                 overridePendingTransition(0, 0);
@@ -186,6 +234,8 @@ boolean animationbool = false;
         return true;
     }
 
+
+
     @Override
     public void onResume() { //aktualizace nastaveni hodnot ze SettingsScreenActivity
         super.onResume();
@@ -194,6 +244,9 @@ boolean animationbool = false;
         soundId = soundPool.load(getFilesDir() + "/Instruments/" + settings.getString("list_instruments", "a1.wav"), 1);
         nameOfSongView.setText(settings.getString("list_songs", "Pro Elisku"));
         stopBeforeTone = settings.getBoolean("stop_before_tone", false);
+        if (isTest) {
+            setActivityForTest();
+        }
     }
 
 
@@ -214,8 +267,7 @@ boolean animationbool = false;
 
 
         if (!isPlaying) {
-            song = Songs.getSongByName(getApplicationContext(), settings.getString("list_songs", "Pro Elisku"));
-
+            song = currentSong;
         }
 
         tonySkladby = song.getTones();

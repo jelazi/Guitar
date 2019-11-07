@@ -39,11 +39,13 @@ public class MidiSong {
     int resolution;
     Song song;
     String songName;
+    File fileSong;
 
 
     public MidiSong (String pathFile) {
         this.pathFile = pathFile;
         File input = new File(pathFile);
+        fileSong = input;
         songName = input.getName();
         try {
             this.midi = new MidiFile(input);
@@ -105,7 +107,7 @@ public class MidiSong {
     }
 
 
-    public void readMidi() {
+    public void readMidi(MidiActivity.HandlerWriteMidiEnabled handlerWriteMidiEnabled) {
         if (songTrack == null || songTrack.getSize() == 0) {
             Log.e("Error", "songtrack is null or empty");
             return;
@@ -157,12 +159,18 @@ public class MidiSong {
             }
         }
         Log.d("Debug", pathFile);
+        if (song.getTones() != null && song.getTones().size() > 0) {
+            handlerWriteMidiEnabled.handleMessage(new Message());
+        }
     }
 
 
     public void writeMidi (Context context, String songName, String authorName) {
         song.setNameOfSong(songName);
         song.setAuthorOfSong(authorName);
+        if (song.getNameOfSong().isEmpty()) {
+            song.setNameOfSong(fileSong.getName());
+        }
         FileManager.setSongToXML(context, song);
     }
 

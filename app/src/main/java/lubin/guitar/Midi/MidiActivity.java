@@ -1,6 +1,7 @@
 package lubin.guitar.Midi;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
@@ -10,13 +11,19 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.io.File;
 
 import lubin.guitar.Files.DialogType;
 import lubin.guitar.Files.FileDialog;
+import lubin.guitar.GuitarActivity.PreviewSongActivity;
+import lubin.guitar.GuitarActivity.TrySongActivity;
 import lubin.guitar.R;
+import lubin.guitar.Users.EditUserActivity;
+import lubin.guitar.Users.SingletonManagerUsers;
 
 public class MidiActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -26,8 +33,10 @@ public class MidiActivity extends AppCompatActivity implements View.OnClickListe
     Button stopMidiBtn;
     Button readMidiBtn;
     Button writeMidiBtn;
+    Button testSongBtn;
     MidiSong midiSong;
     HandlerStopMediaPlayer handlerStopMediaplayer;
+    HandlerWriteMidiEnabled handlerWriteMidiEnabled;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +58,9 @@ public class MidiActivity extends AppCompatActivity implements View.OnClickListe
         writeMidiBtn = findViewById(R.id.write_midi);
         writeMidiBtn.setOnClickListener(this);
         writeMidiBtn.setEnabled(false);
+        testSongBtn = findViewById(R.id.test_song);
+        testSongBtn.setOnClickListener(this);
+        testSongBtn.setEnabled(false);
     }
 
     @Override
@@ -69,8 +81,14 @@ public class MidiActivity extends AppCompatActivity implements View.OnClickListe
         if (view == readMidiBtn) {
             readMidiSong();
         }
+        if (view == testSongBtn) {
+            testSong();
+        }
 
     }
+
+
+
 
     protected void showDialog(DialogType dialogType) {
         if (dialogType == DialogType.FILE_DIALOG_NORMAL) {
@@ -86,22 +104,31 @@ public class MidiActivity extends AppCompatActivity implements View.OnClickListe
         if (dialogType == DialogType.WRITE_SONG) {
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setMessage("Zapsat píseň z midi");
-         /*   final TextView textView1 = new TextView(this);
+            LinearLayout layout = new LinearLayout(this);
+            layout.setOrientation(LinearLayout.VERTICAL);
+            final TextView textView1 = new TextView(this);
             textView1.setText("Jméno písně:");
-            builder.setView(textView1);*/
+            layout.addView(textView1);
             final EditText edittext1 = new EditText(this);
             edittext1.setSelectAllOnFocus(true);
-            builder.setView(edittext1);
+            layout.addView(edittext1);
             edittext1.requestFocus();
-        /*    final TextView textView2 = new TextView(this);
+            final TextView textView2 = new TextView(this);
             textView2.setText("Jméno autora:");
-            builder.setView(textView2);
+            layout.addView(textView2);
             final EditText edittext2 = new EditText(this);
-            builder.setView(edittext2);*/
+            layout.addView(edittext2);
+            builder.setView(layout);
             builder.setPositiveButton("Uložit", new DialogInterface.OnClickListener(){
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-                    midiSong.writeMidi(MidiActivity.this, edittext1.getText().toString(), "");
+                    if (edittext1.getText().toString().isEmpty()) {
+                        Toast.makeText(MidiActivity.this, "Pole jména písně nesmí zůstat prázdné", Toast.LENGTH_SHORT).show();
+                        showDialog(DialogType.WRITE_SONG);
+                    } else {
+                        midiSong.writeMidi(MidiActivity.this, edittext1.getText().toString(), "");
+
+                    }
                 }
             });
 
@@ -118,13 +145,23 @@ public class MidiActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
+    protected  void testSong () {
+        SingletonManagerUsers.setCurrentUser(SingletonManagerUsers.getAdminUser());
+        Intent i = new Intent(this, PreviewSongActivity.class);
+        i.putExtra("is_test", true);
+        i.putExtra("name_test_song", labelSongName.getText().toString());
+        SingletonManagerUsers.setCurrentSong(midiSong.song);
+        startActivity(i);
+    }
+
     protected void openMidiSong (File file) {
         midiSong = new MidiSong(file.getAbsolutePath());
         playMidiBtn.setEnabled(true);
         readMidiBtn.setEnabled(true);
-        writeMidiBtn.setEnabled(true);
+        stopMidiBtn.setEnabled(false);
+        writeMidiBtn.setEnabled(false);
+        testSongBtn.setEnabled(false);
         labelSongName.setText(file.getName());
-     //   midiSong.listeningMidiEvents();
     }
 
     protected void playMidiSong () {
@@ -145,7 +182,8 @@ public class MidiActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     protected void readMidiSong () {
-        midiSong.readMidi();
+        handlerWriteMidiEnabled = new HandlerWriteMidiEnabled();
+        midiSong.readMidi(handlerWriteMidiEnabled);
     }
 
 
@@ -160,6 +198,15 @@ public class MidiActivity extends AppCompatActivity implements View.OnClickListe
         public void sendMessage(Message message) {
             playMidiBtn.setEnabled(true);
             stopMidiBtn.setEnabled(false);
+        }
+    }
+
+    class HandlerWriteMidiEnabled implements Handler.Callback {
+        @Override
+        public boolean handleMessage(Message msg) {
+            writeMidiBtn.setEnabled(true);
+            testSongBtn.setEnabled(true);
+            return true;
         }
     }
 

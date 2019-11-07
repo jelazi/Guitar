@@ -29,7 +29,6 @@ import android.widget.Toast;
 import java.io.File;
 import java.util.ArrayList;
 
-import lubin.guitar.Files.FileManager;
 import lubin.guitar.Settings.Fretboard;
 import lubin.guitar.Song.GuitarTone;
 import lubin.guitar.R;
@@ -200,7 +199,7 @@ public abstract class VirtualGuitarActivity extends AppCompatActivity {
                 onBackPressed();
                 break;
 
-            case R.id.settings:
+            case R.id.settings_menu:
               //  soundPool.release();
                 Intent i = new Intent(VirtualGuitarActivity.this, SettingsScreenActivity.class);
                 startActivity(i);

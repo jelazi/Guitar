@@ -1,11 +1,14 @@
 package lubin.guitar.Song;
 
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.util.ArrayList;
 
 /// trida jedna pisen
 
-public class Song {
+public class Song  {
     private String nameOfSong = "Unknown";
     private String authorOfSong = "Unknown";
     private ArrayList<Tone> tones = new ArrayList<>();
@@ -74,5 +77,7 @@ public class Song {
     public ArrayList<Tone> getTones() {
         return tones;
     }
+
+
 
 }

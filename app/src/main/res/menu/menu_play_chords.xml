@@ -8,7 +8,7 @@
         android:icon="@mipmap/guitar_acoustic"
         app:showAsAction="never" />
     <item
-        android:id="@+id/settings"
+        android:id="@+id/settings_menu"
         android:orderInCategory="2"
         android:title="@string/action_settings"
         android:icon="@mipmap/settings"

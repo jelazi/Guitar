@@ -1,6 +1,9 @@
 package lubin.guitar.Song;
 
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 public class Tone {
 
     public int lenghtTone;
@@ -15,4 +18,5 @@ public class Tone {
         this.lenghtTone = otherTone.lenghtTone;
         this.nameTone = otherTone.nameTone;
     }
+
 }

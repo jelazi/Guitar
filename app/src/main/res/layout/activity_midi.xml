@@ -44,6 +44,12 @@
             android:text="Read Midi" />
 
         <Button
+            android:id="@+id/test_song"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Test Song Midi" />
+
+        <Button
             android:id="@+id/write_midi"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

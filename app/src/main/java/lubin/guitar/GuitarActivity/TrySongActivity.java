@@ -29,9 +29,11 @@ public class TrySongActivity extends VirtualGuitarActivity
     TextView nameUser;
 
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
 
         setContentView(R.layout.activity_try_song);
         addFretboard();
@@ -123,7 +125,7 @@ public class TrySongActivity extends VirtualGuitarActivity
 
                 break;
 
-            case R.id.settings:
+            case R.id.settings_menu:
 
                 Intent i = new Intent(TrySongActivity.this, SettingsScreenActivity.class);
                 startActivity(i);

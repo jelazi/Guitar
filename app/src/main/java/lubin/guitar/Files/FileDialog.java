@@ -6,9 +6,8 @@ import android.content.DialogInterface;
 import android.os.Environment;
 import android.support.v7.app.AlertDialog;
 import android.view.Gravity;
+import android.widget.LinearLayout;
 import android.widget.TextView;
-
-import com.elvishew.xlog.XLog;
 
 import java.io.File;
 import java.io.FilenameFilter;
@@ -33,42 +32,50 @@ public class FileDialog {
     private final Activity activity;
     private boolean selectDirectoryOption;
     private String fileEndsWith;
+    private String fileEndsWith2;
     private File initialPath;
     AlertDialog.Builder builder;
     DialogType dialogType;
     public ArrayList<String> checkedFilesNames;
     public ArrayList<String> uncheckedFilesNames;
     Dialog dialog;
-
+    boolean isOnlyOne;
 
 
     ArrayList<File> checkedFiles;
 
-    /**
-     * @param activity
-     * @param initialPath
-     */
     public FileDialog(Activity activity, File initialPath, DialogType dialogType) {
         this(activity, initialPath, null, dialogType);
     }
 
     public FileDialog(Activity activity, File initialPath, String fileEndsWith, DialogType dialogType) {
+        isOnlyOne = true;
         this.activity = activity;
         this.dialogType = dialogType;
-        setFileEndsWith(fileEndsWith);
+        setFileEndsWith(fileEndsWith, 1);
         if (!initialPath.exists()) initialPath = Environment.getExternalStorageDirectory();
         this.initialPath = initialPath;
         loadFileList(initialPath);
     }
 
-    /**
-     * @return file dialog
-     */
+    public FileDialog(Activity activity, File initialPath, String fileEndsWith, String fileEndsWith2, DialogType dialogType) {
+        isOnlyOne = false;
+        this.activity = activity;
+        this.dialogType = dialogType;
+        setFileEndsWith(fileEndsWith, 1);
+        setFileEndsWith(fileEndsWith2, 2);
+        if (!initialPath.exists()) initialPath = Environment.getExternalStorageDirectory();
+        this.initialPath = initialPath;
+        loadFileList(initialPath);
+    }
+
+
     public void createFileDialog(final String title) {
-        if (dialogType == DialogType.FILE_DIALOG_NORMAL) {
+        if (dialogType == DialogType.FILE_DIALOG_MIDI) {
             dialog = null;
             builder = new AlertDialog.Builder(activity);
-
+            LinearLayout layout = new LinearLayout(activity);
+            layout.setOrientation(LinearLayout.VERTICAL);
 
             TextView titleView = new TextView(activity);
             titleView.setText(title);
@@ -78,12 +85,21 @@ public class FileDialog {
             titleView.setTextColor(activity.getResources().getColor(R.color.colorWhite));
             titleView.setTextSize(30);
 
-            builder.setCustomTitle(titleView);
+            layout.addView(titleView);
+
+            TextView subtitleView = new TextView(activity);
+            subtitleView.setText("Pouze soubory typu midi");
+            subtitleView.setBackgroundColor(activity.getResources().getColor(R.color.colorPrimary));
+            subtitleView.setPadding(10, 10, 10, 10);
+            subtitleView.setGravity(Gravity.CENTER);
+            subtitleView.setTextColor(activity.getResources().getColor(R.color.colorWhite));
+            layout.addView(subtitleView);
+
+            builder.setCustomTitle(layout);
 
             if (selectDirectoryOption) {
                 builder.setPositiveButton("Select directory", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
-                        XLog.v(TAG, currentPath.getPath());
                         fireDirectorySelectedEvent(currentPath);
                     }
                 });
@@ -105,6 +121,63 @@ public class FileDialog {
             dialog = builder.create();
 
         }
+
+        if (dialogType == DialogType.FILE_DIALOG_IMAGE) {
+            dialog = null;
+            builder = new AlertDialog.Builder(activity);
+
+            LinearLayout layout = new LinearLayout(activity);
+            layout.setOrientation(LinearLayout.VERTICAL);
+
+
+            TextView titleView = new TextView(activity);
+            titleView.setText(title);
+            titleView.setBackgroundColor(activity.getResources().getColor(R.color.colorPrimary));
+            titleView.setPadding(10, 10, 10, 10);
+            titleView.setGravity(Gravity.CENTER);
+            titleView.setTextColor(activity.getResources().getColor(R.color.colorWhite));
+            titleView.setTextSize(30);
+
+            layout.addView(titleView);
+
+            TextView subtitleView = new TextView(activity);
+            subtitleView.setText("Pouze soubory typu png");
+            subtitleView.setBackgroundColor(activity.getResources().getColor(R.color.colorPrimary));
+            subtitleView.setPadding(10, 10, 10, 10);
+            subtitleView.setGravity(Gravity.CENTER);
+            subtitleView.setTextColor(activity.getResources().getColor(R.color.colorWhite));
+            layout.addView(subtitleView);
+
+            builder.setCustomTitle(layout);
+
+            if (selectDirectoryOption) {
+                builder.setPositiveButton("Select directory", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        fireDirectorySelectedEvent(currentPath);
+                    }
+                });
+            }
+
+
+            builder.setItems(fileList, new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int which) {
+                    String fileChosen = fileList[which];
+                    File chosenFile = getChosenFile(fileChosen);
+                    if (chosenFile.isDirectory()) {
+                        loadFileList(chosenFile);
+                        dialog.cancel();
+                        dialog.dismiss();
+                        createFileDialog(title);
+                        showDialog();
+                    } else fireFileSelectedEvent(chosenFile);
+                }
+            });
+
+
+            dialog = builder.create();
+
+        }
+
         if (dialogType == DialogType.FILE_DIALOG_MULTI) {
             dialog = null;
             builder = new AlertDialog.Builder(activity);
@@ -134,14 +207,11 @@ public class FileDialog {
                         ((AlertDialog) dialog).getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(false);
                     } else {
                         ((AlertDialog) dialog).getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(true);
-
                     }
                 }
             });
 
             dialog = builder.create();
-
-
         }
     }
 
@@ -248,7 +318,12 @@ public class FileDialog {
                     if (selectDirectoryOption) return sel.isDirectory();
                     else {
                         boolean endsWith = fileEndsWith != null ? filename.toLowerCase().endsWith(fileEndsWith) : true;
-                        return endsWith || sel.isDirectory();
+                        if (isOnlyOne) {
+                            return endsWith || sel.isDirectory();
+                        } else {
+                            boolean endsWith2 = fileEndsWith2 != null ? filename.toLowerCase().endsWith(fileEndsWith2) : true;
+                            return endsWith || endsWith2 || sel.isDirectory();
+                        }
                     }
                 }
             };
@@ -265,8 +340,14 @@ public class FileDialog {
         else return new File(currentPath, fileChosen);
     }
 
-    private void setFileEndsWith(String fileEndsWith) {
-        this.fileEndsWith = fileEndsWith != null ? fileEndsWith.toLowerCase() : fileEndsWith;
+    private void setFileEndsWith(String fileEndsWith, int fileNumber) {
+        if (fileNumber == 1) {
+            this.fileEndsWith = fileEndsWith != null ? fileEndsWith.toLowerCase() : fileEndsWith;
+            return;
+        }
+        if (fileNumber == 2) {
+            this.fileEndsWith2 = fileEndsWith != null ? fileEndsWith.toLowerCase() : fileEndsWith;
+        }
     }
 }
 

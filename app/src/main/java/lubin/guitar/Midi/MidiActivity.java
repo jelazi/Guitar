@@ -17,12 +17,11 @@ import android.widget.Toast;
 
 import java.io.File;
 
+import lubin.guitar.Account.AccountActivity;
 import lubin.guitar.Files.DialogType;
 import lubin.guitar.Files.FileDialog;
 import lubin.guitar.GuitarActivity.PreviewSongActivity;
-import lubin.guitar.GuitarActivity.TrySongActivity;
 import lubin.guitar.R;
-import lubin.guitar.Users.EditUserActivity;
 import lubin.guitar.Users.SingletonManagerUsers;
 
 public class MidiActivity extends AppCompatActivity implements View.OnClickListener {
@@ -37,6 +36,7 @@ public class MidiActivity extends AppCompatActivity implements View.OnClickListe
     MidiSong midiSong;
     HandlerStopMediaPlayer handlerStopMediaplayer;
     HandlerWriteMidiEnabled handlerWriteMidiEnabled;
+    HandlerWriteOk handlerWriteOk;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,7 +66,7 @@ public class MidiActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onClick(View view) {
         if (view == openMidiBtn) {
-            showDialog(DialogType.FILE_DIALOG_NORMAL);
+            showDialog(DialogType.FILE_DIALOG_MIDI);
 
         }
         if (view == playMidiBtn) {
@@ -84,13 +84,12 @@ public class MidiActivity extends AppCompatActivity implements View.OnClickListe
         if (view == testSongBtn) {
             testSong();
         }
-
     }
 
     protected void showDialog(DialogType dialogType) {
-        if (dialogType == DialogType.FILE_DIALOG_NORMAL) {
-            FileDialog fileDialog = new FileDialog(this, Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), DialogType.FILE_DIALOG_NORMAL);
-            fileDialog.createFileDialog("Vyberte nahraný midi soubor");
+        if (dialogType == DialogType.FILE_DIALOG_MIDI) {
+            FileDialog fileDialog = new FileDialog(this, Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), "mid", "midi", DialogType.FILE_DIALOG_MIDI);
+            fileDialog.createFileDialog("Vyberte midi soubor");
             fileDialog.addFileListener(new FileDialog.FileSelectedListener() {
                 public void fileSelected(File file) {
                     openMidiSong(file);
@@ -123,7 +122,8 @@ public class MidiActivity extends AppCompatActivity implements View.OnClickListe
                         Toast.makeText(MidiActivity.this, "Pole jména písně nesmí zůstat prázdné", Toast.LENGTH_SHORT).show();
                         showDialog(DialogType.WRITE_SONG);
                     } else {
-                        midiSong.writeMidi(MidiActivity.this, edittext1.getText().toString(), "");
+                        handlerWriteOk = new HandlerWriteOk();
+                        midiSong.writeMidi(MidiActivity.this, edittext1.getText().toString(), "", handlerWriteOk);
 
                     }
                 }
@@ -201,6 +201,19 @@ public class MidiActivity extends AppCompatActivity implements View.OnClickListe
         public boolean handleMessage(Message msg) {
             writeMidiBtn.setEnabled(true);
             testSongBtn.setEnabled(true);
+            return true;
+        }
+    }
+
+    class HandlerWriteOk implements Handler.Callback {
+        @Override
+        public boolean handleMessage(Message msg) {
+            Bundle bundle = msg.getData();
+            if (bundle.getString("message").equals("ok")) {
+                Toast.makeText(MidiActivity.this, "Píseň " +  labelSongName.getText() + " byla zkopírována", Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(MidiActivity.this, "Chyba: píseň " +  labelSongName.getText() + " nebyla zkopírována", Toast.LENGTH_SHORT).show();
+            }
             return true;
         }
     }

@@ -16,6 +16,7 @@ import android.widget.Toast;
 
 import java.util.List;
 
+import lubin.guitar.Files.ImportItemsActivity;
 import lubin.guitar.Midi.MidiActivity;
 import lubin.guitar.Users.EditUserActivity;
 import lubin.guitar.Files.DialogType;
@@ -25,12 +26,13 @@ import lubin.guitar.Users.User;
 
 public class TeacherActivity extends AppCompatActivity implements View.OnClickListener {
 
-    Button editUser;
-    Button recordSound;
-    Button editName;
-    Button editPass;
-    Button eraseUser;
-    Button midiPlayer;
+    Button editUserBtn;
+    Button recordSoundBtn;
+    Button editNameBtn;
+    Button editPassBtn;
+    Button eraseUserBtn;
+    Button midiPlayerBtn;
+    Button importItemsBtn;
     SharedPreferences settings;
     List<String> listUsers;
     String userForErase;
@@ -42,18 +44,20 @@ public class TeacherActivity extends AppCompatActivity implements View.OnClickLi
         this.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         settings = PreferenceManager.getDefaultSharedPreferences(this);
 
-        editUser = findViewById(R.id.edit_user);
-        editUser.setOnClickListener(this);
-        recordSound = findViewById(R.id.record_sound_btn);
-        recordSound.setOnClickListener(this);
-        editName = findViewById(R.id.change_name_teacher);
-        editName.setOnClickListener(this);
-        editPass = findViewById(R.id.change_pass_teacher);
-        editPass.setOnClickListener(this);
-        eraseUser = findViewById(R.id.erase_user);
-        eraseUser.setOnClickListener(this);
-        midiPlayer = findViewById(R.id.midi_player);
-        midiPlayer.setOnClickListener(this);
+        editUserBtn = findViewById(R.id.edit_user);
+        editUserBtn.setOnClickListener(this);
+        recordSoundBtn = findViewById(R.id.record_sound_btn);
+        recordSoundBtn.setOnClickListener(this);
+        editNameBtn = findViewById(R.id.change_name_teacher);
+        editNameBtn.setOnClickListener(this);
+        editPassBtn = findViewById(R.id.change_pass_teacher);
+        editPassBtn.setOnClickListener(this);
+        eraseUserBtn = findViewById(R.id.erase_user);
+        eraseUserBtn.setOnClickListener(this);
+        midiPlayerBtn = findViewById(R.id.midi_player);
+        midiPlayerBtn.setOnClickListener(this);
+        importItemsBtn = findViewById(R.id.import_items);
+        importItemsBtn.setOnClickListener(this);
     }
 
     @Override
@@ -71,30 +75,34 @@ public class TeacherActivity extends AppCompatActivity implements View.OnClickLi
 
     @Override
     public void onClick(View view) {
-        if (view == editUser) {
+        if (view == editUserBtn) {
             showDialog(DialogType.CHOICE_USER_ACCOUNT);
             return;
         }
-        if (view == recordSound) {
+        if (view == recordSoundBtn) {
             Intent i = new Intent(view.getContext(), WavRecorderActivity.class);
             startActivity(i);
             return;
         }
-        if (view == editName) {
+        if (view == editNameBtn) {
             showDialog(DialogType.CHANGE_TEACHER_NAME);
             return;
         }
-        if (view == editPass) {
+        if (view == editPassBtn) {
             showDialog(DialogType.CHANGE_TEACHER_PASS);
             return;
         }
-        if (view == eraseUser) {
+        if (view == eraseUserBtn) {
             showDialog(DialogType.ERASE_USER);
             return;
         }
-        if (view == midiPlayer) {
+        if (view == midiPlayerBtn) {
             Intent i = new Intent(view.getContext(), MidiActivity.class);
             startActivity(i);
+            return;
+        }
+        if (view == importItemsBtn) {
+            openImportItemsActivity();
             return;
         }
     }
@@ -246,5 +254,10 @@ public class TeacherActivity extends AppCompatActivity implements View.OnClickLi
         editor.putString(namePreference, valuePreference);
         editor.commit();
         Toast.makeText(this, valuePreference + " uloženo jako nové jméno.", Toast.LENGTH_SHORT).show();
+    }
+
+    private void openImportItemsActivity () {
+        Intent i = new Intent(this, ImportItemsActivity.class);
+        startActivity(i);
     }
 }

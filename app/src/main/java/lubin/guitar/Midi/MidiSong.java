@@ -3,6 +3,7 @@ package lubin.guitar.Midi;
 import android.content.Context;
 import android.media.MediaPlayer;
 import android.net.Uri;
+import android.os.Bundle;
 import android.os.Message;
 import android.util.Log;
 
@@ -159,13 +160,26 @@ public class MidiSong {
         }
     }
 
-    public void writeMidi (Context context, String songName, String authorName) {
+    public void writeMidi (Context context, String songName, String authorName, MidiActivity.HandlerWriteOk handlerWriteOk) {
         song.setNameOfSong(songName);
         song.setAuthorOfSong(authorName);
         if (song.getNameOfSong().isEmpty()) {
             song.setNameOfSong(fileSong.getName());
         }
-        FileManager.setSongToXML(context, song);
+        boolean isOk = FileManager.setSongToXML(context, song);
+        if (isOk) {
+            Message message = Message.obtain();
+            Bundle bundle = new Bundle();
+            bundle.putString("message", "ok");
+            message.setData(bundle);
+            handlerWriteOk.handleMessage(message);
+        } else {
+            Message message = Message.obtain();
+            Bundle bundle = new Bundle();
+            bundle.putString("message", "false");
+            message.setData(bundle);
+            handlerWriteOk.handleMessage(message);
+        }
         Songs.fillSongs(context);
     }
 

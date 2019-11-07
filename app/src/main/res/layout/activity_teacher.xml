@@ -46,6 +46,12 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Nahrávání midi" />
+
+        <Button
+            android:id="@+id/import_items"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Import souborů" />
     </LinearLayout>
 
 </android.support.constraint.ConstraintLayout>

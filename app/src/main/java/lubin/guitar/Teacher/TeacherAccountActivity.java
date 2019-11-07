@@ -13,7 +13,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import lubin.guitar.Files.FileInOut;
+import lubin.guitar.Files.FileManager;
 import lubin.guitar.R;
 
 public class TeacherAccountActivity extends AppCompatActivity {
@@ -73,8 +73,8 @@ public class TeacherAccountActivity extends AppCompatActivity {
 
         @Override
         public void onClick(View view) {
-            String correctName = FileInOut.nameWithoutDiacritic(accountName.getText().toString().toLowerCase());
-            String nameWithoutDiacritic = FileInOut.nameWithoutDiacritic(name.toLowerCase());
+            String correctName = FileManager.nameWithoutDiacritic(accountName.getText().toString().toLowerCase());
+            String nameWithoutDiacritic = FileManager.nameWithoutDiacritic(name.toLowerCase());
             String correctPass = accountPass.getText().toString();
 
             if (createName) { //new name and password teacher

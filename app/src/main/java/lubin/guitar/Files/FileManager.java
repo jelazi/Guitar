@@ -187,20 +187,20 @@ public class FileManager {
             fieldFilesSongs = dirSongs.listFiles();
         }
         if (fieldFileInstruments == null || fieldFileInstruments.length == 0) {
-            copyFiletoTarget(R.raw.a1, dirInstruments.toString(), "/a1.wav");
-            copyFiletoTarget(R.raw.s1, dirInstruments.toString(), "/s1.wav");
-            copyFiletoTarget(R.raw.s2, dirInstruments.toString(), "/s2.wav");
-            copyFiletoTarget(R.raw.s3, dirInstruments.toString(), "/s3.wav");
-            copyFiletoTarget(R.raw.s4, dirInstruments.toString(), "/s4.wav");
-            copyFiletoTarget(R.raw.s5, dirInstruments.toString(), "/s5.wav");
-            copyFiletoTarget(R.raw.s6, dirInstruments.toString(), "/s6.wav");
-            copyFiletoTarget(R.raw.s7, dirInstruments.toString(), "/s7.wav");
-            copyFiletoTarget(R.raw.s8, dirInstruments.toString(), "/s8.wav");
-            copyFiletoTarget(R.raw.s9, dirInstruments.toString(), "/s9.wav");
-            copyFiletoTarget(R.raw.s11, dirInstruments.toString(), "/s11.wav");
-            copyFiletoTarget(R.raw.a15, dirInstruments.toString(), "/a15.wav");
-            copyFiletoTarget(R.raw.s12, dirInstruments.toString(), "/s12.wav");
-            copyFiletoTarget(R.raw.wflaute, dirInstruments.toString(), "/wflaute.wav");
+            copyAssets(context, "Instruments/a1.wav", dirInstruments.toString() + "/a1.wav");
+            copyAssets(context, "Instruments/s1.wav", dirInstruments.toString() + "/s1.wav");
+            copyAssets(context, "Instruments/s2.wav", dirInstruments.toString() + "/s2.wav");
+            copyAssets(context, "Instruments/s3.wav", dirInstruments.toString() + "/s3.wav");
+            copyAssets(context, "Instruments/s4.wav", dirInstruments.toString() + "/s4.wav");
+            copyAssets(context, "Instruments/s5.wav", dirInstruments.toString() + "/s5.wav");
+            copyAssets(context, "Instruments/s6.wav", dirInstruments.toString() + "/s6.wav");
+            copyAssets(context, "Instruments/s7.wav", dirInstruments.toString() + "/s7.wav");
+            copyAssets(context, "Instruments/s8.wav", dirInstruments.toString() + "/s8.wav");
+            copyAssets(context, "Instruments/s9.wav", dirInstruments.toString() + "/s9.wav");
+            copyAssets(context, "Instruments/s11.wav", dirInstruments.toString() + "/s11.wav");
+            copyAssets(context, "Instruments/s12.wav", dirInstruments.toString() + "/s12.wav");
+            copyAssets(context, "Instruments/a15", dirInstruments.toString() + "/s12.wav");
+            copyAssets(context, "Instruments/wflaute.wav", dirInstruments.toString() + "/wflaute.wav");
             fieldFileInstruments = dirInstruments.listFiles();
         }
         if (fieldFileFrets == null || fieldFileFrets.length == 0) {

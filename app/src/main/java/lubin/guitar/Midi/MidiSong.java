@@ -4,6 +4,7 @@ import android.content.Context;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Message;
 import android.util.Log;
 
@@ -167,6 +168,16 @@ public class MidiSong {
             song.setNameOfSong(fileSong.getName());
         }
         boolean isOk = FileManager.setSongToXML(context, song);
+        File file = new File (FileManager.getDirSongs().getPath() + "/" + song.getNameOfSong());
+        File output = new File (Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).getPath() + "/" + song.getNameOfSong() + ".xml");
+        try {
+            if (!file.exists()) {
+                Log.e("Error ", "file dont exists");
+            }
+            FileManager.copy(file, output);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         if (isOk) {
             Message message = Message.obtain();
             Bundle bundle = new Bundle();

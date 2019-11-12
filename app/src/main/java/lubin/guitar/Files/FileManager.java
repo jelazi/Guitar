@@ -1,12 +1,15 @@
 package lubin.guitar.Files;
 
 import android.content.Context;
+import android.content.SharedPreferences;
+import android.content.res.AssetManager;
 import android.util.Log;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
+import org.xml.sax.InputSource;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -14,7 +17,9 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
+import java.io.Reader;
 import java.util.ArrayList;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -28,6 +33,7 @@ import javax.xml.transform.stream.StreamResult;
 import lubin.guitar.R;
 import lubin.guitar.Song.Song;
 import lubin.guitar.Song.Tone;
+import lubin.guitar.Users.SingletonManagerUsers;
 
 public class FileManager {
 
@@ -65,7 +71,7 @@ public class FileManager {
             FileManager.fieldFileStrings = dirStrings.listFiles();
             FileManager.fieldFileMidi = dirMidi.listFiles();
 
-            FileManager.copyDataFromResource();
+            FileManager.copyDataFromResource(context);
 
             for (File file : fieldFilesSongs){
                 ThisSong = FileManager.getSongFromXML(file);
@@ -108,8 +114,6 @@ public class FileManager {
         FileManager.nameFrets = new ArrayList<>();
         FileManager.nameStrings = new ArrayList<>();
 
-        ThisSong = new Song();
-        song =  new Song("Ovcaci, ctveraci");
         dirSongs = new File (context.getFilesDir()+"/Songs/");
         if (!dirSongs.exists()) {
             if (!dirSongs.mkdirs()) {
@@ -149,10 +153,37 @@ public class FileManager {
         loadData(context);
     }
 
-    public static void copyDataFromResource () {
+    public static void copyAssets(Context context, String nameFile, String pathOut) {
+        AssetManager assetManager = context.getAssets();
+        InputStream in = null;
+        OutputStream out = null;
+        try {
+                in = assetManager.open(nameFile);
+                out = new FileOutputStream(pathOut);
+                copyStream(in, out);
+                in.close();
+                in = null;
+                out.flush();
+                out.close();
+                out = null;
+
+        } catch (Exception e) {
+            Log.e("tag", e.getMessage());
+        }
+    }
+
+    private static void copyStream(InputStream in, OutputStream out) throws IOException {
+        byte[] buffer = new byte[1024];
+        int read;
+        while((read = in.read(buffer)) != -1){
+            out.write(buffer, 0, read);
+        }
+    }
+
+    public static void copyDataFromResource (Context context) {
         if (fieldFilesSongs == null || fieldFilesSongs.length == 0) {
-            copyFiletoTarget(R.xml.song1, dirSongs.toString(), "/Pro Elisku.xml");
-            copyFiletoTarget(R.xml.song2, dirSongs.toString(), "/Ovcaci, ctveraci.xml");
+            copyAssets(context, "Songs/song1", dirSongs.toString() + "/song1");
+            copyAssets(context, "Songs/song2", dirSongs.toString() + "/song2");
             fieldFilesSongs = dirSongs.listFiles();
         }
         if (fieldFileInstruments == null || fieldFileInstruments.length == 0) {
@@ -195,7 +226,6 @@ public class FileManager {
         }
 
         if (fieldFileMidi == null || fieldFileMidi.length == 0) {
-            copyFiletoTarget(R.raw.ovcaci_ctveraci, dirMidi.toString(), "/ovcaci_ctveraci.mid");
         }
     }
 
@@ -214,6 +244,10 @@ public class FileManager {
             } finally {
                 in.close();
                 out.close();
+                File is = new File (targetDir + targetName);
+                if (!is.exists()) {
+                    Log.e("Error", "problem creating file");
+                }
             }
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -225,7 +259,12 @@ public class FileManager {
 
     public static Song getSongFromXML(File XML){
 
+
+        if (!XML.exists()) {
+            Log.d("XML", XML.toString());
+        }
         Song song = new Song();
+
 
         try {
             DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
@@ -260,7 +299,7 @@ public class FileManager {
             }
         }
         catch (Exception e) {
-
+            Log.e("Error ", e.toString());
         }
         return song;
     }
@@ -325,6 +364,7 @@ public class FileManager {
         }
         catch (Exception e) {
             Log.e("Error: ", e.getMessage());
+            return false;
         }
         return true;
     }
@@ -493,6 +533,43 @@ public class FileManager {
 
     }
 
+    public static boolean eraseAllSettings (SharedPreferences settings, Context context){
+        SingletonManagerUsers.removeAllUsers(settings);
+        clearApplicationData(context);
+        SharedPreferences.Editor prefsEditor = settings.edit();
+        prefsEditor.clear();
+        prefsEditor.commit();
+        return true;
+
+    }
+
+    protected static void clearApplicationData(Context context) {
+        File applicationDirectory = new File(String.valueOf(context.getFilesDir()));
+        if (applicationDirectory.exists()) {
+            String[] fileNames = applicationDirectory.list();
+            for (String fileName : fileNames) {
+                if (!fileName.equals("lib")) {
+                    deleteFile(new File(applicationDirectory, fileName));
+                }
+            }
+        }
+    }
+
+    protected static boolean deleteFile(File file) {
+        boolean deletedAll = true;
+        if (file != null) {
+            if (file.isDirectory()) {
+                String[] children = file.list();
+                for (int i = 0; i < children.length; i++) {
+                    deletedAll = deleteFile(new File(file, children[i])) && deletedAll;
+                }
+            } else {
+                deletedAll = file.delete();
+            }
+        }
+        return deletedAll;
+    }
+
     public static File createFileFromInputStream(InputStream inputStream) {
 
         try{
@@ -541,6 +618,7 @@ public class FileManager {
     }
 
     public static ArrayList<String> getNameSongs() {
+
         return nameSongs;
     }
 

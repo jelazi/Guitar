@@ -89,6 +89,7 @@ public class User {
         this.allowedInstruments = anotherUser.allowedInstruments;
         this.allowedFrets = anotherUser.allowedFrets;
         this.allowedBackgrounds = anotherUser.allowedBackgrounds;
+        this.allowedStrings = anotherUser.allowedStrings;
         this.choiceMultiTone = anotherUser.choiceMultiTone;
         this.ID = anotherUser.ID;
         this.currentNameSong = anotherUser.currentNameSong;

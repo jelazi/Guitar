@@ -131,7 +131,6 @@ public class AccountActivity extends AppCompatActivity {
         @Override
         public void onClick(View view) {
             currentUser = SingletonManagerUsers.getUserByName(nameSpinner.getSelectedItem().toString());
-
                 if (currentUser.getPass().equals(accountPass.getText().toString())){
                     SingletonManagerUsers.setCurrentUser(currentUser);
                     settings.edit().putString("value_user", Integer.toString(currentUser.getCoins())).apply();

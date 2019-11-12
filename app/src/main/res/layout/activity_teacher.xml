@@ -52,6 +52,12 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Import souborů" />
+
+        <Button
+            android:id="@+id/factory_reset"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Reset všech nastavení" />
     </LinearLayout>
 
 </android.support.constraint.ConstraintLayout>

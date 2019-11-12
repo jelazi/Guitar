@@ -16,6 +16,8 @@ import android.widget.Toast;
 
 import java.util.List;
 
+import lubin.guitar.Account.ChoiceAccountActivity;
+import lubin.guitar.Files.FileManager;
 import lubin.guitar.Files.ImportItemsActivity;
 import lubin.guitar.Midi.MidiActivity;
 import lubin.guitar.Users.EditUserActivity;
@@ -33,6 +35,7 @@ public class TeacherActivity extends AppCompatActivity implements View.OnClickLi
     Button eraseUserBtn;
     Button midiPlayerBtn;
     Button importItemsBtn;
+    Button factoryResetBtn;
     SharedPreferences settings;
     List<String> listUsers;
     String userForErase;
@@ -58,6 +61,8 @@ public class TeacherActivity extends AppCompatActivity implements View.OnClickLi
         midiPlayerBtn.setOnClickListener(this);
         importItemsBtn = findViewById(R.id.import_items);
         importItemsBtn.setOnClickListener(this);
+        factoryResetBtn = findViewById(R.id.factory_reset);
+        factoryResetBtn.setOnClickListener(this);
     }
 
     @Override
@@ -104,6 +109,9 @@ public class TeacherActivity extends AppCompatActivity implements View.OnClickLi
         if (view == importItemsBtn) {
             openImportItemsActivity();
             return;
+        }
+        if (view == factoryResetBtn) {
+            showDialog(DialogType.FACTORY_RESET);
         }
     }
 
@@ -220,11 +228,23 @@ public class TeacherActivity extends AppCompatActivity implements View.OnClickLi
                             SingletonManagerUsers.createNewUser(newName);
                             openAccount(newName);
                         } else {
-                            showDialog(DialogType.NEW_USER);
+                            dialog.dismiss();
                             Toast.makeText(TeacherActivity.this, "Nepovolené jméno", Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
+                break;
+            }
+            case FACTORY_RESET: {
+                builder.setTitle("Vymazání všech nastavení");
+                builder.setMessage("Opravdu chcete vymazat všechna nastavení?");
+                builder.setPositiveButton("Ano", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        eraseAllSettings();
+                    }
+                });
+                builder.setNegativeButton("Ne", null);
                 break;
             }
         }
@@ -258,6 +278,14 @@ public class TeacherActivity extends AppCompatActivity implements View.OnClickLi
 
     private void openImportItemsActivity () {
         Intent i = new Intent(this, ImportItemsActivity.class);
+        startActivity(i);
+    }
+
+    protected void eraseAllSettings () {
+        FileManager.eraseAllSettings(settings, this);
+        FileManager.init(this);
+        finish();
+        Intent i = new Intent(this, ChoiceAccountActivity.class);
         startActivity(i);
     }
 }

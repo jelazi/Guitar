@@ -13,5 +13,6 @@ public enum DialogType {
     CHOICE_ACTIVITY,
     FILE_DIALOG_IMAGE,
     CHANGE_TYPE_FILE,
-    RENAME_FILE
+    RENAME_FILE,
+    FACTORY_RESET
 }

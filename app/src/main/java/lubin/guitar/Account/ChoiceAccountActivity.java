@@ -11,11 +11,15 @@ import android.view.View;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.Toast;
+
+import java.util.List;
 
 import lubin.guitar.Files.FileManager;
 import lubin.guitar.R;
 import lubin.guitar.Teacher.TeacherAccountActivity;
 import lubin.guitar.Users.SingletonManagerUsers;
+import lubin.guitar.Users.User;
 
 public class ChoiceAccountActivity extends AppCompatActivity {
     ImageView img1;
@@ -55,9 +59,13 @@ public class ChoiceAccountActivity extends AppCompatActivity {
     View.OnClickListener runGuitarist = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
-            Intent i = new Intent(ChoiceAccountActivity.this, AccountActivity.class);
-            startActivity(i);
-
+            List<String> listUser = SingletonManagerUsers.getListNamesUsers(false);
+            if (listUser == null || listUser.size() == 0) {
+                Toast.makeText(ChoiceAccountActivity.this, "Nejdříve vytvořte aspoň jeden účet kytaristy.", Toast.LENGTH_LONG).show();
+            } else {
+                Intent i = new Intent(ChoiceAccountActivity.this, AccountActivity.class);
+                startActivity(i);
+            }
         }
     };
 

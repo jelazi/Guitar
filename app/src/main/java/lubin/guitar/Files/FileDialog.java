@@ -307,10 +307,12 @@ public class FileDialog {
 
     private void loadFileList(File path) {
         this.currentPath = path;
-        List<String> r = new ArrayList<String>();
+        List<String> noSorted = new ArrayList<String>();
+        List<String> sorted = new ArrayList<String>();
+        List<String> directories = new ArrayList<String>();
         if (path.exists()) {
 
-            if (path.getParentFile() != null) r.add(PARENT_DIR);
+            if (path.getParentFile() != null) sorted.add(PARENT_DIR);
             FilenameFilter filter = new FilenameFilter() {
                 public boolean accept(File dir, String filename) {
                     File sel = new File(dir, filename);
@@ -329,10 +331,18 @@ public class FileDialog {
             };
             String[] fileList1 = path.list(filter);
             for (String file : fileList1) {
-                r.add(file);
+                noSorted.add(file);
             }
         }
-        fileList = (String[]) r.toArray(new String[]{});
+        for (String file : noSorted) {
+            if (!file.contains(".")) {
+               sorted.add(file);
+            } else {
+                directories.add(file);
+            }
+        }
+        sorted.addAll(directories);
+        fileList = (String[]) sorted.toArray(new String[]{});
     }
 
     private File getChosenFile(String fileChosen) {

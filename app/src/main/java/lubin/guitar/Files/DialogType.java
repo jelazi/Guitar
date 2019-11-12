@@ -12,5 +12,6 @@ public enum DialogType {
     WRITE_SONG,
     CHOICE_ACTIVITY,
     FILE_DIALOG_IMAGE,
-    CHANGE_TYPE_FILE
+    CHANGE_TYPE_FILE,
+    RENAME_FILE
 }

@@ -10,10 +10,11 @@
         android:allowBackup="true"
         android:icon="@drawable/guitarist"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:roundIcon="@drawable/guitarist"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Files.ImportItemsActivity"></activity>
+        <activity android:name=".Files.ImportItemsActivity"
+            android:screenOrientation="portrait" ></activity>
         <activity
             android:name=".Midi.MidiActivity"
             android:label="Práce s midi"

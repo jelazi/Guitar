@@ -563,4 +563,28 @@ public class FileManager {
     public static void setNameStrings(ArrayList<String> nameStrings) {
         FileManager.nameStrings = nameStrings;
     }
+
+    public static File getDirSongs() {
+        return dirSongs;
+    }
+
+    public static File getDirInstruments() {
+        return dirInstruments;
+    }
+
+    public static File getDirFrets() {
+        return dirFrets;
+    }
+
+    public static File getDirBackgrounds() {
+        return dirBackgrounds;
+    }
+
+    public static File getDirStrings() {
+        return dirStrings;
+    }
+
+    public static File getDirMidi() {
+        return dirMidi;
+    }
 }

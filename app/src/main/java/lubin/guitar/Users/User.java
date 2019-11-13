@@ -26,9 +26,11 @@ public class User {
     private String currentNameString;
     private boolean choiceMultiTone;
     private int ID;
+    private UserLevel allowedLevel;
+    private UserLevel currentLevel;
 
 
-    public User(String name, int coins, String pass, List<String>  allowedSongs, List<String>  allowedInstruments, List<String>  allowedFrets, List<String>  allowedBackgrounds, List<String> allowedStrings, boolean choiceMultiTone){
+    public User(String name, int coins, String pass, List<String>  allowedSongs, List<String>  allowedInstruments, List<String>  allowedFrets, List<String>  allowedBackgrounds, List<String> allowedStrings, UserLevel allowedLevel, UserLevel currentLevel, boolean choiceMultiTone){
         this.name = name;
         this.coins = coins;
         this.pass = pass;
@@ -38,6 +40,8 @@ public class User {
         this.allowedBackgrounds = allowedBackgrounds;
         this.allowedStrings = allowedStrings;
         this.choiceMultiTone = choiceMultiTone;
+        this.allowedLevel = allowedLevel;
+        this.currentLevel = currentLevel;
         this.ID = SingletonManagerUsers.getNewID();
         String nameSong;
         String nameInstrument;
@@ -91,6 +95,8 @@ public class User {
         this.allowedBackgrounds = anotherUser.allowedBackgrounds;
         this.allowedStrings = anotherUser.allowedStrings;
         this.choiceMultiTone = anotherUser.choiceMultiTone;
+        this.allowedLevel = anotherUser.allowedLevel;
+        this.currentLevel = anotherUser.currentLevel;
         this.ID = anotherUser.ID;
         this.currentNameSong = anotherUser.currentNameSong;
         this.currentNameInstrument = anotherUser.currentNameInstrument;
@@ -309,6 +315,35 @@ public class User {
             this.currentNameString = currentNameString;
         } else {
             Log.e("Error", "allowedStrings not contains this currentNameString.");
+        }
+    }
+
+    public UserLevel getAllowedLevel() {
+        if (this.allowedLevel == null) {
+            this.allowedLevel = UserLevel.BEGINNER;
+        }
+        return allowedLevel;
+    }
+
+    public void setAllowedLevel(UserLevel allowedLevel) {
+        this.allowedLevel = allowedLevel;
+    }
+
+    public UserLevel getCurrentLevel() {
+        if (currentLevel == null) {
+            currentLevel = UserLevel.BEGINNER;
+        }
+        return currentLevel;
+    }
+
+    public void setCurrentLevel(UserLevel currentLevel) {
+        List<String> allowedLevel = SingletonManagerUsers.getListAllowLevel(getAllowedLevel());
+        String nameLevel = SingletonManagerUsers.getNameUserLevel(currentLevel);
+        if (!allowedLevel.contains(nameLevel)) {
+            Log.e("Error", "allowedLevels not contains this currentLevel.");
+            this.currentLevel = UserLevel.BEGINNER;
+        } else {
+            this.currentLevel = currentLevel;
         }
     }
 }

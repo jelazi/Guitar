@@ -22,6 +22,7 @@ public class SettingsPreferenceFragment extends PreferenceFragment {
 
     public static Preference preferenceCoinUser;
     public static Preference preferenceNameUser;
+    Preference preferenceCurrentLevel;
     Preference preferenceCurrentSong;
     Preference preferenceCurrentInstrument;
     Preference preferenceCurrentFret;
@@ -42,10 +43,16 @@ public class SettingsPreferenceFragment extends PreferenceFragment {
         addPreferencesFromResource(R.xml.settings_screen);
 
         preferenceCoinUser = findPreference("coin_user");
-        preferenceCoinUser.setSummary(String.valueOf(currentUser.getCoins()));
-
         preferenceNameUser = findPreference("name_user");
-        preferenceNameUser.setSummary(currentUser.getName());
+
+        preferenceCurrentLevel = findPreference("current_level");
+        preferenceCurrentLevel.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(Preference preference) {
+                showList(preferenceCurrentLevel);
+                return true;
+            }
+        });
 
         preferenceCurrentSong = findPreference("current_song");
         preferenceCurrentSong.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
@@ -89,6 +96,19 @@ public class SettingsPreferenceFragment extends PreferenceFragment {
         });
 
         preferenceStopBeforeTone = (SwitchPreference) findPreference("stop_before_tone");
+        fillPreferences();
+    }
+
+
+    protected void fillPreferences () {
+        preferenceCoinUser.setSummary(String.valueOf(currentUser.getCoins()));
+        preferenceNameUser.setSummary(currentUser.getName());
+        preferenceCurrentLevel.setSummary(SingletonManagerUsers.getNameUserLevel(currentUser.getCurrentLevel()));
+        preferenceCurrentSong.setSummary(currentUser.getCurrentNameSong());
+        preferenceCurrentInstrument.setSummary(currentUser.getCurrentNameInstrument());
+        preferenceCurrentFret.setSummary(currentUser.getCurrentNameFret());
+        preferenceCurrentBackground.setSummary(currentUser.getCurrentNameBackground());
+        preferenceCurrentString.setSummary(currentUser.getCurrentNameString());
     }
 
     protected void setListPreferenceData(ListPreference listSongs, ListPreference listInstruments, Context context) {  //naplnení preference listem
@@ -110,6 +130,30 @@ public class SettingsPreferenceFragment extends PreferenceFragment {
 
     protected void showList (Preference preference) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        if (preference == preferenceCurrentLevel) {
+            builder.setTitle("Právě používaná úroveň");
+            final List<String> listAllowedLevel = SingletonManagerUsers.getListAllowLevel(currentUser.getAllowedLevel());
+            final String[] arrayAllowedLevel = new String[listAllowedLevel.size()];
+            listAllowedLevel.toArray(arrayAllowedLevel);
+            final int[] checkItem = {currentUser.getCurrentLevel().getValue() - 1};
+            builder.setSingleChoiceItems(
+                    arrayAllowedLevel,
+                    checkItem[0],
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int item) {
+                            checkItem[0] = item;
+                        }
+                    }
+            );
+            builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    currentUser.setCurrentLevel(SingletonManagerUsers.getUserLevelByValue(checkItem[0]+1));
+                    SingletonManagerUsers.changeUser(currentUser);
+                    preferenceCurrentLevel.setSummary(SingletonManagerUsers.getNameUserLevel(currentUser.getCurrentLevel()));
+                }
+            });
+        }
         if (preference == preferenceCurrentSong) {
             builder.setTitle("Právě používaná píseň");
             final List<String> listAllowedSongs = currentUser.getAllowedSongs();

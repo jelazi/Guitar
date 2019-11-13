@@ -25,6 +25,8 @@ public class EditUserPreferenceFragment extends PreferenceFragment implements
     EditTextPreference preferenceNameUser;
     EditTextPreference preferencePassUser;
     EditTextPreference preferenceCoinUser;
+    Preference preferenceCurrentLevel;
+    Preference preferenceAllowLevel;
     Preference preferenceListSongs;
     Preference preferenceListInstruments;
     Preference preferenceListFrets;
@@ -64,6 +66,23 @@ public class EditUserPreferenceFragment extends PreferenceFragment implements
                 return true;
             }
         });
+        preferenceAllowLevel = (Preference) findPreference("allow_level");
+        preferenceAllowLevel.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(Preference preference) {
+                showList(preferenceAllowLevel);
+                return true;
+            }
+        });
+        preferenceCurrentLevel = (Preference) findPreference("current_level");
+        preferenceCurrentLevel.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(Preference preference) {
+                showList(preferenceCurrentLevel);
+                return true;
+            }
+        });
+
         preferenceListInstruments = (Preference) findPreference("list_instruments");
         preferenceListInstruments.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             @Override
@@ -314,6 +333,54 @@ public class EditUserPreferenceFragment extends PreferenceFragment implements
 
     protected void showList (Preference preference) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        if (preference == preferenceAllowLevel) {
+            builder.setTitle("Dosažená úroveň");
+            final List<String> listAllowedLevel = SingletonManagerUsers.getListAllowLevel(UserLevel.CHAMPION);
+            final String[] arrayAllowedLevel = new String[listAllowedLevel.size()];
+            listAllowedLevel.toArray(arrayAllowedLevel);
+            final int[] checkItem = {currentUser.getAllowedLevel().getValue() - 1};
+            builder.setSingleChoiceItems(
+                    arrayAllowedLevel,
+                    checkItem[0],
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int item) {
+                            checkItem[0] = item;
+                        }
+                    }
+            );
+            builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    currentUser.setAllowedLevel(SingletonManagerUsers.getUserLevelByValue(checkItem[0]+1));
+                    SingletonManagerUsers.changeUser(currentUser);
+                    preferenceAllowLevel.setSummary(SingletonManagerUsers.getNameUserLevel(currentUser.getAllowedLevel()));
+                }
+            });
+        }
+        if (preference == preferenceCurrentLevel) {
+            builder.setTitle("Právě používaná úroveň");
+            final List<String> listAllowedLevel = SingletonManagerUsers.getListAllowLevel(currentUser.getAllowedLevel());
+            final String[] arrayAllowedLevel = new String[listAllowedLevel.size()];
+            listAllowedLevel.toArray(arrayAllowedLevel);
+            final int[] checkItem = {currentUser.getCurrentLevel().getValue() - 1};
+            builder.setSingleChoiceItems(
+                    arrayAllowedLevel,
+                    checkItem[0],
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int item) {
+                            checkItem[0] = item;
+                        }
+                    }
+            );
+            builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    currentUser.setCurrentLevel(SingletonManagerUsers.getUserLevelByValue(checkItem[0]+1));
+                    SingletonManagerUsers.changeUser(currentUser);
+                    preferenceCurrentLevel.setSummary(SingletonManagerUsers.getNameUserLevel(currentUser.getCurrentLevel()));
+                }
+            });
+        }
         if (preference == preferenceListBackgrounds) {
             builder.setTitle("Možné pozadí");
             FileManager.loadData(getActivity());
@@ -653,12 +720,14 @@ public class EditUserPreferenceFragment extends PreferenceFragment implements
         }
         PreferenceManager.getDefaultSharedPreferences(getActivity())
                 .registerOnSharedPreferenceChangeListener(this);
+        preferenceAllowLevel.setSummary(SingletonManagerUsers.getNameUserLevel(currentUser.getAllowedLevel()));
         preferenceNameUser.setSummary(currentUser.getName());
         preferenceNameUser.setText(currentUser.getName());
         preferencePassUser.setSummary(currentUser.getPass());
         preferencePassUser.setText(currentUser.getPass());
         preferenceCoinUser.setSummary(String.valueOf(currentUser.getCoins()));
         preferenceCoinUser.setText(String.valueOf(currentUser.getCoins()));
+        preferenceCurrentLevel.setSummary(SingletonManagerUsers.getNameUserLevel(currentUser.getCurrentLevel()));
         preferenceCurrentSong.setSummary(currentUser.getCurrentNameSong());
         preferenceCurrentInstrument.setSummary(currentUser.getCurrentNameInstrument());
         preferenceCurrentFret.setSummary(currentUser.getCurrentNameFret());

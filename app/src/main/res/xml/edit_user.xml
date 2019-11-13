@@ -31,6 +31,16 @@
         />
 
     <Preference
+        android:key="allow_level"
+        android:summary=""
+        android:title="Maximální povolená úroveň" />
+
+    <Preference
+        android:key="current_level"
+        android:summary=""
+        android:title="Právě používaná úroveň" />
+
+    <Preference
         android:key="list_songs"
         android:title="Povolené písně" />
 

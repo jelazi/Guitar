@@ -68,7 +68,7 @@ public class SingletonManagerUsers {
         List<String> listBackgrounds = FileManager.getNameBackgrounds();
         List<String> listStrings = FileManager.getNameStrings();
 
-        User admin = new User("admin", 1000, "", listSongs, listInstruments, listFrets, listBackgrounds, listStrings, true);
+        User admin = new User("admin", 1000, "", listSongs, listInstruments, listFrets, listBackgrounds, listStrings, UserLevel.CHAMPION, UserLevel.CHAMPION, true);
         return admin;
     }
 
@@ -222,7 +222,7 @@ public class SingletonManagerUsers {
         List<String> listBackgrounds = Arrays.asList();
         List<String> listStrings = Arrays.asList();
 
-        User user = new User(nameUser, 0, "", listSongs, listInstruments, listFrets, listBackgrounds, listStrings, true);
+        User user = new User(nameUser, 0, "", listSongs, listInstruments, listFrets, listBackgrounds, listStrings, UserLevel.BEGINNER, UserLevel.BEGINNER, true);
         addUser(user);
         saveToSharedPreferences(sharedPreferences);
     }
@@ -326,6 +326,66 @@ public class SingletonManagerUsers {
         }
         listUsers.add(user);
         saveToSharedPreferences(sharedPreferences);
+    }
+
+    public static List<String> getListAllowLevel (UserLevel allowLevel) {
+        List<String> allowLevelList = new ArrayList<>();
+        allowLevelList.add(getNameUserLevel(UserLevel.BEGINNER));
+        if (allowLevel.getValue() >= UserLevel.EXPERT.getValue()) {
+            allowLevelList.add(getNameUserLevel(UserLevel.EXPERT));
+        }
+        if (allowLevel.getValue() >= UserLevel.PROFESSIONAL.getValue()) {
+            allowLevelList.add(getNameUserLevel(UserLevel.PROFESSIONAL));
+        }
+        if (allowLevel.getValue() >= UserLevel.GENIUS.getValue()) {
+            allowLevelList.add(getNameUserLevel(UserLevel.GENIUS));
+        }
+        if (allowLevel.getValue() >= UserLevel.CHAMPION.getValue()) {
+            allowLevelList.add(getNameUserLevel(UserLevel.CHAMPION));
+        }
+        return allowLevelList;
+    }
+
+    public static String getNameUserLevel (UserLevel userLevel) {
+        switch (userLevel) {
+            case BEGINNER: {
+                return "Začátečník";
+            }
+            case EXPERT: {
+                return "Expert";
+            }
+            case PROFESSIONAL: {
+                return "Profesionál";
+            }
+            case GENIUS: {
+                return "Génius";
+            }
+            case CHAMPION: {
+                return "Šampión";
+            }
+        }
+            return "Začátečník";
+    }
+
+    public static UserLevel getUserLevelByValue (int value) {
+        switch (value) {
+            case 1 : {
+                return UserLevel.BEGINNER;
+            }
+            case 2 : {
+                return UserLevel.EXPERT;
+            }
+            case 3 : {
+                return UserLevel.PROFESSIONAL;
+            }
+            case 4 : {
+                return UserLevel.GENIUS;
+            }
+            case 5 : {
+                return UserLevel.CHAMPION;
+            }
+        }
+        return UserLevel.BEGINNER;
     }
 
     public static void changeUser (User user) {

@@ -26,6 +26,7 @@ import lubin.guitar.Song.Tonalities;
 import lubin.guitar.Song.GuitarTone;
 import lubin.guitar.R;
 import lubin.guitar.Settings.SettingsScreenActivity;
+import lubin.guitar.Users.UserLevel;
 
 
 public class PlayChordActivity extends VirtualGuitarActivity {
@@ -294,9 +295,8 @@ public class PlayChordActivity extends VirtualGuitarActivity {
 
             @Override
             public void onAnimationStart(Animation animation) {
-                imgButton.setBackgroundResource(R.drawable.touch);
-
-                            }
+                    imgButton.setBackgroundResource(R.drawable.touch);
+            }
 
             @Override
             public void onAnimationRepeat(Animation animation) {
@@ -627,7 +627,7 @@ public class PlayChordActivity extends VirtualGuitarActivity {
 
     // vrati ton podle zmacknute struny
     public GuitarTone getToneFromTouch(int imageButtonId) {
-        GuitarTone guitarTone = new GuitarTone(string10, tones.getString10(), Estring);
+        GuitarTone guitarTone = new GuitarTone("", string10, tones.getString10(), Estring);
 
         if (imageButtonId == string14.getId()) {
             guitarTone = Etone;
@@ -755,7 +755,7 @@ public class PlayChordActivity extends VirtualGuitarActivity {
 
     // vrati tone podle jmena tonu
     public GuitarTone getToneFromName(String name) {
-        GuitarTone guitarTone = new GuitarTone(string60, tones.getString60(), E2string);
+        GuitarTone guitarTone = new GuitarTone("", string60, tones.getString60(), E2string);
 
 
         switch (name) {

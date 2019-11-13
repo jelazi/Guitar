@@ -18,6 +18,11 @@
         />
 
     <Preference
+        android:key="current_level"
+        android:summary=""
+        android:title="Právě používaná úroveň" />
+
+    <Preference
         android:summary=""
         android:key="current_song"
         android:title="Právě používaná píseň" />

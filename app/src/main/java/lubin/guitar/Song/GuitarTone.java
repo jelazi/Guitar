@@ -6,12 +6,14 @@ import android.widget.ImageView;
 
 public class GuitarTone {
 
+    String name;
     ImageButton stringTouch;
     float stringValue;
     ImageView stringImage;
 
 // kytarový ton, stringTouch - neviditelne tlacitko, kde se uzivatel dotkl, stringValue - ton, ktery je na strune zmacknuty, stringImage - struna, ktera hraje
-    public GuitarTone(ImageButton stringTouch, float stringValue, ImageView stringImage) {
+    public GuitarTone(String name, ImageButton stringTouch, float stringValue, ImageView stringImage) {
+        this.name = name;
         this.stringTouch = stringTouch;
         this.stringValue = stringValue;
         this.stringImage = stringImage;
@@ -39,5 +41,13 @@ public class GuitarTone {
 
     public void setStringImage(ImageView stringImage) {
         this.stringImage = stringImage;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }

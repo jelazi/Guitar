@@ -103,7 +103,7 @@ public class SettingsPreferenceFragment extends PreferenceFragment {
     protected void fillPreferences () {
         preferenceCoinUser.setSummary(String.valueOf(currentUser.getCoins()));
         preferenceNameUser.setSummary(currentUser.getName());
-        preferenceCurrentLevel.setSummary(SingletonManagerUsers.getNameUserLevel(currentUser.getCurrentLevel()));
+        preferenceCurrentLevel.setSummary(SingletonManagerUsers.getNameUserLevel(currentUser.getCurrentLevel(), this.getActivity()));
         preferenceCurrentSong.setSummary(currentUser.getCurrentNameSong());
         preferenceCurrentInstrument.setSummary(currentUser.getCurrentNameInstrument());
         preferenceCurrentFret.setSummary(currentUser.getCurrentNameFret());
@@ -131,8 +131,8 @@ public class SettingsPreferenceFragment extends PreferenceFragment {
     protected void showList (Preference preference) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         if (preference == preferenceCurrentLevel) {
-            builder.setTitle("Právě používaná úroveň");
-            final List<String> listAllowedLevel = SingletonManagerUsers.getListAllowLevel(currentUser.getAllowedLevel());
+            builder.setTitle(getResources().getString(R.string.current_level));
+            final List<String> listAllowedLevel = SingletonManagerUsers.getListAllowLevel(currentUser.getAllowedLevel(), this.getActivity());
             final String[] arrayAllowedLevel = new String[listAllowedLevel.size()];
             listAllowedLevel.toArray(arrayAllowedLevel);
             final int[] checkItem = {currentUser.getCurrentLevel().getValue() - 1};
@@ -145,17 +145,17 @@ public class SettingsPreferenceFragment extends PreferenceFragment {
                         }
                     }
             );
-            builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            builder.setPositiveButton(getResources().getString(R.string.ok), new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-                    currentUser.setCurrentLevel(SingletonManagerUsers.getUserLevelByValue(checkItem[0]+1));
+                    currentUser.setCurrentLevel(SingletonManagerUsers.getUserLevelByValue(checkItem[0]+1), SettingsPreferenceFragment.this.getActivity());
                     SingletonManagerUsers.changeUser(currentUser);
-                    preferenceCurrentLevel.setSummary(SingletonManagerUsers.getNameUserLevel(currentUser.getCurrentLevel()));
+                    preferenceCurrentLevel.setSummary(SingletonManagerUsers.getNameUserLevel(currentUser.getCurrentLevel(), SettingsPreferenceFragment.this.getActivity()));
                 }
             });
         }
         if (preference == preferenceCurrentSong) {
-            builder.setTitle("Právě používaná píseň");
+            builder.setTitle(getResources().getString(R.string.current_song));
             final List<String> listAllowedSongs = currentUser.getAllowedSongs();
             final String[] allAllowedSongs = new String[listAllowedSongs.size()];
             listAllowedSongs.toArray(allAllowedSongs);
@@ -193,7 +193,7 @@ public class SettingsPreferenceFragment extends PreferenceFragment {
             });
         }
         if (preference == preferenceCurrentInstrument) {
-            builder.setTitle("Právě používaný nástroj");
+            builder.setTitle(getResources().getString(R.string.current_instrument));
             final List<String> listAllowedInstruments = currentUser.getAllowedInstruments();
             final String[] allAllowedInstruments = new String[listAllowedInstruments.size()];
             listAllowedInstruments.toArray(allAllowedInstruments);
@@ -217,7 +217,7 @@ public class SettingsPreferenceFragment extends PreferenceFragment {
                         }
                     }
             );
-            builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            builder.setPositiveButton(getResources().getString(R.string.ok), new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     String nameCurrentInstrument = "";
@@ -231,7 +231,7 @@ public class SettingsPreferenceFragment extends PreferenceFragment {
             });
         }
         if (preference == preferenceCurrentFret) {
-            builder.setTitle("Právě používaný pražec");
+            builder.setTitle(getResources().getString(R.string.current_fret));
             final List<String> listAllowedFrets = currentUser.getAllowedFrets();
             final String[] allAllowedFrets = new String[listAllowedFrets.size()];
             listAllowedFrets.toArray(allAllowedFrets);
@@ -255,7 +255,7 @@ public class SettingsPreferenceFragment extends PreferenceFragment {
                         }
                     }
             );
-            builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            builder.setPositiveButton(getResources().getString(R.string.ok), new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     String nameCurrentFret = "";
@@ -269,7 +269,7 @@ public class SettingsPreferenceFragment extends PreferenceFragment {
             });
         }
         if (preference == preferenceCurrentBackground) {
-            builder.setTitle("Právě používané pozadí kytary");
+            builder.setTitle(getResources().getString(R.string.current_background));
             final List<String> listAllowedBackground = currentUser.getAllowedBackgrounds();
             final String[] allAllowedBackgrounds = new String[listAllowedBackground.size()];
             listAllowedBackground.toArray(allAllowedBackgrounds);
@@ -293,7 +293,7 @@ public class SettingsPreferenceFragment extends PreferenceFragment {
                         }
                     }
             );
-            builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            builder.setPositiveButton(getResources().getString(R.string.ok), new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     String nameCurrentBackground = "";
@@ -307,7 +307,7 @@ public class SettingsPreferenceFragment extends PreferenceFragment {
             });
         }
         if (preference == preferenceCurrentString) {
-            builder.setTitle("Právě používané struny");
+            builder.setTitle(getResources().getString(R.string.current_strings));
             final List<String> listAllowedStrings = currentUser.getAllowedStrings();
             final String[] allAllowedStrings = new String[listAllowedStrings.size()];
             listAllowedStrings.toArray(allAllowedStrings);
@@ -331,7 +331,7 @@ public class SettingsPreferenceFragment extends PreferenceFragment {
                         }
                     }
             );
-            builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            builder.setPositiveButton(getResources().getString(R.string.ok), new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     String nameCurrentString = "";
@@ -344,7 +344,7 @@ public class SettingsPreferenceFragment extends PreferenceFragment {
                 }
             });
         }
-        builder.setNegativeButton("Cancel", null);
+        builder.setNegativeButton(getResources().getString(R.string.cancel), null);
         AlertDialog dialog = builder.create();
         dialog.show();
     }

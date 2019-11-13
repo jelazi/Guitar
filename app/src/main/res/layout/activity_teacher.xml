@@ -15,49 +15,49 @@
             android:id="@+id/change_name_teacher"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Změnit jméno učitele" />
+            android:text="@string/change_name_teacher" />
 
         <Button
             android:id="@+id/change_pass_teacher"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Změnit heslo učitele" />
+            android:text="@string/change_pass_teacher" />
 
         <Button
             android:id="@+id/edit_user"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Editování uživatele" />
+            android:text="@string/edit_user" />
 
         <Button
             android:id="@+id/erase_user"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Vymazání uživatele" />
+            android:text="@string/erase_user" />
 
         <Button
             android:id="@+id/record_sound_btn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Nahrávání zvuků" />
+            android:text="@string/record_sound" />
 
         <Button
             android:id="@+id/midi_player"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Nahrávání midi" />
+            android:text="@string/midi_player" />
 
         <Button
             android:id="@+id/import_items"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Import souborů" />
+            android:text="@string/import_files" />
 
         <Button
             android:id="@+id/factory_reset"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Reset všech nastavení" />
+            android:text="@string/factory_reset" />
     </LinearLayout>
 
 </android.support.constraint.ConstraintLayout>

@@ -46,11 +46,11 @@ public class TeacherAccountActivity extends AppCompatActivity {
         name = settings.getString("nameTeacher", "");
         pass = settings.getString("passTeacher", "");
         if (name.equals("")) { //is empty nameTeacher, passTeacher
-            btnAcc.setText("Vytvořit");
+            btnAcc.setText(getResources().getString(R.string.create));
             createName = true;
         } else {
             createName = false;
-            btnAcc.setText("Přihlas se");
+            btnAcc.setText(getResources().getString(R.string.log_in));
         }
         this.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
@@ -84,16 +84,16 @@ public class TeacherAccountActivity extends AppCompatActivity {
                 editor.commit();
                 name = settings.getString("nameTeacher", "");
                 pass = settings.getString("passTeacher", "");
-                Toast.makeText(view.getContext(), "Nové heslo a jméno uloženo", Toast.LENGTH_SHORT).show();
+                Toast.makeText(view.getContext(), getResources().getString(R.string.warning_new_name), Toast.LENGTH_SHORT).show();
                 createName = false;
-                btnAcc.setText("Přihlas se");
+                btnAcc.setText(getResources().getString(R.string.log_in));
             } else {
                 if (correctName.equals(nameWithoutDiacritic) && correctPass.equals(pass)) {
                     Intent i = new Intent(view.getContext(), TeacherActivity.class);
                     startActivity(i);
                     return;
                 }
-                Toast.makeText(view.getContext(), "Špatné jméno nebo heslo", Toast.LENGTH_SHORT).show();
+                Toast.makeText(view.getContext(), getResources().getString(R.string.warning_wrong_name_pass), Toast.LENGTH_SHORT).show();
                 accountName.setText("");
                 accountPass.setText("");
             }

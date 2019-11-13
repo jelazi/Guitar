@@ -88,7 +88,7 @@ public class FileDialog {
             layout.addView(titleView);
 
             TextView subtitleView = new TextView(activity);
-            subtitleView.setText("Pouze soubory typu midi");
+            subtitleView.setText(activity.getResources().getString(R.string.only_midi_files));
             subtitleView.setBackgroundColor(activity.getResources().getColor(R.color.colorPrimary));
             subtitleView.setPadding(10, 10, 10, 10);
             subtitleView.setGravity(Gravity.CENTER);
@@ -98,7 +98,7 @@ public class FileDialog {
             builder.setCustomTitle(layout);
 
             if (selectDirectoryOption) {
-                builder.setPositiveButton("Select directory", new DialogInterface.OnClickListener() {
+                builder.setPositiveButton(activity.getResources().getString(R.string.select_directory), new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         fireDirectorySelectedEvent(currentPath);
                     }
@@ -141,7 +141,7 @@ public class FileDialog {
             layout.addView(titleView);
 
             TextView subtitleView = new TextView(activity);
-            subtitleView.setText("Pouze soubory typu png");
+            subtitleView.setText(activity.getResources().getString(R.string.only_png_files));
             subtitleView.setBackgroundColor(activity.getResources().getColor(R.color.colorPrimary));
             subtitleView.setPadding(10, 10, 10, 10);
             subtitleView.setGravity(Gravity.CENTER);
@@ -151,7 +151,7 @@ public class FileDialog {
             builder.setCustomTitle(layout);
 
             if (selectDirectoryOption) {
-                builder.setPositiveButton("Select directory", new DialogInterface.OnClickListener() {
+                builder.setPositiveButton(activity.getResources().getString(R.string.select_directory), new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         fireDirectorySelectedEvent(currentPath);
                     }

@@ -103,7 +103,7 @@ public class PreviewSongActivity extends VirtualGuitarActivity {
         tone = 0;
         normal_playback_rate = 0.5f;
         this.setTitle(R.string.action_preview_song);
-        nameOfSongView.setText(settings.getString("list_songs", "Pro Elisku"));
+        nameOfSongView.setText(currentUser.getCurrentNameSong());
     }
 
     @SuppressLint("RestrictedApi")
@@ -164,7 +164,7 @@ public class PreviewSongActivity extends VirtualGuitarActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (isPlaying) {
-            Toast.makeText(this, "Nejdříve zastav píseň.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getResources().getString(R.string.warning_first_stop_song), Toast.LENGTH_SHORT).show();
             return true;
         }
 
@@ -247,7 +247,7 @@ public class PreviewSongActivity extends VirtualGuitarActivity {
         if (isPlaying) {
             toneStop = getNumberTone(); //zjisteni tonu, na kterém se skoncilo
             isPlaying = false;
-            this.btnplayMusic.setText("Hraj");
+            this.btnplayMusic.setText(getResources().getString(R.string.play_order));
             soundPool.release();
             settings.edit().putInt("tone_stop", toneStop).apply();
             settings.edit().putBoolean("new_intent", false).apply();
@@ -273,7 +273,7 @@ public class PreviewSongActivity extends VirtualGuitarActivity {
                                     @Override
                                     public void run() {
                                         isPlaying = true;
-                                        btnplayMusic.setText("Zastav");
+                                        btnplayMusic.setText(getResources().getString(R.string.stop_order));
 
                                     }
                                 }, delay + 1000);
@@ -287,7 +287,7 @@ public class PreviewSongActivity extends VirtualGuitarActivity {
                         @Override
                         public void run() {
                             isPlaying = false;
-                            btnplayMusic.setText("Hraj");
+                            btnplayMusic.setText(getResources().getString(R.string.play_order));
                             toneStop = 0;
                             settings.edit().putInt("tone_stop", toneStop).apply();
                         }
@@ -295,7 +295,7 @@ public class PreviewSongActivity extends VirtualGuitarActivity {
                 }
             }, 1000);
             isPlaying = true;
-            btnplayMusic.setText("Zastav");
+            btnplayMusic.setText(getResources().getString(R.string.stop_order));
             }
         }
 

@@ -24,7 +24,7 @@
             android:layout_width="0dip"
             android:layout_height="match_parent"
             android:layout_weight="33"
-            android:text="Přehraj" />
+            android:text="@string/preview" />
 
 
 
@@ -49,8 +49,6 @@
             android:layout_weight="90"
             android:textSize="35dp"
             android:textColor="#ff0080"
-            android:text="Pro Elišku"
-
             />
 
 

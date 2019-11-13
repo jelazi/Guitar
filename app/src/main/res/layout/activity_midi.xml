@@ -16,44 +16,43 @@
         <TextView
             android:id="@+id/label_song"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="TextView" />
+            android:layout_height="wrap_content" />
 
         <Button
             android:id="@+id/open_midi"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Open Midi" />
+            android:text="@string/open_midi" />
 
         <Button
             android:id="@+id/play_midi"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Play Midi" />
+            android:text="@string/play_midi" />
 
         <Button
             android:id="@+id/stop_midi"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Stop Midi" />
+            android:text="@string/stop_midi" />
 
         <Button
             android:id="@+id/read_midi"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Read Midi" />
+            android:text="@string/read_midi" />
 
         <Button
             android:id="@+id/test_song"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Test Song Midi" />
+            android:text="@string/test_song_midi" />
 
         <Button
             android:id="@+id/write_midi"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Write Midi" />
+            android:text="@string/write_midi" />
 
     </LinearLayout>
 

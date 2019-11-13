@@ -99,27 +99,27 @@ public class MidiActivity extends AppCompatActivity implements View.OnClickListe
         }
         if (dialogType == DialogType.WRITE_SONG) {
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setMessage("Zapsat píseň z midi");
+            builder.setMessage(getResources().getString(R.string.write_midi));
             LinearLayout layout = new LinearLayout(this);
             layout.setOrientation(LinearLayout.VERTICAL);
             final TextView textView1 = new TextView(this);
-            textView1.setText("Jméno písně:");
+            textView1.setText(getResources().getString(R.string.name_song)+":");
             layout.addView(textView1);
             final EditText edittext1 = new EditText(this);
             edittext1.setSelectAllOnFocus(true);
             layout.addView(edittext1);
             edittext1.requestFocus();
             final TextView textView2 = new TextView(this);
-            textView2.setText("Jméno autora:");
+            textView2.setText(getResources().getString(R.string.name_author)+":");
             layout.addView(textView2);
             final EditText edittext2 = new EditText(this);
             layout.addView(edittext2);
             builder.setView(layout);
-            builder.setPositiveButton("Uložit", new DialogInterface.OnClickListener(){
+            builder.setPositiveButton(getResources().getString(R.string.save), new DialogInterface.OnClickListener(){
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     if (edittext1.getText().toString().isEmpty()) {
-                        Toast.makeText(MidiActivity.this, "Pole jména písně nesmí zůstat prázdné", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(MidiActivity.this, getResources().getString(R.string.warning_field_not_empty), Toast.LENGTH_SHORT).show();
                         showDialog(DialogType.WRITE_SONG);
                     } else {
                         handlerWriteOk = new HandlerWriteOk();
@@ -129,7 +129,7 @@ public class MidiActivity extends AppCompatActivity implements View.OnClickListe
                 }
             });
 
-            builder.setNegativeButton("Zrušit", new DialogInterface.OnClickListener(){
+            builder.setNegativeButton(getResources().getString(R.string.cancel), new DialogInterface.OnClickListener(){
                 @Override
                 public void onClick(DialogInterface dialog, int which){
                     dialog.dismiss();
@@ -210,9 +210,9 @@ public class MidiActivity extends AppCompatActivity implements View.OnClickListe
         public boolean handleMessage(Message msg) {
             Bundle bundle = msg.getData();
             if (bundle.getString("message").equals("ok")) {
-                Toast.makeText(MidiActivity.this, "Píseň " +  labelSongName.getText() + " byla zkopírována", Toast.LENGTH_SHORT).show();
+                Toast.makeText(MidiActivity.this, getResources().getString(R.string.warning_song) +  labelSongName.getText() + getResources().getString(R.string.warning_copied), Toast.LENGTH_SHORT).show();
             } else {
-                Toast.makeText(MidiActivity.this, "Chyba: píseň " +  labelSongName.getText() + " nebyla zkopírována", Toast.LENGTH_SHORT).show();
+                Toast.makeText(MidiActivity.this, getResources().getString(R.string.warning_song) +  labelSongName.getText() + getResources().getString(R.string.warning_cant_copy), Toast.LENGTH_SHORT).show();
             }
             return true;
         }

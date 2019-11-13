@@ -1,5 +1,6 @@
 package lubin.guitar.Users;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.util.Log;
@@ -12,6 +13,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import lubin.guitar.Files.FileManager;
+import lubin.guitar.R;
 import lubin.guitar.Song.Song;
 import lubin.guitar.Song.Songs;
 
@@ -40,9 +42,9 @@ public class SingletonManagerUsers {
 
     }
 
-    public static boolean isUniqueNameUser (String nameUser) {
+    public static boolean isUniqueNameUser (String nameUser, Activity activity) {
         if (nameUser.equals("")) return false;
-        if (nameUser.equals("New User")) return false;
+        if (nameUser.equals(activity.getResources().getString(R.string.new_user))) return false;
         if (listUsers == null || listUsers.size() == 0) return true;
         for (User user : listUsers) {
             if (user.getName().equals(nameUser)) return false;
@@ -50,9 +52,9 @@ public class SingletonManagerUsers {
         return true;
     }
 
-    public static boolean isUniqueNameUser (String nameUser, int ID) {
+    public static boolean isUniqueNameUser (String nameUser, int ID, Activity activity) {
         if (nameUser.equals("")) return false;
-        if (nameUser.equals("New User")) return false;
+        if (nameUser.equals(activity.getResources().getString(R.string.new_user))) return false;
         if (nameUser.contains("user")) return false;
         if (listUsers == null || listUsers.size() == 0) return true;
         for (User user : listUsers) {
@@ -89,11 +91,11 @@ public class SingletonManagerUsers {
         return null;
     }
 
-    public static List<String> getListNamesUsers (boolean withNewUser) {
+    public static List<String> getListNamesUsers (boolean withNewUser, Activity activity) {
         List <String> listNamesUsers = new ArrayList<String>();
         if (listUsers == null || listUsers.size() == 0) {
             if (withNewUser) {
-                listNamesUsers.add("New User");
+                listNamesUsers.add(activity.getResources().getString(R.string.new_user));
             }
             return listNamesUsers;
         }
@@ -101,7 +103,7 @@ public class SingletonManagerUsers {
             listNamesUsers.add(user.getName());
         }
         if (withNewUser) {
-            listNamesUsers.add("New User");
+            listNamesUsers.add(activity.getResources().getString(R.string.new_user));
         }
         return listNamesUsers;
     }
@@ -328,43 +330,43 @@ public class SingletonManagerUsers {
         saveToSharedPreferences(sharedPreferences);
     }
 
-    public static List<String> getListAllowLevel (UserLevel allowLevel) {
+    public static List<String> getListAllowLevel (UserLevel allowLevel, Activity activity) {
         List<String> allowLevelList = new ArrayList<>();
-        allowLevelList.add(getNameUserLevel(UserLevel.BEGINNER));
+        allowLevelList.add(getNameUserLevel(UserLevel.BEGINNER, activity));
         if (allowLevel.getValue() >= UserLevel.EXPERT.getValue()) {
-            allowLevelList.add(getNameUserLevel(UserLevel.EXPERT));
+            allowLevelList.add(getNameUserLevel(UserLevel.EXPERT, activity));
         }
         if (allowLevel.getValue() >= UserLevel.PROFESSIONAL.getValue()) {
-            allowLevelList.add(getNameUserLevel(UserLevel.PROFESSIONAL));
+            allowLevelList.add(getNameUserLevel(UserLevel.PROFESSIONAL, activity));
         }
         if (allowLevel.getValue() >= UserLevel.GENIUS.getValue()) {
-            allowLevelList.add(getNameUserLevel(UserLevel.GENIUS));
+            allowLevelList.add(getNameUserLevel(UserLevel.GENIUS, activity));
         }
         if (allowLevel.getValue() >= UserLevel.CHAMPION.getValue()) {
-            allowLevelList.add(getNameUserLevel(UserLevel.CHAMPION));
+            allowLevelList.add(getNameUserLevel(UserLevel.CHAMPION, activity));
         }
         return allowLevelList;
     }
 
-    public static String getNameUserLevel (UserLevel userLevel) {
+    public static String getNameUserLevel (UserLevel userLevel, Activity activity) {
         switch (userLevel) {
             case BEGINNER: {
-                return "Začátečník";
+                return activity.getResources().getString(R.string.beginner);
             }
             case EXPERT: {
-                return "Expert";
+                return activity.getResources().getString(R.string.expert);
             }
             case PROFESSIONAL: {
-                return "Profesionál";
+                return activity.getResources().getString(R.string.professional);
             }
             case GENIUS: {
-                return "Génius";
+                return activity.getResources().getString(R.string.genius);
             }
             case CHAMPION: {
-                return "Šampión";
+                return activity.getResources().getString(R.string.champion);
             }
         }
-            return "Začátečník";
+            return activity.getResources().getString(R.string.beginner);
     }
 
     public static UserLevel getUserLevelByValue (int value) {

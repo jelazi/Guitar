@@ -28,7 +28,7 @@ public class Songs {
     private static ArrayList<String> nameSongs = new ArrayList<>(); //seznam jmen vsech songu nahranych do songs
     private static ArrayList<String> nameInstruments = new ArrayList<>(); //seznam jmen vsech instrumentu
 
-    private static Song song = new Song("Ovcaci, ctveraci");
+    private static Song song = new Song("song1");
 
     public static void fillSongs(Context context){
 

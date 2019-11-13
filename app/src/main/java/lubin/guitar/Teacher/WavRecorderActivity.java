@@ -73,7 +73,7 @@ public class WavRecorderActivity extends AppCompatActivity {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_recorder);
     this.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-    getSupportActionBar().setTitle("Možnost nahrávání");
+    getSupportActionBar().setTitle(getResources().getString(R.string.posibility_recording));
     countdownText = findViewById(R.id.countdown);
     nameFile = findViewById(R.id.name_file);
     playBtn =  findViewById(R.id.play_btn);
@@ -152,7 +152,7 @@ public class WavRecorderActivity extends AppCompatActivity {
 
       soundPool.play(soundId, leftVolume, rightVolume, priority, no_loop, 1);
     } else {
-      Toast.makeText(this, "Není zatím nic nahráno", Toast.LENGTH_LONG);
+      Toast.makeText(this, getResources().getString(R.string.warning_nothing_record), Toast.LENGTH_LONG);
     }
     }
 
@@ -174,8 +174,8 @@ public class WavRecorderActivity extends AppCompatActivity {
     } else {
       AlertDialog dialog;
       final AlertDialog.Builder builder = new AlertDialog.Builder(this);
-      builder.setTitle("Soubor tohoto jména již existuje. Chcete jej přepsat?");
-      builder.setPositiveButton("Ano", new DialogInterface.OnClickListener() {
+      builder.setTitle(getResources().getString(R.string.warning_file_exists));
+      builder.setPositiveButton(getResources().getString(R.string.yes), new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                   FileChannel source = null;
@@ -207,7 +207,7 @@ public class WavRecorderActivity extends AppCompatActivity {
                   }
                 }
       });
-                  builder.setNegativeButton("Ne", new DialogInterface.OnClickListener() {
+                  builder.setNegativeButton(getResources().getString(R.string.no), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                     }
@@ -224,17 +224,17 @@ public class WavRecorderActivity extends AppCompatActivity {
         if (millisUntilFinished >= 1000) {
           String text = Long.toString((millisUntilFinished / 1000 - 1));
           countdownText.setText(text);
-          getSupportActionBar().setTitle("Připravte se na nahrávání...");
+          getSupportActionBar().setTitle(getResources().getString(R.string.warning_prepare_recording));
         } else {
-          getSupportActionBar().setTitle("Nahrávám");
+          getSupportActionBar().setTitle(getResources().getString(R.string.warning_recording));
 
-          countdownText.setText("Nahrávám");
+          countdownText.setText(getResources().getString(R.string.warning_recording));
           recorder.startRecording();
         }
       }
 
       public void onFinish() {
-        getSupportActionBar().setTitle("Možnost nahrávání");
+        getSupportActionBar().setTitle(getResources().getString(R.string.posibility_recording));
         try {
           recorder.stopRecording();
           isRecording = false;
@@ -244,7 +244,7 @@ public class WavRecorderActivity extends AppCompatActivity {
         }
         playBtn.setEnabled(true);
         saveBtn.setEnabled(true);
-        countdownText.setText("Konec nahrávání");
+        countdownText.setText(getResources().getString(R.string.recording_finish));
       }
     };
     countDownTimer.start();

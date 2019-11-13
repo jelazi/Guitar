@@ -23,7 +23,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:text="TextView"
             android:textSize="36sp"
             android:textStyle="bold" />
 
@@ -31,7 +30,7 @@
             android:id="@+id/btn_open_file"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Otevřít soubor" />
+            android:text="@string/open_file" />
 
         <TextView
             android:id="@+id/lbl_name_file"
@@ -52,7 +51,7 @@
             android:id="@+id/btn_import_file"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Importovat soubor" />
+            android:text="@string/import_file" />
     </LinearLayout>
     </ScrollView>
     </LinearLayout>

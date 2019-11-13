@@ -4,7 +4,7 @@
     <item
         android:id="@+id/change_tonality"
         android:orderInCategory="1"
-        android:title="Změň tóninu"
+        android:title="@string/change_tonality"
         android:icon="@mipmap/guitar_acoustic"
         app:showAsAction="never" />
     <item

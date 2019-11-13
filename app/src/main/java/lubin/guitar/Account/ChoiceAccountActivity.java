@@ -59,9 +59,9 @@ public class ChoiceAccountActivity extends AppCompatActivity {
     View.OnClickListener runGuitarist = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
-            List<String> listUser = SingletonManagerUsers.getListNamesUsers(false);
+            List<String> listUser = SingletonManagerUsers.getListNamesUsers(false, ChoiceAccountActivity.this);
             if (listUser == null || listUser.size() == 0) {
-                Toast.makeText(ChoiceAccountActivity.this, "Nejdříve vytvořte aspoň jeden účet kytaristy.", Toast.LENGTH_LONG).show();
+                Toast.makeText(ChoiceAccountActivity.this, getResources().getString(R.string.warning_first_create_account), Toast.LENGTH_LONG).show();
             } else {
                 Intent i = new Intent(ChoiceAccountActivity.this, AccountActivity.class);
                 startActivity(i);

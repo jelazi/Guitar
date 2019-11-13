@@ -120,13 +120,13 @@ public class TeacherActivity extends AppCompatActivity implements View.OnClickLi
 
         switch (dialogType) {
             case CHANGE_TEACHER_NAME: {
-                builder.setMessage("Nové jméno");
+                builder.setMessage(getResources().getString(R.string.new_name));
                 final EditText edittext = new EditText(this);
                 edittext.setText(settings.getString("nameTeacher", ""));
                 edittext.setSelectAllOnFocus(true);
                 builder.setView(edittext);
                 edittext.requestFocus();
-                builder.setPositiveButton("Uložit", new DialogInterface.OnClickListener(){
+                builder.setPositiveButton(getResources().getString(R.string.save), new DialogInterface.OnClickListener(){
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         setPreferences("nameTeacher", edittext.getText().toString());
@@ -134,7 +134,7 @@ public class TeacherActivity extends AppCompatActivity implements View.OnClickLi
                     }
                 });
 
-                builder.setNegativeButton("Zrušit", new DialogInterface.OnClickListener(){
+                builder.setNegativeButton(getResources().getString(R.string.cancel), new DialogInterface.OnClickListener(){
                     @Override
                     public void onClick(DialogInterface dialog, int which){
                         dialog.dismiss();
@@ -144,14 +144,14 @@ public class TeacherActivity extends AppCompatActivity implements View.OnClickLi
             }
 
             case CHANGE_TEACHER_PASS: {
-                    builder.setMessage("Nové heslo");
+                    builder.setMessage(getResources().getString(R.string.new_pass));
                     final EditText edittext = new EditText(this);
                     edittext.setText(settings.getString("passTeacher", ""));
                     edittext.setSelectAllOnFocus(true);
                     builder.setView(edittext);
                     edittext.requestFocus();
 
-                    builder.setPositiveButton("Uložit", new DialogInterface.OnClickListener(){
+                    builder.setPositiveButton(getResources().getString(R.string.save), new DialogInterface.OnClickListener(){
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             setPreferences("passTeacher", edittext.getText().toString());
@@ -159,7 +159,7 @@ public class TeacherActivity extends AppCompatActivity implements View.OnClickLi
                         }
                     });
 
-                    builder.setNegativeButton("Zrušit", new DialogInterface.OnClickListener(){
+                    builder.setNegativeButton(getResources().getString(R.string.cancel), new DialogInterface.OnClickListener(){
                         @Override
                         public void onClick(DialogInterface dialog, int which){
                             dialog.dismiss();
@@ -169,11 +169,11 @@ public class TeacherActivity extends AppCompatActivity implements View.OnClickLi
             }
 
             case CHOICE_USER_ACCOUNT: {
-                listUsers = SingletonManagerUsers.getListNamesUsers(true);
+                listUsers = SingletonManagerUsers.getListNamesUsers(true, this);
                 String[] arrayUsers = new String[listUsers.size()];
                 listUsers.toArray(arrayUsers);
 
-                builder.setTitle("Vyberte uživatele");
+                builder.setTitle(getResources().getString(R.string.choice_user));
 
                 builder.setItems(arrayUsers, new DialogInterface.OnClickListener() {
                     @Override
@@ -185,11 +185,11 @@ public class TeacherActivity extends AppCompatActivity implements View.OnClickLi
             }
 
             case ERASE_USER: {
-                listUsers = SingletonManagerUsers.getListNamesUsers(true);
+                listUsers = SingletonManagerUsers.getListNamesUsers(true, this);
                 String[] arrayUsers = new String[listUsers.size()];
                 listUsers.toArray(arrayUsers);
 
-                builder.setTitle("Vymazat uživatele");
+                builder.setTitle(getResources().getString(R.string.erase_user));
 
                 builder.setItems(arrayUsers, new DialogInterface.OnClickListener() {
                     @Override
@@ -202,26 +202,26 @@ public class TeacherActivity extends AppCompatActivity implements View.OnClickLi
             }
 
             case CONFIRM_ERASE_USER: {
-                builder.setTitle("Vymazání uživatele " + userForErase);
-                builder.setMessage("Opravdu chcete vymazat uživatele " + userForErase + "?");
-                builder.setPositiveButton("Ano", new DialogInterface.OnClickListener() {
+                builder.setTitle(getResources().getString(R.string.erase_user) + ": " + userForErase);
+                builder.setMessage(getResources().getString(R.string.warning_erase_user) + userForErase + "?");
+                builder.setPositiveButton(getResources().getString(R.string.yes), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         eraseAccount(userForErase);
                     }
                 });
-                builder.setNegativeButton("Ne", null);
+                builder.setNegativeButton(getResources().getString(R.string.no), null);
                 break;
             }
 
             case NEW_USER: {
-                builder.setTitle("Jméno uživatele:");
+                builder.setTitle(getResources().getString(R.string.user_name));
                 final EditText editText = new EditText(this);
                 builder.setView(editText);
-                builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                builder.setPositiveButton(getResources().getString(R.string.ok), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        boolean isUniqueNameUser = SingletonManagerUsers.isUniqueNameUser(editText.getText().toString());
+                        boolean isUniqueNameUser = SingletonManagerUsers.isUniqueNameUser(editText.getText().toString(), TeacherActivity.this);
                         if (isUniqueNameUser) {
                             dialog.dismiss();
                             String newName = editText.getText().toString();
@@ -229,22 +229,22 @@ public class TeacherActivity extends AppCompatActivity implements View.OnClickLi
                             openAccount(newName);
                         } else {
                             dialog.dismiss();
-                            Toast.makeText(TeacherActivity.this, "Nepovolené jméno", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(TeacherActivity.this, getResources().getString(R.string.illegal_name), Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
                 break;
             }
             case FACTORY_RESET: {
-                builder.setTitle("Vymazání všech nastavení");
-                builder.setMessage("Opravdu chcete vymazat všechna nastavení?");
-                builder.setPositiveButton("Ano", new DialogInterface.OnClickListener() {
+                builder.setTitle(getResources().getString(R.string.erase_settings));
+                builder.setMessage(getResources().getString(R.string.warning_erase_settings));
+                builder.setPositiveButton(getResources().getString(R.string.yes), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         eraseAllSettings();
                     }
                 });
-                builder.setNegativeButton("Ne", null);
+                builder.setNegativeButton(getResources().getString(R.string.no), null);
                 break;
             }
         }
@@ -253,7 +253,7 @@ public class TeacherActivity extends AppCompatActivity implements View.OnClickLi
     }
 
     private void openAccount(String userName) {
-        if (!userName.equals("New User")) {
+        if (!userName.equals(getResources().getString(R.string.new_user))) {
             Intent i = new Intent(this, EditUserActivity.class);
             i.putExtra("user_name", userName);
             startActivity(i);
@@ -273,7 +273,7 @@ public class TeacherActivity extends AppCompatActivity implements View.OnClickLi
         SharedPreferences.Editor editor = settings.edit();
         editor.putString(namePreference, valuePreference);
         editor.commit();
-        Toast.makeText(this, valuePreference + " uloženo jako nové jméno.", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, valuePreference + getResources().getString(R.string.warning_save_new_name), Toast.LENGTH_SHORT).show();
     }
 
     private void openImportItemsActivity () {

@@ -26,7 +26,6 @@ import lubin.guitar.Song.Tonalities;
 import lubin.guitar.Song.GuitarTone;
 import lubin.guitar.R;
 import lubin.guitar.Settings.SettingsScreenActivity;
-import lubin.guitar.Users.UserLevel;
 
 
 public class PlayChordActivity extends VirtualGuitarActivity {
@@ -110,7 +109,7 @@ public class PlayChordActivity extends VirtualGuitarActivity {
         akordNumber = 0;
         fillnameChords();
 
-        currentChord = "Volné struny";
+        currentChord = getResources().getString(R.string.empty_strings);
         showAkordOnBoard();
 
         this.setTitle(R.string.action_play_chords);
@@ -186,7 +185,7 @@ public class PlayChordActivity extends VirtualGuitarActivity {
         settings = PreferenceManager
                 .getDefaultSharedPreferences(this);
 
-        soundId = soundPool.load( getFilesDir()+"/Instruments/"+settings.getString("list_instruments", "a1.wav"), 1);
+        soundId = soundPool.load( getFilesDir()+"/Instruments/"+currentUser.getCurrentNameInstrument(), 1);
 
         stopBeforeTone = settings.getBoolean("stop_before_tone", false);
     }
@@ -200,7 +199,7 @@ public class PlayChordActivity extends VirtualGuitarActivity {
         akordNumber = 0;
         fillnameChords();
 
-        currentChord = "Volné struny";
+        currentChord = getResources().getString(R.string.empty_strings);
         ChangeChord(currentChord);
         showAkordOnBoard();
 
@@ -384,7 +383,7 @@ public class PlayChordActivity extends VirtualGuitarActivity {
         guitarTones[5] = E2tone;
         guitarStringValue = tones.getAkord(nameChord);
 
-        this.setTitle(currentUser.getName() + " hraje " + nameChord);
+        this.setTitle(currentUser.getName() + getResources().getString(R.string.play) + nameChord);
 
         for (int i = 0; i <= 5; i++) {
             guitarTones[i].setStringValue(guitarStringValue[i]);

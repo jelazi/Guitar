@@ -2,6 +2,7 @@ package lubin.guitar.Users;
 
 //Trida uzivatele
 
+import android.app.Activity;
 import android.util.Log;
 
 import java.util.ArrayList;
@@ -336,9 +337,9 @@ public class User {
         return currentLevel;
     }
 
-    public void setCurrentLevel(UserLevel currentLevel) {
-        List<String> allowedLevel = SingletonManagerUsers.getListAllowLevel(getAllowedLevel());
-        String nameLevel = SingletonManagerUsers.getNameUserLevel(currentLevel);
+    public void setCurrentLevel(UserLevel currentLevel, Activity activity) {
+        List<String> allowedLevel = SingletonManagerUsers.getListAllowLevel(getAllowedLevel(), activity);
+        String nameLevel = SingletonManagerUsers.getNameUserLevel(currentLevel, activity);
         if (!allowedLevel.contains(nameLevel)) {
             Log.e("Error", "allowedLevels not contains this currentLevel.");
             this.currentLevel = UserLevel.BEGINNER;

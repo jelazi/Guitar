@@ -452,9 +452,9 @@ public abstract class VirtualGuitarActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
-        mToast = Toast.makeText(this,"Zvuk kytary změněn na: " + currentUser.getCurrentNameInstrument(), Toast.LENGTH_SHORT);
+        mToast = Toast.makeText(this,getResources().getString(R.string.warning_instrument_change) + currentUser.getCurrentNameInstrument(), Toast.LENGTH_SHORT);
         mToast.show();
-        mToast = Toast.makeText(this,"Hudba: " + currentUser.getCurrentNameSong(), Toast.LENGTH_SHORT);
+        mToast = Toast.makeText(this,getResources().getString(R.string.song_now) + currentUser.getCurrentNameSong(), Toast.LENGTH_SHORT);
         mToast.show();
     }
 
@@ -1137,7 +1137,7 @@ public abstract class VirtualGuitarActivity extends AppCompatActivity {
         return guitarTone;
     }
 
-    public void cleanStrings(){ //vymazání všech oznacenych strun a dotyku
+    public void cleanStrings() { //vymazání všech oznacenych strun a dotyku
 
         ImageButton [] fretchs = {string10, string11, string12, string13, string14, string20,
                 string21, string22, string23, string24, string30, string31, string32, string33,string34, string40, string41, string42, string43, string44, string50, string51, string52, string53, string54, string60, string61, string62, string63, string64};

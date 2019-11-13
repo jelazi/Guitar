@@ -30,8 +30,6 @@ import lubin.guitar.Users.SingletonManagerUsers;
 import lubin.guitar.Users.User;
 
 public class AccountActivity extends AppCompatActivity {
-
-
     Button btnAcc;
     ImageView img;
     EditText accountPass;
@@ -46,20 +44,20 @@ public class AccountActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_account);
-        btnAcc = (Button)findViewById(R.id.btnAccount);
+        btnAcc = findViewById(R.id.btnAccount);
         btnAcc.setOnClickListener(openAccountListener);
-        img = (ImageView)findViewById(R.id.AccGuitarist);
+        img = findViewById(R.id.AccGuitarist);
         android.view.animation.Animation animation1= AnimationUtils.loadAnimation(getApplicationContext(), R.anim.zoom);
         img.startAnimation(animation1);
-        accountPass = (EditText)findViewById(R.id.AccountPass);
-        nameSpinner = (Spinner) findViewById(R.id.Spinner01);
+        accountPass = findViewById(R.id.AccountPass);
+        nameSpinner = findViewById(R.id.Spinner01);
         accountPass.setOnClickListener(onClickSetPass);
 
-        nameUsers = SingletonManagerUsers.getListNamesUsers(false); //nacteni uzivatelu
+        nameUsers = SingletonManagerUsers.getListNamesUsers(false, this); //nacteni uzivatelu
         String[] arrayUsers = new String[nameUsers.size()];
         nameUsers.toArray(arrayUsers);
 
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this,
                 android.R.layout.simple_spinner_item, arrayUsers);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         nameSpinner.setAdapter(adapter);
@@ -86,14 +84,14 @@ public class AccountActivity extends AppCompatActivity {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         if (dialogType == DialogType.CHOICE_ACTIVITY) {
             listActivity = new ArrayList<>();
-            listActivity.add("Hrát akordy");
-            listActivity.add("Poslechnout si píseň");
-            listActivity.add("Vyzkoušet hrát píseň");
+            listActivity.add(getResources().getString(R.string.action_play_chords));
+            listActivity.add(getResources().getString(R.string.action_preview_song));
+            listActivity.add(getResources().getString(R.string.action_try_song));
 
             String[] arrayUsers = new String[listActivity.size()];
             listActivity.toArray(arrayUsers);
 
-            builder.setTitle("Vyberte aktivitu");
+            builder.setTitle(getResources().getString(R.string.choice_activity));
 
             builder.setItems(arrayUsers, new DialogInterface.OnClickListener() {
                 @Override
@@ -109,20 +107,13 @@ public class AccountActivity extends AppCompatActivity {
 
     protected void openActivity (String activityName) {
         Intent i = new Intent(AccountActivity.this, PlayChordActivity.class);
-        switch (activityName) {
-            case "Hrát akordy" : {
+            if (activityName.equals(getResources().getString(R.string.action_play_chords))) {
                 i = new Intent(AccountActivity.this, PlayChordActivity.class);
-                break;
-            }
-            case "Poslechnout si píseň" : {
+            } else if (activityName.equals(getResources().getString(R.string.action_preview_song))) {
                 i = new Intent(AccountActivity.this, PreviewSongActivity.class);
-                break;
-            }
-            case "Vyzkoušet hrát píseň" : {
+            } else if (activityName.equals(getResources().getString(R.string.action_try_song))) {
                 i = new Intent(AccountActivity.this, TrySongActivity.class);
-                break;
             }
-        }
         startActivity(i);
     }
 
@@ -133,14 +124,10 @@ public class AccountActivity extends AppCompatActivity {
             currentUser = SingletonManagerUsers.getUserByName(nameSpinner.getSelectedItem().toString());
                 if (currentUser.getPass().equals(accountPass.getText().toString())){
                     SingletonManagerUsers.setCurrentUser(currentUser);
-                    settings.edit().putString("value_user", Integer.toString(currentUser.getCoins())).apply();
-                    settings.edit().putString("name_user", currentUser.getName()).apply();
-
-                showDialog(DialogType.CHOICE_ACTIVITY);
+                    showDialog(DialogType.CHOICE_ACTIVITY);
                     return;
-
                 }
-                Toast.makeText(AccountActivity.this, "Špatné jméno nebo heslo", Toast.LENGTH_SHORT).show();
+                Toast.makeText(AccountActivity.this, getResources().getString(R.string.warning_wrong_name_pass), Toast.LENGTH_SHORT).show();
                 nameSpinner.setSelection(0);
                 accountPass.setText("");
         }
@@ -152,7 +139,6 @@ public class AccountActivity extends AppCompatActivity {
     View.OnClickListener onClickSetPass = new View.OnClickListener(){
         @Override
         public void onClick(View view){
-            //accountPass.setText("");
 
         }
     };

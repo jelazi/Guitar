@@ -13,16 +13,6 @@
       android:clickable="false"
       android:orientation="vertical"
       android:padding="16dp">
-    <!--<TextView-->
-    <!--android:id="@+id/timerView"-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--android:gravity="center"-->
-    <!--android:paddingBottom="5dp"-->
-    <!--android:text="00:00:00"-->
-    <!--android:textColor="@android:color/black"-->
-    <!--android:textSize="55sp"-->
-    <!--android:textStyle="bold"/>-->
 
 
     <TextView
@@ -33,7 +23,7 @@
         android:layout_marginTop="16dp"
         android:gravity="center"
         android:paddingBottom="8dp"
-        android:text="Jméno souboru:"
+        android:text="@string/name_file"
         android:textAppearance="?android:textAppearanceMedium"
         android:textColor="@android:color/black" />
 
@@ -44,7 +34,7 @@
         android:layout_height="wrap_content"
         android:ems="10"
         android:inputType="textPersonName"
-        android:text="Name" />
+        android:text="@string/name" />
 
     <TextView
         android:id="@+id/countdown"
@@ -76,7 +66,7 @@
           android:id="@+id/textView2"
           android:layout_width="match_parent"
           android:layout_height="92dp"
-          android:text="Po odpočítání nahraje zvuk v délce 1/2 sekundy"
+          android:text="@string/warning_sound_half_second"
           android:gravity="bottom"
           />
 
@@ -94,14 +84,14 @@
           android:layout_width="wrap_content"
           android:layout_height="wrap_content"
           android:layout_weight="1"
-          android:text="Přehrát" />
+          android:text="@string/to_preview" />
 
       <Button
           android:id="@+id/save_btn"
           android:layout_width="wrap_content"
           android:layout_height="wrap_content"
           android:layout_weight="1"
-          android:text="Uložit" />
+          android:text="@string/save" />
     </LinearLayout>
 
   </LinearLayout>

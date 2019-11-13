@@ -7,22 +7,19 @@
 
 
 <EditTextPreference
-    android:title="Jméno kytaristy"
+    android:title="@string/name_guitarist"
     android:key="name_user"
-    android:summary="Karlík"
-    android:defaultValue="Karlík"
 
     />
     <EditTextPreference
-        android:title="Heslo kytaristy"
+        android:title="@string/pass_guitarist"
         android:key="pass_user"
         android:summary="pass"
-        android:defaultValue=""
         />
 
 
     <EditTextPreference
-        android:title="Množství peněz"
+        android:title="@string/coin_value"
         android:key="coin_user"
         android:inputType="number"
         android:summary="0"
@@ -33,64 +30,64 @@
     <Preference
         android:key="allow_level"
         android:summary=""
-        android:title="Maximální povolená úroveň" />
+        android:title="@string/max_level" />
 
     <Preference
         android:key="current_level"
         android:summary=""
-        android:title="Právě používaná úroveň" />
+        android:title="@string/current_level" />
 
     <Preference
         android:key="list_songs"
-        android:title="Povolené písně" />
+        android:title="@string/allowed_songs" />
 
     <Preference
         android:summary=""
         android:key="current_song"
-        android:title="Právě používaná píseň" />
+        android:title="@string/current_song" />
 
 
     <Preference
         android:key="list_instruments"
-        android:title="Povolené nástroje" />
+        android:title="@string/allowed_instruments" />
 
     <Preference
         android:summary=""
         android:key="current_instrument"
-        android:title="Právě používaný nástroj" />
+        android:title="@string/current_instrument" />
 
     <Preference
         android:key="list_frets"
-        android:title="Povolené pražce" />
+        android:title="@string/allowed_frets" />
 
     <Preference
         android:summary=""
         android:key="current_fret"
-        android:title="Právě používaný pražec" />
+        android:title="@string/current_fret" />
 
     <Preference
         android:key="list_backgrounds"
-        android:title="Povolené pozadí kytary" />
+        android:title="@string/allowed_backgrounds" />
 
     <Preference
         android:summary=""
         android:key="current_background"
-        android:title="Právě používané pozadí kytary" />
+        android:title="@string/current_background" />
 
     <Preference
         android:key="list_strings"
-        android:title="Povolené struny" />
+        android:title="@string/allowed_strings" />
 
     <Preference
         android:summary=""
         android:key="current_string"
-        android:title="Právě používané struny" />
+        android:title="@string/current_strings" />
 
 
 <SwitchPreference
-    android:title="Hraní tonů"
+    android:title="@string/playing_tones"
     android:key="stop_before_tone"
-    android:summary="Zamezit hrát více tonů naráz"
+    android:summary="@string/summary_playing_tones"
      />
 
 </PreferenceScreen>

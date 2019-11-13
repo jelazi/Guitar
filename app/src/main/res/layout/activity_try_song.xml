@@ -22,8 +22,7 @@
             android:layout_width="0dip"
             android:layout_height="match_parent"
             android:layout_weight="20"
-            android:text="Zkus hrát" />
-
+            android:text="@string/try_song" />
 
 
     </LinearLayout>
@@ -41,12 +40,11 @@
         <TextView
             android:id="@+id/name_user"
             android:layout_width="0dip"
+            android:text=""
             android:layout_height="match_parent"
             android:layout_weight="20"
             android:textSize="35dp"
             android:textColor="#ff0080"
-            android:text="blabla"
-
             />
 
         <TextView
@@ -56,7 +54,7 @@
             android:layout_weight="20"
             android:textSize="25dp"
             android:textColor="#e4941b"
-            android:text="Peníze"
+            android:text="@string/coins"
             android:textAlignment="center"
 
             />

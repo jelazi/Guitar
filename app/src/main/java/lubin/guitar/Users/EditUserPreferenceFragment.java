@@ -167,11 +167,11 @@ public class EditUserPreferenceFragment extends PreferenceFragment implements
         Preference pref = findPreference(key);
         if (pref == preferenceNameUser) {
            String newName = preferenceNameUser.getText();
-           if (SingletonManagerUsers.isUniqueNameUser(newName, currentUser.getID())) {
+           if (SingletonManagerUsers.isUniqueNameUser(newName, currentUser.getID(), this.getActivity())) {
                currentUser.setName(newName);
                preferenceNameUser.setSummary(newName);
            } else {
-               Toast.makeText(getActivity(), "Nepovolené jméno", Toast.LENGTH_SHORT).show();
+               Toast.makeText(getActivity(), getResources().getString(R.string.illegal_name), Toast.LENGTH_SHORT).show();
                return;
            }
         }
@@ -187,7 +187,7 @@ public class EditUserPreferenceFragment extends PreferenceFragment implements
                 currentUser.setCoins(newCoinValue);
                 preferenceCoinUser.setSummary(preferenceCoinUser.getText());
             } else {
-                Toast.makeText(getActivity(), "Špatné číslo", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), getResources().getString(R.string.wrong_number), Toast.LENGTH_SHORT).show();
                 return;
             }
         }
@@ -247,14 +247,14 @@ public class EditUserPreferenceFragment extends PreferenceFragment implements
     protected void showAlertWrongData (Preference preference, List<String> wrongData) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         if (preference == preferenceListBackgrounds) {
-            builder.setTitle("Špatné jména pozadí");
+            builder.setTitle(getResources().getString(R.string.wrong_name_background));
             String listString = "";
             for (String s : wrongData) {
                 listString += s + "\t";
             }
-            String message = "Našli jsme tyto špatně zapsané jména pozadí: " + listString;
+            String message = getResources().getString(R.string.warning_wrong_backgrounds) + listString;
             builder.setMessage(message);
-            builder.setPositiveButton("Vymazat", new DialogInterface.OnClickListener() {
+            builder.setPositiveButton(getResources().getString(R.string.erase), new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     showList(preferenceListBackgrounds);
@@ -263,14 +263,14 @@ public class EditUserPreferenceFragment extends PreferenceFragment implements
             });
         }
         if (preference == preferenceListFrets) {
-            builder.setTitle("Špatné jména pražců");
+            builder.setTitle(getResources().getString(R.string.wrong_name_frets));
             String listString = "";
             for (String s : wrongData) {
                 listString += s + "\t";
             }
-            String message = "Našli jsme tyto špatně zapsané jména pražců: " + listString;
+            String message = getResources().getString(R.string.warning_wrong_frets) + listString;
             builder.setMessage(message);
-            builder.setPositiveButton("Vymazat", new DialogInterface.OnClickListener() {
+            builder.setPositiveButton(getResources().getString(R.string.erase), new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     showList(preferenceListFrets);
@@ -279,14 +279,14 @@ public class EditUserPreferenceFragment extends PreferenceFragment implements
             });
         }
         if (preference == preferenceListSongs) {
-            builder.setTitle("Špatné jména písní");
+            builder.setTitle(getResources().getString(R.string.wrong_name_songs));
             String listString = "";
             for (String s : wrongData) {
                 listString += s + "\t";
             }
-            String message = "Našli jsme tyto špatně zapsané jména písní: " + listString;
+            String message = getResources().getString(R.string.warning_wrong_songs) + listString;
             builder.setMessage(message);
-            builder.setPositiveButton("Vymazat", new DialogInterface.OnClickListener() {
+            builder.setPositiveButton(getResources().getString(R.string.erase), new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     showList(preferenceListSongs);
@@ -295,14 +295,14 @@ public class EditUserPreferenceFragment extends PreferenceFragment implements
             });
         }
         if (preference == preferenceListInstruments) {
-            builder.setTitle("Špatné názvy nástrojů");
+            builder.setTitle(getResources().getString(R.string.wrong_name_instruments));
             String listString = "";
             for (String s : wrongData) {
                 listString += s + "\t";
             }
-            String message = "Našli jsme tyto špatně zapsané jména nástrojů: " + listString;
+            String message = getResources().getString(R.string.warning_wrong_instruments) + listString;
             builder.setMessage(message);
-            builder.setPositiveButton("Vymazat", new DialogInterface.OnClickListener() {
+            builder.setPositiveButton(getResources().getString(R.string.erase), new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     showList(preferenceListInstruments);
@@ -311,14 +311,14 @@ public class EditUserPreferenceFragment extends PreferenceFragment implements
             });
         }
         if (preference == preferenceListStrings) {
-            builder.setTitle("Špatné názvy strun");
+            builder.setTitle(getResources().getString(R.string.wrong_name_strings));
             String listString = "";
             for (String s : wrongData) {
                 listString += s + "\t";
             }
-            String message = "Našli jsme tyto špatně zapsané jména strun: " + listString;
+            String message = getResources().getString(R.string.warning_wrong_strings) + listString;
             builder.setMessage(message);
-            builder.setPositiveButton("Vymazat", new DialogInterface.OnClickListener() {
+            builder.setPositiveButton(getResources().getString(R.string.erase), new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     showList(preferenceListStrings);
@@ -334,8 +334,8 @@ public class EditUserPreferenceFragment extends PreferenceFragment implements
     protected void showList (Preference preference) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         if (preference == preferenceAllowLevel) {
-            builder.setTitle("Dosažená úroveň");
-            final List<String> listAllowedLevel = SingletonManagerUsers.getListAllowLevel(UserLevel.CHAMPION);
+            builder.setTitle(getResources().getString(R.string.max_level));
+            final List<String> listAllowedLevel = SingletonManagerUsers.getListAllowLevel(UserLevel.CHAMPION, this.getActivity());
             final String[] arrayAllowedLevel = new String[listAllowedLevel.size()];
             listAllowedLevel.toArray(arrayAllowedLevel);
             final int[] checkItem = {currentUser.getAllowedLevel().getValue() - 1};
@@ -348,18 +348,18 @@ public class EditUserPreferenceFragment extends PreferenceFragment implements
                         }
                     }
             );
-            builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            builder.setPositiveButton(getResources().getString(R.string.ok), new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     currentUser.setAllowedLevel(SingletonManagerUsers.getUserLevelByValue(checkItem[0]+1));
                     SingletonManagerUsers.changeUser(currentUser);
-                    preferenceAllowLevel.setSummary(SingletonManagerUsers.getNameUserLevel(currentUser.getAllowedLevel()));
+                    preferenceAllowLevel.setSummary(SingletonManagerUsers.getNameUserLevel(currentUser.getAllowedLevel(), EditUserPreferenceFragment.this.getActivity()));
                 }
             });
         }
         if (preference == preferenceCurrentLevel) {
-            builder.setTitle("Právě používaná úroveň");
-            final List<String> listAllowedLevel = SingletonManagerUsers.getListAllowLevel(currentUser.getAllowedLevel());
+            builder.setTitle(getResources().getString(R.string.current_level));
+            final List<String> listAllowedLevel = SingletonManagerUsers.getListAllowLevel(currentUser.getAllowedLevel(), this.getActivity());
             final String[] arrayAllowedLevel = new String[listAllowedLevel.size()];
             listAllowedLevel.toArray(arrayAllowedLevel);
             final int[] checkItem = {currentUser.getCurrentLevel().getValue() - 1};
@@ -372,17 +372,17 @@ public class EditUserPreferenceFragment extends PreferenceFragment implements
                         }
                     }
             );
-            builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            builder.setPositiveButton(getResources().getString(R.string.ok), new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-                    currentUser.setCurrentLevel(SingletonManagerUsers.getUserLevelByValue(checkItem[0]+1));
+                    currentUser.setCurrentLevel(SingletonManagerUsers.getUserLevelByValue(checkItem[0]+1), EditUserPreferenceFragment.this.getActivity());
                     SingletonManagerUsers.changeUser(currentUser);
-                    preferenceCurrentLevel.setSummary(SingletonManagerUsers.getNameUserLevel(currentUser.getCurrentLevel()));
+                    preferenceCurrentLevel.setSummary(SingletonManagerUsers.getNameUserLevel(currentUser.getCurrentLevel(), EditUserPreferenceFragment.this.getActivity()));
                 }
             });
         }
         if (preference == preferenceListBackgrounds) {
-            builder.setTitle("Možné pozadí");
+            builder.setTitle(getResources().getString(R.string.allowed_backgrounds));
             FileManager.loadData(getActivity());
             final ArrayList<String> listBackgrounds = FileManager.getNameBackgrounds();
             String[] allBackgrounds = new String[listBackgrounds.size()];
@@ -393,7 +393,7 @@ public class EditUserPreferenceFragment extends PreferenceFragment implements
                 public void onClick(DialogInterface dialog, int which, boolean isChecked) {
                 }
             });
-            builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            builder.setPositiveButton(getResources().getString(R.string.ok), new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     ArrayList<String>namesSelectedBackgrounds = new ArrayList<>();
@@ -408,7 +408,7 @@ public class EditUserPreferenceFragment extends PreferenceFragment implements
             });
         }
         if (preference == preferenceListFrets) {
-            builder.setTitle("Možné pražce");
+            builder.setTitle(getResources().getString(R.string.allowed_frets));
             FileManager.loadData(getActivity());
             final ArrayList<String> listFrets = FileManager.getNameFrets();
             String[] allFrets = new String[listFrets.size()];
@@ -419,7 +419,7 @@ public class EditUserPreferenceFragment extends PreferenceFragment implements
                 public void onClick(DialogInterface dialog, int which, boolean isChecked) {
                 }
             });
-            builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            builder.setPositiveButton(getResources().getString(R.string.ok), new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     ArrayList<String>namesSelectedFrets = new ArrayList<>();
@@ -434,7 +434,7 @@ public class EditUserPreferenceFragment extends PreferenceFragment implements
             });
         }
         if (preference == preferenceListSongs) {
-            builder.setTitle("Možné písně");
+            builder.setTitle(getResources().getString(R.string.allowed_songs));
             FileManager.loadData(getActivity());
             final ArrayList<String> listSongs = FileManager.getNameSongs();
             String[] allSongs = new String[listSongs.size()];
@@ -445,7 +445,7 @@ public class EditUserPreferenceFragment extends PreferenceFragment implements
                 public void onClick(DialogInterface dialog, int which, boolean isChecked) {
                 }
             });
-            builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            builder.setPositiveButton(getResources().getString(R.string.ok), new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     ArrayList<String>namesSelectedSongs = new ArrayList<>();
@@ -460,7 +460,7 @@ public class EditUserPreferenceFragment extends PreferenceFragment implements
             });
         }
         if (preference == preferenceListInstruments) {
-            builder.setTitle("Možné Nástroje");
+            builder.setTitle(getResources().getString(R.string.allowed_instruments));
             FileManager.loadData(getActivity());
             final ArrayList<String> listInstruments = FileManager.getNameInstruments();
             String[] allInstruments = new String[listInstruments.size()];
@@ -471,7 +471,7 @@ public class EditUserPreferenceFragment extends PreferenceFragment implements
                 public void onClick(DialogInterface dialog, int which, boolean isChecked) {
                 }
             });
-            builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            builder.setPositiveButton(getResources().getString(R.string.ok), new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     ArrayList<String>namesSelectedInstruments = new ArrayList<>();
@@ -486,7 +486,7 @@ public class EditUserPreferenceFragment extends PreferenceFragment implements
             });
         }
         if (preference == preferenceListStrings) {
-            builder.setTitle("Možné struny");
+            builder.setTitle(getResources().getString(R.string.allowed_strings));
             FileManager.loadData(getActivity());
             final ArrayList<String> listStrings = FileManager.getNameStrings();
             String[] allStrings = new String[listStrings.size()];
@@ -497,7 +497,7 @@ public class EditUserPreferenceFragment extends PreferenceFragment implements
                 public void onClick(DialogInterface dialog, int which, boolean isChecked) {
                 }
             });
-            builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            builder.setPositiveButton(getResources().getString(R.string.ok), new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     ArrayList<String>namesSelectedStrings = new ArrayList<>();
@@ -512,7 +512,7 @@ public class EditUserPreferenceFragment extends PreferenceFragment implements
             });
         }
         if (preference == preferenceCurrentSong) {
-            builder.setTitle("Právě používaná píseň");
+            builder.setTitle(getResources().getString(R.string.current_song));
             final List<String> listAllowedSongs = currentUser.getAllowedSongs();
             final String[] allAllowedSongs = new String[listAllowedSongs.size()];
             listAllowedSongs.toArray(allAllowedSongs);
@@ -536,7 +536,7 @@ public class EditUserPreferenceFragment extends PreferenceFragment implements
                         }
                     }
             );
-            builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            builder.setPositiveButton(getResources().getString(R.string.ok), new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     String nameCurrentSong = "";
@@ -550,7 +550,7 @@ public class EditUserPreferenceFragment extends PreferenceFragment implements
             });
         }
         if (preference == preferenceCurrentInstrument) {
-            builder.setTitle("Právě používaný nástroj");
+            builder.setTitle(getResources().getString(R.string.current_instrument));
             final List<String> listAllowedInstruments = currentUser.getAllowedInstruments();
             final String[] allAllowedInstruments = new String[listAllowedInstruments.size()];
             listAllowedInstruments.toArray(allAllowedInstruments);
@@ -574,7 +574,7 @@ public class EditUserPreferenceFragment extends PreferenceFragment implements
                         }
                     }
             );
-            builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            builder.setPositiveButton(getResources().getString(R.string.ok), new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     String nameCurrentInstrument = "";
@@ -588,7 +588,7 @@ public class EditUserPreferenceFragment extends PreferenceFragment implements
             });
         }
         if (preference == preferenceCurrentFret) {
-            builder.setTitle("Právě používaný pražec");
+            builder.setTitle(getResources().getString(R.string.current_fret));
             final List<String> listAllowedFrets = currentUser.getAllowedFrets();
             final String[] allAllowedFrets = new String[listAllowedFrets.size()];
             listAllowedFrets.toArray(allAllowedFrets);
@@ -612,7 +612,7 @@ public class EditUserPreferenceFragment extends PreferenceFragment implements
                         }
                     }
             );
-            builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            builder.setPositiveButton(getResources().getString(R.string.ok), new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     String nameCurrentFret = "";
@@ -626,7 +626,7 @@ public class EditUserPreferenceFragment extends PreferenceFragment implements
             });
         }
         if (preference == preferenceCurrentBackground) {
-            builder.setTitle("Právě používané pozadí kytary");
+            builder.setTitle(getResources().getString(R.string.current_background));
             final List<String> listAllowedBackground = currentUser.getAllowedBackgrounds();
             final String[] allAllowedBackgrounds = new String[listAllowedBackground.size()];
             listAllowedBackground.toArray(allAllowedBackgrounds);
@@ -650,7 +650,7 @@ public class EditUserPreferenceFragment extends PreferenceFragment implements
                         }
                     }
             );
-            builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            builder.setPositiveButton(getResources().getString(R.string.ok), new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     String nameCurrentBackground = "";
@@ -664,7 +664,7 @@ public class EditUserPreferenceFragment extends PreferenceFragment implements
             });
         }
         if (preference == preferenceCurrentString) {
-            builder.setTitle("Právě používané struny");
+            builder.setTitle(getResources().getString(R.string.current_strings));
             final List<String> listAllowedStrings = currentUser.getAllowedStrings();
             final String[] allAllowedStrings = new String[listAllowedStrings.size()];
             listAllowedStrings.toArray(allAllowedStrings);
@@ -688,7 +688,7 @@ public class EditUserPreferenceFragment extends PreferenceFragment implements
                         }
                     }
             );
-            builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            builder.setPositiveButton(getResources().getString(R.string.ok), new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     String nameCurrentString = "";
@@ -702,7 +702,7 @@ public class EditUserPreferenceFragment extends PreferenceFragment implements
             });
         }
 
-        builder.setNegativeButton("Cancel", null);
+        builder.setNegativeButton(getResources().getString(R.string.cancel), null);
         AlertDialog dialog = builder.create();
         dialog.show();
     }
@@ -720,14 +720,14 @@ public class EditUserPreferenceFragment extends PreferenceFragment implements
         }
         PreferenceManager.getDefaultSharedPreferences(getActivity())
                 .registerOnSharedPreferenceChangeListener(this);
-        preferenceAllowLevel.setSummary(SingletonManagerUsers.getNameUserLevel(currentUser.getAllowedLevel()));
+        preferenceAllowLevel.setSummary(SingletonManagerUsers.getNameUserLevel(currentUser.getAllowedLevel(), this.getActivity()));
         preferenceNameUser.setSummary(currentUser.getName());
         preferenceNameUser.setText(currentUser.getName());
         preferencePassUser.setSummary(currentUser.getPass());
         preferencePassUser.setText(currentUser.getPass());
         preferenceCoinUser.setSummary(String.valueOf(currentUser.getCoins()));
         preferenceCoinUser.setText(String.valueOf(currentUser.getCoins()));
-        preferenceCurrentLevel.setSummary(SingletonManagerUsers.getNameUserLevel(currentUser.getCurrentLevel()));
+        preferenceCurrentLevel.setSummary(SingletonManagerUsers.getNameUserLevel(currentUser.getCurrentLevel(), this.getActivity()));
         preferenceCurrentSong.setSummary(currentUser.getCurrentNameSong());
         preferenceCurrentInstrument.setSummary(currentUser.getCurrentNameInstrument());
         preferenceCurrentFret.setSummary(currentUser.getCurrentNameFret());

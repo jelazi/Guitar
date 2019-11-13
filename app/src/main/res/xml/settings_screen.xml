@@ -4,15 +4,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <EditTextPreference
-        android:title="Jméno kytaristy"
+        android:title="@string/name_guitarist"
         android:key="name_user"
-        android:summary="karlik"
-
         />
 
 
     <EditTextPreference
-        android:title="Množství peněz"
+        android:title="@string/coin_value"
         android:key="coin_user"
         android:summary="0"
         />
@@ -20,38 +18,38 @@
     <Preference
         android:key="current_level"
         android:summary=""
-        android:title="Právě používaná úroveň" />
+        android:title="@string/current_level" />
 
     <Preference
         android:summary=""
         android:key="current_song"
-        android:title="Právě používaná píseň" />
+        android:title="@string/current_song" />
 
     <Preference
         android:summary=""
         android:key="current_instrument"
-        android:title="Právě používaný nástroj" />
+        android:title="@string/current_instrument" />
 
     <Preference
         android:summary=""
         android:key="current_fret"
-        android:title="Právě používaný pražec" />
+        android:title="@string/current_fret" />
 
     <Preference
         android:summary=""
         android:key="current_background"
-        android:title="Právě používané pozadí kytary" />
+        android:title="@string/current_background" />
 
     <Preference
         android:summary=""
         android:key="current_string"
-        android:title="Právě používané struny" />
+        android:title="@string/current_strings" />
 
 
     <SwitchPreference
-        android:title="Hraní tonů"
+        android:title="@string/playing_tones"
         android:key="stop_before_tone"
-        android:summary="Zamezit hrát více tonů naráz"
+        android:summary="@string/summary_playing_tones"
         />
 
 

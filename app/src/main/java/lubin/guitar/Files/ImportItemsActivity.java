@@ -7,7 +7,6 @@ import android.os.Environment;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -20,7 +19,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import lubin.guitar.Account.AccountActivity;
 import lubin.guitar.R;
 
 public class ImportItemsActivity extends AppCompatActivity implements View.OnClickListener {
@@ -44,9 +42,9 @@ public class ImportItemsActivity extends AppCompatActivity implements View.OnCli
 
     protected void initItems () {
         listTypeFile = new ArrayList<>();
-        listTypeFile.add("Pozadí");
-        listTypeFile.add("Pražce");
-        listTypeFile.add("Struny");
+        listTypeFile.add(getResources().getString(R.string.backgrounds));
+        listTypeFile.add(getResources().getString(R.string.frets));
+        listTypeFile.add(getResources().getString(R.string.strings));
 
         changeTypeFile = findViewById(R.id.change_type_file);
         changeTypeFile.setOnClickListener(this);
@@ -77,13 +75,13 @@ public class ImportItemsActivity extends AppCompatActivity implements View.OnCli
             try {
                 if (controlFile()) {
                     if (fileType != FileType.STRING) {
-                        Toast.makeText(ImportItemsActivity.this, "Soubor " + lblNameFile.getText().toString() + " byl zkopírován.", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(ImportItemsActivity.this, getResources().getString(R.string.warning_file) + lblNameFile.getText().toString() + getResources().getString(R.string.warning_was_copy), Toast.LENGTH_SHORT).show();
                     } else {
                         String string = lblNameFile.getText().toString();
                         if (string.indexOf(".") > 0) {
                             string = string.substring(0, string.lastIndexOf(".") - 1);
                         }
-                        Toast.makeText(ImportItemsActivity.this, "Soubory byly zkopírovány do adresáře: " + string + ".", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(ImportItemsActivity.this, getResources().getString(R.string.warning_files_copy_to_folder) + string + ".", Toast.LENGTH_SHORT).show();
                     }
 
                     eraseImage();
@@ -92,7 +90,7 @@ public class ImportItemsActivity extends AppCompatActivity implements View.OnCli
                 }
 
             } catch (IOException e) {
-                Toast.makeText(ImportItemsActivity.this, "Soubor " + lblNameFile.getText().toString() + " se nepodařilo zkopírovat.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(ImportItemsActivity.this, getResources().getString(R.string.warning_file) + lblNameFile.getText().toString() + getResources().getString(R.string.warning_cant_copy), Toast.LENGTH_SHORT).show();
 
                 e.printStackTrace();
 
@@ -114,7 +112,7 @@ public class ImportItemsActivity extends AppCompatActivity implements View.OnCli
                 fileDialog.addFileListener(new FileDialog.FileSelectedListener() {
                     public void fileSelected(File file) {
                         if (file.exists()) {
-                            if (changeTypeFile.getText().toString().equals("Struny")) {
+                            if (changeTypeFile.getText().toString().equals(getResources().getString(R.string.strings))) {
                                 ImportItemsActivity.this.file = file;
                                 if (controlStringsExists()) {
                                     showImage();
@@ -137,7 +135,7 @@ public class ImportItemsActivity extends AppCompatActivity implements View.OnCli
             }
             case CHANGE_TYPE_FILE: {
                 AlertDialog.Builder builder = new AlertDialog.Builder(this);
-                builder.setTitle("Vyberte typ souborů");
+                builder.setTitle(getResources().getString(R.string.choice_type_files));
                 final String[] arrayTypeFile = new String[listTypeFile.size()];
                 listTypeFile.toArray(arrayTypeFile);
 
@@ -156,14 +154,14 @@ public class ImportItemsActivity extends AppCompatActivity implements View.OnCli
             }
             case RENAME_FILE: {
                 AlertDialog.Builder builder = new AlertDialog.Builder(this);
-                builder.setTitle("Jméno souboru");
+                builder.setTitle(getResources().getString(R.string.name_file));
                 final EditText edittext = new EditText(this);
                 edittext.setText(lblNameFile.getText().toString());
                 edittext.setSelectAllOnFocus(true);
                 builder.setView(edittext);
                 edittext.requestFocus();
 
-                builder.setPositiveButton("Uložit", new DialogInterface.OnClickListener(){
+                builder.setPositiveButton(getResources().getString(R.string.save), new DialogInterface.OnClickListener(){
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         String name = edittext.getText().toString();
@@ -175,7 +173,7 @@ public class ImportItemsActivity extends AppCompatActivity implements View.OnCli
                     }
                 });
 
-                builder.setNegativeButton("Zrušit", new DialogInterface.OnClickListener(){
+                builder.setNegativeButton(getResources().getString(R.string.cancel), new DialogInterface.OnClickListener(){
                     @Override
                     public void onClick(DialogInterface dialog, int which){
                         dialog.dismiss();
@@ -205,22 +203,14 @@ public class ImportItemsActivity extends AppCompatActivity implements View.OnCli
 
     protected void reloadTypeImage () {
         String changeFileType = changeTypeFile.getText().toString();
-        switch (changeFileType) {
-            case "Pozadí" : {
-                fileType = FileType.BACKGROUND;
-                break;
-            }
-            case "Pražce" : {
-                fileType = FileType.FRET;
-                break;
-            }
-            case "Struny" : {
-                fileType = FileType.STRING;
-                break;
-            }
-            default: {
-                fileType = FileType.BACKGROUND;
-            }
+        if (changeFileType.equals(getResources().getString(R.string.backgrounds))) {
+            fileType = FileType.BACKGROUND;
+        } else if (changeFileType.equals(getResources().getString(R.string.frets))) {
+            fileType = FileType.FRET;
+        } else if (changeFileType.equals(getResources().getString(R.string.strings))) {
+            fileType = FileType.STRING;
+        } else {
+            fileType = FileType.BACKGROUND;
         }
     }
 
@@ -231,7 +221,7 @@ public class ImportItemsActivity extends AppCompatActivity implements View.OnCli
         }
         String appendName = name.substring(name.length() - 1);
         if (!(appendName.equals("1") || appendName.equals("2") || appendName.equals("3") || appendName.equals("4") || appendName.equals("5") || appendName.equals("6"))) {
-            Toast.makeText(ImportItemsActivity.this, "Jméno souboru " + lblNameFile.getText().toString() + " nemá správný formát. Na skutečný soubor strun. (například string1, string2, string3, string4, string5", Toast.LENGTH_LONG).show();
+            Toast.makeText(ImportItemsActivity.this, getResources().getString(R.string.name_file) + lblNameFile.getText().toString() + getResources().getString(R.string.warning_wrong_format_string), Toast.LENGTH_LONG).show();
             return false;
         }
         String path = file.getAbsolutePath();
@@ -247,7 +237,7 @@ public class ImportItemsActivity extends AppCompatActivity implements View.OnCli
         if (string1.exists() && string2.exists() && string3.exists() && string4.exists() && string5.exists() && string6.exists()) {
             return true;
         }
-        Toast.makeText(ImportItemsActivity.this, "V adresáři nejsou obsažený všechny soubory strun. Adresář musí obsahovat 6 souborů správně pojmenovaných (například string1, string2, string3, string4, string5", Toast.LENGTH_LONG).show();
+        Toast.makeText(ImportItemsActivity.this, getResources().getString(R.string.warning_no_strings_file), Toast.LENGTH_LONG).show();
         return false;
     }
 
@@ -281,7 +271,7 @@ public class ImportItemsActivity extends AppCompatActivity implements View.OnCli
         }
         File controlFile = new File(nameFile);
         if (controlFile.exists()) {
-            Toast.makeText(ImportItemsActivity.this, "Jméno je již používáno. Nekopírujete již používaný soubor? Pokud ne, přejmenujte ho.", Toast.LENGTH_LONG).show();
+            Toast.makeText(ImportItemsActivity.this, getResources().getString(R.string.warning_name_uses), Toast.LENGTH_LONG).show();
             return false;
         }
         if (fileType != FileType.STRING) {
@@ -335,7 +325,7 @@ public class ImportItemsActivity extends AppCompatActivity implements View.OnCli
                 name = type;
             }
         }
-        title = "Vyberte " + name;
+        title = getResources().getString(R.string.choice) + name;
         return title;
     }
 }

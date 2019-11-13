@@ -45,7 +45,7 @@ public class TrySongActivity extends VirtualGuitarActivity {
         addFretboard();
         createView();
         money = findViewById(R.id.valueMoney);
-        money.setText(settings.getString("value_user", "0"));
+        money.setText(Integer.toString(currentUser.getCoins()));
 
         nameUser = findViewById(R.id.name_user);
 
@@ -83,8 +83,6 @@ public class TrySongActivity extends VirtualGuitarActivity {
         btnTryMusic.setOnClickListener(trySong);
 
         this.setTitle(R.string.action_try_song);
-
-
         soundId = soundPool.load( currentUser.getCurrentNameInstrument(), 1);
         currentLevel = currentUser.getCurrentLevel();
     }
@@ -103,10 +101,10 @@ public class TrySongActivity extends VirtualGuitarActivity {
 
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item){ //nastaveni akci menu
+    public boolean onOptionsItemSelected(MenuItem item) { //nastaveni akci menu
         int id = item.getItemId();
         SingletonManagerUsers.changeUser(currentUser);
-        
+
         switch(id) {
             case android.R.id.home:
                 onBackPressed();
@@ -150,7 +148,7 @@ public class TrySongActivity extends VirtualGuitarActivity {
     }
 
     @Override
-    public void onResume(){ //aktualizace nastaveni hodnot ze SettingsScreenActivity
+    public void onResume() { //aktualizace nastaveni hodnot ze SettingsScreenActivity
         super.onResume();
         currentLevel = currentUser.getCurrentLevel();
         settings = PreferenceManager
@@ -163,7 +161,7 @@ public class TrySongActivity extends VirtualGuitarActivity {
         currentSong = Songs.getSongByName(getApplicationContext(), currentUser.getCurrentNameSong());
         numberTone = 0;
         cleanStrings();
-        btnTryMusic.setText("Zkus hrát");
+        btnTryMusic.setText(getResources().getString(R.string.try_song));
         btnTryMusic.setBackgroundResource(0);
         playingSong = false;
         stopBeforeTone = currentUser.isChoiceMultiTone();
@@ -236,7 +234,7 @@ public class TrySongActivity extends VirtualGuitarActivity {
                             tryRealSong();
                         } else {
                             playingSong = false;
-                            btnTryMusic.setText("Zkus hrát");
+                            btnTryMusic.setText(getResources().getString(R.string.try_song));
                             btnTryMusic.setBackgroundResource(0);
                             SingletonManagerUsers.changeUser(currentUser);
                         }
@@ -255,14 +253,14 @@ public class TrySongActivity extends VirtualGuitarActivity {
         public void onClick(View view) {
             if (playingSong) {
                 playingSong = false;
-                btnTryMusic.setText("Zkus hrát");
+                btnTryMusic.setText(getResources().getString(R.string.try_song));
                 btnTryMusic.setBackgroundResource(android.R.drawable.btn_default);
                 playingTone.getStringImage().clearColorFilter();
                 SingletonManagerUsers.changeUser(currentUser);
                 cleanStrings();
             } else {
                 playingSong = true;
-                btnTryMusic.setText("Hrajeme...");
+                btnTryMusic.setText(getResources().getString(R.string.playing));
                 btnTryMusic.setBackgroundColor(0x800a33f5);
                 currentSong = Songs.getSongByName(getApplicationContext(), currentUser.getCurrentNameSong());
                 playingTones = createMusicFromTones(currentSong.getTones());

@@ -22,6 +22,7 @@ import android.widget.ImageButton;
 
 import java.util.ArrayList;
 
+import lubin.guitar.Shop.ShopActivity;
 import lubin.guitar.Song.Tonalities;
 import lubin.guitar.Song.GuitarTone;
 import lubin.guitar.R;
@@ -142,7 +143,7 @@ public class PlayChordActivity extends VirtualGuitarActivity {
 
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item){
+        public boolean onOptionsItemSelected(MenuItem item){
         int id = item.getItemId();
 
         switch(id)
@@ -173,6 +174,11 @@ public class PlayChordActivity extends VirtualGuitarActivity {
                 break;
             case R.id.change_tonality:
                 changeTonality();
+                break;
+
+            case R.id.open_shop:
+                i = new Intent(PlayChordActivity.this, ShopActivity.class);
+                startActivity(i);
                 break;
         }
         return true;

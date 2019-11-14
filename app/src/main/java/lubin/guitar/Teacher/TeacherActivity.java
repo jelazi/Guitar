@@ -20,6 +20,7 @@ import lubin.guitar.Account.ChoiceAccountActivity;
 import lubin.guitar.Files.FileManager;
 import lubin.guitar.Files.ImportItemsActivity;
 import lubin.guitar.Midi.MidiActivity;
+import lubin.guitar.Shop.EditShopActivity;
 import lubin.guitar.Users.EditUserActivity;
 import lubin.guitar.Files.DialogType;
 import lubin.guitar.R;
@@ -36,6 +37,7 @@ public class TeacherActivity extends AppCompatActivity implements View.OnClickLi
     Button midiPlayerBtn;
     Button importItemsBtn;
     Button factoryResetBtn;
+    Button editShopBtn;
     SharedPreferences settings;
     List<String> listUsers;
     String userForErase;
@@ -63,6 +65,8 @@ public class TeacherActivity extends AppCompatActivity implements View.OnClickLi
         importItemsBtn.setOnClickListener(this);
         factoryResetBtn = findViewById(R.id.factory_reset);
         factoryResetBtn.setOnClickListener(this);
+        editShopBtn = findViewById(R.id.edit_shop);
+        editShopBtn.setOnClickListener(this);
     }
 
     @Override
@@ -112,6 +116,9 @@ public class TeacherActivity extends AppCompatActivity implements View.OnClickLi
         }
         if (view == factoryResetBtn) {
             showDialog(DialogType.FACTORY_RESET);
+        }
+        if (view == editShopBtn) {
+            openEditShop();
         }
     }
 
@@ -286,6 +293,11 @@ public class TeacherActivity extends AppCompatActivity implements View.OnClickLi
         FileManager.init(this);
         finish();
         Intent i = new Intent(this, ChoiceAccountActivity.class);
+        startActivity(i);
+    }
+
+    protected  void openEditShop () {
+        Intent i = new Intent(this, EditShopActivity.class);
         startActivity(i);
     }
 }

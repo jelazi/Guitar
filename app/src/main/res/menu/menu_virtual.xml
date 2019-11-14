@@ -26,5 +26,12 @@
         android:orderInCategory="5"
         android:title="@string/action_play_chords"
         app:showAsAction="never" />
+    <item
+        android:id="@+id/open_shop"
+        android:orderInCategory="6"
+        android:title="@string/open_shop"
+        android:icon="@mipmap/guitar_acoustic"
+        app:showAsAction="never" />
+
 
 </menu>

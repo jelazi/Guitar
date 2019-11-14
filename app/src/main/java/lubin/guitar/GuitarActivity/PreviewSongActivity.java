@@ -25,6 +25,7 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 
+import lubin.guitar.Shop.ShopActivity;
 import lubin.guitar.Song.GuitarTone;
 import lubin.guitar.R;
 import lubin.guitar.Settings.SettingsScreenActivity;
@@ -62,6 +63,8 @@ public class PreviewSongActivity extends VirtualGuitarActivity {
     MenuItem changeInstrument;
     MenuItem trySong;
     MenuItem playChord;
+    MenuItem openShop;
+
     Intent intent;
 
     boolean animationbool = false;
@@ -127,10 +130,12 @@ public class PreviewSongActivity extends VirtualGuitarActivity {
         changeInstrument = menu.findItem(R.id.change_instrument);
         trySong = menu.findItem(R.id.try_song);
         playChord = menu.findItem(R.id.play_chord);
+        openShop = menu.findItem(R.id.open_shop);
         settingsMenu.setVisible(false);
         changeInstrument.setVisible(false);
         trySong.setVisible(false);
         playChord.setVisible(false);
+        openShop.setVisible(false);
     }
 
     protected void setActivityForTest() {
@@ -205,6 +210,11 @@ public class PreviewSongActivity extends VirtualGuitarActivity {
             case R.id.play_chord:
                 soundPool.release();
                 i = new Intent(PreviewSongActivity.this, PlayChordActivity.class);
+                startActivity(i);
+                break;
+
+            case R.id.open_shop:
+                i = new Intent(PreviewSongActivity.this, ShopActivity.class);
                 startActivity(i);
                 break;
         }

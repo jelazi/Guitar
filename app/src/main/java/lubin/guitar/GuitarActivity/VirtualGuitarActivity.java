@@ -30,6 +30,7 @@ import java.io.File;
 import java.util.ArrayList;
 
 import lubin.guitar.Settings.Fretboard;
+import lubin.guitar.Shop.ShopActivity;
 import lubin.guitar.Song.GuitarTone;
 import lubin.guitar.R;
 import lubin.guitar.Settings.SettingsScreenActivity;
@@ -223,7 +224,12 @@ public abstract class VirtualGuitarActivity extends AppCompatActivity {
                 i = new Intent(VirtualGuitarActivity.this, PlayChordActivity.class);
                 startActivity(i);
                 break;
+            case R.id.open_shop:
+                i = new Intent(VirtualGuitarActivity.this, ShopActivity.class);
+                startActivity(i);
+                break;
         }
+
         return true;
     }
 

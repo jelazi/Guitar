@@ -26,6 +26,7 @@ import lubin.guitar.GuitarActivity.PlayChordActivity;
 import lubin.guitar.GuitarActivity.PreviewSongActivity;
 import lubin.guitar.R;
 import lubin.guitar.GuitarActivity.TrySongActivity;
+import lubin.guitar.Shop.ShopActivity;
 import lubin.guitar.Users.SingletonManagerUsers;
 import lubin.guitar.Users.User;
 
@@ -87,6 +88,7 @@ public class AccountActivity extends AppCompatActivity {
             listActivity.add(getResources().getString(R.string.action_play_chords));
             listActivity.add(getResources().getString(R.string.action_preview_song));
             listActivity.add(getResources().getString(R.string.action_try_song));
+            listActivity.add(getResources().getString(R.string.open_shop));
 
             String[] arrayUsers = new String[listActivity.size()];
             listActivity.toArray(arrayUsers);
@@ -113,6 +115,8 @@ public class AccountActivity extends AppCompatActivity {
                 i = new Intent(AccountActivity.this, PreviewSongActivity.class);
             } else if (activityName.equals(getResources().getString(R.string.action_try_song))) {
                 i = new Intent(AccountActivity.this, TrySongActivity.class);
+            } else if (activityName.equals(getResources().getString(R.string.open_shop))) {
+                i = new Intent(AccountActivity.this, ShopActivity.class);
             }
         startActivity(i);
     }

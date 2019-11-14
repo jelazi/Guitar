@@ -17,6 +17,7 @@ import java.util.List;
 
 import lubin.guitar.Files.FileManager;
 import lubin.guitar.R;
+import lubin.guitar.Shop.SingletonManagerItems;
 import lubin.guitar.Teacher.TeacherAccountActivity;
 import lubin.guitar.Users.SingletonManagerUsers;
 import lubin.guitar.Users.User;
@@ -35,6 +36,7 @@ public class ChoiceAccountActivity extends AppCompatActivity {
         FileManager.init(getApplicationContext());
         settings = PreferenceManager.getDefaultSharedPreferences(this);
         SingletonManagerUsers.createSingletonManagerUsers(settings);
+        SingletonManagerItems.createSingletonManagerItems(settings);
 
         img1 = findViewById(R.id.imgGuitarist);
         img2 = findViewById(R.id.imgTeacher);

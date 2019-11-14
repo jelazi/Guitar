@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import lubin.guitar.Files.FileManager;
+import lubin.guitar.Files.FileType;
 
 public class User {
 
@@ -137,6 +138,28 @@ public class User {
         if (allowedFrets.isEmpty()) setAllowedFrets(allowedFrets);
 
         return allowedFrets;
+    }
+
+    public List<String> getListAllowedByFilename(FileType fileType) {
+        switch (fileType) {
+            case FRET: {
+                return allowedFrets;
+            }
+            case SONG: {
+                return allowedSongs;
+            }
+            case BACKGROUND: {
+                return allowedBackgrounds;
+            }
+            case STRING: {
+                return allowedStrings;
+
+            }
+            case INSTRUMENT: {
+                return allowedInstruments;
+            }
+        }
+        return null;
     }
 
     public void setAllowedFrets(List<String> allowedFrets) {

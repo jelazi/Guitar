@@ -156,4 +156,15 @@
     <string name="expert">Expert</string>
     <string name="champion">Šampión</string>
     <string name="beginner">Začátečník</string>
+    <string name="song">Píseň</string>
+    <string name="choice_items">Vyber položku</string>
+    <string name="new_item">Nová položka</string>
+    <string name="price">Cena:</string>
+    <string name="open_shop">Otevři obchod</string>
+    <string name="open_items">Otevři položky</string>
+    <string name="buy_item">Kup položku</string>
+    <string name="save_shop">Ulož změny položky v obchodu</string>
+    <string name="contains_shop">Obchod obsahuje tuto položku</string>
+    <string name="warning_coins_not_enough">Nemáš dostatek peněz.</string>
+    <string name="instrument">Nástroj</string>
 </resources>

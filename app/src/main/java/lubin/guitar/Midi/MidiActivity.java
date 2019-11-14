@@ -8,6 +8,7 @@ import android.os.Message;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -42,6 +43,7 @@ public class MidiActivity extends AppCompatActivity implements View.OnClickListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_midi);
+        this.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         openMidiBtn = findViewById(R.id.open_midi);
         openMidiBtn.setOnClickListener(this);
@@ -61,6 +63,18 @@ public class MidiActivity extends AppCompatActivity implements View.OnClickListe
         testSongBtn = findViewById(R.id.test_song);
         testSongBtn.setOnClickListener(this);
         testSongBtn.setEnabled(false);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item){
+        int id = item.getItemId();
+
+        switch(id) {
+            case android.R.id.home:
+                onBackPressed();
+                break;
+        }
+        return true;
     }
 
     @Override

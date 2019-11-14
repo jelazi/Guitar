@@ -239,6 +239,17 @@
     <string name="professional">Professional</string>
     <string name="genius">Genius</string>
     <string name="champion">Champion</string>
+    <string name="song">Song</string>
+    <string name="choice_items">Choice items</string>
+    <string name="new_item">New Item</string>
+    <string name="price">Price:</string>
+    <string name="open_shop">Open shop</string>
+    <string name="open_items">Open Items</string>
+    <string name="buy_item">Buy item</string>
+    <string name="save_shop">Save changing item in the shop</string>
+    <string name="contains_shop">Shop contains this item.</string>
+    <string name="warning_coins_not_enough">You have not  enough coins.</string>
+    <string name="instrument">Instrument</string>
 
 
 </resources>

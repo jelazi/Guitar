@@ -13,8 +13,11 @@
         android:roundIcon="@drawable/guitarist"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Files.ImportItemsActivity"
-            android:screenOrientation="portrait" ></activity>
+        <activity android:name=".Shop.ShopActivity"></activity>
+        <activity android:name=".Shop.EditShopActivity" />
+        <activity
+            android:name=".Files.ImportItemsActivity"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".Midi.MidiActivity"
             android:label="Práce s midi"

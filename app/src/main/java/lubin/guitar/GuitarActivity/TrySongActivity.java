@@ -23,6 +23,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import lubin.guitar.Shop.ShopActivity;
 import lubin.guitar.Song.GuitarTone;
 import lubin.guitar.R;
 import lubin.guitar.Settings.SettingsScreenActivity;
@@ -141,6 +142,10 @@ public class TrySongActivity extends VirtualGuitarActivity {
 
             case R.id.play_chord:
                 i = new Intent(TrySongActivity.this, PlayChordActivity.class);
+                startActivity(i);
+                break;
+            case R.id.open_shop:
+                i = new Intent(TrySongActivity.this, ShopActivity.class);
                 startActivity(i);
                 break;
         }

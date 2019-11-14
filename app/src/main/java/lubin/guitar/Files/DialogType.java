@@ -14,5 +14,8 @@ public enum DialogType {
     FILE_DIALOG_IMAGE,
     CHANGE_TYPE_FILE,
     RENAME_FILE,
-    FACTORY_RESET
+    FACTORY_RESET,
+    OPEN_FILE,
+    NUMBER_PICKER,
+    OPEN_ITEMS
 }

@@ -20,7 +20,6 @@ import lubin.guitar.Users.User;
 
 public class SettingsPreferenceFragment extends PreferenceFragment {
 
-    public static Preference preferenceCoinUser;
     public static Preference preferenceNameUser;
     Preference preferenceCurrentLevel;
     Preference preferenceCurrentSong;
@@ -41,8 +40,6 @@ public class SettingsPreferenceFragment extends PreferenceFragment {
         currentUser = SingletonManagerUsers.getCurrentUser();
 
         addPreferencesFromResource(R.xml.settings_screen);
-
-        preferenceCoinUser = findPreference("coin_user");
         preferenceNameUser = findPreference("name_user");
 
         preferenceCurrentLevel = findPreference("current_level");
@@ -101,7 +98,6 @@ public class SettingsPreferenceFragment extends PreferenceFragment {
 
 
     protected void fillPreferences () {
-        preferenceCoinUser.setSummary(String.valueOf(currentUser.getCoins()));
         preferenceNameUser.setSummary(currentUser.getName());
         preferenceCurrentLevel.setSummary(SingletonManagerUsers.getNameUserLevel(currentUser.getCurrentLevel(), this.getActivity()));
         preferenceCurrentSong.setSummary(currentUser.getCurrentNameSong());

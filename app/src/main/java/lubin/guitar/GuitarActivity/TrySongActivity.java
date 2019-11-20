@@ -8,7 +8,6 @@ import android.media.AudioManager;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.view.menu.MenuBuilder;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -34,9 +33,15 @@ import lubin.guitar.Users.UserLevel;
 
 public class TrySongActivity extends VirtualGuitarActivity {
     Button btnTryMusic; //tlacitko hraj skladbu
-    TextView nameUser;
+    TextView lblNameUser;
     UserLevel currentLevel;
     ArrayList<GuitarTone> playingTones = new ArrayList<>();
+    int stepBeginner;
+    int stepExpert;
+    int stepProfessional;
+    int stepGenius;
+    int stepChampion;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,7 +53,8 @@ public class TrySongActivity extends VirtualGuitarActivity {
         money = findViewById(R.id.valueMoney);
         money.setText(Integer.toString(currentUser.getCoins()));
 
-        nameUser = findViewById(R.id.name_user);
+
+        lblNameUser = findViewById(R.id.name_user);
 
         string14.setOnClickListener(stringPlayOnClickListener);
         string13.setOnClickListener(stringPlayOnClickListener);
@@ -159,14 +165,21 @@ public class TrySongActivity extends VirtualGuitarActivity {
         settings = PreferenceManager
                 .getDefaultSharedPreferences(this);
 
-        nameUser.setText(currentUser.getName());
+        stepBeginner = settings.getInt("stepBeginner", 1);
+        stepExpert = settings.getInt("stepExpert", 2);
+        stepProfessional = settings.getInt("stepProfessional", 5);
+        stepGenius = settings.getInt("stepGenius", 7);
+        stepChampion = settings.getInt("stepChampion", 10);
+
+        lblNameUser.setText(currentUser.getName());
 
         soundId = soundPool.load( currentUser.getCurrentNameInstrument(), 1);
 
         currentSong = Songs.getSongByName(getApplicationContext(), currentUser.getCurrentNameSong());
         numberTone = 0;
         cleanStrings();
-        btnTryMusic.setText(getResources().getString(R.string.try_song));
+        fillInstrument();
+        btnTryMusic.setText(getResources().getString(R.string.try_song) + " " + currentSong.getNameOfSong());
         btnTryMusic.setBackgroundResource(0);
         playingSong = false;
         stopBeforeTone = currentUser.isChoiceMultiTone();
@@ -182,7 +195,7 @@ public class TrySongActivity extends VirtualGuitarActivity {
                         switch (currentLevel) {
                             case BEGINNER: {
                                     playToneFromTouch(playingTone.getStringTouch(), playingTones.get(numberTone + 1).getStringTouch(), null, true);
-                                    int value = currentUser.getCoins() + 1;
+                                    int value = currentUser.getCoins() + stepBeginner;
                                     currentUser.setCoins(value);
                                     money.setText(Integer.toString(value));
                                     numberTone++;
@@ -193,7 +206,7 @@ public class TrySongActivity extends VirtualGuitarActivity {
                                 List<String> playilist = getListNameTonesStringByTouch(getToneFromTouch(v.getId()));
                                 if (getListNameTonesStringByTouch(getToneFromTouch(v.getId())).contains(playingTone.getName())) {
                                     playToneFromTouch(playingTone.getStringTouch(), playingTones.get(numberTone + 1).getStringTouch(), null, true);
-                                    int value = currentUser.getCoins() + 1;
+                                    int value = currentUser.getCoins() + stepExpert;
                                     currentUser.setCoins(value);
                                     money.setText(Integer.toString(value));
                                     numberTone++;
@@ -206,8 +219,8 @@ public class TrySongActivity extends VirtualGuitarActivity {
                             }
                             case PROFESSIONAL: {
                                 if (playingTone.getStringValue() == (getToneFromTouch(v.getId()).getStringValue())) {
-                                    playToneFromTouch(v, playingTones.get(numberTone + 1).getStringTouch(), null, true);
-                                    int value = currentUser.getCoins() + 1;
+                                    playToneFromTouch(v, playingTones.get(numberTone + stepProfessional).getStringTouch(), null, true);
+                                    int value = currentUser.getCoins() + stepProfessional;
                                     currentUser.setCoins(value);
                                     money.setText(Integer.toString(value));
                                     numberTone++;
@@ -221,7 +234,11 @@ public class TrySongActivity extends VirtualGuitarActivity {
                             default: {
                                 if (playingTone.getStringValue() == (getToneFromTouch(v.getId()).getStringValue())) {
                                     playToneFromTouch(v, playingTones.get(numberTone + 1).getStringTouch(), null, true);
-                                    int value = currentUser.getCoins() + 1;
+
+                                    int value = currentUser.getCoins() + stepChampion;
+                                    if (currentLevel == UserLevel.GENIUS) {
+                                        value = currentUser.getCoins() + stepGenius;
+                                    }
                                     currentUser.setCoins(value);
                                     money.setText(Integer.toString(value));
                                     numberTone++;
@@ -239,7 +256,7 @@ public class TrySongActivity extends VirtualGuitarActivity {
                             tryRealSong();
                         } else {
                             playingSong = false;
-                            btnTryMusic.setText(getResources().getString(R.string.try_song));
+                            btnTryMusic.setText(getResources().getString(R.string.try_song) + " " + currentSong.getNameOfSong());
                             btnTryMusic.setBackgroundResource(0);
                             SingletonManagerUsers.changeUser(currentUser);
                         }
@@ -258,14 +275,14 @@ public class TrySongActivity extends VirtualGuitarActivity {
         public void onClick(View view) {
             if (playingSong) {
                 playingSong = false;
-                btnTryMusic.setText(getResources().getString(R.string.try_song));
+                btnTryMusic.setText(getResources().getString(R.string.try_song) + " " + currentSong.getNameOfSong());
                 btnTryMusic.setBackgroundResource(android.R.drawable.btn_default);
                 playingTone.getStringImage().clearColorFilter();
                 SingletonManagerUsers.changeUser(currentUser);
                 cleanStrings();
             } else {
                 playingSong = true;
-                btnTryMusic.setText(getResources().getString(R.string.playing));
+                btnTryMusic.setText(getResources().getString(R.string.playing) + " " + currentSong.getNameOfSong());
                 btnTryMusic.setBackgroundColor(0x800a33f5);
                 currentSong = Songs.getSongByName(getApplicationContext(), currentUser.getCurrentNameSong());
                 playingTones = createMusicFromTones(currentSong.getTones());

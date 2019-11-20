@@ -73,6 +73,11 @@ public class TeacherAccountActivity extends AppCompatActivity {
 
         @Override
         public void onClick(View view) {
+            String name = accountName.getText().toString();
+            if (name.isEmpty()) {
+                Toast.makeText(view.getContext(), getResources().getString(R.string.warning_name_not_empty), Toast.LENGTH_SHORT).show();
+                return;
+            }
             String correctName = FileManager.nameWithoutDiacritic(accountName.getText().toString().toLowerCase());
             String nameWithoutDiacritic = FileManager.nameWithoutDiacritic(name.toLowerCase());
             String correctPass = accountPass.getText().toString();

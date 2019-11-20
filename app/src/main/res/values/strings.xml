@@ -250,6 +250,7 @@
     <string name="contains_shop">Shop contains this item.</string>
     <string name="warning_coins_not_enough">You have not  enough coins.</string>
     <string name="instrument">Instrument</string>
+    <string name="warning_name_not_empty">Field \"Name\" must not empty</string>
 
 
 </resources>

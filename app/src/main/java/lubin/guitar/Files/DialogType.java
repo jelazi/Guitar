@@ -17,5 +17,6 @@ public enum DialogType {
     FACTORY_RESET,
     OPEN_FILE,
     NUMBER_PICKER,
-    OPEN_ITEMS
+    OPEN_ITEMS,
+    CHOICE_SONG
 }

@@ -2,12 +2,14 @@ package lubin.guitar.GuitarActivity;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.media.AudioManager;
 import android.media.SoundPool;
 import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.view.menu.MenuBuilder;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -24,7 +26,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.List;
 
+import lubin.guitar.Files.DialogType;
 import lubin.guitar.Shop.ShopActivity;
 import lubin.guitar.Song.GuitarTone;
 import lubin.guitar.R;
@@ -35,7 +39,7 @@ import lubin.guitar.Song.Tone;
 import lubin.guitar.Song.Tones;
 import lubin.guitar.Users.SingletonManagerUsers;
 
-public class PreviewSongActivity extends VirtualGuitarActivity {
+public class PreviewSongActivity extends VirtualGuitarActivity implements OnClickListener {
 
     Button btnplayMusic;
     SoundPool soundPool; //zvuk
@@ -49,7 +53,7 @@ public class PreviewSongActivity extends VirtualGuitarActivity {
     Song song = new Song();
     ArrayList<Tone> tonySkladby = new ArrayList<>();
     ArrayList<GuitarTone> pokus = new ArrayList<>();
-    TextView nameOfSongView;
+    TextView lblNameOfSongView;
     ArrayList<Integer> streamIDs;
     long[] delays;
     long startTime;
@@ -78,10 +82,11 @@ public class PreviewSongActivity extends VirtualGuitarActivity {
         setContentView(R.layout.activity_preview_song);
         createView();
         addFretboard();
-        btnplayMusic = (Button) findViewById(R.id.playMusic);
-        btnplayMusic.setOnClickListener(previewSong);
+        btnplayMusic = findViewById(R.id.playMusic);
+        btnplayMusic.setOnClickListener(this);
         audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
-        nameOfSongView = (TextView) findViewById(R.id.nameSong);
+        lblNameOfSongView = findViewById(R.id.nameSong);
+        lblNameOfSongView.setOnClickListener(this);
         //maximalni mnozstvi zaroven prehravanych zvuku
         int maxStreams = 4;
         //audiostream v audiomanageru
@@ -106,7 +111,7 @@ public class PreviewSongActivity extends VirtualGuitarActivity {
         tone = 0;
         normal_playback_rate = 0.5f;
         this.setTitle(R.string.action_preview_song);
-        nameOfSongView.setText(currentUser.getCurrentNameSong());
+        lblNameOfSongView.setText(currentUser.getCurrentNameSong());
     }
 
     @SuppressLint("RestrictedApi")
@@ -144,7 +149,7 @@ public class PreviewSongActivity extends VirtualGuitarActivity {
             Log.e("Error:", "problem with intent");
             return;
         } else {
-            nameOfSongView.setText(nameSongForTesting);
+            lblNameOfSongView.setText(nameSongForTesting);
         }
         songForTesting = SingletonManagerUsers.getCurrentSong();
         if (songForTesting == null || songForTesting.getTones().size() == 0) {
@@ -227,7 +232,7 @@ public class PreviewSongActivity extends VirtualGuitarActivity {
         settings = PreferenceManager
                 .getDefaultSharedPreferences(this);
         soundId = soundPool.load(getFilesDir() + "/Instruments/" + currentUser.getCurrentNameInstrument(), 1);
-        nameOfSongView.setText(currentUser.getCurrentNameSong());
+        lblNameOfSongView.setText(currentUser.getCurrentNameSong());
         stopBeforeTone = false;
         currentSong = Songs.getSongByName(this, currentUser.getCurrentNameSong());
         if (isTest) {
@@ -235,14 +240,44 @@ public class PreviewSongActivity extends VirtualGuitarActivity {
         }
     }
 
-
-    // zahrani skladby
-    OnClickListener previewSong = new OnClickListener() {
-        @Override
-        public void onClick(View view) {
+    @Override
+    public void onClick(View view) {
+        if (view == btnplayMusic) {
             previewSong();
         }
-    };
+        if (view == lblNameOfSongView) {
+            showDialog(DialogType.CHOICE_SONG);
+        }
+    }
+
+    protected void showDialog (DialogType dialogType) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        if (dialogType == DialogType.CHOICE_SONG) {
+            final List<String> listSongs = currentUser.getAllowedSongs();
+            String[] arrayUsers = new String[listSongs.size()];
+            listSongs.toArray(arrayUsers);
+
+            builder.setTitle(getResources().getString(R.string.choice_song));
+
+            builder.setItems(arrayUsers, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    changeCurrentSong(listSongs.get(which));
+                }
+            });
+        }
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }
+
+    protected void changeCurrentSong (String nameSong) {
+        currentUser.setCurrentNameSong(nameSong);
+        SingletonManagerUsers.changeUser(currentUser);
+        currentSong = Songs.getSongByName(this, currentUser.getCurrentNameSong());
+        song = currentSong;
+        lblNameOfSongView.setText(currentSong.getNameOfSong());
+    }
+
 
     public void previewSong() {
         Object obj = new Object();
@@ -433,4 +468,6 @@ public class PreviewSongActivity extends VirtualGuitarActivity {
         }
         return super.onKeyDown(keyCode, event);
     }
+
+
 }

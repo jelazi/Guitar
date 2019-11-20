@@ -150,6 +150,8 @@ public abstract class VirtualGuitarActivity extends AppCompatActivity {
     }
 
 
+
+
     @Override
     protected void onResume () {
         super.onResume();

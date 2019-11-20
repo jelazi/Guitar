@@ -8,13 +8,6 @@
         android:key="name_user"
         />
 
-
-    <EditTextPreference
-        android:title="@string/coin_value"
-        android:key="coin_user"
-        android:summary="0"
-        />
-
     <Preference
         android:key="current_level"
         android:summary=""

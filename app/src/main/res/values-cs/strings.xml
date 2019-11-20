@@ -5,7 +5,7 @@
     <string name="action_play_pause_try_song">Zkus hrát</string>
     <string name="action_preview_song">Poslechni si píseň</string>
     <string name="action_settings">Nastavení</string>
-    <string name="action_try_song">Vyzkoušet hrát píseň</string>
+    <string name="action_try_song">Zkus hrát píseň</string>
     <string name="choice_Song">Vyber píseň</string>
     <string name="choice_instrument">Vyber nástroj</string>
     <string name="choice_song">Vyber píseň</string>
@@ -39,7 +39,7 @@
     <string name="user_name">Jméno uživatele</string>
     <string name="action_sign_in">Sign in or register</string>
     <string name="action_sign_in_short">Sign in</string>
-    <string name="action_play_chords">Hrát akordy</string>
+    <string name="action_play_chords">Hraj akordy</string>
     <string name="who_are_you">Ahoj, kdopak jsi?</string>
     <string name="i_am_guitarist">Jsem kytarista</string>
     <string name="i_am_teacher">Jsem učitel</string>
@@ -87,7 +87,7 @@
     <string name="pass_guitarist">Heslo kytaristy</string>
     <string name="playing_tones">Hraní tónů</string>
     <string name="summary_playing_tones">Zamezit hrát více tónů naráz</string>
-    <string name="choice_activity">Vyberte aktivity</string>
+    <string name="choice_activity">Vyber aktivitu</string>
     <string name="warning_wrong_name_pass">Špatné jméno nebo heslo</string>
     <string name="warning_first_create_account">Nejdříve vytvořte aspoň jeden účet kytaristy.</string>
     <string name="only_midi_files">Pouze soubory typu *.midi *.mid</string>
@@ -167,4 +167,5 @@
     <string name="contains_shop">Obchod obsahuje tuto položku</string>
     <string name="warning_coins_not_enough">Nemáš dostatek peněz.</string>
     <string name="instrument">Nástroj</string>
+    <string name="warning_name_not_empty">Pole \"Jméno\" nesmí být prázdné.</string>
 </resources>

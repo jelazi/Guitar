@@ -8,7 +8,9 @@ import android.media.AudioManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
+import android.support.v4.view.MotionEventCompat;
 import android.support.v7.view.menu.MenuBuilder;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -19,9 +21,11 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
+import lubin.guitar.MainActivity;
 import lubin.guitar.Shop.ShopActivity;
 import lubin.guitar.Song.Tonalities;
 import lubin.guitar.Song.GuitarTone;
@@ -42,6 +46,8 @@ public class PlayChordActivity extends VirtualGuitarActivity {
     ArrayList<String> currentTonality;
     ArrayList<ArrayList<String>> allTonality;
     int tonalityNumber;
+    MenuBuilder m;
+    MenuInflater inflater;
 
     @SuppressLint("ClickableViewAccessibility")
     @Override
@@ -116,6 +122,35 @@ public class PlayChordActivity extends VirtualGuitarActivity {
         this.setTitle(R.string.action_play_chords);
     }
 
+    @Override
+    public boolean onTouchEvent(MotionEvent event){
+
+        int action = MotionEventCompat.getActionMasked(event);
+
+        switch(action) {
+            case (MotionEvent.ACTION_DOWN) :
+                Toast.makeText(this,
+                        "down",
+                        Toast.LENGTH_SHORT).show();
+                return true;
+            case (MotionEvent.ACTION_MOVE) :
+                Log.d("tag","Action was MOVE");
+                return true;
+            case (MotionEvent.ACTION_UP) :
+                Log.d("tag","Action was UP");
+                return true;
+            case (MotionEvent.ACTION_CANCEL) :
+                Log.d("tag","Action was CANCEL");
+                return true;
+            case (MotionEvent.ACTION_OUTSIDE) :
+                Log.d("tag","Movement occurred outside bounds " +
+                        "of current screen element");
+                return true;
+            default :
+                return super.onTouchEvent(event);
+        }
+    }
+
 
     public void fillnameChords () {
         currentTonality = allTonality.get(tonalityNumber);
@@ -131,10 +166,10 @@ public class PlayChordActivity extends VirtualGuitarActivity {
     @SuppressLint("RestrictedApi")
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
+        inflater = getMenuInflater();
         inflater.inflate(R.menu.menu_play_chords, menu);
         if(menu instanceof MenuBuilder){
-            MenuBuilder m = (MenuBuilder) menu;
+            m = (MenuBuilder) menu;
             //noinspection RestrictedApi
             m.setOptionalIconsVisible(true);
         }

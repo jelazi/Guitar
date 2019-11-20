@@ -192,7 +192,7 @@ public class TeacherActivity extends AppCompatActivity implements View.OnClickLi
             }
 
             case ERASE_USER: {
-                listUsers = SingletonManagerUsers.getListNamesUsers(true, this);
+                listUsers = SingletonManagerUsers.getListNamesUsers(false, this);
                 String[] arrayUsers = new String[listUsers.size()];
                 listUsers.toArray(arrayUsers);
 

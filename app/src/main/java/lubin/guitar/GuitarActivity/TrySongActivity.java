@@ -2,11 +2,13 @@ package lubin.guitar.GuitarActivity;
 
 
 import android.annotation.SuppressLint;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.media.AudioManager;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.view.menu.MenuBuilder;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -16,6 +18,7 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -31,11 +34,13 @@ import lubin.guitar.Song.Tone;
 import lubin.guitar.Users.SingletonManagerUsers;
 import lubin.guitar.Users.UserLevel;
 
-public class TrySongActivity extends VirtualGuitarActivity {
+public class TrySongActivity extends VirtualGuitarActivity implements View.OnClickListener {
     Button btnTryMusic; //tlacitko hraj skladbu
     TextView lblNameUser;
     UserLevel currentLevel;
     ArrayList<GuitarTone> playingTones = new ArrayList<>();
+    ImageView nextSong;
+    ImageView changeInstrumentBtn;
     int stepBeginner;
     int stepExpert;
     int stepProfessional;
@@ -55,6 +60,13 @@ public class TrySongActivity extends VirtualGuitarActivity {
 
 
         lblNameUser = findViewById(R.id.name_user);
+        lblNameUser.setOnClickListener(this);
+
+        nextSong = findViewById(R.id.sheets);
+        nextSong.setOnClickListener(this);
+
+        changeInstrumentBtn = findViewById(R.id.guitar);
+        changeInstrumentBtn.setOnClickListener(this);
 
         string14.setOnClickListener(stringPlayOnClickListener);
         string13.setOnClickListener(stringPlayOnClickListener);
@@ -93,6 +105,85 @@ public class TrySongActivity extends VirtualGuitarActivity {
         soundId = soundPool.load( currentUser.getCurrentNameInstrument(), 1);
         currentLevel = currentUser.getCurrentLevel();
     }
+
+    @Override
+    public void onClick(View view) {
+        if (view == changeInstrumentBtn) {
+            changeInstrument();
+            return;
+        }
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        if (view == lblNameUser) {
+
+            builder.setTitle(getResources().getString(R.string.current_level));
+            final List<String> listAllowedLevel = SingletonManagerUsers.getListAllowLevel(currentUser.getAllowedLevel(), this);
+            final String[] arrayAllowedLevel = new String[listAllowedLevel.size()];
+            listAllowedLevel.toArray(arrayAllowedLevel);
+            final int[] checkItem = {currentUser.getCurrentLevel().getValue() - 1};
+            builder.setSingleChoiceItems(
+                    arrayAllowedLevel,
+                    checkItem[0],
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int item) {
+                            checkItem[0] = item;
+                        }
+                    }
+            );
+            builder.setPositiveButton(getResources().getString(R.string.ok), new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    currentUser.setCurrentLevel(SingletonManagerUsers.getUserLevelByValue(checkItem[0]+1), TrySongActivity.this);
+                    SingletonManagerUsers.changeUser(currentUser);
+                    currentLevel = currentUser.getCurrentLevel();
+                }
+            });
+
+        }
+
+        if (view == nextSong) {
+            builder.setTitle(getResources().getString(R.string.current_song));
+            final List<String> listAllowedSongs = currentUser.getAllowedSongs();
+            final String[] allAllowedSongs = new String[listAllowedSongs.size()];
+            listAllowedSongs.toArray(allAllowedSongs);
+            final int[] checkItem = {0};
+            if (listAllowedSongs.contains(currentUser.getCurrentNameSong())) {
+                for (int i = 0; i < listAllowedSongs.size(); i++) {
+                    if (listAllowedSongs.get(i).equals(currentUser.getCurrentNameSong())) {
+                        checkItem[0] = i;
+                        break;
+                    }
+                }
+            } else {
+                checkItem[0] = 0;
+            }
+            builder.setSingleChoiceItems(
+                    allAllowedSongs,
+                    checkItem[0],
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int item) {
+                            checkItem[0] = item;
+                        }
+                    }
+            );
+            builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    String nameCurrentSong = "";
+                    nameCurrentSong = listAllowedSongs.get(checkItem[0]);
+                    if (!nameCurrentSong.isEmpty()) {
+                        currentUser.setCurrentNameSong(nameCurrentSong);
+                        SingletonManagerUsers.changeUser(currentUser);
+                        TrySongActivity.this.onResume();
+                    }
+                }
+            });
+        }
+        builder.setNegativeButton(getResources().getString(R.string.cancel), null);
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }
+
+
 
     @SuppressLint("RestrictedApi")
     @Override
@@ -219,7 +310,7 @@ public class TrySongActivity extends VirtualGuitarActivity {
                             }
                             case PROFESSIONAL: {
                                 if (playingTone.getStringValue() == (getToneFromTouch(v.getId()).getStringValue())) {
-                                    playToneFromTouch(v, playingTones.get(numberTone + stepProfessional).getStringTouch(), null, true);
+                                    playToneFromTouch(playingTone.getStringTouch(), playingTones.get(numberTone + 1).getStringTouch(), null, true);
                                     int value = currentUser.getCoins() + stepProfessional;
                                     currentUser.setCoins(value);
                                     money.setText(Integer.toString(value));

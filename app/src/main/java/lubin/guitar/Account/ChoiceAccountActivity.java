@@ -11,6 +11,8 @@ import android.view.View;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import java.util.List;
@@ -18,6 +20,7 @@ import java.util.List;
 import lubin.guitar.Files.FileManager;
 import lubin.guitar.R;
 import lubin.guitar.Shop.SingletonManagerItems;
+import lubin.guitar.SingletonSizeScreen;
 import lubin.guitar.Teacher.TeacherAccountActivity;
 import lubin.guitar.Users.SingletonManagerUsers;
 import lubin.guitar.Users.User;
@@ -34,6 +37,7 @@ public class ChoiceAccountActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_choice_account);
         FileManager.init(getApplicationContext());
+        SingletonSizeScreen.resizeValues(this);
         settings = PreferenceManager.getDefaultSharedPreferences(this);
         SingletonManagerUsers.createSingletonManagerUsers(settings);
         SingletonManagerItems.createSingletonManagerItems(settings);
@@ -55,7 +59,15 @@ public class ChoiceAccountActivity extends AppCompatActivity {
 
         img1.setOnClickListener(runGuitarist);
         img2.setOnClickListener(runTeacher);
+
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+    }
+
 
 
     View.OnClickListener runGuitarist = new View.OnClickListener() {

@@ -3,21 +3,25 @@ package lubin.guitar.Account;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Typeface;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.animation.AnimationUtils;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,6 +31,7 @@ import lubin.guitar.GuitarActivity.PreviewSongActivity;
 import lubin.guitar.R;
 import lubin.guitar.GuitarActivity.TrySongActivity;
 import lubin.guitar.Shop.ShopActivity;
+import lubin.guitar.SingletonSizeScreen;
 import lubin.guitar.Users.SingletonManagerUsers;
 import lubin.guitar.Users.User;
 
@@ -39,6 +44,8 @@ public class AccountActivity extends AppCompatActivity {
     SharedPreferences settings;
     User currentUser;
     List<String> listActivity;
+    TextView lblName;
+    TextView lblPass;
 
 
     @Override
@@ -52,20 +59,44 @@ public class AccountActivity extends AppCompatActivity {
         img.startAnimation(animation1);
         accountPass = findViewById(R.id.AccountPass);
         nameSpinner = findViewById(R.id.Spinner01);
+        lblName = findViewById(R.id.NameLabel);
+        lblPass = findViewById(R.id.PassLabel);
+
         accountPass.setOnClickListener(onClickSetPass);
 
         nameUsers = SingletonManagerUsers.getListNamesUsers(false, this); //nacteni uzivatelu
         String[] arrayUsers = new String[nameUsers.size()];
         nameUsers.toArray(arrayUsers);
 
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(this,
-                android.R.layout.simple_spinner_item, arrayUsers);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
+                android.R.layout.simple_spinner_item, arrayUsers){
+            public View getView(int position, View convertView, ViewGroup parent) {
+
+                View v = super.getView(position, convertView, parent);
+                TextView tv = ((TextView) v);
+                tv.setTypeface(tv.getTypeface(), Typeface.BOLD);
+                tv.setSingleLine();
+                tv.setEllipsize(TextUtils.TruncateAt.END);
+                tv.setTextSize(SingletonSizeScreen.getTextSizeSpinner());
+                return v;
+                }
+            public View getDropDownView(int position, View convertView, ViewGroup parent) {
+                return getView(position, convertView, parent);
+            }
+            };
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         nameSpinner.setAdapter(adapter);
 
         settings = PreferenceManager.getDefaultSharedPreferences(this);
 
         this.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+    }
+
+    @Override
+    public void onResume () {
+        super.onResume();
+
+
     }
 
 
@@ -146,12 +177,4 @@ public class AccountActivity extends AppCompatActivity {
 
         }
     };
-
-
-
-
-
-
-
-
 }

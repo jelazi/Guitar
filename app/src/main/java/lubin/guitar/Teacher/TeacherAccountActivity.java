@@ -2,19 +2,23 @@ package lubin.guitar.Teacher;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Point;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.Display;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import lubin.guitar.Files.FileManager;
 import lubin.guitar.R;
+import lubin.guitar.SingletonSizeScreen;
 
 public class TeacherAccountActivity extends AppCompatActivity {
     SharedPreferences settings;
@@ -26,9 +30,9 @@ public class TeacherAccountActivity extends AppCompatActivity {
     String pass;
     boolean createName;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_teacher_account);
         btnAcc = (Button)findViewById(R.id.btnAccountTeacher);
@@ -36,10 +40,13 @@ public class TeacherAccountActivity extends AppCompatActivity {
         img = (ImageView)findViewById(R.id.accTeacher);
         android.view.animation.Animation animation1= AnimationUtils.loadAnimation(getApplicationContext(), R.anim.zoom);
         img.startAnimation(animation1);
-        accountName = (EditText)findViewById(R.id.AccNameTeacher);
-        accountPass = (EditText)findViewById(R.id.AccountPassTeacher);
+        accountName = findViewById(R.id.AccNameTeacher);
+        accountPass = findViewById(R.id.AccountPassTeacher);
         accountName.setOnClickListener(onClickSetName);
         accountPass.setOnClickListener(onClickSetPass);
+        accountName.setWidth(img.getWidth());
+        accountPass.setWidth(img.getWidth());
+
         img.setOnClickListener(openAccountListener);
 
         settings = PreferenceManager.getDefaultSharedPreferences(this);
@@ -52,7 +59,13 @@ public class TeacherAccountActivity extends AppCompatActivity {
             createName = false;
             btnAcc.setText(getResources().getString(R.string.log_in));
         }
+
         this.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+    }
+
+    @Override
+    public void onResume () {
+        super.onResume();
     }
 
 

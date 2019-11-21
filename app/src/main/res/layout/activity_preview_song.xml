@@ -48,7 +48,7 @@
             android:layout_height="match_parent"
             android:layout_weight="90"
             android:textSize="35dp"
-            android:textColor="#ff0080"
+            android:textColor="@color/colorRed"
             />
 
 

@@ -3,10 +3,13 @@ package lubin.guitar.Files;
 import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.media.MediaPlayer;
+import android.net.Uri;
 import android.os.Environment;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -27,11 +30,13 @@ public class ImportItemsActivity extends AppCompatActivity implements View.OnCli
     TextView changeTypeFile;
     Button btnOpenFile;
     Button btnImportFile;
+    Button btnPlayInstrument;
     TextView lblNameFile;
     ImageView imageFile;
     List<String> listTypeFile;
     FileType fileType;
     File file;
+    MediaPlayer mediaPlayer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,6 +65,7 @@ public class ImportItemsActivity extends AppCompatActivity implements View.OnCli
         listTypeFile.add(getResources().getString(R.string.backgrounds));
         listTypeFile.add(getResources().getString(R.string.frets));
         listTypeFile.add(getResources().getString(R.string.strings));
+        listTypeFile.add(getResources().getString(R.string.instrument));
 
         changeTypeFile = findViewById(R.id.change_type_file);
         changeTypeFile.setOnClickListener(this);
@@ -75,6 +81,9 @@ public class ImportItemsActivity extends AppCompatActivity implements View.OnCli
         lblNameFile.setOnClickListener(this);
 
         imageFile = findViewById(R.id.image_file);
+        btnPlayInstrument = findViewById(R.id.play_instrument);
+        btnPlayInstrument.setOnClickListener(this);
+        btnPlayInstrument.setVisibility(View.INVISIBLE);
     }
 
 
@@ -83,8 +92,15 @@ public class ImportItemsActivity extends AppCompatActivity implements View.OnCli
         if (view == changeTypeFile) {
             showDialog(DialogType.CHANGE_TYPE_FILE);
         }
+        if (view == btnPlayInstrument) {
+            playInstrument();
+        }
         if (view == btnOpenFile) {
-            showDialog(DialogType.FILE_DIALOG_IMAGE);
+            if (changeTypeFile.getText().toString().equals(getResources().getString(R.string.instrument))) {
+                showDialog(DialogType.FILE_DIALOG_WAV);
+            } else {
+                showDialog(DialogType.FILE_DIALOG_IMAGE);
+            }
         }
         if (view == btnImportFile) {
             try {
@@ -116,12 +132,49 @@ public class ImportItemsActivity extends AppCompatActivity implements View.OnCli
         }
     }
 
+    protected void playInstrument () {
+        if (file == null) {
+            Log.e("Error", "Instrument is not download");
+            return;
+        }
+        mediaPlayer = MediaPlayer.create(this, Uri.parse(file.getPath()));
+        mediaPlayer.start();
+    }
+
 
     protected void showDialog (DialogType dialogType) {
         reloadTypeImage();
         switch (dialogType) {
             case FILE_DIALOG_IMAGE: {
                 FileDialog fileDialog = new FileDialog(this, Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), "png", DialogType.FILE_DIALOG_IMAGE);
+                String title = getTitleSpecificFile();
+                fileDialog.createFileDialog(title);
+                fileDialog.addFileListener(new FileDialog.FileSelectedListener() {
+                    public void fileSelected(File file) {
+                        if (file.exists()) {
+                            if (changeTypeFile.getText().toString().equals(getResources().getString(R.string.strings))) {
+                                ImportItemsActivity.this.file = file;
+                                if (controlStringsExists()) {
+                                    showImage();
+                                    setVisibleBtn();
+                                } else {
+                                    eraseImage();
+                                    return;
+                                }
+                            } else {
+                                ImportItemsActivity.this.file = file;
+                                showImage();
+                                setVisibleBtn();
+                            }
+
+                        }
+                    }
+                });
+                fileDialog.showDialog();
+                return;
+            }
+            case FILE_DIALOG_WAV: {
+                FileDialog fileDialog = new FileDialog(this, Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), "wav", DialogType.FILE_DIALOG_WAV);
                 String title = getTitleSpecificFile();
                 fileDialog.createFileDialog(title);
                 fileDialog.addFileListener(new FileDialog.FileSelectedListener() {
@@ -180,9 +233,16 @@ public class ImportItemsActivity extends AppCompatActivity implements View.OnCli
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         String name = edittext.getText().toString();
-                        if (!name.contains(".png")) {
-                            name = name + ".png";
+                        if (fileType == FileType.INSTRUMENT) {
+                            if (!name.contains(".wav")) {
+                                name = name + ".wav";
+                            }
+                        } else {
+                            if (!name.contains(".png")) {
+                                name = name + ".png";
+                            }
                         }
+
                         lblNameFile.setText(name);
                         dialog.dismiss();
                     }
@@ -209,9 +269,13 @@ public class ImportItemsActivity extends AppCompatActivity implements View.OnCli
     }
 
     protected void showImage () {
-        if(file.exists()) {
+        if(file.exists() && fileType != FileType.INSTRUMENT) {
             Bitmap myBitmap = BitmapFactory.decodeFile(file.getAbsolutePath());
             imageFile.setImageBitmap(myBitmap);
+            lblNameFile.setText(file.getName());
+            btnPlayInstrument.setVisibility(View.INVISIBLE);
+        } else {
+            btnPlayInstrument.setVisibility(View.VISIBLE);
             lblNameFile.setText(file.getName());
         }
     }
@@ -224,6 +288,8 @@ public class ImportItemsActivity extends AppCompatActivity implements View.OnCli
             fileType = FileType.FRET;
         } else if (changeFileType.equals(getResources().getString(R.string.strings))) {
             fileType = FileType.STRING;
+        } else if (changeFileType.equals(getResources().getString(R.string.instrument))) {
+            fileType = FileType.INSTRUMENT;
         } else {
             fileType = FileType.BACKGROUND;
         }
@@ -277,6 +343,11 @@ public class ImportItemsActivity extends AppCompatActivity implements View.OnCli
             case BACKGROUND:{
             pathDir = FileManager.getDirBackgrounds().getAbsolutePath();
             nameFile = pathDir + "/" + lblNameFile.getText().toString();
+                break;
+            }
+            case INSTRUMENT:{
+                pathDir = FileManager.getDirInstruments().getAbsolutePath();
+                nameFile = pathDir + "/" + lblNameFile.getText().toString();
                 break;
             }
             default: {

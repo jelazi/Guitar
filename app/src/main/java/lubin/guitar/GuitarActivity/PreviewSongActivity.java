@@ -59,7 +59,6 @@ public class PreviewSongActivity extends VirtualGuitarActivity implements OnClic
     long[] delays;
     long startTime;
     int toneStop;
-    boolean stopBeforeTone;
     boolean isTest;
     Song songForTesting;
     String nameSongForTesting;

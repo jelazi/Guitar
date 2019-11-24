@@ -122,6 +122,62 @@ public class FileDialog {
 
         }
 
+        if (dialogType == DialogType.FILE_DIALOG_WAV) {
+            dialog = null;
+            builder = new AlertDialog.Builder(activity);
+
+            LinearLayout layout = new LinearLayout(activity);
+            layout.setOrientation(LinearLayout.VERTICAL);
+
+
+            TextView titleView = new TextView(activity);
+            titleView.setText(title);
+            titleView.setBackgroundColor(activity.getResources().getColor(R.color.colorPrimary));
+            titleView.setPadding(10, 10, 10, 10);
+            titleView.setGravity(Gravity.CENTER);
+            titleView.setTextColor(activity.getResources().getColor(R.color.colorWhite));
+            titleView.setTextSize(30);
+
+            layout.addView(titleView);
+
+            TextView subtitleView = new TextView(activity);
+            subtitleView.setText(activity.getResources().getString(R.string.only_wav_files));
+            subtitleView.setBackgroundColor(activity.getResources().getColor(R.color.colorPrimary));
+            subtitleView.setPadding(10, 10, 10, 10);
+            subtitleView.setGravity(Gravity.CENTER);
+            subtitleView.setTextColor(activity.getResources().getColor(R.color.colorWhite));
+            layout.addView(subtitleView);
+
+            builder.setCustomTitle(layout);
+
+            if (selectDirectoryOption) {
+                builder.setPositiveButton(activity.getResources().getString(R.string.select_directory), new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        fireDirectorySelectedEvent(currentPath);
+                    }
+                });
+            }
+
+
+            builder.setItems(fileList, new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int which) {
+                    String fileChosen = fileList[which];
+                    File chosenFile = getChosenFile(fileChosen);
+                    if (chosenFile.isDirectory()) {
+                        loadFileList(chosenFile);
+                        dialog.cancel();
+                        dialog.dismiss();
+                        createFileDialog(title);
+                        showDialog();
+                    } else fireFileSelectedEvent(chosenFile);
+                }
+            });
+
+
+            dialog = builder.create();
+
+        }
+
         if (dialogType == DialogType.FILE_DIALOG_IMAGE) {
             dialog = null;
             builder = new AlertDialog.Builder(activity);

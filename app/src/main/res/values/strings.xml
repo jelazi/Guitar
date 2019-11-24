@@ -251,6 +251,8 @@
     <string name="warning_coins_not_enough">You have not  enough coins.</string>
     <string name="instrument">Instrument</string>
     <string name="warning_name_not_empty">Field \"Name\" must not empty</string>
+    <string name="only_wav_files">Only files *.wav</string>
+    <string name="play_instrument">Play instrument</string>
 
 
 </resources>

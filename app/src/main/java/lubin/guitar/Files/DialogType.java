@@ -18,5 +18,6 @@ public enum DialogType {
     OPEN_FILE,
     NUMBER_PICKER,
     OPEN_ITEMS,
-    CHOICE_SONG
+    CHOICE_SONG,
+    FILE_DIALOG_WAV
 }

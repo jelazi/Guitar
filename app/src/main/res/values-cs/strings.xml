@@ -168,4 +168,6 @@
     <string name="warning_coins_not_enough">Nemáš dostatek peněz.</string>
     <string name="instrument">Nástroj</string>
     <string name="warning_name_not_empty">Pole \"Jméno\" nesmí být prázdné.</string>
+    <string name="only_wav_files">Pouze soubory typu *.wav</string>
+    <string name="play_instrument">Přehrát soubor nástroje</string>
 </resources>

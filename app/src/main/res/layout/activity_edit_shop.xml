@@ -60,22 +60,23 @@
 
                     <TextView
                         android:id="@+id/lbl_price_text_shop"
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
+                        android:layout_weight="60"
                         android:gravity="center"
-                        android:textColor="@color/colorBlack"
-                        android:textSize="20sp"
+                        android:textColor="@color/colorRed"
+                        android:textSize="40sp"
                         android:textStyle="bold"
                         android:text="@string/price"/>
 
                     <TextView
                         android:id="@+id/lbl_price_item_shop"
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
+                        android:layout_weight="40"
                         android:gravity="center"
-                        android:textColor="@color/colorBlack"
-                        android:textSize="20sp"
+                        android:textColor="@color/colorRed"
+                        android:textSize="40sp"
                         android:textStyle="bold" />
 
                 </LinearLayout>

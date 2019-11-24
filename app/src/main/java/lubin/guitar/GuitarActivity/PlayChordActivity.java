@@ -26,6 +26,7 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 
+import lubin.guitar.Account.AccountActivity;
 import lubin.guitar.Shop.ShopActivity;
 import lubin.guitar.Song.Tonalities;
 import lubin.guitar.Song.GuitarTone;
@@ -267,6 +268,8 @@ public class PlayChordActivity extends VirtualGuitarActivity implements OnClickL
         chord4.setEnabled(true);
         chord5.setEnabled(true);
         chord6.setEnabled(true);
+        String tonality = Tonalities.getNameTonality(currentTonality);
+        Toast.makeText(this, getResources().getString(R.string.warning_change_tonality) + tonality + "dur.", Toast.LENGTH_SHORT).show();
     }
 
 
@@ -402,6 +405,8 @@ public class PlayChordActivity extends VirtualGuitarActivity implements OnClickL
             } else {
                 Gtone.getStringTouch().setBackgroundResource(R.drawable.touchakord);
             }
+        } else {
+            Log.e("", "");
         }
 
         if (Btone.getStringValue() != 0) {

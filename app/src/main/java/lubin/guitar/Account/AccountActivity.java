@@ -36,6 +36,8 @@ import lubin.guitar.SingletonSizeScreen;
 import lubin.guitar.Users.SingletonManagerUsers;
 import lubin.guitar.Users.User;
 
+import static lubin.guitar.R.color.colorGray;
+
 public class AccountActivity extends AppCompatActivity {
     Button btnAcc;
     ImageView img;
@@ -78,6 +80,7 @@ public class AccountActivity extends AppCompatActivity {
                 TextView tv = ((TextView) v);
                 tv.setTypeface(tv.getTypeface(), Typeface.BOLD);
                 tv.setSingleLine();
+                tv.setTextColor(getResources().getColor(R.color.colorRed));
                 tv.setEllipsize(TextUtils.TruncateAt.END);
                 tv.setTextSize(SingletonSizeScreen.getTextSizeSpinner());
                 return v;

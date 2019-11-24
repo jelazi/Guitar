@@ -197,7 +197,7 @@ final public class Tones {
                 chordString[0] = silent;
                 chordString[1] = B2;
                 chordString[2] = Fis3;
-                chordString[3] = B3;
+                chordString[3] = B32;
                 chordString[4] = D4;
                 chordString[5] = Fis4;
                 break;

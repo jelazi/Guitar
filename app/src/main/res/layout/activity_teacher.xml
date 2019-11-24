@@ -57,7 +57,7 @@
             android:id="@+id/edit_shop"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Edit shop" />
+            android:text="@string/edit_shop" />
 
         <Button
             android:id="@+id/factory_reset"

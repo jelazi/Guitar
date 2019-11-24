@@ -253,6 +253,9 @@
     <string name="warning_name_not_empty">Field \"Name\" must not empty</string>
     <string name="only_wav_files">Only files *.wav</string>
     <string name="play_instrument">Play instrument</string>
+    <string name="edit_shop">Edit shop</string>
+    <string name="warning_change_tonality">Tonality changing on:</string>
+    <string name="warning_change_price">You can change price of item</string>
 
 
 </resources>

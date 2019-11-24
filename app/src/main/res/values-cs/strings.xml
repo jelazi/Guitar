@@ -170,4 +170,7 @@
     <string name="warning_name_not_empty">Pole \"Jméno\" nesmí být prázdné.</string>
     <string name="only_wav_files">Pouze soubory typu *.wav</string>
     <string name="play_instrument">Přehrát soubor nástroje</string>
+    <string name="edit_shop">Editování obchodu</string>
+    <string name="warning_change_tonality">"Tónina byla změněna na: "</string>
+    <string name="warning_change_price">Můžete změnit cenu položky.</string>
 </resources>

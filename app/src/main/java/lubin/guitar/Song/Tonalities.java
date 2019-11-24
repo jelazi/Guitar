@@ -24,6 +24,10 @@ public class Tonalities {
         Btonality = new ArrayList<String>(Arrays.asList("B", "F", "E", "Gmi", "Dmi", "Cmi"));
     }
 
+    public static String getNameTonality (ArrayList<String> tonality) {
+        return tonality.get(0);
+    }
+
     public static ArrayList<String> getCtonality() {
         return Ctonality;
     }

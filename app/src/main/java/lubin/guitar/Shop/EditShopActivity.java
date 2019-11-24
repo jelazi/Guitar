@@ -297,12 +297,12 @@ public class EditShopActivity extends AppCompatActivity implements View.OnClickL
             final AlertDialog.Builder d = new AlertDialog.Builder(this);
             LayoutInflater inflater = this.getLayoutInflater();
             View dialogView = inflater.inflate(R.layout.number_picker_dialog, null);
-            d.setTitle("Price");
-            d.setMessage("Choice price of item");
+            d.setTitle(this.getResources().getString(R.string.price));
+            d.setMessage(this.getResources().getString(R.string.warning_change_price));
             d.setView(dialogView);
             final NumberPicker numberPicker = dialogView.findViewById(R.id.dialog_number_picker);
             int minValue = 10;
-            int maxValue = 10000;
+            int maxValue = 2000;
             final int step = 10;
             String[] numberValues = new String[maxValue - minValue + 1];
             for (int i = 0; i <= maxValue - minValue; i++) {
@@ -318,7 +318,7 @@ public class EditShopActivity extends AppCompatActivity implements View.OnClickL
                 public void onValueChange(NumberPicker numberPicker, int i, int i1) {
                 }
             });
-            d.setPositiveButton("Done", new DialogInterface.OnClickListener() {
+            d.setPositiveButton(EditShopActivity.this.getResources().getString(R.string.ok), new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialogInterface, int i) {
                     int value = numberPicker.getValue() * step;
@@ -328,7 +328,7 @@ public class EditShopActivity extends AppCompatActivity implements View.OnClickL
                     setStatus();
                 }
             });
-            d.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            d.setNegativeButton(EditShopActivity.this.getResources().getString(R.string.cancel), new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialogInterface, int i) {
                 }

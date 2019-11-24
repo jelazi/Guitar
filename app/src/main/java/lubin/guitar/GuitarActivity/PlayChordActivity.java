@@ -21,11 +21,11 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
 
-import lubin.guitar.MainActivity;
 import lubin.guitar.Shop.ShopActivity;
 import lubin.guitar.Song.Tonalities;
 import lubin.guitar.Song.GuitarTone;
@@ -33,7 +33,7 @@ import lubin.guitar.R;
 import lubin.guitar.Settings.SettingsScreenActivity;
 
 
-public class PlayChordActivity extends VirtualGuitarActivity {
+public class PlayChordActivity extends VirtualGuitarActivity implements OnClickListener {
 
     Button chord1;
     Button chord2;
@@ -41,6 +41,8 @@ public class PlayChordActivity extends VirtualGuitarActivity {
     Button chord4;
     Button chord5;
     Button chord6;
+    ImageView btnTonality;
+    ImageView btnChangeInstrument;
     int akordNumber;
     String currentChord;
     ArrayList<String> currentTonality;
@@ -48,6 +50,14 @@ public class PlayChordActivity extends VirtualGuitarActivity {
     int tonalityNumber;
     MenuBuilder m;
     MenuInflater inflater;
+
+    boolean EIsEmpty;
+    boolean AIsEmpty;
+    boolean DIsEmpty;
+    boolean GIsEmpty;
+    boolean BIsEmpty;
+    boolean E2IsEmpty;
+
 
     @SuppressLint("ClickableViewAccessibility")
     @Override
@@ -57,6 +67,7 @@ public class PlayChordActivity extends VirtualGuitarActivity {
         addFretboard();
         createView();
         Tonalities.initTonality();
+        EIsEmpty = AIsEmpty = DIsEmpty = GIsEmpty = BIsEmpty = E2IsEmpty = true;
 
         allTonality = new ArrayList<>();
         allTonality.add(Tonalities.getCtonality());
@@ -106,12 +117,18 @@ public class PlayChordActivity extends VirtualGuitarActivity {
         chord5 = findViewById(R.id.chord5);
         chord6 = findViewById(R.id.chord6);
 
+        btnTonality = findViewById(R.id.btn_tonality);
+        btnChangeInstrument = findViewById(R.id.btn_change_instrument);
+
         chord1.setOnClickListener(btnChangeAkord);
         chord2.setOnClickListener(btnChangeAkord);
         chord3.setOnClickListener(btnChangeAkord);
         chord4.setOnClickListener(btnChangeAkord);
         chord5.setOnClickListener(btnChangeAkord);
         chord6.setOnClickListener(btnChangeAkord);
+
+        btnTonality.setOnClickListener(this);
+        btnChangeInstrument.setOnClickListener(this);
 
         akordNumber = 0;
         fillnameChords();
@@ -192,8 +209,8 @@ public class PlayChordActivity extends VirtualGuitarActivity {
                 startActivity(i);
                 break;
 
-            case R.id.change_instrument:
-                changeInstrument();
+            case R.id.btn_change_instrument:
+                changeInstrument(false);
                 break;
 
             case R.id.try_song:
@@ -228,7 +245,7 @@ public class PlayChordActivity extends VirtualGuitarActivity {
 
         soundId = soundPool.load( getFilesDir()+"/Instruments/"+currentUser.getCurrentNameInstrument(), 1);
 
-        stopBeforeTone = settings.getBoolean("stop_before_tone", false);
+        stopBeforeTone = currentUser.isChoiceMultiTone();
     }
 
     public void changeTonality () {
@@ -277,7 +294,6 @@ public class PlayChordActivity extends VirtualGuitarActivity {
                     break;
                 }
             }
-            // gdt.onTouchEvent(motionEvent);
             return true;
         }
     };
@@ -303,7 +319,7 @@ public class PlayChordActivity extends VirtualGuitarActivity {
 
                 normal_playback_rate = gtr.getStringValue();
                 Shaking(gtr.getStringImage());
-                Touching(gtr.getStringTouch(), gtr.getStringTouch().getBackground());
+                Touching(gtr.getStringTouch(), gtr.getStringTouch().getBackground(), false);
 
                 if (stopBeforeTone){
                     if (streamID != 0){ //zastavi ton, predchoziho
@@ -319,28 +335,28 @@ public class PlayChordActivity extends VirtualGuitarActivity {
                         normal_playback_rate);
             }
         }, delay);
-
-
     }
 
 
     //prepsna metoda dotyku - zelene kolecko akordu
     @Override
-    protected void Touching(final ImageButton imgButton, final Drawable background) {
+    protected void Touching(final ImageButton imgButton, final Drawable background, final boolean isEmpty) {
 
         final Animation animation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.blink);
         imgButton.startAnimation(animation);
         animation.setAnimationListener(new Animation.AnimationListener() {
 
-
             @Override
             public void onAnimationStart(Animation animation) {
+                if (isEmpty) {
+                    imgButton.setBackgroundResource(R.drawable.touch_empty);
+                } else {
                     imgButton.setBackgroundResource(R.drawable.touch);
+                }
             }
 
             @Override
             public void onAnimationRepeat(Animation animation) {
-
             }
 
             @Override
@@ -354,35 +370,60 @@ public class PlayChordActivity extends VirtualGuitarActivity {
 
     // oznaci struny dle akordu
     private void showAkordOnBoard() {
-
+        fillIsEmptyString();
 
         if (Etone.getStringValue() != 0) {
-            Etone.getStringTouch().setBackgroundResource(R.drawable.touchakord);
+            if (EIsEmpty) {
+                Etone.getStringTouch().setBackgroundResource(R.drawable.touch_akord_empty);
+            } else {
+                Etone.getStringTouch().setBackgroundResource(R.drawable.touchakord);
+            }
         }
 
         if (Atone.getStringValue() != 0) {
-            Atone.getStringTouch().setBackgroundResource(R.drawable.touchakord);
+            if (AIsEmpty) {
+                Atone.getStringTouch().setBackgroundResource(R.drawable.touch_akord_empty);
+            } else {
+                Atone.getStringTouch().setBackgroundResource(R.drawable.touchakord);
+            }
         }
 
         if (Dtone.getStringValue() != 0) {
-            Dtone.getStringTouch().setBackgroundResource(R.drawable.touchakord);
+            if (DIsEmpty) {
+                Dtone.getStringTouch().setBackgroundResource(R.drawable.touch_akord_empty);
+            } else {
+                Dtone.getStringTouch().setBackgroundResource(R.drawable.touchakord);
+            }
         }
 
         if (Gtone.getStringValue() != 0) {
-            Gtone.getStringTouch().setBackgroundResource(R.drawable.touchakord);
+            if (GIsEmpty) {
+                Gtone.getStringTouch().setBackgroundResource(R.drawable.touch_akord_empty);
+            } else {
+                Gtone.getStringTouch().setBackgroundResource(R.drawable.touchakord);
+            }
         }
 
         if (Btone.getStringValue() != 0) {
-            Btone.getStringTouch().setBackgroundResource(R.drawable.touchakord);
+            if (BIsEmpty) {
+                Btone.getStringTouch().setBackgroundResource(R.drawable.touch_akord_empty);
+            } else {
+                Btone.getStringTouch().setBackgroundResource(R.drawable.touchakord);
+            }
         }
 
         if (E2tone.getStringValue() != 0) {
-            E2tone.getStringTouch().setBackgroundResource(R.drawable.touchakord);
+            if (E2IsEmpty) {
+                E2tone.getStringTouch().setBackgroundResource(R.drawable.touch_akord_empty);
+            } else {
+                E2tone.getStringTouch().setBackgroundResource(R.drawable.touchakord);
+            }
         }
     }
 
     // vymaze oznaceni strun akordu
     private void eraseAkordOnBoard() {
+        EIsEmpty = AIsEmpty = DIsEmpty = GIsEmpty = BIsEmpty = E2IsEmpty = true;
         if (Etone.getStringValue() != 0) {
             Etone.getStringTouch().setBackgroundResource(0);
         }
@@ -405,6 +446,31 @@ public class PlayChordActivity extends VirtualGuitarActivity {
 
         if (E2tone.getStringValue() != 0) {
             E2tone.getStringTouch().setBackgroundResource(0);
+        }
+    }
+
+    protected void fillIsEmptyString (){
+        if (Etone.getStringValue() != 0) {
+            EIsEmpty = isEmptyGuitarTone(Etone);
+        }
+        if (Atone.getStringValue() != 0) {
+            AIsEmpty = isEmptyGuitarTone(Atone);
+
+        }
+        if (Dtone.getStringValue() != 0) {
+            DIsEmpty = isEmptyGuitarTone(Dtone);
+
+        }
+        if (Gtone.getStringValue() != 0) {
+            GIsEmpty = isEmptyGuitarTone(Gtone);
+
+        }
+        if (Btone.getStringValue() != 0) {
+            BIsEmpty = isEmptyGuitarTone(Btone);
+
+        }
+        if (E2tone.getStringValue() != 0) {
+            E2IsEmpty = isEmptyGuitarTone(E2tone);
         }
     }
 
@@ -526,7 +592,6 @@ public class PlayChordActivity extends VirtualGuitarActivity {
             chord6.setEnabled(view != chord6);
 
             ChangeChord(nameChord);
-
             showAkordOnBoard();
         }
     };
@@ -992,5 +1057,15 @@ public class PlayChordActivity extends VirtualGuitarActivity {
             }
         }
         return guitarTone;
+    }
+
+    @Override
+    public void onClick(View view) {
+        if (view == btnTonality) {
+            changeTonality();
+        }
+        if (view == btnChangeInstrument) {
+            changeInstrument(false);
+        }
     }
 }

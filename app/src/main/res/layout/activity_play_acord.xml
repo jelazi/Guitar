@@ -20,55 +20,68 @@
         android:orientation="horizontal">
 
 
+        <ImageView
+            android:id="@+id/btn_change_instrument"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="12"
+            android:src="@drawable/guitar" />
+
         <Button
             android:id="@+id/chord1"
             android:layout_width="0dip"
             android:layout_height="match_parent"
-            android:layout_weight="15"
-            android:text="" />
+            android:layout_weight="12"
+            android:text="C"
+            android:textSize="@dimen/btn_text_size"/>
 
 
         <Button
             android:id="@+id/chord2"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="15"
-            android:text="" />
+            android:layout_weight="12"
+            android:text="C"
+            android:textSize="@dimen/btn_text_size"/>
 
         <Button
             android:id="@+id/chord3"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="15"
-            android:text="" />
+            android:layout_weight="12"
+            android:text="C"
+            android:textSize="@dimen/btn_text_size"/>
 
         <Button
             android:id="@+id/chord4"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="15"
-            android:text="" />
+            android:layout_weight="12"
+            android:text="C"
+            android:textSize="@dimen/btn_text_size"/>
 
         <Button
             android:id="@+id/chord5"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="15"
-            android:text="" />
+            android:layout_weight="12"
+            android:text="C"
+            android:textSize="@dimen/btn_text_size"/>
 
         <Button
             android:id="@+id/chord6"
             android:layout_width="0dip"
             android:layout_height="match_parent"
-            android:layout_weight="15"
-            android:text="" />
+            android:layout_weight="12"
+            android:text="C"
+            android:textSize="@dimen/btn_text_size"/>
 
         <ImageView
-
+            android:id="@+id/btn_tonality"
             android:layout_width="0dip"
             android:layout_height="match_parent"
             android:src="@drawable/guitarist"
-            android:layout_weight="15"
+            android:layout_weight="12"
             />
 
     </LinearLayout>

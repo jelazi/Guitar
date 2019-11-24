@@ -1,0 +1,10 @@
+<resources>
+	<dimen name="activity_horizontal_margin">19.2dp</dimen>
+	<dimen name="btn_text_size">9.6sp</dimen>
+	<dimen name="name_text_size">9.6sp</dimen>
+	<dimen name="name_text_big_size">14.4sp</dimen>
+	<dimen name="choice_account_btn_width">192dp</dimen>
+	<dimen name="choice_account_btn_height">96dp</dimen>
+	<dimen name="choice_account_btn_margin">12dp</dimen>
+	<dimen name="account_lbl_text_size">18sp</dimen>
+</resources>

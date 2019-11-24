@@ -22,6 +22,7 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -68,6 +69,7 @@ public class PreviewSongActivity extends VirtualGuitarActivity implements OnClic
     MenuItem trySong;
     MenuItem playChord;
     MenuItem openShop;
+    ImageView btnChangeInstrument;
 
     Intent intent;
 
@@ -87,6 +89,8 @@ public class PreviewSongActivity extends VirtualGuitarActivity implements OnClic
         audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
         lblNameOfSongView = findViewById(R.id.nameSong);
         lblNameOfSongView.setOnClickListener(this);
+        btnChangeInstrument = findViewById(R.id.btn_change_instrument);
+        btnChangeInstrument.setOnClickListener(this);
         //maximalni mnozstvi zaroven prehravanych zvuku
         int maxStreams = 4;
         //audiostream v audiomanageru
@@ -132,7 +136,7 @@ public class PreviewSongActivity extends VirtualGuitarActivity implements OnClic
 
     protected void setMenuForTest (Menu menu) {
         settingsMenu = menu.findItem(R.id.settings_menu);
-        changeInstrument = menu.findItem(R.id.change_instrument);
+        changeInstrument = menu.findItem(R.id.btn_change_instrument);
         trySong = menu.findItem(R.id.try_song);
         playChord = menu.findItem(R.id.play_chord);
         openShop = menu.findItem(R.id.open_shop);
@@ -194,8 +198,8 @@ public class PreviewSongActivity extends VirtualGuitarActivity implements OnClic
 
                 break;
 
-            case R.id.change_instrument:
-                changeInstrument();
+            case R.id.btn_change_instrument:
+                changeInstrument(true);
                 soundPool.release();
                 settings.edit().putInt("tone_stop", toneStop).apply();
                 settings.edit().putBoolean("new_intent", false).apply();
@@ -229,11 +233,12 @@ public class PreviewSongActivity extends VirtualGuitarActivity implements OnClic
     @Override
     public void onResume() { //aktualizace nastaveni hodnot ze SettingsScreenActivity
         super.onResume();
+
         settings = PreferenceManager
                 .getDefaultSharedPreferences(this);
         soundId = soundPool.load(getFilesDir() + "/Instruments/" + currentUser.getCurrentNameInstrument(), 1);
         lblNameOfSongView.setText(currentUser.getCurrentNameSong());
-        stopBeforeTone = false;
+        stopBeforeTone = true;
         currentSong = Songs.getSongByName(this, currentUser.getCurrentNameSong());
         if (isTest) {
             setActivityForTest();
@@ -246,7 +251,18 @@ public class PreviewSongActivity extends VirtualGuitarActivity implements OnClic
             previewSong();
         }
         if (view == lblNameOfSongView) {
+            if (isPlaying) {
+                Toast.makeText(this, getResources().getString(R.string.warning_first_stop_song), Toast.LENGTH_SHORT).show();
+                return;
+            }
             showDialog(DialogType.CHOICE_SONG);
+        }
+        if (view == btnChangeInstrument) {
+            if (isPlaying) {
+                Toast.makeText(this, getResources().getString(R.string.warning_first_stop_song), Toast.LENGTH_SHORT).show();
+                return;
+            }
+            changeInstrument(true);
         }
     }
 
@@ -263,6 +279,7 @@ public class PreviewSongActivity extends VirtualGuitarActivity implements OnClic
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     changeCurrentSong(listSongs.get(which));
+                    toneStop = 0;
                 }
             });
         }
@@ -284,12 +301,14 @@ public class PreviewSongActivity extends VirtualGuitarActivity implements OnClic
 
         if (!isPlaying) {
             song = currentSong;
-        }
+            btnChangeInstrument.setImageResource(R.drawable.guitar_disabled);
 
+        }
         tonySkladby = song.getTones();
         pokus = createMusicFromTones(tonySkladby);
 
         if (isPlaying) {
+            btnChangeInstrument.setImageResource(R.drawable.guitar);
             toneStop = getNumberTone(); //zjisteni tonu, na kterém se skoncilo
             isPlaying = false;
             this.btnplayMusic.setText(getResources().getString(R.string.play_order));
@@ -311,7 +330,7 @@ public class PreviewSongActivity extends VirtualGuitarActivity implements OnClic
                     for (int i = toneStop; i < tonySkladby.size(); i++) {
                         if (isPlaying) {
                             if (!(tonySkladby.get(i).nameTone.equals("silent"))) { //neni to pomlka?
-                                playToneWithDelay(pokus.get(i), delay);
+                                playToneWithDelay(pokus.get(i), delay, isEmptyGuitarTone(pokus.get(i)));
                             }
                             if (i == tonySkladby.size() - 1) {
                                 new Handler().postDelayed(new Runnable() {
@@ -333,6 +352,7 @@ public class PreviewSongActivity extends VirtualGuitarActivity implements OnClic
                         public void run() {
                             isPlaying = false;
                             btnplayMusic.setText(getResources().getString(R.string.play_order));
+                            btnChangeInstrument.setImageResource(R.drawable.guitar);
                             toneStop = 0;
                             settings.edit().putInt("tone_stop", toneStop).apply();
                         }
@@ -370,7 +390,7 @@ public class PreviewSongActivity extends VirtualGuitarActivity implements OnClic
 
                 normal_playback_rate = gtr.getStringValue();
                 Shaking(gtr.getStringImage());
-                Touching(gtr.getStringTouch(), null);
+                Touching(gtr.getStringTouch(), null, false);
 
                 if (stopBeforeTone){
                     if (streamID != 0){ //zastavi ton, predchoziho
@@ -388,7 +408,7 @@ public class PreviewSongActivity extends VirtualGuitarActivity implements OnClic
     }
 
     // zahrani tonu s volitelnym zpozdenim
-    protected void playToneWithDelay(GuitarTone guitarTone, int delay) {
+    protected void playToneWithDelay(GuitarTone guitarTone, int delay, final boolean isEmpty) {
         final GuitarTone gtr = guitarTone;
 
         new Handler().postDelayed(new Runnable() {
@@ -406,7 +426,7 @@ public class PreviewSongActivity extends VirtualGuitarActivity implements OnClic
 
                 normal_playback_rate = gtr.getStringValue();
                 Shaking(gtr.getStringImage());
-                Touching(gtr.getStringTouch(), null);
+                Touching(gtr.getStringTouch(), null, isEmpty);
 
                 if (stopBeforeTone){
                     if (streamID != 0){ //zastavi ton, predchoziho
@@ -439,7 +459,7 @@ public class PreviewSongActivity extends VirtualGuitarActivity implements OnClic
     }
 
     //animace dotyku
-    private void Touching(final ImageButton imgButton){
+    private void Touching(final ImageButton imgButton, final boolean isEmpty){
 
         Animation animation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.blink);
         imgButton.startAnimation(animation);
@@ -447,7 +467,11 @@ public class PreviewSongActivity extends VirtualGuitarActivity implements OnClic
         animation.setAnimationListener(new Animation.AnimationListener() {
             @Override
             public void onAnimationStart(Animation animation) {
-                imgButton.setBackgroundResource(R.drawable.touch);
+                if (isEmpty) {
+                    imgButton.setBackgroundResource(R.drawable.touch_empty);
+                } else {
+                    imgButton.setBackgroundResource(R.drawable.touch);
+                }
             }
 
             @Override

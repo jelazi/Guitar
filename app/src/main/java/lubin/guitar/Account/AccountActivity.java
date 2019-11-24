@@ -18,6 +18,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ListAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -43,7 +44,8 @@ public class AccountActivity extends AppCompatActivity {
     List<String>nameUsers;
     SharedPreferences settings;
     User currentUser;
-    List<String> listActivity;
+    ListAdapter listActivity;
+    List <String> listNameActivity;
     TextView lblName;
     TextView lblPass;
 
@@ -115,21 +117,47 @@ public class AccountActivity extends AppCompatActivity {
     protected void showDialog (DialogType dialogType) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         if (dialogType == DialogType.CHOICE_ACTIVITY) {
-            listActivity = new ArrayList<>();
-            listActivity.add(getResources().getString(R.string.action_play_chords));
-            listActivity.add(getResources().getString(R.string.action_preview_song));
-            listActivity.add(getResources().getString(R.string.action_try_song));
-            listActivity.add(getResources().getString(R.string.open_shop));
+            final DialogItem[] items = {
+                    new DialogItem(getResources().getString(R.string.action_play_chords), R.mipmap.ic_table_large),
+                    new DialogItem(getResources().getString(R.string.action_preview_song), R.mipmap.guitar_acoustic),
+                    new DialogItem(getResources().getString(R.string.action_try_song), R.mipmap.ic_guitar_pick),
+                    new DialogItem(getResources().getString(R.string.open_shop), R.mipmap.guitar_acoustic),
+            };
+            listNameActivity = new ArrayList<>();
+            listNameActivity.add(getResources().getString(R.string.action_play_chords));
+            listNameActivity.add(getResources().getString(R.string.action_preview_song));
+            listNameActivity.add(getResources().getString(R.string.action_try_song));
+            listNameActivity.add(getResources().getString(R.string.open_shop));
 
-            String[] arrayUsers = new String[listActivity.size()];
-            listActivity.toArray(arrayUsers);
+
+            listActivity = new ArrayAdapter<DialogItem>(
+                    this,
+                    android.R.layout.select_dialog_item,
+                    android.R.id.text1,
+                    items){
+                public View getView(int position, View convertView, ViewGroup parent) {
+                    //Use super class to create the View
+                    View v = super.getView(position, convertView, parent);
+                    TextView tv = (TextView)v.findViewById(android.R.id.text1);
+                    tv.setText(items[position].getText());
+
+                    //Put the image on the TextView
+                    tv.setCompoundDrawablesWithIntrinsicBounds(items[position].getImage(), 0, 0, 0);
+
+                    //Add margin between image and text (support various screen densities)
+                    int dp5 = (int) (5 * getResources().getDisplayMetrics().density + 0.5f);
+                    tv.setCompoundDrawablePadding(dp5);
+
+                    return v;
+                }
+            };
 
             builder.setTitle(getResources().getString(R.string.choice_activity));
 
-            builder.setItems(arrayUsers, new DialogInterface.OnClickListener() {
+            builder.setAdapter(listActivity, new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-                    openActivity(listActivity.get(which));
+                    openActivity(listNameActivity.get(which));
                 }
             });
 

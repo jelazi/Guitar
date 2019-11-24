@@ -14,7 +14,7 @@
         android:icon="@mipmap/settings"
         app:showAsAction="never" />
     <item
-        android:id="@+id/change_instrument"
+        android:id="@+id/btn_change_instrument"
         android:orderInCategory="3"
         android:title="@string/action_change_instrument"
         android:icon="@mipmap/music_note"

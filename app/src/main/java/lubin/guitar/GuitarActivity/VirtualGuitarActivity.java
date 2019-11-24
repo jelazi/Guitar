@@ -36,11 +36,9 @@ import lubin.guitar.R;
 import lubin.guitar.Settings.SettingsScreenActivity;
 import lubin.guitar.Song.Song;
 import lubin.guitar.Song.Songs;
-import lubin.guitar.Song.Tone;
 import lubin.guitar.Song.Tones;
 import lubin.guitar.Users.SingletonManagerUsers;
 import lubin.guitar.Users.User;
-import lubin.guitar.Users.UserLevel;
 
 
 public abstract class VirtualGuitarActivity extends AppCompatActivity {
@@ -130,7 +128,7 @@ public abstract class VirtualGuitarActivity extends AppCompatActivity {
         fillInstrument();
 
         currentSong = Songs.getSongByName(this, currentUser.getAllowedSongs().get(0));
-        stopBeforeTone = !currentUser.isChoiceMultiTone();
+        stopBeforeTone = currentUser.isChoiceMultiTone();
 
         audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
         //maximalni mnozstvi zaroven prehravanych zvuku
@@ -150,6 +148,30 @@ public abstract class VirtualGuitarActivity extends AppCompatActivity {
     }
 
 
+    protected boolean isEmptyGuitarTone (GuitarTone guitarTone) {
+        if (guitarTone == null) return true;
+            if (guitarTone.getStringValue() != 0) {
+                if (guitarTone.getStringValue() == tones.getString10()) {
+                    return true;
+                }
+                if (guitarTone.getStringValue() == tones.getString20()) {
+                    return true;
+                }
+                if (guitarTone.getStringValue() == tones.getString30()) {
+                    return true;
+                }
+                if (guitarTone.getStringValue() == tones.getString40()) {
+                    return true;
+                }
+                if (guitarTone.getStringValue() == tones.getString50()) {
+                    return true;
+                }
+                if (guitarTone.getStringValue() == tones.getString60()) {
+                    return true;
+                }
+            }
+            return false;
+    }
 
 
     @Override
@@ -205,8 +227,8 @@ public abstract class VirtualGuitarActivity extends AppCompatActivity {
                 startActivity(i);
                 break;
 
-            case R.id.change_instrument:
-                changeInstrument();
+            case R.id.btn_change_instrument:
+                changeInstrument(false);
                 break;
 
             case R.id.try_song:
@@ -334,7 +356,7 @@ public abstract class VirtualGuitarActivity extends AppCompatActivity {
 
                 normal_playback_rate = gtr.getStringValue();
                 Shaking(gtr.getStringImage());
-                Touching(gtr.getStringTouch(), null);
+                Touching(gtr.getStringTouch(), null, true);
 
                 if (stopBeforeTone){
                     if (streamID != 0){ //zastavi ton, predchoziho
@@ -355,6 +377,9 @@ public abstract class VirtualGuitarActivity extends AppCompatActivity {
 
 
 
+
+
+
     //animace vibrace struny
     protected void Shaking(ImageView string) {
 
@@ -363,7 +388,7 @@ public abstract class VirtualGuitarActivity extends AppCompatActivity {
     }
 
     //animace dotyku
-    protected void Touching(final ImageButton imgButton, final Drawable background) {
+    protected void Touching(final ImageButton imgButton, final Drawable background, final boolean isEmpty) {
 
         final Animation animation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.blink);
         imgButton.startAnimation(animation);
@@ -372,7 +397,12 @@ public abstract class VirtualGuitarActivity extends AppCompatActivity {
 
             @Override
             public void onAnimationStart(Animation animation) {
-                imgButton.setBackgroundResource(R.drawable.touch);
+                if (isEmpty) {
+                    imgButton.setBackgroundResource(R.drawable.touch_empty);
+                } else {
+                    imgButton.setBackgroundResource(R.drawable.touch);
+                }
+
             }
 
             @Override
@@ -436,10 +466,9 @@ public abstract class VirtualGuitarActivity extends AppCompatActivity {
 
             fretboard.changeStringImages(s1, s2, s3, s4, s5, s6);
         }
-
     }
 
-    protected void changeInstrument (){ //zmena nastroje na zaklade slozky Instruments
+    protected void changeInstrument (boolean toastSongPlayingVisible){ //zmena nastroje na zaklade slozky Instruments
         fillInstrument();
         int lenght= currentUser.getAllowedInstruments().size();
 
@@ -460,9 +489,12 @@ public abstract class VirtualGuitarActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
+
         mToast = Toast.makeText(this,getResources().getString(R.string.warning_instrument_change) + currentUser.getCurrentNameInstrument(), Toast.LENGTH_SHORT);
         mToast.show();
-        mToast = Toast.makeText(this,getResources().getString(R.string.song_now) + currentUser.getCurrentNameSong(), Toast.LENGTH_SHORT);
+        if (toastSongPlayingVisible) {
+            mToast = Toast.makeText(this,getResources().getString(R.string.song_now) + currentUser.getCurrentNameSong(), Toast.LENGTH_SHORT);
+        }
         mToast.show();
     }
 
@@ -484,187 +516,187 @@ public abstract class VirtualGuitarActivity extends AppCompatActivity {
             case R.id.imageButton14: {
                 normal_playback_rate = tones.getString14();
                 Shaking(Estring);
-                Touching(string14, background);
+                Touching(string14, background, false);
                 break;
             }
             case R.id.imageButton13: {
                 normal_playback_rate = tones.getString13();
                 Shaking(Estring);
-                Touching(string13, background);
+                Touching(string13, background, false);
                 break;
             }
             case R.id.imageButton12: {
                 normal_playback_rate = tones.getString12();
                 Shaking(Estring);
-                Touching(string12, background);
+                Touching(string12, background, false);
                 break;
             }
             case R.id.imageButton11: {
                 normal_playback_rate = tones.getString11();
                 Shaking(Estring);
-                Touching(string11, background);
+                Touching(string11, background, false);
                 break;
             }
             case R.id.imageButton10: {
                 normal_playback_rate = tones.getString10();
                 Shaking(Estring);
-                Touching(string10, background);
+                Touching(string10, background, true);
                 break;
             }
             case R.id.imageButton24: {
                 normal_playback_rate = tones.getString24();
                 Shaking(Astring);
-                Touching(string24, background);
+                Touching(string24, background, false);
                 break;
             }
             case R.id.imageButton23: {
                 normal_playback_rate = tones.getString23();
                 Shaking(Astring);
-                Touching(string23, background);
+                Touching(string23, background, false);
                 break;
             }
             case R.id.imageButton22: {
                 normal_playback_rate = tones.getString22();
                 Shaking(Astring);
-                Touching(string22, background);
+                Touching(string22, background, false);
                 break;
             }
             case R.id.imageButton21: {
                 normal_playback_rate = tones.getString21();
                 Shaking(Astring);
-                Touching(string21, background);
+                Touching(string21, background, false);
                 break;
             }
             case R.id.imageButton20: {
                 normal_playback_rate = tones.getString20();
                 Shaking(Astring);
-                Touching(string20, background);
+                Touching(string20, background, true);
                 break;
             }
             case R.id.imageButton34: {
                 normal_playback_rate = tones.getString34();
                 Shaking(Dstring);
-                Touching(string34, background);
+                Touching(string34, background, false);
                 break;
             }
             case R.id.imageButton33: {
                 normal_playback_rate = tones.getString33();
                 Shaking(Dstring);
-                Touching(string33, background);
+                Touching(string33, background, false);
                 break;
             }
             case R.id.imageButton32: {
                 normal_playback_rate = tones.getString32();
                 Shaking(Dstring);
-                Touching(string32, background);
+                Touching(string32, background, false);
                 break;
             }
             case R.id.imageButton31: {
                 normal_playback_rate = tones.getString31();
                 Shaking(Dstring);
-                Touching(string31, background);
+                Touching(string31, background, false);
                 break;
             }
             case R.id.imageButton30: {
                 normal_playback_rate = tones.getString30();
                 Shaking(Dstring);
-                Touching(string30, background);
+                Touching(string30, background, true);
                 break;
             }
             case R.id.imageButton44: {
                 normal_playback_rate = tones.getString44();
                 Shaking(Gstring);
-                Touching(string44, background);
+                Touching(string44, background, false);
                 break;
             }
             case R.id.imageButton43: {
                 normal_playback_rate = tones.getString43();
                 Shaking(Gstring);
-                Touching(string43, background);
+                Touching(string43, background, false);
                 break;
             }
             case R.id.imageButton42: {
                 normal_playback_rate = tones.getString42();
                 Shaking(Gstring);
-                Touching(string42, background);
+                Touching(string42, background, false);
                 break;
             }
             case R.id.imageButton41: {
                 normal_playback_rate = tones.getString41();
                 Shaking(Gstring);
-                Touching(string41, background);
+                Touching(string41, background, false);
                 break;
             }
             case R.id.imageButton40: {
                 normal_playback_rate = tones.getString40();
                 Shaking(Gstring);
-                Touching(string40, background);
+                Touching(string40, background, true);
                 break;
             }
             case R.id.imageButton54: {
                 normal_playback_rate = tones.getString54();
                 Shaking(Bstring);
-                Touching(string54, background);
+                Touching(string54, background, false);
                 break;
             }
             case R.id.imageButton53: {
                 normal_playback_rate = tones.getString53();
                 Shaking(Bstring);
-                Touching(string53, background);
+                Touching(string53, background, false);
                 break;
             }
             case R.id.imageButton52: {
                 normal_playback_rate = tones.getString52();
                 Shaking(Bstring);
-                Touching(string52, background);
+                Touching(string52, background, false);
                 break;
             }
             case R.id.imageButton51: {
                 normal_playback_rate = tones.getString51();
                 Shaking(Bstring);
-                Touching(string51, background);
+                Touching(string51, background, false);
                 break;
             }
             case R.id.imageButton50: {
                 normal_playback_rate = tones.getString50();
                 Shaking(Bstring);
-                Touching(string50, background);
+                Touching(string50, background, true);
                 break;
             }
             case R.id.imageButton64: {
                 normal_playback_rate = tones.getString64();
                 Shaking(E2string);
-                Touching(string64, background);
+                Touching(string64, background, false);
                 break;
             }
             case R.id.imageButton63: {
                 normal_playback_rate = tones.getString63();
                 Shaking(E2string);
-                Touching(string63, background);
+                Touching(string63, background, false);
                 break;
             }
             case R.id.imageButton62: {
                 normal_playback_rate = tones.getString62();
                 Shaking(E2string);
-                Touching(string62, background);
+                Touching(string62, background, false);
                 break;
             }
             case R.id.imageButton61: {
                 normal_playback_rate = tones.getString61();
                 Shaking(E2string);
-                Touching(string61, background);
+                Touching(string61, background, false);
                 break;
             }
             case R.id.imageButton60: {
                 normal_playback_rate = tones.getString60();
                 Shaking(E2string);
-                Touching(string60, background);
+                Touching(string60, background, true);
                 break;
             }
             default: {
                 normal_playback_rate = tones.getString10();
                 Shaking(E2string);
-                Touching(string10, background);
+                Touching(string10, background, true);
                 break;
             }
         }

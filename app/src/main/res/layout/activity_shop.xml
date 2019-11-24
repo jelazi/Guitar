@@ -31,7 +31,7 @@
                     android:gravity="center"
                     android:textColor="@color/colorBlack"
                     android:text="@string/name_guitarist"
-                    android:textSize="20sp"
+                    android:textSize="@dimen/account_lbl_text_size"
                     android:textStyle="bold" />
 
                 <TextView
@@ -50,7 +50,7 @@
                     android:textColor="@color/colorBlack"
                     android:gravity="center"
                     android:text="@string/coins"
-                    android:textSize="20sp"
+                    android:textSize="@dimen/account_lbl_text_size"
                     android:textStyle="bold" />
 
                 <TextView
@@ -67,7 +67,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center"
-                    android:textSize="36sp"
+                    android:textSize="@dimen/account_lbl_text_size"
                     android:textStyle="bold" />
 
                 <Button
@@ -83,7 +83,7 @@
                     android:layout_height="wrap_content"
                     android:gravity="center"
                     android:textColor="@color/colorBlack"
-                    android:textSize="25sp"
+                    android:textSize="@dimen/account_lbl_text_size"
                     android:textStyle="bold" />
 
                 <LinearLayout
@@ -98,7 +98,7 @@
                         android:layout_weight="1"
                         android:gravity="center"
                         android:textColor="@color/colorBlack"
-                        android:textSize="20sp"
+                        android:textSize="@dimen/account_lbl_text_size"
                         android:textStyle="bold"
                         android:text="@string/price"/>
 
@@ -108,7 +108,7 @@
                         android:layout_height="wrap_content"
                         android:gravity="center"
                         android:textColor="@color/colorBlack"
-                        android:textSize="20sp"
+                        android:textSize="@dimen/account_lbl_text_size"
                         android:textStyle="bold" />
 
                 </LinearLayout>

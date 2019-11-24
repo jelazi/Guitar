@@ -93,6 +93,14 @@ public class SettingsPreferenceFragment extends PreferenceFragment {
         });
 
         preferenceStopBeforeTone = (SwitchPreference) findPreference("stop_before_tone");
+        preferenceStopBeforeTone.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+            @Override
+            public boolean onPreferenceChange(Preference arg0, Object isChange) {
+                currentUser.setChoiceMultiTone(!preferenceStopBeforeTone.isChecked());
+                SingletonManagerUsers.changeUser(currentUser);
+                return true;
+            }
+        });
         fillPreferences();
     }
 
@@ -105,6 +113,7 @@ public class SettingsPreferenceFragment extends PreferenceFragment {
         preferenceCurrentFret.setSummary(currentUser.getCurrentNameFret());
         preferenceCurrentBackground.setSummary(currentUser.getCurrentNameBackground());
         preferenceCurrentString.setSummary(currentUser.getCurrentNameString());
+        preferenceStopBeforeTone.setChecked(currentUser.isChoiceMultiTone());
     }
 
     protected void setListPreferenceData(ListPreference listSongs, ListPreference listInstruments, Context context) {  //naplnení preference listem

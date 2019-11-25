@@ -124,7 +124,7 @@ public class AccountActivity extends AppCompatActivity {
                     new DialogItem(getResources().getString(R.string.action_play_chords), R.mipmap.ic_table_large),
                     new DialogItem(getResources().getString(R.string.action_preview_song), R.mipmap.guitar_acoustic),
                     new DialogItem(getResources().getString(R.string.action_try_song), R.mipmap.ic_guitar_pick),
-                    new DialogItem(getResources().getString(R.string.open_shop), R.mipmap.guitar_acoustic),
+                    new DialogItem(getResources().getString(R.string.open_shop), R.mipmap.shop),
             };
             listNameActivity = new ArrayList<>();
             listNameActivity.add(getResources().getString(R.string.action_play_chords));

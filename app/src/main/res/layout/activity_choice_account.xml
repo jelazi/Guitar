@@ -32,13 +32,12 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="50"
-                android:contentDescription="TODO"
                 android:src="@drawable/guitarist" />
 
             <Button
                 android:id="@+id/button"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="@dimen/choice_account_btn_height"
                 android:layout_weight="50"
                 android:layout_margin="@dimen/choice_account_btn_margin"
                 android:text="@string/i_am_guitarist"
@@ -58,13 +57,12 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="50"
-                android:contentDescription="TODO"
                 android:src="@drawable/teacher" />
 
             <Button
                 android:id="@+id/button2"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="@dimen/choice_account_btn_height"
                 android:layout_weight="50"
                 android:text="@string/i_am_teacher"
                 android:layout_margin="@dimen/choice_account_btn_margin"

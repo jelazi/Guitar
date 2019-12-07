@@ -6,7 +6,7 @@ package lubin.guitar.Song;
 
 public class Instrument {
     String name = "Kytara";
-    String fileName = "a1.wav";
+    String fileName = "1_kytara_klasicka.wav";
     int price = 0;
     boolean usePermited = true;
 

@@ -43,11 +43,16 @@ public class SingletonManagerUsers {
     }
 
     public static boolean isUniqueNameUser (String nameUser, Activity activity) {
-        if (nameUser.equals("")) return false;
-        if (nameUser.equals(activity.getResources().getString(R.string.new_user))) return false;
+        String name = nameUser.trim();
+        String newUser = activity.getResources().getString(R.string.new_user);
+
+        if (name.equals("")) return false;
+        if (name.equals(newUser)) return false;
+        if (FileManager.nameWithoutDiacritic(name).equals(FileManager.nameWithoutDiacritic(newUser))) return false;
+
         if (listUsers == null || listUsers.size() == 0) return true;
         for (User user : listUsers) {
-            if (user.getName().equals(nameUser)) return false;
+            if (user.getName().equals(name)) return false;
         }
         return true;
     }

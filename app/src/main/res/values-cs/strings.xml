@@ -151,11 +151,11 @@
     <string name="warning_wrong_instruments">"Našli jsme tyto špatně zapsané jména nástrojů: "</string>
     <string name="warning_wrong_songs">"Našli jsme tyto špatně zapsané jména písní: "</string>
     <string name="warning_wrong_strings">"Našli jsme tyto špatně zapsané jména strun: "</string>
-    <string name="professional">Profesionál</string>
+    <string name="professional">Profík</string>
     <string name="genius">Génius</string>
-    <string name="expert">Expert</string>
+    <string name="expert">Znalec</string>
     <string name="champion">Šampión</string>
-    <string name="beginner">Začátečník</string>
+    <string name="beginner">Nováček</string>
     <string name="song">Píseň</string>
     <string name="choice_items">Vyber položku</string>
     <string name="new_item">Nová položka</string>

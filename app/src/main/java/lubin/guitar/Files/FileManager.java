@@ -184,30 +184,28 @@ public class FileManager {
             fieldFilesSongs = dirSongs.listFiles();
         }
         if (fieldFileInstruments == null || fieldFileInstruments.length == 0) {
-            copyAssets(context, "Instruments/a1.wav", dirInstruments.toString() + "/a1.wav");
-            copyAssets(context, "Instruments/s1.wav", dirInstruments.toString() + "/s1.wav");
-            copyAssets(context, "Instruments/s2.wav", dirInstruments.toString() + "/s2.wav");
-            copyAssets(context, "Instruments/s3.wav", dirInstruments.toString() + "/s3.wav");
-            copyAssets(context, "Instruments/s4.wav", dirInstruments.toString() + "/s4.wav");
-            copyAssets(context, "Instruments/s5.wav", dirInstruments.toString() + "/s5.wav");
-            copyAssets(context, "Instruments/s6.wav", dirInstruments.toString() + "/s6.wav");
-            copyAssets(context, "Instruments/s7.wav", dirInstruments.toString() + "/s7.wav");
-            copyAssets(context, "Instruments/s8.wav", dirInstruments.toString() + "/s8.wav");
-            copyAssets(context, "Instruments/s9.wav", dirInstruments.toString() + "/s9.wav");
-            copyAssets(context, "Instruments/s11.wav", dirInstruments.toString() + "/s11.wav");
-            copyAssets(context, "Instruments/s12.wav", dirInstruments.toString() + "/s12.wav");
-            copyAssets(context, "Instruments/a15", dirInstruments.toString() + "/s12.wav");
-            copyAssets(context, "Instruments/wflaute.wav", dirInstruments.toString() + "/wflaute.wav");
+            copyAssets(context, "Instruments/1_kytara_klasicka.wav", dirInstruments.toString() + "/1_kytara_klasicka.wav");
+            copyAssets(context, "Instruments/kytara_kovove_struny_1.wav", dirInstruments.toString() + "/kytara_kovove_struny_1.wav");
+            copyAssets(context, "Instruments/kytara_kovove_struny_2.wav", dirInstruments.toString() + "/kytara_kovove_struny_2.wav");
+            copyAssets(context, "Instruments/basa_1.wav", dirInstruments.toString() + "/basa_1.wav");
+            copyAssets(context, "Instruments/basa_2.wav", dirInstruments.toString() + "/basa_2.wav");
+            copyAssets(context, "Instruments/kytara_echo.wav", dirInstruments.toString() + "/kytara_echo.wav");
+            copyAssets(context, "Instruments/hlas.wav", dirInstruments.toString() + "/hlas.wav");
+            copyAssets(context, "Instruments/kytara_echo_chorus.wav", dirInstruments.toString() + "/kytara_echo_chorus.wav");
+            copyAssets(context, "Instruments/kytara_tlumena.wav", dirInstruments.toString() + "/kytara_tlumena.wav");
+            copyAssets(context, "Instruments/kytara_kovove_struny_3.wav", dirInstruments.toString() + "/kytara_kovove_struny_3.wav");
+            copyAssets(context, "Instruments/kytara_kovove_struny_3", dirInstruments.toString() + "/kytara_kovove_struny_3.wav");
+            copyAssets(context, "Instruments/fletna.wav", dirInstruments.toString() + "/fletna.wav");
             fieldFileInstruments = dirInstruments.listFiles();
         }
         if (fieldFileFrets == null || fieldFileFrets.length == 0) {
-            copyFiletoTarget(R.drawable.fret, dirFrets.toString(), "/fret.png");
-            copyFiletoTarget(R.drawable.fret2, dirFrets.toString(), "/fret2.png");
+            copyFiletoTarget(R.drawable.fret, dirFrets.toString(), "/prazec_1.png");
+            copyFiletoTarget(R.drawable.fret2, dirFrets.toString(), "/prazec_2.png");
             fieldFileFrets = dirFrets.listFiles();
         }
         if (fieldFileBackgrounds == null || fieldFileBackgrounds.length == 0) {
-            copyFiletoTarget(R.drawable.rosewood, dirBackgrounds.toString(), "/rosewood.png");
-            copyFiletoTarget(R.drawable.rosewood2, dirBackgrounds.toString(), "/rosewood2.png");
+            copyFiletoTarget(R.drawable.rosewood, dirBackgrounds.toString(), "/pozadi_1.png");
+            copyFiletoTarget(R.drawable.rosewood2, dirBackgrounds.toString(), "/pozadi_2.png");
             FileManager.fieldFileBackgrounds = dirBackgrounds.listFiles();
         }
         if (fieldFileStrings == null || fieldFileStrings.length == 0) {

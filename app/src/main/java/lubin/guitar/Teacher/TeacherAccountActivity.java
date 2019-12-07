@@ -58,6 +58,7 @@ public class TeacherAccountActivity extends AppCompatActivity {
         } else {
             createName = false;
             btnAcc.setText(getResources().getString(R.string.log_in));
+            accountName.setText(name);
         }
 
         this.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -86,19 +87,17 @@ public class TeacherAccountActivity extends AppCompatActivity {
 
         @Override
         public void onClick(View view) {
-            String name = accountName.getText().toString();
-            if (name.isEmpty()) {
+            String editName = accountName.getText().toString();
+            String editPass = accountPass.getText().toString();
+            if (editName.isEmpty()) {
                 Toast.makeText(view.getContext(), getResources().getString(R.string.warning_name_not_empty), Toast.LENGTH_SHORT).show();
                 return;
             }
-            String correctName = FileManager.nameWithoutDiacritic(accountName.getText().toString().toLowerCase());
-            String nameWithoutDiacritic = FileManager.nameWithoutDiacritic(name.toLowerCase());
-            String correctPass = accountPass.getText().toString();
 
             if (createName) { //new name and password teacher
                 SharedPreferences.Editor editor = settings.edit();
-                editor.putString("nameTeacher", correctName);
-                editor.putString("passTeacher", correctPass);
+                editor.putString("nameTeacher", editName);
+                editor.putString("passTeacher", editPass);
                 editor.commit();
                 name = settings.getString("nameTeacher", "");
                 pass = settings.getString("passTeacher", "");
@@ -106,13 +105,13 @@ public class TeacherAccountActivity extends AppCompatActivity {
                 createName = false;
                 btnAcc.setText(getResources().getString(R.string.log_in));
             } else {
-                if (correctName.equals(nameWithoutDiacritic) && correctPass.equals(pass)) {
+                if (editName.equals(name) && editPass.equals(pass)) {
                     Intent i = new Intent(view.getContext(), TeacherActivity.class);
                     startActivity(i);
                     return;
                 }
                 Toast.makeText(view.getContext(), getResources().getString(R.string.warning_wrong_name_pass), Toast.LENGTH_SHORT).show();
-                accountName.setText("");
+                accountName.setText(name);
                 accountPass.setText("");
             }
         }

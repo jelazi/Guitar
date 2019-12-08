@@ -408,12 +408,12 @@ public class EditShopActivity extends AppCompatActivity implements View.OnClickL
             }
             isNewItem = false;
             isChanging = false;
-            Toast.makeText(this, "current item save", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getResources().getString(R.string.warning_save_item), Toast.LENGTH_SHORT).show();
             setStatus();
         } else {
             if (!isNewItem) {
                 SingletonManagerItems.removeItem(currentItem);
-                Toast.makeText(this, "current item removed", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, getResources().getString(R.string.warning_item_removed), Toast.LENGTH_SHORT).show();
                 isChanging = false;
                 setStatus();
             }
@@ -438,20 +438,20 @@ public class EditShopActivity extends AppCompatActivity implements View.OnClickL
 
     protected boolean isCorrectCurrentItem () {
         if (!currentItem.isCorrectValueItem()) {
-            Toast.makeText(this, "current item is wrong", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getResources().getString(R.string.warning_item_wrong), Toast.LENGTH_SHORT).show();
             return false;
         }
         if (itemList.contains(currentItem) && isNewItem) {
-            Toast.makeText(this, "current item is used", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getResources().getString(R.string.warning_item_used), Toast.LENGTH_SHORT).show();
             return false;
         }
         for (Item item : itemList) {
             if (item.getFile().getPath().equals(currentItem.getFile().getPath()) && isNewItem) {
-                Toast.makeText(this, "current item has same path as another item", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, getResources().getString(R.string.warning_item_same_path), Toast.LENGTH_SHORT).show();
                 return false;
             }
             if (item.getName().equals(currentItem.getName()) && isNewItem) {
-                Toast.makeText(this, "current item has same name as another item", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, getResources().getString(R.string.warning_item_same_name), Toast.LENGTH_SHORT).show();
                 return false;
             }
         }

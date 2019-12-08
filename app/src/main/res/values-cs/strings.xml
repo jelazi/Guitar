@@ -182,4 +182,10 @@
     <string name="genius_minus">Génius odečítání</string>
     <string name="genius_plus">Génius přičítání</string>
     <string name="professional_plus">Profík přičítání</string>
+    <string name="warning_save_item">Položka uložena</string>
+    <string name="warning_item_removed">Položka odstraněna.</string>
+    <string name="warning_item_wrong">Položka má špatnou hodnotu.</string>
+    <string name="warning_item_used">Položka je již používána</string>
+    <string name="warning_item_same_path">Položka má stejnou cestu jako nějaká jiná položka</string>
+    <string name="warning_item_same_name">Položka má stejné jméno jako jiný položka.</string>
 </resources>

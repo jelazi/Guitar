@@ -4,13 +4,9 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import lubin.guitar.R;
 
@@ -20,7 +16,7 @@ public class LevelActivity extends AppCompatActivity {
 
     TextView lblStepBeginner;
     TextView lblStepExpert;
-    TextView lblStepProffesional;
+    TextView lblStepProfessional;
     TextView lblStepGenius;
     TextView lblStepChampion;
     TextView lblMinusGenius;
@@ -28,7 +24,7 @@ public class LevelActivity extends AppCompatActivity {
 
     EditText editStepBeginner;
     EditText editStepExpert;
-    EditText editStepProffesional;
+    EditText editStepProfessional;
     EditText editStepGenius;
     EditText editStepChampion;
     EditText editMinusGenius;
@@ -52,7 +48,6 @@ public class LevelActivity extends AppCompatActivity {
         switch(id) {
             case android.R.id.home:
                 controlChanging();
-
                 break;
         }
         return true;
@@ -61,7 +56,7 @@ public class LevelActivity extends AppCompatActivity {
     private void initItems () {
         lblStepBeginner = findViewById(R.id.lblStepBeginner);
         lblStepExpert = findViewById(R.id.lblStepExpert);
-        lblStepProffesional = findViewById(R.id.lblStepProffesional);
+        lblStepProfessional = findViewById(R.id.lblStepProffesional);
         lblStepGenius = findViewById(R.id.lblStepGenius);
         lblStepChampion = findViewById(R.id.lblStepChampion);
         lblMinusGenius = findViewById(R.id.lblMinusGenius);
@@ -69,7 +64,7 @@ public class LevelActivity extends AppCompatActivity {
 
         editStepBeginner = findViewById(R.id.editStepBeginner);
         editStepExpert = findViewById(R.id.editStepExpert);
-        editStepProffesional = findViewById(R.id.editStepProffesional);
+        editStepProfessional = findViewById(R.id.editStepProffesional);
         editStepGenius = findViewById(R.id.editStepGenius);
         editStepChampion = findViewById(R.id.editStepChampion);
         editMinusGenius = findViewById(R.id.editMinusGenius);
@@ -78,7 +73,7 @@ public class LevelActivity extends AppCompatActivity {
 
         editStepBeginner.setText(Integer.toString(settings.getInt("stepBeginner", 1)));
         editStepExpert.setText(Integer.toString(settings.getInt("stepExpert", 2)));
-        editStepProffesional.setText(Integer.toString(settings.getInt("stepProfessional", 5)));
+        editStepProfessional.setText(Integer.toString(settings.getInt("stepProfessional", 5)));
         editStepGenius.setText(Integer.toString(settings.getInt("stepGenius", 7)));
         editStepChampion.setText(Integer.toString(settings.getInt("stepChampion", 1)));
         editMinusGenius.setText(Integer.toString(settings.getInt("minusGenius", 10)));
@@ -89,7 +84,7 @@ public class LevelActivity extends AppCompatActivity {
     private void controlChanging () {
         int stepBeginner = Integer.parseInt(editStepBeginner.getText().toString());
         int stepExpert= Integer.parseInt(editStepExpert.getText().toString());
-        int stepProffesional= Integer.parseInt(editStepProffesional.getText().toString());
+        int stepProffesional= Integer.parseInt(editStepProfessional.getText().toString());
         int stepGenius= Integer.parseInt(editStepGenius.getText().toString());
         int stepChampion= Integer.parseInt(editStepChampion.getText().toString());
         int minusGenius= Integer.parseInt(editMinusGenius.getText().toString());

@@ -265,6 +265,12 @@
     <string name="champion_plus">Champion plus</string>
     <string name="champion_minus">Champion minus</string>
     <string name="genius_minus">Genius minus</string>
+    <string name="warning_save_item">Item saved</string>
+    <string name="warning_item_removed">Item removed</string>
+    <string name="warning_item_wrong">Item is wrong</string>
+    <string name="warning_item_used">Item is used</string>
+    <string name="warning_item_same_path">Item has same path as another item.</string>
+    <string name="warning_item_same_name">Item has same name as another item.</string>
 
 
 </resources>

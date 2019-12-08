@@ -257,6 +257,14 @@
     <string name="warning_change_tonality">Tonality changing on:</string>
     <string name="warning_change_price">You can change price of item</string>
     <string name="file">File</string>
+    <string name="change_level">Change Level</string>
+    <string name="beginner_plus">Beginner plus</string>
+    <string name="expert_plus">Expert plus</string>
+    <string name="professional_plus">Professional plus</string>
+    <string name="genius_plus">Genius plus</string>
+    <string name="champion_plus">Champion plus</string>
+    <string name="champion_minus">Champion minus</string>
+    <string name="genius_minus">Genius minus</string>
 
 
 </resources>

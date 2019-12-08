@@ -24,6 +24,7 @@ import lubin.guitar.Shop.EditShopActivity;
 import lubin.guitar.Users.EditUserActivity;
 import lubin.guitar.Files.DialogType;
 import lubin.guitar.R;
+import lubin.guitar.Users.LevelActivity;
 import lubin.guitar.Users.SingletonManagerUsers;
 import lubin.guitar.Users.User;
 
@@ -33,6 +34,7 @@ public class TeacherActivity extends AppCompatActivity implements View.OnClickLi
     Button recordSoundBtn;
     Button editNameBtn;
     Button editPassBtn;
+    Button changeLevel;
     Button eraseUserBtn;
     Button midiPlayerBtn;
     Button importItemsBtn;
@@ -57,6 +59,8 @@ public class TeacherActivity extends AppCompatActivity implements View.OnClickLi
         editNameBtn.setOnClickListener(this);
         editPassBtn = findViewById(R.id.change_pass_teacher);
         editPassBtn.setOnClickListener(this);
+        changeLevel = findViewById(R.id.change_level);
+        changeLevel.setOnClickListener(this);
         eraseUserBtn = findViewById(R.id.erase_user);
         eraseUserBtn.setOnClickListener(this);
         midiPlayerBtn = findViewById(R.id.midi_player);
@@ -119,6 +123,9 @@ public class TeacherActivity extends AppCompatActivity implements View.OnClickLi
         }
         if (view == editShopBtn) {
             openEditShop();
+        }
+        if (view == changeLevel) {
+            openChangeLevelActivity();
         }
     }
 
@@ -274,6 +281,11 @@ public class TeacherActivity extends AppCompatActivity implements View.OnClickLi
         if (!SingletonManagerUsers.removeUser(user)) {
             Log.e("Error:", "problem whit removing user:" + userName);
         }
+    }
+
+    private void openChangeLevelActivity () {
+        Intent i = new Intent(this, LevelActivity.class);
+        startActivity(i);
     }
 
     private void setPreferences (String namePreference, String valuePreference) {

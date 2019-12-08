@@ -45,7 +45,9 @@ public class TrySongActivity extends VirtualGuitarActivity implements View.OnCli
     int stepExpert;
     int stepProfessional;
     int stepGenius;
+    int minusGenius;
     int stepChampion;
+    int minusChampion;
 
 
     @Override
@@ -262,7 +264,9 @@ public class TrySongActivity extends VirtualGuitarActivity implements View.OnCli
         stepExpert = settings.getInt("stepExpert", 2);
         stepProfessional = settings.getInt("stepProfessional", 5);
         stepGenius = settings.getInt("stepGenius", 7);
+        minusGenius = settings.getInt("minusGenius", 1);
         stepChampion = settings.getInt("stepChampion", 10);
+        minusChampion = settings.getInt("minusChampion", 2);
 
         lblLevel.setText(SingletonManagerUsers.getNameLevelByUserLevel(currentUser.getCurrentLevel(), this));
 
@@ -348,7 +352,10 @@ public class TrySongActivity extends VirtualGuitarActivity implements View.OnCli
                                     playingTone.getStringImage().clearColorFilter();
                                 } else {
                                     playToneFromTouch(v, nextImageButton, null, false, isNextToneEmpty);
-                                    int value = currentUser.getCoins() - 1;
+                                    int value = currentUser.getCoins() - minusChampion;
+                                    if (currentLevel == UserLevel.GENIUS) {
+                                        value = currentUser.getCoins() - minusGenius;
+                                    }
                                     currentUser.setCoins(value);
                                     money.setText(Integer.toString(value));
                                     playingTone.getStringImage().clearColorFilter();

@@ -13,7 +13,8 @@
         android:roundIcon="@drawable/guitarist"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Shop.ShopActivity"></activity>
+        <activity android:name=".Users.LevelActivity"></activity>
+        <activity android:name=".Shop.ShopActivity" />
         <activity android:name=".Shop.EditShopActivity" />
         <activity
             android:name=".Files.ImportItemsActivity"

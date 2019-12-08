@@ -174,4 +174,12 @@
     <string name="warning_change_tonality">"Tónina byla změněna na: "</string>
     <string name="warning_change_price">Můžete změnit cenu položky.</string>
     <string name="file">Položka</string>
+    <string name="change_level">Změnit body úrovní</string>
+    <string name="beginner_plus">Nováček přičítání</string>
+    <string name="champion_minus">Šampión odečítání</string>
+    <string name="champion_plus">Šampión přičítání</string>
+    <string name="expert_plus">Znalec přičítání</string>
+    <string name="genius_minus">Génius odečítání</string>
+    <string name="genius_plus">Génius přičítání</string>
+    <string name="professional_plus">Profík přičítání</string>
 </resources>

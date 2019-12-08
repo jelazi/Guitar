@@ -24,6 +24,12 @@
             android:text="@string/change_pass_teacher" />
 
         <Button
+            android:id="@+id/change_level"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/change_level" />
+
+        <Button
             android:id="@+id/edit_user"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

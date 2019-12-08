@@ -172,7 +172,7 @@
     <string name="summary_playing_tones">To stop playing tones at the same time</string>
     <string name="choice_activity">Choise activity</string>
     <string name="warning_wrong_name_pass">Wrong name or password</string>
-    <string name="warning_first_create_account">First you must create guitarist account</string>
+    <string name="warning_first_create_account">First you must create guitarist account in teacher section</string>
     <string name="only_midi_files">Only files *.midi *.mid</string>
     <string name="select_directory">Select directory</string>
     <string name="only_png_files">Only files *.png</string>
@@ -256,6 +256,7 @@
     <string name="edit_shop">Edit shop</string>
     <string name="warning_change_tonality">Tonality changing on:</string>
     <string name="warning_change_price">You can change price of item</string>
+    <string name="file">File</string>
 
 
 </resources>

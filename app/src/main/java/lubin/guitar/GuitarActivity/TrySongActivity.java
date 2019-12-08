@@ -36,7 +36,7 @@ import lubin.guitar.Users.UserLevel;
 
 public class TrySongActivity extends VirtualGuitarActivity implements View.OnClickListener {
     Button btnTryMusic; //tlacitko hraj skladbu
-    TextView lblNameUser;
+    TextView lblLevel;
     UserLevel currentLevel;
     ArrayList<GuitarTone> playingTones = new ArrayList<>();
     ImageView nextSong;
@@ -59,8 +59,8 @@ public class TrySongActivity extends VirtualGuitarActivity implements View.OnCli
         money.setText(Integer.toString(currentUser.getCoins()));
 
 
-        lblNameUser = findViewById(R.id.name_user);
-        lblNameUser.setOnClickListener(this);
+        lblLevel = findViewById(R.id.name_user);
+        lblLevel.setOnClickListener(this);
 
         nextSong = findViewById(R.id.sheets);
         nextSong.setOnClickListener(this);
@@ -113,7 +113,7 @@ public class TrySongActivity extends VirtualGuitarActivity implements View.OnCli
             return;
         }
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        if (view == lblNameUser) {
+        if (view == lblLevel) {
 
             builder.setTitle(getResources().getString(R.string.current_level));
             final List<String> listAllowedLevel = SingletonManagerUsers.getListAllowLevel(currentUser.getAllowedLevel(), this);
@@ -135,6 +135,7 @@ public class TrySongActivity extends VirtualGuitarActivity implements View.OnCli
                     currentUser.setCurrentLevel(SingletonManagerUsers.getUserLevelByValue(checkItem[0]+1), TrySongActivity.this);
                     SingletonManagerUsers.changeUser(currentUser);
                     currentLevel = currentUser.getCurrentLevel();
+                    lblLevel.setText(SingletonManagerUsers.getNameLevelByUserLevel(currentUser.getCurrentLevel(), TrySongActivity.this));
                 }
             });
 
@@ -263,7 +264,7 @@ public class TrySongActivity extends VirtualGuitarActivity implements View.OnCli
         stepGenius = settings.getInt("stepGenius", 7);
         stepChampion = settings.getInt("stepChampion", 10);
 
-        lblNameUser.setText(currentUser.getName());
+        lblLevel.setText(SingletonManagerUsers.getNameLevelByUserLevel(currentUser.getCurrentLevel(), this));
 
         soundId = soundPool.load( currentUser.getCurrentNameInstrument(), 1);
 

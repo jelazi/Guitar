@@ -492,10 +492,6 @@ public abstract class VirtualGuitarActivity extends AppCompatActivity {
 
         mToast = Toast.makeText(this,getResources().getString(R.string.warning_instrument_change) + currentUser.getCurrentNameInstrument(), Toast.LENGTH_SHORT);
         mToast.show();
-        if (toastSongPlayingVisible) {
-            mToast = Toast.makeText(this,getResources().getString(R.string.song_now) + currentUser.getCurrentNameSong(), Toast.LENGTH_SHORT);
-        }
-        mToast.show();
     }
 
 

@@ -42,6 +42,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.channels.FileChannel;
 
+import lubin.guitar.Account.AccountActivity;
 import lubin.guitar.R;
 import omrecorder.AudioChunk;
 import omrecorder.AudioRecordConfig;
@@ -171,6 +172,34 @@ public class WavRecorderActivity extends AppCompatActivity {
 
     if (!destFile.exists()) {
       destFile.createNewFile();
+      FileChannel source = null;
+      FileChannel destination = null;
+
+      try {
+        source = new FileInputStream(sourceFile).getChannel();
+        destination = new FileOutputStream(destFile).getChannel();
+        destination.transferFrom(source, 0, source.size());
+      } catch (FileNotFoundException e) {
+        e.printStackTrace();
+      } catch (IOException e) {
+        e.printStackTrace();
+      } finally {
+        if (source != null) {
+          try {
+            source.close();
+          } catch (IOException e) {
+            e.printStackTrace();
+          }
+        }
+        if (destination != null) {
+          try {
+            destination.close();
+          } catch (IOException e) {
+            e.printStackTrace();
+          }
+        }
+      }
+      Toast.makeText(this, getResources().getString(R.string.file) + " " + nameFile.getText().toString() + " " + getResources().getString(R.string.warning_copied), Toast.LENGTH_SHORT).show();
     } else {
       AlertDialog dialog;
       final AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -205,7 +234,9 @@ public class WavRecorderActivity extends AppCompatActivity {
                       }
                     }
                   }
+                  Toast.makeText(WavRecorderActivity.this, getResources().getString(R.string.file) + " " + nameFile.getText().toString() + " " + getResources().getString(R.string.warning_copied), Toast.LENGTH_SHORT).show();
                 }
+
       });
                   builder.setNegativeButton(getResources().getString(R.string.no), new DialogInterface.OnClickListener() {
                     @Override

@@ -163,6 +163,17 @@ public class SingletonManagerUsers {
         return null;
     }
 
+    public static String getNameLevelByUserLevel (UserLevel userLevel, Activity activity) {
+        switch (userLevel) {
+            case BEGINNER: return  activity.getResources().getString(R.string.beginner);
+            case EXPERT: return  activity.getResources().getString(R.string.expert);
+            case PROFESSIONAL: return  activity.getResources().getString(R.string.professional);
+            case GENIUS: return  activity.getResources().getString(R.string.genius);
+            case CHAMPION: return  activity.getResources().getString(R.string.champion);
+        }
+        return "";
+    }
+
     public static List<String> getWrongDataCurrentUser(Context context, UserList userList) {
         switch (userList) {
             case FRETSLIST: {

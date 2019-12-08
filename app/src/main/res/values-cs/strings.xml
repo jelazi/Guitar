@@ -89,7 +89,7 @@
     <string name="summary_playing_tones">Zamezit hrát více tónů naráz</string>
     <string name="choice_activity">Vyber aktivitu</string>
     <string name="warning_wrong_name_pass">Špatné jméno nebo heslo</string>
-    <string name="warning_first_create_account">Nejdříve vytvořte aspoň jeden účet kytaristy.</string>
+    <string name="warning_first_create_account">Nejdříve vytvořte aspoň jeden účet kytaristy v sekci učitele.</string>
     <string name="only_midi_files">Pouze soubory typu *.midi *.mid</string>
     <string name="select_directory">Vyber adresář</string>
     <string name="only_png_files">Pouze soubory typu *.png</string>
@@ -173,4 +173,5 @@
     <string name="edit_shop">Editování obchodu</string>
     <string name="warning_change_tonality">"Tónina byla změněna na: "</string>
     <string name="warning_change_price">Můžete změnit cenu položky.</string>
+    <string name="file">Položka</string>
 </resources>

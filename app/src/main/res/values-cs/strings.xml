@@ -3,9 +3,9 @@
     <string name="app_name">Kytara</string>
     <string name="action_change_instrument">Změň zvuk</string>
     <string name="action_play_pause_try_song">Zkus hrát</string>
-    <string name="action_preview_song">Poslechni si píseň</string>
+    <string name="action_preview_song">Poslechni si</string>
     <string name="action_settings">Nastavení</string>
-    <string name="action_try_song">Zkus hrát píseň</string>
+    <string name="action_try_song">Zkus hrát</string>
     <string name="choice_Song">Vyber píseň</string>
     <string name="choice_instrument">Vyber nástroj</string>
     <string name="choice_song">Vyber píseň</string>
@@ -39,7 +39,7 @@
     <string name="user_name">Jméno uživatele</string>
     <string name="action_sign_in">Sign in or register</string>
     <string name="action_sign_in_short">Sign in</string>
-    <string name="action_play_chords">Hraj akordy</string>
+    <string name="action_play_chords">Akordy</string>
     <string name="who_are_you">Ahoj, kdopak jsi?</string>
     <string name="i_am_guitarist">Jsem kytarista</string>
     <string name="i_am_teacher">Jsem učitel</string>
@@ -107,7 +107,7 @@
     <string name="warning_name_uses">Jméno je již používáno. Nekopírujete již používaný soubor? Pokud ne, přejmenujte ho.</string>
     <string name="choice">"Vyberte "</string>
     <string name="empty_strings">Volné struny</string>
-    <string name="play">" hraje "</string>
+    <string name="play">"Hraješ "</string>
     <string name="warning_first_stop_song">Nejdříve zastav píseň.</string>
     <string name="play_order">Hraj!</string>
     <string name="stop_order">Zastav!</string>
@@ -135,7 +135,7 @@
     <string name="warning_save_new_name">" uloženo jako nové jméno."</string>
     <string name="posibility_recording">Možnost nahrávání</string>
     <string name="warning_nothing_record">Není zatím nic nahráno.</string>
-    <string name="warning_file_exists">Soubor tooto jména již existuje. Chcete jej přepsat?</string>
+    <string name="warning_file_exists">Soubor tohoto jména již existuje. Chcete jej přepsat?</string>
     <string name="warning_prepare_recording">Připravte se na nahrávání...</string>
     <string name="warning_recording">Nahrávám...</string>
     <string name="recording_finish">Konec nahrávání</string>
@@ -188,4 +188,8 @@
     <string name="warning_item_used">Položka je již používána</string>
     <string name="warning_item_same_path">Položka má stejnou cestu jako nějaká jiná položka</string>
     <string name="warning_item_same_name">Položka má stejné jméno jako jiný položka.</string>
+    <string name="warning_congr_minus">"Škoda, ztratil jsi "</string>
+    <string name="warning_congr_null">Škoda, nezískal jsi žádný bod.</string>
+    <string name="warning_congr_plus">"Gratuluji, získal jsi dalších "</string>
+    <string name="warning_points">" bodů."</string>
 </resources>

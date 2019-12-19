@@ -18,15 +18,15 @@
         android:id="@+id/try_song"
         android:orderInCategory="3"
         android:title="@string/action_try_song"
-        android:icon="@mipmap/ic_guitar_pick"
-        app:showAsAction="never" />
+        android:icon="@mipmap/ic_guitar_pick_white"
+        app:showAsAction="always" />
 
     <item
         android:id="@+id/play_chord"
         android:orderInCategory="5"
         android:title="@string/action_play_chords"
-        android:icon="@mipmap/ic_table_large"
-        app:showAsAction="never" />
+        android:icon="@mipmap/ic_table_large_white"
+        app:showAsAction="always" />
 
     <item
         android:id="@+id/open_shop"

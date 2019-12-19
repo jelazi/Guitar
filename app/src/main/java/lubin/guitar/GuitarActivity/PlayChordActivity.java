@@ -208,6 +208,7 @@ public class PlayChordActivity extends VirtualGuitarActivity implements OnClickL
             case R.id.settings_menu:
                 Intent i = new Intent(PlayChordActivity.this, SettingsScreenActivity.class);
                 startActivity(i);
+                finish();
                 break;
 
             case R.id.btn_change_instrument:
@@ -218,12 +219,14 @@ public class PlayChordActivity extends VirtualGuitarActivity implements OnClickL
                // soundPool.release();
                 i = new Intent(PlayChordActivity.this, TrySongActivity.class);
                 startActivity(i);
+                finish();
                 break;
 
             case R.id.preview_song:
               //  soundPool.release();
                 i = new Intent(PlayChordActivity.this, PreviewSongActivity.class);
                 startActivity(i);
+                finish();
                 break;
             case R.id.change_tonality:
                 changeTonality();
@@ -232,6 +235,7 @@ public class PlayChordActivity extends VirtualGuitarActivity implements OnClickL
             case R.id.open_shop:
                 i = new Intent(PlayChordActivity.this, ShopActivity.class);
                 startActivity(i);
+                finish();
                 break;
         }
         return true;
@@ -269,7 +273,7 @@ public class PlayChordActivity extends VirtualGuitarActivity implements OnClickL
         chord5.setEnabled(true);
         chord6.setEnabled(true);
         String tonality = Tonalities.getNameTonality(currentTonality);
-        Toast.makeText(this, getResources().getString(R.string.warning_change_tonality) + tonality + "dur.", Toast.LENGTH_SHORT).show();
+        toast(getResources().getString(R.string.warning_change_tonality) + tonality + "dur.", R.drawable.guitarist);
     }
 
 
@@ -495,7 +499,7 @@ public class PlayChordActivity extends VirtualGuitarActivity implements OnClickL
         guitarTones[5] = E2tone;
         guitarStringValue = tones.getAkord(nameChord);
 
-        this.setTitle(currentUser.getName() + getResources().getString(R.string.play) + nameChord);
+        this.setTitle(getResources().getString(R.string.play) + nameChord);
 
         for (int i = 0; i <= 5; i++) {
             guitarTones[i].setStringValue(guitarStringValue[i]);

@@ -390,9 +390,6 @@ public class FileDialog {
         dirListenerList.remove(listener);
     }
 
-    /**
-     * Show file dialog
-     */
     public void showDialog() {
         dialog.show();
         if (dialogType == DialogType.FILE_DIALOG_MULTI && ((AlertDialog) dialog).getButton(AlertDialog.BUTTON_POSITIVE) != null) {

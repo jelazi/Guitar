@@ -194,7 +194,7 @@ public class PreviewSongActivity extends VirtualGuitarActivity implements OnClic
                 finish();
                 Intent i = new Intent(PreviewSongActivity.this, SettingsScreenActivity.class);
                 startActivity(i);
-
+                finish();
                 break;
 
             case R.id.btn_change_instrument:
@@ -205,13 +205,13 @@ public class PreviewSongActivity extends VirtualGuitarActivity implements OnClic
                 startActivity(new Intent(this, this.getClass()));
                 overridePendingTransition(0, 0);
                 finish();
-
             break;
 
             case R.id.try_song:
                 soundPool.release();
                 i = new Intent(PreviewSongActivity.this, TrySongActivity.class);
                 startActivity(i);
+                finish();
                 break;
 
 
@@ -219,11 +219,13 @@ public class PreviewSongActivity extends VirtualGuitarActivity implements OnClic
                 soundPool.release();
                 i = new Intent(PreviewSongActivity.this, PlayChordActivity.class);
                 startActivity(i);
+                finish();
                 break;
 
             case R.id.open_shop:
                 i = new Intent(PreviewSongActivity.this, ShopActivity.class);
                 startActivity(i);
+                finish();
                 break;
         }
         return true;

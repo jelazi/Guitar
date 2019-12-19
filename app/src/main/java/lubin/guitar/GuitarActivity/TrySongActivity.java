@@ -48,6 +48,7 @@ public class TrySongActivity extends VirtualGuitarActivity implements View.OnCli
     int minusGenius;
     int stepChampion;
     int minusChampion;
+    int valueStart;
 
 
     @Override
@@ -211,24 +212,10 @@ public class TrySongActivity extends VirtualGuitarActivity implements View.OnCli
                 onBackPressed();
                 break;
 
-            case R.id.play_pause_try_song:
-
-                        if (playingSong) {
-                            playingSong = false;
-                            playingTone.getStringImage().clearColorFilter();
-                            item.setIcon(R.mipmap.play_circle);
-                        } else {
-                            playingSong = true;
-                            currentSong = Songs.getSongByName(getApplicationContext(), settings.getString("list_songs", "song1.xml"));
-                            playingTones = createMusicFromTones(currentSong.getTones());
-                            item.setIcon(R.mipmap.pause_circle);
-                            tryRealSong();
-                        }
-                break;
-
             case R.id.settings_menu:
                 Intent i = new Intent(TrySongActivity.this, SettingsScreenActivity.class);
                 startActivity(i);
+                finish();
                 break;
 
             case R.id.btn_change_instrument:
@@ -238,15 +225,18 @@ public class TrySongActivity extends VirtualGuitarActivity implements View.OnCli
             case R.id.preview_song:
                 i = new Intent(TrySongActivity.this, PreviewSongActivity.class);
                 startActivity(i);
+                finish();
                 break;
 
             case R.id.play_chord:
                 i = new Intent(TrySongActivity.this, PlayChordActivity.class);
                 startActivity(i);
+                finish();
                 break;
             case R.id.open_shop:
                 i = new Intent(TrySongActivity.this, ShopActivity.class);
                 startActivity(i);
+                finish();
                 break;
         }
         return true;
@@ -277,7 +267,7 @@ public class TrySongActivity extends VirtualGuitarActivity implements View.OnCli
         cleanStrings();
         fillInstrument();
         btnTryMusic.setText(getResources().getString(R.string.try_song) + " " + currentSong.getNameOfSong());
-        btnTryMusic.setBackgroundResource(0);
+        btnTryMusic.setBackgroundResource(android.R.drawable.btn_default);
         playingSong = false;
     }
 
@@ -366,9 +356,10 @@ public class TrySongActivity extends VirtualGuitarActivity implements View.OnCli
                             tryRealSong();
                         } else {
                             playingSong = false;
+                            endingToast();
                             numberTone = 0;
                             btnTryMusic.setText(getResources().getString(R.string.try_song) + " " + currentSong.getNameOfSong());
-                            btnTryMusic.setBackgroundResource(0);
+                            btnTryMusic.setBackgroundResource(android.R.drawable.btn_default);
                             SingletonManagerUsers.changeUser(currentUser);
                         }
                     }
@@ -386,14 +377,17 @@ public class TrySongActivity extends VirtualGuitarActivity implements View.OnCli
         public void onClick(View view) {
             if (playingSong) {
                 playingSong = false;
+                endingToast();
                 numberTone = 0;
                 btnTryMusic.setText(getResources().getString(R.string.try_song) + " " + currentSong.getNameOfSong());
                 btnTryMusic.setBackgroundResource(android.R.drawable.btn_default);
                 playingTone.getStringImage().clearColorFilter();
+
                 SingletonManagerUsers.changeUser(currentUser);
                 cleanStrings();
             } else {
                 playingSong = true;
+                valueStart = currentUser.getCoins();
                 btnTryMusic.setText(getResources().getString(R.string.playing) + " " + currentSong.getNameOfSong());
                 btnTryMusic.setBackgroundColor(0x800a33f5);
                 currentSong = Songs.getSongByName(getApplicationContext(), currentUser.getCurrentNameSong());
@@ -425,6 +419,18 @@ public class TrySongActivity extends VirtualGuitarActivity implements View.OnCli
             } else {
                 playingTone.getStringTouch().setBackgroundResource(R.drawable.touch);
             }
+        }
+    }
+
+    private void endingToast () {
+        int coin = currentUser.getCoins() - valueStart;
+        valueStart = 0;
+        if (coin > 0) {
+            toast(this.getResources().getString(R.string.warning_congr_plus) + Integer.toString(coin) + this.getResources().getString(R.string.warning_points), R.drawable.coin_bag);
+        } else if (coin == 0) {
+            toast(this.getResources().getString(R.string.warning_congr_null), R.drawable.coin_bag);
+        } else {
+            toast(this.getResources().getString(R.string.warning_congr_minus) + Integer.toString(Math.abs(coin)) + this.getResources().getString(R.string.warning_points), R.drawable.coin_bag);
         }
     }
 

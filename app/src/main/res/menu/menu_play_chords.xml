@@ -23,14 +23,14 @@
         android:id="@+id/try_song"
         android:orderInCategory="4"
         android:title="@string/action_try_song"
-        android:icon="@mipmap/ic_guitar_pick"
-        app:showAsAction="never" />
+        android:icon="@mipmap/ic_guitar_pick_white"
+        app:showAsAction="always" />
     <item
         android:id="@+id/preview_song"
         android:orderInCategory="5"
         android:title="@string/action_preview_song"
-        android:icon="@mipmap/guitar_acoustic"
-        app:showAsAction="never" />
+        android:icon="@mipmap/guitar_acoustic_white"
+        app:showAsAction="always" />
     <item
         android:id="@+id/open_shop"
         android:orderInCategory="6"

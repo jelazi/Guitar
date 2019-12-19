@@ -190,7 +190,7 @@
     <string name="warning_name_uses">This name is uses. Do you copy file which is used already? Rename its.</string>
     <string name="choice">Choice</string>
     <string name="empty_strings">Empty strings</string>
-    <string name="play">play</string>
+    <string name="play">"Play "</string>
     <string name="warning_first_stop_song">First stop song.</string>
     <string name="play_order">Play!</string>
     <string name="stop_order">Stop!</string>
@@ -271,6 +271,10 @@
     <string name="warning_item_used">Item is used</string>
     <string name="warning_item_same_path">Item has same path as another item.</string>
     <string name="warning_item_same_name">Item has same name as another item.</string>
+    <string name="warning_congr_plus">Congratulations you have won others</string>
+    <string name="warning_congr_minus">Too bad you lost</string>
+    <string name="warning_congr_null">Too bad, you didn\'t get any point.</string>
+    <string name="warning_points">points.</string>
 
 
 </resources>

@@ -273,7 +273,7 @@ public class PlayChordActivity extends VirtualGuitarActivity implements OnClickL
         chord5.setEnabled(true);
         chord6.setEnabled(true);
         String tonality = Tonalities.getNameTonality(currentTonality);
-        toast(getResources().getString(R.string.warning_change_tonality) + tonality + "dur.", R.drawable.guitarist);
+        toast(getResources().getString(R.string.warning_change_tonality) + tonality + "dur.", R.drawable.guitar);
     }
 
 
